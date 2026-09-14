@@ -1,0 +1,13 @@
+{
+  "AWS": "/svg/aws.svg",
+  "Amazon Web Services": "/svg/aws.svg",
+  "Terraform": "/svg/terraform.svg",
+  "Azure": "/svg/azure.svg",
+  "Microsoft Azure": "/svg/azure.svg",
+  "Python": "/svg/python.svg",
+  "Kubernetes": "/svg/kubernetes.svg",
+  "GitHub Actions": "/svg/github-actions.svg",
+  "GitLab CI": "/svg/gitlab.svg",
+  "Docker": "/svg/docker.svg",
+  "Linux / OSS": "/svg/linux.svg"
+}

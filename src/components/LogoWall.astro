@@ -1,8 +1,11 @@
 ---
+import skillLogos from '../content/skill-logos.json';
+
 const technologies = [
   { name: "AWS", tag: "11x Certified" },
   { name: "Terraform", tag: "Professional" },
   { name: "Azure", tag: "Solutions Architect Expert" },
+  { name: "Python", tag: "Automation & Scripting" },
   { name: "Kubernetes", tag: "Container Platform" },
   { name: "GitHub Actions", tag: "CI/CD Automation" },
   { name: "GitLab CI", tag: "DevSecOps" },
@@ -15,6 +18,19 @@ const technologies = [
   { name: "Linux / OSS", tag: "Systems Engineering" },
   { name: "Well-Architected", tag: "Cloud Strategy" },
 ];
+
+function getSkillLogo(name: string): string | null {
+  if ((skillLogos as Record<string, string>)[name]) {
+    return (skillLogos as Record<string, string>)[name];
+  }
+  const lower = name.toLowerCase().trim();
+  for (const [key, path] of Object.entries(skillLogos)) {
+    if (key.toLowerCase().trim() === lower) {
+      return path;
+    }
+  }
+  return null;
+}
 ---
 
 <div class="relative overflow-x-hidden py-10 my-4 border-y border-[#ffffff10] dark:border-[#ffffff10] border-neutral-200">
@@ -24,20 +40,33 @@ const technologies = [
 
   <div class="flex animate-scroll w-max will-change-transform">
     {
-      [...technologies, ...technologies].map((tech, index) => (
-        <div
-          class="flex items-center gap-2.5 pr-10 sm:pr-14 group transition-all duration-300 select-none"
-          aria-hidden={index >= technologies.length ? "true" : "false"}
-        >
-          <span class="w-2 h-2 rounded-full bg-[var(--sec)] opacity-70 group-hover:scale-125 transition-transform" />
-          <span class="text-base sm:text-lg font-medium text-[var(--white)] tracking-tight whitespace-nowrap group-hover:text-[var(--sec)] transition-colors">
-            {tech.name}
-          </span>
-          <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[var(--white-icon-tr)] text-[var(--white-icon)] border border-[#ffffff10]">
-            {tech.tag}
-          </span>
-        </div>
-      ))
+      [...technologies, ...technologies].map((tech, index) => {
+        const logo = getSkillLogo(tech.name);
+        return (
+          <div
+            class="flex items-center gap-2.5 pr-10 sm:pr-14 group transition-all duration-300 select-none"
+            aria-hidden={index >= technologies.length ? "true" : "false"}
+          >
+            {logo ? (
+              <img
+                src={logo}
+                alt={tech.name}
+                class="w-5 h-5 object-contain transition-transform group-hover:scale-110 flex-shrink-0 opacity-80 group-hover:opacity-100"
+                loading="eager"
+                decoding="async"
+              />
+            ) : (
+              <span class="w-2 h-2 rounded-full bg-[var(--sec)] opacity-70 group-hover:scale-125 transition-transform" />
+            )}
+            <span class="text-base sm:text-lg font-medium text-[var(--white)] tracking-tight whitespace-nowrap group-hover:text-[var(--sec)] transition-colors">
+              {tech.name}
+            </span>
+            <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[var(--white-icon-tr)] text-[var(--white-icon)] border border-[#ffffff10] dark:border-[#ffffff10] border-neutral-200">
+              {tech.tag}
+            </span>
+          </div>
+        );
+      })
     }
   </div>
 </div>
