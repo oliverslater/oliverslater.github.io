@@ -38,6 +38,7 @@ jobs:
         env:
           PUBLIC_FORM_ENDPOINT: ${{ secrets.PUBLIC_FORM_ENDPOINT }}
           PUBLIC_WEB3FORMS_KEY: ${{ secrets.PUBLIC_WEB3FORMS_KEY }}
+          PUBLIC_HCAPTCHA_SITEKEY: ${{ secrets.PUBLIC_HCAPTCHA_SITEKEY }}
           CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
         run: npm run build
 

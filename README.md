@@ -140,7 +140,7 @@ In `src/content/cv/certification-settings.json`, you can customize ANY certifica
 
 ## ✉️ Contact Form Setup
 
-The contact form in `src/components/ContactForm.astro` sends data using client-side `fetch`.
+The contact form in `src/components/ContactForm.astro` sends data using client-side `fetch` and redirects to `/thank-you` upon submission.
 
 1. Copy `.env.example` to `.env`:
    ```bash
@@ -149,7 +149,11 @@ The contact form in `src/components/ContactForm.astro` sends data using client-s
 2. For **Web3Forms** (free, no backend needed):
    - Get a free access key at [web3forms.com](https://web3forms.com).
    - Set `PUBLIC_WEB3FORMS_KEY="your_access_key"` in `.env`.
-3. For **Formspree** or custom webhook:
+3. **hCaptcha Spam Protection**:
+   - Zero-config integration is enabled by default with dark theme styling.
+   - Activate hCaptcha for your form in your [Web3Forms dashboard](https://app.webforms.com) under the form's spam settings.
+   - *(Optional)* If using your own custom hCaptcha site key, configure `PUBLIC_HCAPTCHA_SITEKEY` in `.env` or GitHub Secrets.
+4. For **Formspree** or custom webhook:
    - Set `PUBLIC_FORM_ENDPOINT="https://formspree.io/f/your_form_id"` in `.env`.
 
 ---

@@ -2,6 +2,7 @@
 // src/components/ContactForm.astro
 const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || 'https://api.web3forms.com/submit';
 const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY || '';
 ---
 
 <form
@@ -93,6 +94,16 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
     ></textarea>
   </div>
 
+  <!-- hCaptcha Spam Protection -->
+  <div class="pt-1">
+    <div
+      class="h-captcha"
+      data-captcha="true"
+      data-theme="dark"
+      {...(hcaptchaKey ? { 'data-sitekey': hcaptchaKey } : {})}
+    ></div>
+  </div>
+
   <!-- Submit button & status alerts -->
   <div class="space-y-4 pt-2">
     <button
@@ -151,6 +162,16 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
         return;
       }
 
+      // Check if hCaptcha is present and completed
+      const hCaptchaInput = form.querySelector<HTMLTextAreaElement>('textarea[name="h-captcha-response"]');
+      if (hCaptchaInput && !hCaptchaInput.value) {
+        if (errorMsg) {
+          errorMsg.textContent = '✕ Please complete the captcha before sending.';
+          errorMsg.classList.remove('hidden');
+        }
+        return;
+      }
+
       // Hide prior alerts
       successMsg?.classList.add('hidden');
       errorMsg?.classList.add('hidden');
@@ -180,8 +201,10 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
         if (response.ok) {
           successMsg?.classList.remove('hidden');
           form.reset();
+          (window as any).hcaptcha?.reset();
           window.location.href = '/thank-you';
         } else {
+          (window as any).hcaptcha?.reset();
           const resData = await response.json().catch(() => null);
           if (errorMsg) {
             errorMsg.textContent = resData?.message
@@ -191,6 +214,7 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
           }
         }
       } catch (err) {
+        (window as any).hcaptcha?.reset();
         if (errorMsg) {
           errorMsg.textContent = '✕ Network error occurred. Please check your connection.';
           errorMsg.classList.remove('hidden');
@@ -206,3 +230,6 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
   setupContactForm();
   document.addEventListener('astro:after-swap', setupContactForm);
 </script>
+
+<!-- Web3Forms hCaptcha Client Script -->
+<script is:inline src="https://web3forms.com/client/script.js" async defer></script>
