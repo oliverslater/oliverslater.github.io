@@ -77,14 +77,27 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
         </div>
 
         <div class="flex-shrink-0">
-          <img
-            src="/assets/oliver-slater.png"
-            alt={profileData.name}
-            class="w-20 h-20 sm:w-24 sm:h-24 print:w-16 print:h-16 rounded-2xl print:rounded-xl object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-neutral-300 bg-white dark:bg-[#1414149c] shadow-sm print:shadow-none"
-            width="96"
-            height="96"
-            loading="eager"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/assets/oliver-slater-128.webp 128w, /assets/oliver-slater-256.webp 256w, /assets/oliver-slater-384.webp 384w"
+              sizes="(max-width: 640px) 80px, 96px"
+            />
+            <source
+              type="image/png"
+              srcset="/assets/oliver-slater-128.png 128w, /assets/oliver-slater-256.png 256w, /assets/oliver-slater-384.png 384w"
+              sizes="(max-width: 640px) 80px, 96px"
+            />
+            <img
+              src="/assets/oliver-slater-256.png"
+              alt={profileData.name}
+              class="w-20 h-20 sm:w-24 sm:h-24 print:w-16 print:h-16 rounded-2xl print:rounded-xl object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-neutral-300 bg-white dark:bg-[#1414149c] shadow-sm print:shadow-none"
+              width="96"
+              height="96"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
         </div>
       </div>
 

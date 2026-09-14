@@ -36,14 +36,27 @@ const featuredRoles = experienceData.roles.slice(0, 2);
         </div>
 
         <div class="flex-shrink-0">
-          <img
-            src="/assets/oliver-slater.png"
-            alt="Oliver Slater - Cloud Architect"
-            class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl sm:rounded-3xl object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm"
-            width="112"
-            height="112"
-            loading="eager"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/assets/oliver-slater-128.webp 128w, /assets/oliver-slater-256.webp 256w, /assets/oliver-slater-384.webp 384w"
+              sizes="(max-width: 640px) 80px, (max-width: 768px) 96px, 112px"
+            />
+            <source
+              type="image/png"
+              srcset="/assets/oliver-slater-128.png 128w, /assets/oliver-slater-256.png 256w, /assets/oliver-slater-384.png 384w"
+              sizes="(max-width: 640px) 80px, (max-width: 768px) 96px, 112px"
+            />
+            <img
+              src="/assets/oliver-slater-256.png"
+              alt="Oliver Slater - Cloud Architect"
+              class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl sm:rounded-3xl object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm"
+              width="112"
+              height="112"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
         </div>
       </div>
         <div class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 gap-4">
@@ -139,7 +152,7 @@ const featuredRoles = experienceData.roles.slice(0, 2);
         href="/cv"
         class="text-xs font-mono text-[var(--white-icon)] hover:text-[var(--white)] flex items-center gap-1.5 transition-colors"
       >
-        <span>Full Resume</span>
+        <span>Full CV</span>
         <span class="text-[var(--sec)]">&rarr;</span>
       </a>
     </div>

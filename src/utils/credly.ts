@@ -1,10 +1,18 @@
 import type { CredentialItem } from './credentialTypes';
 import { cleanIssuerName, formatDate } from './credentialTypes';
+import { getCachedData, getStaleCacheData, setCachedData } from './cache';
 
 /**
  * Dynamically fetches Oliver Slater's verified credentials from Credly public API
+ * Caches results locally to optimize build and dev times.
  */
 export async function fetchCredlyBadges(username: string = 'oliver-slater'): Promise<CredentialItem[]> {
+  const cacheKey = `credly-${username}`;
+  const cached = getCachedData<CredentialItem[]>(cacheKey);
+  if (cached && Array.isArray(cached) && cached.length > 0) {
+    return cached;
+  }
+
   const credlyEndpoint = `https://www.credly.com/users/${username}/badges.json`;
 
   try {
@@ -27,7 +35,7 @@ export async function fetchCredlyBadges(username: string = 'oliver-slater'): Pro
       throw new Error('No badges returned from Credly API');
     }
 
-    return badges.map((badge: any) => {
+    const result: CredentialItem[] = badges.map((badge: any) => {
       const issuerName =
         badge.issuer?.entities?.[0]?.entity?.name ||
         badge.badge_template?.issuer?.entities?.[0]?.entity?.name ||
@@ -50,7 +58,15 @@ export async function fetchCredlyBadges(username: string = 'oliver-slater'): Pro
         priority: 0,
       };
     });
+
+    setCachedData(cacheKey, result);
+    return result;
   } catch (err) {
+    const stale = getStaleCacheData<CredentialItem[]>(cacheKey);
+    if (stale && Array.isArray(stale) && stale.length > 0) {
+      console.warn('Notice: Using stale cached credentials for Credly due to network/API error:', err);
+      return stale;
+    }
     console.warn('Notice: Using local credentials fallback for Credly:', err);
     return [];
   }

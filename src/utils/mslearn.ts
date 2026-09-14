@@ -1,5 +1,6 @@
 import type { CredentialItem } from './credentialTypes';
 import { formatDate } from './credentialTypes';
+import { getCachedData, getStaleCacheData, setCachedData } from './cache';
 
 export const MS_LEARN_SHARE_ID = 'd5on2cqnl3lgknq';
 export const MS_LEARN_PUBLIC_TRANSCRIPT_URL = `https://learn.microsoft.com/en-gb/users/oliverslater/transcript/${MS_LEARN_SHARE_ID}`;
@@ -7,8 +8,15 @@ export const MS_LEARN_API_URL = `https://learn.microsoft.com/api/profiles/transc
 
 /**
  * Dynamically fetches Oliver Slater's verified credentials from Microsoft Learn transcript API
+ * Caches results locally to optimize build and dev times.
  */
 export async function fetchMicrosoftLearnBadges(): Promise<CredentialItem[]> {
+  const cacheKey = `mslearn-${MS_LEARN_SHARE_ID}`;
+  const cached = getCachedData<CredentialItem[]>(cacheKey);
+  if (cached && Array.isArray(cached) && cached.length > 0) {
+    return cached;
+  }
+
   try {
     const res = await fetch(MS_LEARN_API_URL, {
       headers: {
@@ -19,14 +27,13 @@ export async function fetchMicrosoftLearnBadges(): Promise<CredentialItem[]> {
     });
 
     if (!res.ok) {
-      console.warn(`Microsoft Learn API returned HTTP ${res.status}`);
-      return [];
+      throw new Error(`Microsoft Learn API returned HTTP ${res.status}`);
     }
 
     const data = await res.json();
     const certs = data.certificationData?.activeCertifications || [];
 
-    return certs.map((c: any, idx: number) => ({
+    const result: CredentialItem[] = certs.map((c: any, idx: number) => ({
       id: `ms-${c.certificationNumber || idx}`,
       title: c.name,
       issuer: 'Microsoft',
@@ -40,7 +47,15 @@ export async function fetchMicrosoftLearnBadges(): Promise<CredentialItem[]> {
       includeInCount: true,
       priority: 0,
     }));
+
+    setCachedData(cacheKey, result);
+    return result;
   } catch (err) {
+    const stale = getStaleCacheData<CredentialItem[]>(cacheKey);
+    if (stale && Array.isArray(stale) && stale.length > 0) {
+      console.warn('Notice: Using stale cached credentials for Microsoft Learn due to network/API error:', err);
+      return stale;
+    }
     console.warn('Notice: Could not fetch live Microsoft Learn data:', err);
     return [];
   }
