@@ -1,6 +1,6 @@
 # Oliver Slater — Virtual CV & Engineering Blog
 
-A high-performance personal portfolio, scannable virtual CV, and technical blog built with **Astro**, **Tailwind CSS**, and **Pages CMS**. Designed with the **DarkMinimal** aesthetic: strict monochrome hierarchy, zero layout shift, system-native dark/light mode with zero flash of unstyled content (Zero FOUC), and static export for GitHub Pages and cPanel.
+A high-performance personal portfolio, scannable virtual CV, and technical blog built with **Astro**, **Tailwind CSS**, and **Pages CMS**. Designed with the **DarkMinimal** aesthetic: strict monochrome hierarchy, zero layout shift, system-native dark/light mode with zero flash of unstyled content (Zero FOUC), and static export for GitHub Pages.
 
 ---
 
@@ -14,9 +14,7 @@ A high-performance personal portfolio, scannable virtual CV, and technical blog 
   - Manual toggle override persisted in `localStorage`
   - Zero FOUC via inline blocking script in `<head>`
 - **Headless CMS:** [Pages CMS](https://pagescms.org/) (`.pages.yml`)
-- **Hosting Targets:**
-  - GitHub Pages (`.github/workflows/deploy-github-pages.yml`)
-  - cPanel Git Versioning (`.cpanel.yml`)
+- **Hosting Target:** GitHub Pages (`.github/workflows/deploy-github-pages.yml`)
 - **Contact Form:** Static client-side headless form supporting Web3Forms or Formspree
 
 ---
@@ -26,7 +24,6 @@ A high-performance personal portfolio, scannable virtual CV, and technical blog 
 ```text
 ├── .github/workflows/
 │   └── deploy-github-pages.yml  # GitHub Actions automated Pages deployment
-├── .cpanel.yml                  # cPanel Git Versioning deployment script
 ├── .pages.yml                   # Pages CMS schema for blog & CV files
 ├── .env.example                 # Form endpoint environment template
 ├── public/
@@ -150,14 +147,6 @@ A workflow is configured in `.github/workflows/deploy-github-pages.yml`.
 2. In your GitHub repository settings, go to **Settings > Pages**.
 3. Under **Build and deployment > Source**, select **GitHub Actions**.
 4. Every push to `main` will build and deploy the `dist/` folder automatically.
-
-### cPanel (Git Versioning)
-A `.cpanel.yml` file is configured in the repository root:
-
-1. In cPanel, navigate to **Git™ Versioning**.
-2. Clone or create a repository pointing to this Git repo.
-3. Edit `.cpanel.yml` to ensure `DEPLOYPATH` matches your target path (e.g. `/home/username/public_html/`).
-4. Click **Deploy HEAD Commit** to copy the static `dist/` files to your web root.
 
 ---
 
