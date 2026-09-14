@@ -11,6 +11,7 @@ const displayedBadges = allBadges.filter((b) => b.displayed);
 const countedBadges = allBadges.filter((b) => b.includeInCount);
 const totalCount = countedBadges.length;
 const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVisible ?? false;
+const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CONTACT_EMAIL || (profileData as any).email || '';
 ---
 
 <BaseLayout
@@ -81,10 +82,10 @@ const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVi
           <span class="text-[var(--white)]">{profileData.location}</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="text-neutral-500">{showEmail ? 'Email:' : 'Contact:'}</span>
-          {showEmail ? (
-            <a href={`mailto:${profileData.email}`} class="hover:text-[var(--sec)] transition-colors">
-              {profileData.email}
+          <span class="text-neutral-500">{showEmail && contactEmail ? 'Email:' : 'Contact:'}</span>
+          {showEmail && contactEmail ? (
+            <a href={`mailto:${contactEmail}`} class="hover:text-[var(--sec)] transition-colors">
+              {contactEmail}
             </a>
           ) : (
             <a

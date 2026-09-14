@@ -4,6 +4,7 @@ import ContactForm from '../components/ContactForm.astro';
 import profileData from '../content/cv/profile.json';
 
 const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVisible ?? false;
+const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CONTACT_EMAIL || (profileData as any).email || '';
 ---
 
 <BaseLayout
@@ -24,11 +25,11 @@ const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVi
       </p>
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-        {showEmail ? (
+        {showEmail && contactEmail ? (
           <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
             <span class="block text-neutral-500 mb-1">Direct Email</span>
-            <a href={`mailto:${profileData.email}`} class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all">
-              {profileData.email}
+            <a href={`mailto:${contactEmail}`} class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all">
+              {contactEmail}
             </a>
           </div>
         ) : (

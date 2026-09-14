@@ -55,9 +55,8 @@ content:
         type: string
         required: true
       - name: email
-        label: Email Address
+        label: Email Address (optional / private via .env CONTACT_EMAIL)
         type: string
-        required: true
       - name: showEmail
         label: Show Email Address on CV (if false, displays link to Contact Form)
         type: boolean
