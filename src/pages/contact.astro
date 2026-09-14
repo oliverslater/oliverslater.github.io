@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import profileData from '../content/cv/profile.json';
+---
+
+<BaseLayout
+  title={`Contact | ${profileData.name}`}
+  description="Get in touch with Oliver Slater for technical advisory, distributed systems consulting, or engineering leadership discussions."
+>
+  <div class="max-w-2xl mx-auto">
+    <!-- Header -->
+    <header class="mb-10 pb-8 border-b border-neutral-200 dark:border-neutral-800">
+      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 mb-3">
+        Get in Touch
+      </h1>
+      <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        Have a question, advisory inquiry, or want to discuss distributed systems architecture? Send a message below or reach out via direct channels.
+      </p>
+
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+        <div class="p-3 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white/40 dark:bg-neutral-900/30">
+          <span class="block text-neutral-400 dark:text-neutral-600 mb-1">Direct Email</span>
+          <a href={`mailto:${profileData.email}`} class="text-neutral-900 dark:text-neutral-100 hover:underline">
+            {profileData.email}
+          </a>
+        </div>
+
+        <div class="p-3 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white/40 dark:bg-neutral-900/30">
+          <span class="block text-neutral-400 dark:text-neutral-600 mb-1">Location</span>
+          <span class="text-neutral-900 dark:text-neutral-100">{profileData.location}</span>
+        </div>
+
+        <div class="p-3 rounded-md border border-neutral-200 dark:border-neutral-800 bg-white/40 dark:bg-neutral-900/30">
+          <span class="block text-neutral-400 dark:text-neutral-600 mb-1">LinkedIn</span>
+          <a
+            href={profileData.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-neutral-900 dark:text-neutral-100 hover:underline"
+          >
+            in/oliverslater
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Form Section -->
+    <section>
+      <h2 class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 mb-6">
+        Send a Message
+      </h2>
+      <ContactForm />
+    </section>
+  </div>
+</BaseLayout>

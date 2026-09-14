@@ -1,0 +1,30 @@
+---
+interface Props {
+  title: string;
+  badge?: string;
+  class?: string;
+}
+
+const { title, badge, class: className = '' } = Astro.props;
+---
+
+<section class:list={['mb-12 print-page-break-inside-avoid', className]}>
+  <div class="flex items-center justify-between pb-3 mb-6 border-b border-neutral-200 dark:border-neutral-800">
+    <div class="flex items-center gap-3">
+      <h2 class="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">
+        {title}
+      </h2>
+      {
+        badge && (
+          <span class="px-2 py-0.5 rounded text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800">
+            {badge}
+          </span>
+        )
+      }
+    </div>
+  </div>
+
+  <div class="space-y-8">
+    <slot />
+  </div>
+</section>

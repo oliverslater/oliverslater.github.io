@@ -1,0 +1,100 @@
+{
+  "qualifications": [
+    {
+      "title": "AWS Certification SME - Professional",
+      "issuer": "Amazon Web Services",
+      "level": "SME / Professional",
+      "validity": "May 2025 – Dec 2027"
+    },
+    {
+      "title": "AWS Certified DevOps Engineer – Professional",
+      "issuer": "Amazon Web Services",
+      "level": "Professional",
+      "validity": "Jan 2022 – Jan 2028"
+    },
+    {
+      "title": "AWS Certified Solutions Architect – Professional",
+      "issuer": "Amazon Web Services",
+      "level": "Professional",
+      "validity": "Dec 2019 – Nov 2026"
+    },
+    {
+      "title": "AWS Certified Advanced Networking – Specialty",
+      "issuer": "Amazon Web Services",
+      "level": "Specialty",
+      "validity": "Aug 2022 – Aug 2028"
+    },
+    {
+      "title": "AWS Certified Security – Specialty",
+      "issuer": "Amazon Web Services",
+      "level": "Specialty",
+      "validity": "Apr 2021 – Jun 2027"
+    },
+    {
+      "title": "AWS Certified Data Engineer – Associate",
+      "issuer": "Amazon Web Services",
+      "level": "Associate",
+      "validity": "Jul 2024 – Jul 2027"
+    },
+    {
+      "title": "AWS Certified Machine Learning Engineer – Associate",
+      "issuer": "Amazon Web Services",
+      "level": "Associate",
+      "validity": "Oct 2024 – Oct 2027"
+    },
+    {
+      "title": "AWS Certified Developer – Associate",
+      "issuer": "Amazon Web Services",
+      "level": "Associate",
+      "validity": "Feb 2023 – Jan 2028"
+    },
+    {
+      "title": "AWS Certified SysOps Administrator – Associate",
+      "issuer": "Amazon Web Services",
+      "level": "Associate",
+      "validity": "Feb 2019 – Jan 2028"
+    },
+    {
+      "title": "AWS Certified Solutions Architect – Associate",
+      "issuer": "Amazon Web Services",
+      "level": "Associate",
+      "validity": "Nov 2018 – Nov 2026"
+    },
+    {
+      "title": "AWS Certified AI Practitioner",
+      "issuer": "Amazon Web Services",
+      "level": "Practitioner",
+      "validity": "Sep 2024 – Oct 2027"
+    },
+    {
+      "title": "AWS Certified Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "level": "Practitioner",
+      "validity": "Jan 2023 – Jan 2028"
+    },
+    {
+      "title": "HashiCorp Certified: Terraform Authoring and Operations Professional",
+      "issuer": "HashiCorp",
+      "level": "Professional",
+      "validity": "Apr 2025 – Apr 2027"
+    },
+    {
+      "title": "HashiCorp Certified: Terraform Associate (003)",
+      "issuer": "HashiCorp",
+      "level": "Associate",
+      "validity": "Nov 2023 – Apr 2027"
+    },
+    {
+      "title": "Microsoft Certified: Azure Solutions Architect Expert",
+      "issuer": "Microsoft Azure",
+      "level": "Expert",
+      "validity": "Jan 2025 – Jan 2027"
+    },
+    {
+      "title": "Microsoft Certified: Azure Administrator Associate",
+      "issuer": "Microsoft Azure",
+      "level": "Associate",
+      "validity": "Oct 2024 – Oct 2027"
+    }
+  ]
+}

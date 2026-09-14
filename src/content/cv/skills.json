@@ -1,0 +1,80 @@
+{
+  "categories": [
+    {
+      "category": "Cloud Platforms & Multi-Cloud",
+      "skills": [
+        "Amazon Web Services (AWS - 11x Certified)",
+        "AWS Golden Jacket Holder",
+        "Microsoft Azure (Solutions Architect Expert)",
+        "Multi-Account Architecture",
+        "Hybrid Cloud Strategy"
+      ]
+    },
+    {
+      "category": "Infrastructure as Code (IaC) & Automation",
+      "skills": [
+        "Terraform (Authoring & Operations Professional)",
+        "AWS CloudFormation",
+        "AWS CDK",
+        "Module Reusability & DRY Principles",
+        "Environment Consistency"
+      ]
+    },
+    {
+      "category": "Serverless, Data & Event-Driven Architecture",
+      "skills": [
+        "AWS Lambda",
+        "Amazon DynamoDB (NoSQL Data Architecture)",
+        "Amazon S3",
+        "Amazon SQS",
+        "Amazon SNS",
+        "Event-Driven Design",
+        "High-Volume Data Ingestion"
+      ]
+    },
+    {
+      "category": "Cloud Migration & Modernisation",
+      "skills": [
+        "AWS Application Migration Service (MGN)",
+        "AWS Database Migration Service (DMS)",
+        "AWS Well-Architected Framework Reviews",
+        "Rehost / Replatform / Refactor Strategies",
+        "AWS Migration Acceleration Program (MAP)",
+        "Cost Optimisation & Right-Sizing"
+      ]
+    },
+    {
+      "category": "DevSecOps, CI/CD & Reliability",
+      "skills": [
+        "GitHub Actions",
+        "GitLab CI/CD",
+        "DevSecOps Pipeline Governance",
+        "Automated Deployment Gating",
+        "Amazon Inspector",
+        "AWS GuardDuty",
+        "AWS Security Hub",
+        "UK Healthcare Data Governance"
+      ]
+    },
+    {
+      "category": "Databases & Enterprise Platforms",
+      "skills": [
+        "Amazon Aurora",
+        "Amazon RDS",
+        "SAP Commerce Cloud (SAP Hybris)",
+        "Linux & OSS",
+        "Distributed Caching"
+      ]
+    },
+    {
+      "category": "Architecture Strategy & Technical Leadership",
+      "skills": [
+        "Enterprise Architecture Governance",
+        "Technical Mentorship & Certification Coaching",
+        "Pre-Sales & Commercial Solution Design",
+        "Executive Stakeholder Alignment",
+        "C-Suite & Technical Advisory"
+      ]
+    }
+  ]
+}

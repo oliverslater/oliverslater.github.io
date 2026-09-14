@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const allTags = Array.from(
+  new Set(sortedPosts.flatMap((post) => post.data.tags || []))
+).sort();
+---
+
+<BaseLayout
+  title="Engineering Notes & Blog | Oliver Slater"
+  description="Technical essays, architecture notes, and software engineering insights on distributed systems, modern web, and clean developer workflows."
+>
+  <div class="max-w-3xl mx-auto">
+    <!-- Header -->
+    <header class="mb-12 pb-8 border-b border-neutral-200 dark:border-neutral-800">
+      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 mb-3">
+        Engineering Notes
+      </h1>
+      <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+        Writing on distributed systems, event-driven architectures, web standards, and developer productivity.
+      </p>
+
+      {
+        allTags.length > 0 && (
+          <div class="mt-6 flex flex-wrap items-center gap-2">
+            <span class="text-xs font-mono text-neutral-500 mr-1">Topics:</span>
+            {allTags.map((tag) => (
+              <span class="px-2 py-0.5 rounded text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    <!-- Post list -->
+    <div class="space-y-8">
+      {
+        sortedPosts.map((post) => {
+          const formattedDate = new Intl.DateTimeFormat('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          }).format(new Date(post.data.pubDate));
+
+          return (
+            <article class="group p-5 rounded-lg border border-neutral-200/80 dark:border-neutral-800/80 bg-white/40 dark:bg-neutral-900/30 hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+                <time
+                  datetime={new Date(post.data.pubDate).toISOString()}
+                  class="font-mono text-xs text-neutral-500"
+                >
+                  {formattedDate}
+                </time>
+                {post.data.tags && (
+                  <div class="flex flex-wrap gap-1.5">
+                    {post.data.tags.slice(0, 3).map((tag) => (
+                      <span class="text-xs font-mono text-neutral-500 dark:text-neutral-400">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <h2 class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors mb-2">
+                <a href={`/blog/${post.slug}`}>
+                  {post.data.title}
+                </a>
+              </h2>
+
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                {post.data.description}
+              </p>
+
+              <a
+                href={`/blog/${post.slug}`}
+                class="inline-flex items-center gap-1 font-mono text-xs text-neutral-500 group-hover:text-neutral-900 dark:group-hover:text-neutral-100 transition-colors"
+              >
+                <span>Read article</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</BaseLayout>

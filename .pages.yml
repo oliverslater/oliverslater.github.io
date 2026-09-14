@@ -1,0 +1,143 @@
+media:
+  input: public/assets
+  output: /assets
+
+content:
+  - name: blog
+    label: Blog Posts
+    type: collection
+    path: src/content/blog
+    format: frontmatter
+    view:
+      fields: [title, pubDate, draft]
+      primary: title
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Description
+        type: text
+        required: true
+      - name: pubDate
+        label: Publication Date
+        type: date
+        required: true
+      - name: updatedDate
+        label: Updated Date
+        type: date
+      - name: heroImage
+        label: Hero Image
+        type: image
+      - name: tags
+        label: Tags
+        type: list
+      - name: draft
+        label: Draft
+        type: boolean
+        default: false
+      - name: body
+        label: Body Content
+        type: rich-text
+
+  - name: profile
+    label: CV Profile
+    type: file
+    path: src/content/cv/profile.json
+    fields:
+      - name: name
+        label: Full Name
+        type: string
+        required: true
+      - name: title
+        label: Professional Title
+        type: string
+        required: true
+      - name: email
+        label: Email Address
+        type: string
+        required: true
+      - name: location
+        label: Location
+        type: string
+      - name: bio
+        label: Bio / Summary
+        type: text
+      - name: website
+        label: Website
+        type: string
+      - name: github
+        label: GitHub URL
+        type: string
+      - name: linkedin
+        label: LinkedIn URL
+        type: string
+      - name: twitter
+        label: Twitter / X URL
+        type: string
+      - name: coreCompetencies
+        label: Core Competencies
+        type: list
+
+  - name: experience
+    label: CV Experience
+    type: file
+    path: src/content/cv/experience.json
+    fields:
+      - name: roles
+        label: Work Roles
+        type: list
+        fields:
+          - name: id
+            label: ID
+            type: string
+          - name: role
+            label: Job Title
+            type: string
+            required: true
+          - name: company
+            label: Company Name
+            type: string
+            required: true
+          - name: companyUrl
+            label: Company Website
+            type: string
+          - name: location
+            label: Location
+            type: string
+          - name: startDate
+            label: Start Date
+            type: string
+            required: true
+          - name: endDate
+            label: End Date
+            type: string
+          - name: current
+            label: Currently Employed Here
+            type: boolean
+          - name: description
+            label: Short Description
+            type: text
+          - name: highlights
+            label: Achievements / Highlights
+            type: list
+          - name: technologies
+            label: Technologies Used
+            type: list
+
+  - name: skills
+    label: CV Skills
+    type: file
+    path: src/content/cv/skills.json
+    fields:
+      - name: categories
+        label: Skill Categories
+        type: list
+        fields:
+          - name: category
+            label: Category Name
+            type: string
+          - name: skills
+            label: Skill List
+            type: list

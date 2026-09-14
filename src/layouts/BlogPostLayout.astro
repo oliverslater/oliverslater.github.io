@@ -1,0 +1,100 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    pubDate: Date | string;
+    updatedDate?: Date | string;
+    heroImage?: string;
+    tags?: string[];
+  };
+}
+
+const { frontmatter } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+}).format(new Date(frontmatter.pubDate));
+
+const formattedUpdatedDate = frontmatter.updatedDate
+  ? new Intl.DateTimeFormat('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }).format(new Date(frontmatter.updatedDate))
+  : null;
+---
+
+<BaseLayout title={`${frontmatter.title} | Oliver Slater`} description={frontmatter.description}>
+  <article class="max-w-3xl mx-auto">
+    <!-- Back to blog navigation -->
+    <div class="mb-8">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1.5 font-mono text-xs text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+      >
+        <span aria-hidden="true">&larr;</span> Back to all posts
+      </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="mb-10 pb-8 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="flex items-center gap-3 text-xs font-mono text-neutral-500 dark:text-neutral-400 mb-3">
+        <time datetime={new Date(frontmatter.pubDate).toISOString()}>{formattedDate}</time>
+        {
+          formattedUpdatedDate && (
+            <>
+              <span>·</span>
+              <span>Updated {formattedUpdatedDate}</span>
+            </>
+          )
+        }
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 mb-4 leading-tight">
+        {frontmatter.title}
+      </h1>
+
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+        {frontmatter.description}
+      </p>
+
+      {
+        frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {frontmatter.tags.map((tag) => (
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+    </header>
+
+    <!-- Post Body Content -->
+    <div class="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:underline prose-a:underline-offset-4 prose-code:font-mono prose-code:text-sm prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-neutral-800">
+      <slot />
+    </div>
+
+    <!-- Article Footer -->
+    <footer class="mt-14 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between font-mono text-xs text-neutral-500">
+      <a
+        href="/blog"
+        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+      >
+        &larr; Back to all posts
+      </a>
+      <a
+        href="#top"
+        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+      >
+        Back to top &uarr;
+      </a>
+    </footer>
+  </article>
+</BaseLayout>

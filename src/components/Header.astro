@@ -1,0 +1,66 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/cv', label: 'CV' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const isActive = (href: string) => {
+  if (href === '/') {
+    return currentPath === '/' || currentPath === '';
+  }
+  return currentPath.startsWith(href);
+};
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-neutral-200/80 dark:border-neutral-800/80 bg-neutral-50/80 dark:bg-neutral-950/80 backdrop-blur-md transition-colors duration-200">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <!-- Brand / Name -->
+    <a
+      href="/"
+      class="group flex items-center gap-2 font-mono text-sm font-medium tracking-tight text-neutral-900 dark:text-neutral-100 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+    >
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
+      <span class="font-semibold">oliver_slater</span>
+      <span class="text-neutral-400 dark:text-neutral-600">/</span>
+    </a>
+
+    <!-- Navigation links & Theme Toggle -->
+    <div class="flex items-center gap-1 sm:gap-4">
+      <nav class="flex items-center gap-1 sm:gap-2">
+        {
+          navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <a
+                href={item.href}
+                class:list={[
+                  'px-2.5 py-1.5 rounded-md text-sm transition-colors',
+                  active
+                    ? 'font-medium text-neutral-900 dark:text-neutral-50 bg-neutral-200/60 dark:bg-neutral-800/60'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-200/30 dark:hover:bg-neutral-800/30',
+                ]}
+                aria-current={active ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            );
+          })
+        }
+      </nav>
+
+      <div class="w-px h-5 bg-neutral-200 dark:bg-neutral-800 mx-1"></div>
+
+      <ThemeToggle />
+    </div>
+  </div>
+</header>

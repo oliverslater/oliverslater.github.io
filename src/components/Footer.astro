@@ -1,0 +1,44 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="w-full border-t border-neutral-200/80 dark:border-neutral-800/80 mt-auto py-10 transition-colors duration-200 no-print">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-neutral-500 dark:text-neutral-500">
+    <div class="flex items-center gap-2">
+      <span>© {currentYear} Oliver Slater.</span>
+      <span class="text-neutral-300 dark:text-neutral-700">·</span>
+      <span>Built with Astro & Tailwind</span>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <a
+        href="https://github.com/oliverslater"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+      >
+        GitHub
+      </a>
+      <a
+        href="https://linkedin.com/in/oliverslater"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+      >
+        LinkedIn
+      </a>
+      <a
+        href="/contact"
+        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+      >
+        Contact
+      </a>
+      <a
+        href="/cv"
+        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+      >
+        Resume/CV
+      </a>
+    </div>
+  </div>
+</footer>
