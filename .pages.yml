@@ -141,3 +141,77 @@ content:
           - name: skills
             label: Skill List
             type: list
+
+  - name: manual-certifications
+    label: Non-Credly Credentials
+    type: file
+    path: src/content/cv/manual-certifications.json
+    fields:
+      - name: certifications
+        label: Certifications
+        type: list
+        fields:
+          - name: id
+            label: Unique ID (slug)
+            type: string
+            required: true
+          - name: title
+            label: Credential Title
+            type: string
+            required: true
+          - name: issuer
+            label: Issuer (e.g. Microsoft, Linux Foundation)
+            type: string
+            required: true
+          - name: issueDate
+            label: Issue Date (e.g. Jan 2025)
+            type: string
+            required: true
+          - name: expiresDate
+            label: Expiry Date (optional)
+            type: string
+          - name: badgeImageUrl
+            label: Badge Image URL (e.g. https://... or /assets/...)
+            type: string
+          - name: verifyUrl
+            label: Verification / Transcript URL
+            type: string
+            required: true
+          - name: displayed
+            label: Display in CV
+            type: boolean
+            default: true
+          - name: includeInCount
+            label: Include in Credential Count
+            type: boolean
+            default: true
+          - name: priority
+            label: Priority (higher number = displayed first, default: 0)
+            type: number
+            default: 0
+
+  - name: certification-settings
+    label: Credential Visibility & Count Toggles
+    type: file
+    path: src/content/cv/certification-settings.json
+    fields:
+      - name: overrides
+        label: Credential Visibility & Count Overrides
+        type: list
+        fields:
+          - name: title
+            label: Certification Title (or keyword)
+            type: string
+            required: true
+          - name: displayed
+            label: Display on Website
+            type: boolean
+            default: true
+          - name: includeInCount
+            label: Include in Headline Count
+            type: boolean
+            default: true
+          - name: priority
+            label: Priority (higher number = displayed first, default: 0)
+            type: number
+            default: 0

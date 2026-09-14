@@ -1,0 +1,35 @@
+{
+  "_comment": "Use this file to add non-Credly / non-Microsoft credentials (e.g. Linux Foundation, CNCF, Cisco, University degrees).",
+  "_instructions": {
+    "displayed": "Set to false to hide this card from the CV grid (default: true).",
+    "includeInCount": "Set to false to exclude from the headline badge counter (default: true).",
+    "priority": "Higher numbers appear first on the page (default: 0). E.g., 10 floats to top; -1 pushes to bottom.",
+    "order": "Alternative to priority: order: 1 = 1st place, order: 2 = 2nd place.",
+    "badgeImageUrl": "Public image or SVG URL (e.g. https://... or /assets/...). If left blank, a fallback icon is used."
+  },
+  "_examples": [
+    {
+      "id": "example-cka",
+      "title": "Certified Kubernetes Administrator (CKA)",
+      "issuer": "Linux Foundation",
+      "issueDate": "Mar 2025",
+      "expiresDate": "Mar 2028",
+      "badgeImageUrl": "https://images.credly.com/images/8b8e6f12-25e2-45e0-82d2-e5b1580235b3/kubernetes-administrator-cka.png",
+      "verifyUrl": "https://www.credly.com/org/the-linux-foundation/badge/certified-kubernetes-administrator-cka",
+      "displayed": true,
+      "includeInCount": true,
+      "priority": 10
+    },
+    {
+      "id": "example-university-degree",
+      "title": "BSc (Hons) Computer Science",
+      "issuer": "University of Portsmouth",
+      "issueDate": "Jul 2012",
+      "verifyUrl": "https://www.port.ac.uk/",
+      "displayed": true,
+      "includeInCount": false,
+      "priority": 0
+    }
+  ],
+  "certifications": []
+}

@@ -114,6 +114,27 @@ This repository contains a ready-to-use `.pages.yml` file.
    - Update your profile, bio, and social links in `src/content/cv/profile.json`.
    - Add or edit work experience roles in `src/content/cv/experience.json`.
    - Update skill categories in `src/content/cv/skills.json`.
+   - Add manual credentials in `src/content/cv/manual-certifications.json`.
+   - Configure visibility, count, and display priority in `src/content/cv/certification-settings.json`.
+
+---
+
+## 🏅 Credentials & Certifications Engine
+
+The `/cv` page dynamically synchronizes and renders verified certifications from:
+- **Credly API**: 43 active credentials fetched at build time.
+- **Microsoft Learn API**: 11 active certifications pulled from your public transcript (`d5on2cqnl3lgknq`).
+- **Manual Credentials**: Configurable via `src/content/cv/manual-certifications.json`.
+
+### Granular Controls & Toggles
+In `src/content/cv/certification-settings.json`, you can customize ANY certification:
+- **`displayed: false`**: Hides the card from the CV grid.
+- **`includeInCount: false`**: Excludes the credential from the headline counter badge.
+- **`priority: 10`**: Floats the credential to the top of the page (higher number = displayed first).
+- **`order: 1`**: Friendly ranking alias (1st place, 2nd place).
+- **Expiration Filtering**: Expired certifications are automatically filtered out.
+
+> 📖 **Full Documentation & Copy-Pasteable Examples:** See [src/content/cv/CERTIFICATIONS_GUIDE.md](src/content/cv/CERTIFICATIONS_GUIDE.md).
 
 ---
 

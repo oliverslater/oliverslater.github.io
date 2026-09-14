@@ -4,7 +4,12 @@ import CVSection from '../components/CVSection.astro';
 import profileData from '../content/cv/profile.json';
 import experienceData from '../content/cv/experience.json';
 import skillsData from '../content/cv/skills.json';
-import educationData from '../content/cv/education.json';
+import { getAllCredentials } from '../utils/certifications';
+
+const allBadges = await getAllCredentials();
+const displayedBadges = allBadges.filter((b) => b.displayed);
+const countedBadges = allBadges.filter((b) => b.includeInCount);
+const totalCount = countedBadges.length;
 ---
 
 <BaseLayout
@@ -187,26 +192,75 @@ import educationData from '../content/cv/education.json';
     </CVSection>
 
     <!-- Education & Professional Qualifications -->
-    <CVSection title="Education & Professional Qualifications" badge={`${educationData.qualifications.length} credentials`}>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+    <CVSection title="Education & Verified Credentials" badge={`${totalCount} verified credentials`}>
+      <div class="mb-4 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[var(--white-icon)]">
+        <span>Verified via Credly & Microsoft Learn</span>
+        <div class="flex items-center gap-3">
+          <a
+            href="https://www.credly.com/users/oliver-slater"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[var(--sec)] hover:underline flex items-center gap-1"
+          >
+            Credly Profile &nearr;
+          </a>
+          <span>&middot;</span>
+          <a
+            href="https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[var(--sec)] hover:underline flex items-center gap-1"
+          >
+            MS Learn &nearr;
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {
-          educationData.qualifications.map((cert) => (
-            <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c] flex flex-col justify-between hover:border-[#ffffff20] transition-colors">
-              <div>
-                <div class="flex items-center justify-between gap-2 mb-2">
+          displayedBadges.map((cert) => (
+            <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c] flex items-start gap-3.5 hover:border-[#ffffff20] transition-colors group">
+              {cert.imageUrl ? (
+                <img
+                  src={cert.imageUrl}
+                  alt={cert.title}
+                  class="w-12 h-12 object-contain flex-shrink-0 group-hover:scale-105 transition-transform"
+                  loading="lazy"
+                  width="48"
+                  height="48"
+                />
+              ) : (
+                <div class="w-12 h-12 rounded-xl bg-[#ffffff08] flex items-center justify-center text-[var(--sec)] flex-shrink-0">
+                  ⚡
+                </div>
+              )}
+              <div class="flex-grow min-w-0">
+                <div class="flex items-center justify-between gap-1 mb-1">
                   <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-[#ffffff08] text-[var(--sec)] border border-[#ffffff10]">
                     {cert.issuer}
                   </span>
-                  <span class="text-[11px] font-mono text-[var(--white-icon)]">
-                    {cert.validity}
+                  <span class="text-[11px] font-mono text-neutral-500 whitespace-nowrap">
+                    {cert.issueDate}
                   </span>
                 </div>
-                <h3 class="text-sm font-semibold text-[var(--white)] leading-snug">
+                <h3 class="text-sm font-semibold text-[var(--white)] leading-snug line-clamp-2">
                   {cert.title}
                 </h3>
-              </div>
-              <div class="mt-3 text-xs font-mono text-neutral-500">
-                Level: {cert.level}
+                <div class="mt-2.5 flex items-center justify-between text-xs font-mono">
+                  {cert.expiresDate ? (
+                    <span class="text-[11px] text-neutral-500">Exp: {cert.expiresDate}</span>
+                  ) : (
+                    <span class="text-[11px] text-[#A9FF5B]">Active</span>
+                  )}
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--sec)] hover:underline text-[11px] inline-flex items-center gap-0.5"
+                  >
+                    Verify &nearr;
+                  </a>
+                </div>
               </div>
             </div>
           ))

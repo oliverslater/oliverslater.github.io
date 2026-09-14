@@ -1,0 +1,47 @@
+{
+  "_comment": "Use this file to control visibility, count, and display order for ANY certification (whether from Credly, Microsoft Learn, or manual).",
+  "_instructions": {
+    "title": "Exact title or case-insensitive keyword match (e.g. 'Azure Solutions Architect' or 'Windows 7').",
+    "displayed": "boolean (default: true). Set false to hide this certification from the visible CV grid.",
+    "includeInCount": "boolean (default: true). Set false to exclude this certification from the headline badge count (e.g. '54 verified credentials').",
+    "priority": "number (default: 0). Higher numbers display first. E.g. priority: 10 pins to the top; priority: -1 sinks to bottom.",
+    "order": "number (alternative to priority). order: 1 = 1st place, order: 2 = 2nd place."
+  },
+  "_examples": [
+    {
+      "_useCase": "Pin key professional certifications to the very top",
+      "title": "AWS Certified Solutions Architect – Professional",
+      "priority": 10
+    },
+    {
+      "_useCase": "Pin Azure Solutions Architect Expert right alongside AWS Pro",
+      "title": "Azure Solutions Architect Expert",
+      "priority": 10
+    },
+    {
+      "_useCase": "Hide legacy or foundational credentials from the CV grid and count",
+      "title": "MTA: Networking Fundamentals",
+      "displayed": false,
+      "includeInCount": false
+    },
+    {
+      "_useCase": "Count a certification in headline total, but hide the card from the grid to keep page compact",
+      "title": "Windows 7",
+      "displayed": false,
+      "includeInCount": true
+    },
+    {
+      "_useCase": "Display training badge on page, but omit it from official exam certification count",
+      "title": "AWS Partner: Generative AI Essentials",
+      "displayed": true,
+      "includeInCount": false
+    },
+    {
+      "_useCase": "Show an expired credential that is filtered out by default",
+      "title": "AWS Certified Data Analytics – Specialty",
+      "displayed": true,
+      "includeInCount": true
+    }
+  ],
+  "overrides": []
+}
