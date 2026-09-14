@@ -23,15 +23,29 @@ const featuredRoles = experienceData.roles.slice(0, 2);
   <!-- Hero Section -->
   <section class="text-[var(--white)] pt-4 sm:pt-8 mb-16" id="home">
     <div class="space-y-6">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-neutral-100 dark:bg-[#1414149c] border border-neutral-200/80 dark:border-[var(--white-icon-tr)] text-[var(--white-icon)] shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"></span>
-        AWS Golden Jacket Holder &middot; 11x AWS Certified
-      </div>
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-5 sm:gap-8">
+        <div class="space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-neutral-100 dark:bg-[#1414149c] border border-neutral-200/80 dark:border-[var(--white-icon-tr)] text-[var(--white-icon)] shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"></span>
+            AWS Golden Jacket Holder &middot; 11x AWS Certified
+          </div>
 
-      <div class="space-y-3">
-        <p class="text-base sm:text-lg text-[var(--white-icon)] shiny-white">
-          Hi, I'm Oliver Slater
-        </p>
+          <p class="text-base sm:text-lg text-[var(--white-icon)] shiny-white">
+            Hi, I'm Oliver Slater
+          </p>
+        </div>
+
+        <div class="flex-shrink-0">
+          <img
+            src="/assets/oliver-slater.jpg"
+            alt="Oliver Slater - Cloud Architect"
+            class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl sm:rounded-3xl object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm"
+            width="112"
+            height="112"
+            loading="eager"
+          />
+        </div>
+      </div>
         <div class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 gap-4">
           <h1 class="text-5xl sm:text-6xl md:text-7xl font-medium text-pretty leading-none text-[var(--white)] tracking-tight">
             Cloud <br /> Architect

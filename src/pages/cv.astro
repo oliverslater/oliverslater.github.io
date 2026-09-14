@@ -62,17 +62,30 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
 
     <!-- CV Header -->
     <header class="mb-14 pb-8 print:mb-6 print:pb-4 border-b border-[#ffffff10] print:border-neutral-300">
-      <div class="space-y-2 print:space-y-1">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#1414149c] print:bg-neutral-100 border border-purple-200/60 dark:border-[var(--white-icon-tr)] print:border-neutral-300 text-[var(--sec)] print:text-neutral-800 mb-2 shadow-sm print:shadow-none">
-          <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] print:bg-purple-600"></span>
-          AWS Golden Jacket Holder &middot; 11x AWS Certified
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-6">
+        <div class="space-y-2 print:space-y-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#1414149c] print:bg-neutral-100 border border-purple-200/60 dark:border-[var(--white-icon-tr)] print:border-neutral-300 text-[var(--sec)] print:text-neutral-800 mb-2 shadow-sm print:shadow-none">
+            <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] print:bg-purple-600"></span>
+            AWS Golden Jacket Holder &middot; 11x AWS Certified
+          </div>
+          <h1 class="text-4xl sm:text-5xl print:text-3xl font-medium tracking-tight text-[var(--white)] print:text-black">
+            {profileData.name}
+          </h1>
+          <p class="text-xl print:text-base text-[var(--white-icon)] print:text-neutral-700 font-medium">
+            {profileData.title}
+          </p>
         </div>
-        <h1 class="text-4xl sm:text-5xl print:text-3xl font-medium tracking-tight text-[var(--white)] print:text-black">
-          {profileData.name}
-        </h1>
-        <p class="text-xl print:text-base text-[var(--white-icon)] print:text-neutral-700 font-medium">
-          {profileData.title}
-        </p>
+
+        <div class="flex-shrink-0">
+          <img
+            src="/assets/oliver-slater.jpg"
+            alt={profileData.name}
+            class="w-20 h-20 sm:w-24 sm:h-24 print:w-16 print:h-16 rounded-2xl print:rounded-xl object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-neutral-300 bg-white dark:bg-[#1414149c] shadow-sm print:shadow-none"
+            width="96"
+            height="96"
+            loading="eager"
+          />
+        </div>
       </div>
 
       <!-- Contact and links grid -->
