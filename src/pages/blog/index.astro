@@ -13,17 +13,20 @@ const allTags = Array.from(
 ---
 
 <BaseLayout
-  title="Engineering Notes & Blog | Oliver Slater"
-  description="Technical essays, architecture notes, and software engineering insights on distributed systems, modern web, and clean developer workflows."
+  title="Engineering Notes & Architecture Blog | Oliver Slater"
+  description="Technical essays, architecture notes, and cloud engineering insights on AWS, serverless, distributed systems, and modern platform engineering."
 >
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-4xl mx-auto">
     <!-- Header -->
-    <header class="mb-12 pb-8 border-b border-neutral-200 dark:border-neutral-800">
-      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 mb-3">
+    <header class="mb-12 pb-8 border-b border-[#ffffff10]">
+      <p class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
+        Writing
+      </p>
+      <h1 class="text-4xl sm:text-5xl font-medium tracking-tight text-[var(--white)] mb-3">
         Engineering Notes
       </h1>
-      <p class="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
-        Writing on distributed systems, event-driven architectures, web standards, and developer productivity.
+      <p class="text-base text-[var(--white-icon)] leading-relaxed max-w-xl">
+        Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.
       </p>
 
       {
@@ -31,7 +34,7 @@ const allTags = Array.from(
           <div class="mt-6 flex flex-wrap items-center gap-2">
             <span class="text-xs font-mono text-neutral-500 mr-1">Topics:</span>
             {allTags.map((tag) => (
-              <span class="px-2 py-0.5 rounded text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-[#ffffff08] text-[var(--sec)] border border-[#ffffff10]">
                 #{tag}
               </span>
             ))}
@@ -41,7 +44,7 @@ const allTags = Array.from(
     </header>
 
     <!-- Post list -->
-    <div class="space-y-8">
+    <div class="space-y-6">
       {
         sortedPosts.map((post) => {
           const formattedDate = new Intl.DateTimeFormat('en-GB', {
@@ -51,18 +54,18 @@ const allTags = Array.from(
           }).format(new Date(post.data.pubDate));
 
           return (
-            <article class="group p-5 rounded-lg border border-neutral-200/80 dark:border-neutral-800/80 bg-white/40 dark:bg-neutral-900/30 hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors">
+            <article class="p-6 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c] hover:border-[#ffffff20] transition-all duration-300">
               <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
                 <time
                   datetime={new Date(post.data.pubDate).toISOString()}
-                  class="font-mono text-xs text-neutral-500"
+                  class="font-mono text-xs text-[var(--sec)]"
                 >
                   {formattedDate}
                 </time>
                 {post.data.tags && (
                   <div class="flex flex-wrap gap-1.5">
                     {post.data.tags.slice(0, 3).map((tag) => (
-                      <span class="text-xs font-mono text-neutral-500 dark:text-neutral-400">
+                      <span class="text-xs font-mono text-neutral-500">
                         #{tag}
                       </span>
                     ))}
@@ -70,22 +73,22 @@ const allTags = Array.from(
                 )}
               </div>
 
-              <h2 class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors mb-2">
+              <h2 class="text-xl font-semibold tracking-tight text-[var(--white)] hover:text-[var(--sec)] transition-colors mb-2">
                 <a href={`/blog/${post.slug}`}>
                   {post.data.title}
                 </a>
               </h2>
 
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+              <p class="text-sm text-[var(--white-icon)] leading-relaxed mb-4">
                 {post.data.description}
               </p>
 
               <a
                 href={`/blog/${post.slug}`}
-                class="inline-flex items-center gap-1 font-mono text-xs text-neutral-500 group-hover:text-neutral-900 dark:group-hover:text-neutral-100 transition-colors"
+                class="inline-flex items-center gap-1 font-mono text-xs text-[var(--white-icon)] hover:text-white transition-colors"
               >
                 <span>Read article</span>
-                <span aria-hidden="true">&rarr;</span>
+                <span class="text-[var(--sec)]">&rarr;</span>
               </a>
             </article>
           );

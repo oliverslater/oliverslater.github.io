@@ -10,8 +10,8 @@ interface Props {
 }
 
 const {
-  title = 'Oliver Slater | Software Engineer & Architect',
-  description = 'Virtual CV, technical portfolio, and engineering blog of Oliver Slater. DarkMinimal aesthetic, system-native theme, and high focus on scannable architecture.',
+  title = 'Oliver Slater | Cloud Architect',
+  description = 'Cloud Architect & AWS Golden Jacket holder specialising in enterprise-scale cloud solutions, serverless platforms, and large-scale transformation.',
   image = '/assets/og-image.png',
 } = Astro.props;
 
@@ -70,9 +70,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.oliv
       }
     </script>
   </head>
-  <body class="flex flex-col min-h-screen selection:bg-neutral-900 selection:text-white dark:selection:bg-neutral-100 dark:selection:text-neutral-950 font-sans">
+  <body class="flex flex-col min-h-screen bg-[var(--background)] text-[var(--white)] font-sans antialiased selection:bg-[var(--sec)] selection:text-black">
     <Header />
-    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <main class="flex-1 w-full max-w-5xl mx-auto px-5 sm:px-8 pt-24 sm:pt-32 pb-16">
       <slot />
     </main>
     <Footer />

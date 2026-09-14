@@ -35,31 +35,31 @@ const formattedUpdatedDate = frontmatter.updatedDate
     <div class="mb-8">
       <a
         href="/blog"
-        class="inline-flex items-center gap-1.5 font-mono text-xs text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+        class="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--white-icon)] hover:text-white transition-colors"
       >
         <span aria-hidden="true">&larr;</span> Back to all posts
       </a>
     </div>
 
     <!-- Article Header -->
-    <header class="mb-10 pb-8 border-b border-neutral-200 dark:border-neutral-800">
-      <div class="flex items-center gap-3 text-xs font-mono text-neutral-500 dark:text-neutral-400 mb-3">
+    <header class="mb-10 pb-8 border-b border-[#ffffff10]">
+      <div class="flex items-center gap-3 text-xs font-mono text-[var(--sec)] mb-3">
         <time datetime={new Date(frontmatter.pubDate).toISOString()}>{formattedDate}</time>
         {
           formattedUpdatedDate && (
             <>
-              <span>·</span>
-              <span>Updated {formattedUpdatedDate}</span>
+              <span class="text-neutral-500">·</span>
+              <span class="text-[var(--white-icon)]">Updated {formattedUpdatedDate}</span>
             </>
           )
         }
       </div>
 
-      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 mb-4 leading-tight">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[var(--white)] mb-4 leading-tight">
         {frontmatter.title}
       </h1>
 
-      <p class="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+      <p class="text-lg text-[var(--white-icon)] leading-relaxed mb-6">
         {frontmatter.description}
       </p>
 
@@ -67,7 +67,7 @@ const formattedUpdatedDate = frontmatter.updatedDate
         frontmatter.tags && frontmatter.tags.length > 0 && (
           <div class="flex flex-wrap gap-2">
             {frontmatter.tags.map((tag) => (
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-800">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-[#ffffff08] text-[var(--sec)] border border-[#ffffff10]">
                 #{tag}
               </span>
             ))}
@@ -77,21 +77,21 @@ const formattedUpdatedDate = frontmatter.updatedDate
     </header>
 
     <!-- Post Body Content -->
-    <div class="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:underline prose-a:underline-offset-4 prose-code:font-mono prose-code:text-sm prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-neutral-800">
+    <div class="prose prose-invert max-w-none prose-headings:font-medium prose-headings:text-[var(--white)] prose-p:text-[var(--white-icon)] prose-p:leading-relaxed prose-a:text-[var(--sec)] prose-a:underline-offset-4 prose-code:text-[var(--sec)] prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-[#141414] prose-pre:border prose-pre:border-[#ffffff10] prose-li:text-[var(--white-icon)]">
       <slot />
     </div>
 
     <!-- Article Footer -->
-    <footer class="mt-14 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between font-mono text-xs text-neutral-500">
+    <footer class="mt-14 pt-8 border-t border-[#ffffff10] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">
       <a
         href="/blog"
-        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+        class="hover:text-white transition-colors"
       >
         &larr; Back to all posts
       </a>
       <a
         href="#top"
-        class="hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+        class="hover:text-white transition-colors"
       >
         Back to top &uarr;
       </a>
