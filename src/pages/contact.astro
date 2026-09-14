@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import profileData from '../content/cv/profile.json';
+
+const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVisible ?? false;
 ---
 
 <BaseLayout
@@ -22,12 +24,26 @@ import profileData from '../content/cv/profile.json';
       </p>
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-        <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
-          <span class="block text-neutral-500 mb-1">Direct Email</span>
-          <a href={`mailto:${profileData.email}`} class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all">
-            {profileData.email}
-          </a>
-        </div>
+        {showEmail ? (
+          <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
+            <span class="block text-neutral-500 mb-1">Direct Email</span>
+            <a href={`mailto:${profileData.email}`} class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all">
+              {profileData.email}
+            </a>
+          </div>
+        ) : (
+          <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
+            <span class="block text-neutral-500 mb-1">GitHub</span>
+            <a
+              href={profileData.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
+            >
+              github.com/oliverslater &nearr;
+            </a>
+          </div>
+        )}
 
         <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
           <span class="block text-neutral-500 mb-1">Location</span>
