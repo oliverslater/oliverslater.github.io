@@ -186,6 +186,16 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
                   {role.description}
                 </p>
 
+                {role.highlights && role.highlights.length > 0 && (
+                  <ul class="space-y-2 print:space-y-1 mb-5 print:mb-2">
+                    {role.highlights.map((highlight) => (
+                      <li class="flex items-start text-xs sm:text-sm print:text-xs text-[var(--white-icon)] print:text-neutral-800 leading-relaxed">
+                        <span class="mr-2 text-[var(--sec)] print:text-neutral-500 font-mono">&bull;</span>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 {role.technologies && (
                   <div class="flex flex-wrap gap-1.5 pt-3 print:pt-1.5 border-t border-neutral-100 dark:border-[var(--white-icon-tr)] print:border-neutral-200">
