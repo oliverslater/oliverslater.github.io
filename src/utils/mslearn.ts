@@ -50,16 +50,16 @@ export function getDefaultMicrosoftBadgeIcon(title: string): string {
   const t = title.toLowerCase();
 
   if (t.includes('expert')) {
-    return 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-expert-badge.svg';
+    return 'https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-expert-badge.svg?branch=main';
   }
   if (t.includes('associate')) {
-    return 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-associate-badge.svg';
+    return 'https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-associate-badge.svg?branch=main';
   }
   if (t.includes('fundamentals')) {
-    return 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg';
+    return 'https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg?branch=main';
   }
   if (t.includes('specialty') || t.includes('specialist')) {
-    return 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-specialty-badge.svg';
+    return 'https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-specialty-badge.svg?branch=main';
   }
-  return 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-associate-badge.svg';
+  return 'https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-general-badge.svg?branch=main';
 }
