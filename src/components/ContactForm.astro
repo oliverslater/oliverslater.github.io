@@ -96,13 +96,26 @@ const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY || '';
 
   <!-- hCaptcha Spam Protection -->
   <div class="pt-1">
-    <div
-      class="h-captcha"
-      data-captcha="true"
-      data-theme="dark"
-      {...(hcaptchaKey ? { 'data-sitekey': hcaptchaKey } : {})}
-    ></div>
+    <div class="inline-block p-3 sm:p-3.5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-all max-w-full overflow-x-auto">
+      <div
+        id="hcaptcha-container"
+        class="h-captcha min-h-[78px] min-w-[300px]"
+        data-captcha="true"
+        {...(hcaptchaKey ? { 'data-sitekey': hcaptchaKey } : {})}
+      ></div>
+    </div>
   </div>
+
+  <script is:inline>
+    // Synchronously set initial data-theme attribute before hCaptcha script loads
+    (function () {
+      var isDark = document.documentElement.classList.contains('dark');
+      var container = document.getElementById('hcaptcha-container');
+      if (container) {
+        container.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      }
+    })();
+  </script>
 
   <!-- Submit button & status alerts -->
   <div class="space-y-4 pt-2">
@@ -127,7 +140,7 @@ const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY || '';
     <!-- Inline Status Messages -->
     <div
       id="status-success"
-      class="hidden p-4 rounded-xl text-sm font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+      class="hidden p-4 rounded-xl text-sm font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
       role="alert"
     >
       &check; Thank you! Your message has been sent successfully. I will get back to you soon.
@@ -135,7 +148,7 @@ const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY || '';
 
     <div
       id="status-error"
-      class="hidden p-4 rounded-xl text-sm font-mono border border-red-500/30 bg-red-500/10 text-red-400"
+      class="hidden p-4 rounded-xl text-sm font-mono border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400"
       role="alert"
     >
       &cross; An error occurred while sending your message. Please try again or email directly.
@@ -144,6 +157,8 @@ const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY || '';
 </form>
 
 <script>
+  let themeObserver: MutationObserver | null = null;
+
   function setupContactForm() {
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     if (!form) return;
@@ -153,6 +168,47 @@ const hcaptchaKey = import.meta.env.PUBLIC_HCAPTCHA_SITEKEY || '';
     const btnSpinner = document.getElementById('btn-spinner');
     const successMsg = document.getElementById('status-success');
     const errorMsg = document.getElementById('status-error');
+
+    // Dynamic hCaptcha theme alignment with light/dark mode
+    function syncCaptchaTheme() {
+      const container = document.getElementById('hcaptcha-container');
+      if (!container) return;
+
+      const isDark = document.documentElement.classList.contains('dark');
+      const targetTheme = isDark ? 'dark' : 'light';
+      const currentTheme = container.getAttribute('data-theme');
+
+      if (currentTheme !== targetTheme) {
+        container.setAttribute('data-theme', targetTheme);
+
+        const hcaptcha = (window as any).hcaptcha;
+        if (hcaptcha && typeof hcaptcha.render === 'function' && container.querySelector('iframe')) {
+          const sitekey = container.getAttribute('data-sitekey') || '50b2fe65-b00b-4b9e-ad62-3ba471098be2';
+          container.innerHTML = '';
+          try {
+            hcaptcha.render(container, {
+              sitekey: sitekey,
+              theme: targetTheme,
+            });
+          } catch (err) {
+            console.warn('hCaptcha re-render error:', err);
+          }
+        }
+      }
+    }
+
+    syncCaptchaTheme();
+
+    if (themeObserver) {
+      themeObserver.disconnect();
+    }
+    themeObserver = new MutationObserver(() => {
+      syncCaptchaTheme();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
