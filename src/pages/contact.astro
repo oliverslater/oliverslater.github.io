@@ -71,3 +71,22 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
     </section>
   </div>
 </BaseLayout>
+
+<script>
+  function recordContactReferrer() {
+    if (document.referrer) {
+      try {
+        const ref = new URL(document.referrer);
+        if (
+          ref.origin === window.location.origin &&
+          !ref.pathname.includes('/contact') &&
+          !ref.pathname.includes('/thank-you')
+        ) {
+          sessionStorage.setItem('contact_referrer', ref.pathname + ref.search + ref.hash);
+        }
+      } catch {}
+    }
+  }
+  recordContactReferrer();
+  document.addEventListener('astro:after-swap', recordContactReferrer);
+</script>

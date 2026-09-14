@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Thank You | Oliver Slater"
+  description="Your message has been sent successfully."
+>
+  <div class="max-w-xl mx-auto py-12 sm:py-20 text-center">
+    <div class="p-8 sm:p-12 rounded-3xl border border-[var(--white-icon-tr)] bg-[#1414149c] shadow-2xl backdrop-blur-sm relative overflow-hidden">
+      <!-- Ambient Glow effects -->
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-[#A9FF5B]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-[var(--sec)]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Success Icon -->
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#A9FF5B]/10 border border-[#A9FF5B]/30 text-[#A9FF5B] mb-6 shadow-inner">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-[#ffffff08] border border-[#ffffff10] text-[#A9FF5B] mb-4">
+        <span class="w-2 h-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+        Message Received
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--white)] mb-3">
+        Thank You!
+      </h1>
+
+      <p class="text-sm sm:text-base text-[var(--white-icon)] leading-relaxed mb-8 max-w-md mx-auto">
+        Your message has been received successfully. I will review your inquiry and get back to you as soon as possible.
+      </p>
+
+      <!-- Countdown Banner -->
+      <div class="p-4 rounded-2xl bg-[#ffffff05] border border-[#ffffff10] text-xs font-mono text-[var(--white-icon)] mb-8 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4 text-[var(--sec)] animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        </svg>
+        <span>
+          Redirecting back in <span id="countdown" class="font-bold text-[var(--sec)] text-sm">5</span> seconds...
+        </span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          id="return-btn"
+          href="/"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-mono font-semibold bg-[var(--sec)] text-black hover:opacity-90 transition-all shadow-md"
+        >
+          <span>Return Now</span>
+          <span>&rarr;</span>
+        </a>
+        <a
+          href="/"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-mono border border-[var(--white-icon-tr)] bg-[#ffffff05] text-[var(--white)] hover:bg-[#ffffff10] transition-colors"
+        >
+          Home Page
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  function setupRedirect() {
+    let secondsLeft = 5;
+    const countdownEl = document.getElementById('countdown');
+    const returnBtn = document.getElementById('return-btn') as HTMLAnchorElement | null;
+
+    // Determine target URL:
+    // 1. Check if user came from a specific internal page (saved in sessionStorage)
+    // 2. Check document.referrer (if same origin and not /thank-you or /contact)
+    // 3. Fallback to homepage '/'
+    let targetUrl = '/';
+    try {
+      const savedRef = sessionStorage.getItem('contact_referrer');
+      if (savedRef) {
+        const parsed = new URL(savedRef, window.location.origin);
+        if (parsed.origin === window.location.origin && !parsed.pathname.includes('/thank-you')) {
+          targetUrl = parsed.pathname + parsed.search + parsed.hash;
+        }
+        sessionStorage.removeItem('contact_referrer');
+      } else if (document.referrer) {
+        const parsed = new URL(document.referrer, window.location.origin);
+        if (parsed.origin === window.location.origin && !parsed.pathname.includes('/thank-you') && !parsed.pathname.includes('/contact')) {
+          targetUrl = parsed.pathname + parsed.search + parsed.hash;
+        }
+      }
+    } catch {}
+
+    // Update return button href
+    if (returnBtn) {
+      returnBtn.href = targetUrl;
+    }
+
+    const interval = setInterval(() => {
+      secondsLeft--;
+      if (countdownEl) {
+        countdownEl.textContent = String(secondsLeft);
+      }
+
+      if (secondsLeft <= 0) {
+        clearInterval(interval);
+        window.location.href = targetUrl;
+      }
+    }, 1000);
+  }
+
+  setupRedirect();
+  document.addEventListener('astro:after-swap', setupRedirect);
+</script>

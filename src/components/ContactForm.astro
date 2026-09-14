@@ -14,6 +14,8 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
   {web3FormsKey && (
     <input type="hidden" name="access_key" value={web3FormsKey} />
   )}
+  <!-- Web3Forms redirect URL after success -->
+  <input type="hidden" name="redirect" value="https://www.oliver-slater.co.uk/thank-you" />
   <!-- Honeypot for spam protection -->
   <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
 
@@ -178,6 +180,7 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
         if (response.ok) {
           successMsg?.classList.remove('hidden');
           form.reset();
+          window.location.href = '/thank-you';
         } else {
           const resData = await response.json().catch(() => null);
           if (errorMsg) {
