@@ -101,20 +101,63 @@ html:not(.dark) .shiny-white {
   background: var(--sec);
 }
 
-/* Print optimizations for CV */
+/* Print optimizations for CV and PDF export */
 @media print {
-  body {
+  @page {
+    margin: 12mm 15mm;
+    size: auto;
+  }
+
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  :root, html, html.dark, body {
+    --background: #ffffff !important;
+    --white: #111827 !important;
+    --white-icon: #374151 !important;
+    --white-icon-tr: #e5e7eb !important;
+    --component-bg: #ffffff !important;
+    --container: #f3f4f6 !important;
+    --sec: #6d28d9 !important;
     background-color: #ffffff !important;
-    color: #000000 !important;
+    color: #111827 !important;
   }
-  .no-print {
+
+  body {
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  main {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .no-print,
+  nav,
+  button,
+  footer {
     display: none !important;
   }
+
+  .print-break-inside-avoid,
   .print-page-break-inside-avoid {
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
-  header, footer, nav, button {
-    display: none !important;
+
+  h1, h2, h3, h4,
+  .print-break-after-avoid {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* Clean print link styles */
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
   }
 }

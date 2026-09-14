@@ -8,15 +8,15 @@ interface Props {
 const { title, badge, class: className = '' } = Astro.props;
 ---
 
-<section class:list={['mb-14 print-page-break-inside-avoid', className]}>
-  <div class="flex items-center justify-between pb-3 mb-8 border-b border-[#ffffff10]">
+<section class:list={['mb-14 print:mb-7', className]}>
+  <div class="flex items-center justify-between pb-3 mb-8 print:mb-4 border-b border-[#ffffff10] print:border-neutral-300 print-break-after-avoid">
     <div class="flex items-center gap-3">
-      <h2 class="text-2xl font-semibold tracking-tight text-[var(--white)]">
+      <h2 class="text-2xl print:text-lg font-semibold tracking-tight text-[var(--white)] print:text-neutral-900">
         {title}
       </h2>
       {
         badge && (
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-[var(--white-icon-tr)] text-[var(--sec)] border border-[#ffffff10]">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-[var(--white-icon-tr)] print:bg-neutral-100 text-[var(--sec)] print:text-neutral-700 border border-[#ffffff10] print:border-neutral-300">
             {badge}
           </span>
         )
@@ -24,7 +24,7 @@ const { title, badge, class: className = '' } = Astro.props;
     </div>
   </div>
 
-  <div class="space-y-8">
+  <div class="space-y-8 print:space-y-4">
     <slot />
   </div>
 </section>
