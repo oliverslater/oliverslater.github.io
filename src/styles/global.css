@@ -68,6 +68,14 @@
   animation: shine 3s linear infinite;
 }
 
+html:not(.dark) .shiny-white {
+  background: linear-gradient(135deg, #71717a 25%, #18181b 50%, #71717a 75%);
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @keyframes shine {
   0% {
     background-position: 100% 50%;

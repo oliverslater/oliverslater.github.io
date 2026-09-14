@@ -7,7 +7,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   description="Your message has been sent successfully."
 >
   <div class="max-w-xl mx-auto py-12 sm:py-20 text-center">
-    <div class="p-8 sm:p-12 rounded-3xl border border-[var(--white-icon-tr)] bg-[#1414149c] shadow-2xl backdrop-blur-sm relative overflow-hidden">
+    <div class="p-8 sm:p-12 rounded-3xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-xl dark:shadow-2xl backdrop-blur-sm relative overflow-hidden">
       <!-- Ambient Glow effects -->
       <div class="absolute -top-24 -left-24 w-48 h-48 bg-[#A9FF5B]/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-[var(--sec)]/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -19,8 +19,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </svg>
       </div>
 
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-[#ffffff08] border border-[#ffffff10] text-[#A9FF5B] mb-4">
-        <span class="w-2 h-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-50 dark:bg-[#ffffff08] border border-emerald-200/60 dark:border-[#ffffff10] text-[#16a34a] dark:text-[#A9FF5B] mb-4">
+        <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"></span>
         Message Received
       </div>
 
@@ -33,7 +33,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </p>
 
       <!-- Countdown Banner -->
-      <div class="p-4 rounded-2xl bg-[#ffffff05] border border-[#ffffff10] text-xs font-mono text-[var(--white-icon)] mb-8 flex items-center justify-center gap-2">
+      <div class="p-4 rounded-2xl bg-neutral-100 dark:bg-[#ffffff05] border border-neutral-200/80 dark:border-[#ffffff10] text-xs font-mono text-[var(--white-icon)] mb-8 flex items-center justify-center gap-2">
         <svg class="w-4 h-4 text-[var(--sec)] animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
@@ -55,7 +55,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </a>
         <a
           href="/"
-          class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-mono border border-[var(--white-icon-tr)] bg-[#ffffff05] text-[var(--white)] hover:bg-[#ffffff10] transition-colors"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-neutral-100 dark:bg-[#ffffff05] text-[var(--white)] hover:bg-neutral-200/60 dark:hover:bg-[#ffffff10] transition-colors"
         >
           Home Page
         </a>

@@ -34,7 +34,7 @@ const allTags = Array.from(
           <div class="mt-6 flex flex-wrap items-center gap-2">
             <span class="text-xs font-mono text-neutral-500 mr-1">Topics:</span>
             {allTags.map((tag) => (
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-[#ffffff08] text-[var(--sec)] border border-[#ffffff10]">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
                 #{tag}
               </span>
             ))}
@@ -54,7 +54,7 @@ const allTags = Array.from(
           }).format(new Date(post.data.pubDate));
 
           return (
-            <article class="p-6 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c] hover:border-[#ffffff20] transition-all duration-300">
+            <article class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-all duration-300">
               <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
                 <time
                   datetime={new Date(post.data.pubDate).toISOString()}

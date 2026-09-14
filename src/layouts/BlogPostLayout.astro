@@ -67,7 +67,7 @@ const formattedUpdatedDate = frontmatter.updatedDate
         frontmatter.tags && frontmatter.tags.length > 0 && (
           <div class="flex flex-wrap gap-2">
             {frontmatter.tags.map((tag) => (
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-[#ffffff08] text-[var(--sec)] border border-[#ffffff10]">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
                 #{tag}
               </span>
             ))}
@@ -85,13 +85,13 @@ const formattedUpdatedDate = frontmatter.updatedDate
     <footer class="mt-14 pt-8 border-t border-[#ffffff10] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">
       <a
         href="/blog"
-        class="hover:text-white transition-colors"
+        class="hover:text-[var(--white)] transition-colors"
       >
         &larr; Back to all posts
       </a>
       <a
         href="#top"
-        class="hover:text-white transition-colors"
+        class="hover:text-[var(--white)] transition-colors"
       >
         Back to top &uarr;
       </a>

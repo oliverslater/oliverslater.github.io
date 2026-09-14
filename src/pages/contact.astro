@@ -26,14 +26,14 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
         {showEmail && contactEmail ? (
-          <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
+          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
             <span class="block text-neutral-500 mb-1">Direct Email</span>
             <a href={`mailto:${contactEmail}`} class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all">
               {contactEmail}
             </a>
           </div>
         ) : (
-          <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
+          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
             <span class="block text-neutral-500 mb-1">GitHub</span>
             <a
               href={profileData.github}
@@ -46,12 +46,12 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
           </div>
         )}
 
-        <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
+        <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
           <span class="block text-neutral-500 mb-1">Location</span>
           <span class="text-[var(--white)]">{profileData.location}</span>
         </div>
 
-        <div class="p-4 rounded-2xl border border-[var(--white-icon-tr)] bg-[#1414149c]">
+        <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
           <span class="block text-neutral-500 mb-1">LinkedIn</span>
           <a
             href={profileData.linkedin}
