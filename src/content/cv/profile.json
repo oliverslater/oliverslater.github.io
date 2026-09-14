@@ -2,6 +2,7 @@
   "name": "Oliver Slater",
   "title": "Cloud Architect",
   "email": "",
+  "showEmail": false,
   "location": "United Kingdom (Remote)",
   "bio": "Cloud Architect specialising in the design and delivery of enterprise-scale cloud solutions, with deep expertise in AWS, platform engineering, and large-scale cloud transformation programmes. Proven track record of defining cloud strategy, leading cross-functional teams, and establishing architectural standards that enable secure, scalable, and cost-efficient platforms across regulated and high-availability environments. Combines strong technical depth with the ability to influence stakeholders, drive governance, and align technology solutions to business outcomes.\n\nAWS Golden Jacket holder and AWS Certified Solutions Architect – Professional with 11 AWS certifications, possessing advanced expertise in Infrastructure as Code (using Terraform, CloudFormation and AWS CDK), serverless and event-driven architectures, and cloud-native design patterns. Additionally certified as a Microsoft Azure Solutions Architect Expert (AZ-104, AZ-305), providing cross-cloud capability to support multi-cloud and hybrid strategies. Experienced in leading migrations, modernisation initiatives, and DevOps transformations, with a focus on engineering excellence, automation, and continuous improvement.",
   "website": "https://www.oliver-slater.co.uk",

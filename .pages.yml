@@ -58,6 +58,10 @@ content:
         label: Email Address
         type: string
         required: true
+      - name: showEmail
+        label: Show Email Address on CV (if false, displays link to Contact Form)
+        type: boolean
+        default: false
       - name: location
         label: Location
         type: string

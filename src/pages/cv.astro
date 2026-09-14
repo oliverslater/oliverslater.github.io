@@ -10,6 +10,7 @@ const allBadges = await getAllCredentials();
 const displayedBadges = allBadges.filter((b) => b.displayed);
 const countedBadges = allBadges.filter((b) => b.includeInCount);
 const totalCount = countedBadges.length;
+const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVisible ?? false;
 ---
 
 <BaseLayout
@@ -80,10 +81,20 @@ const totalCount = countedBadges.length;
           <span class="text-[var(--white)]">{profileData.location}</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="text-neutral-500">Email:</span>
-          <a href={`mailto:${profileData.email}`} class="hover:text-[var(--sec)] transition-colors">
-            {profileData.email}
-          </a>
+          <span class="text-neutral-500">{showEmail ? 'Email:' : 'Contact:'}</span>
+          {showEmail ? (
+            <a href={`mailto:${profileData.email}`} class="hover:text-[var(--sec)] transition-colors">
+              {profileData.email}
+            </a>
+          ) : (
+            <a
+              href="/contact"
+              class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-[var(--sec)]/10 border border-[var(--sec)]/30 text-[var(--sec)] hover:bg-[var(--sec)]/20 hover:border-[var(--sec)] transition-colors font-mono text-[11px]"
+            >
+              <span class="print:hidden">Contact Form &nearr;</span>
+              <span class="hidden print:inline text-neutral-300">oliver-slater.co.uk/contact</span>
+            </a>
+          )}
         </div>
         <div class="flex items-center gap-1.5">
           <span class="text-neutral-500">Web:</span>
