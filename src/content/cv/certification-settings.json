@@ -43,5 +43,39 @@
       "includeInCount": true
     }
   ],
-  "overrides": []
+  "overrides": [
+    {
+      "title": "AWS Certified Solutions Architect – Professional",
+      "priority": 10
+    },
+    {
+      "title": "Azure Solutions Architect Expert",
+      "priority": 10
+    },
+    {
+      "title": "AWS Partner: Generative AI Essentials",
+      "displayed": true,
+      "includeInCount": false
+    },
+    {
+      "title": "Microsoft Specialist: Windows 7, Enterprise Desktop Support Technician",
+      "displayed": false,
+      "includeInCount": false
+    },
+    {
+      "title": "Microsoft® Certified IT Professional: Enterprise Desktop Support Technician on Windows 7",
+      "displayed": false,
+      "includeInCount": false
+    },
+    {
+      "title": "Microsoft Specialist: Windows 7, Configuring",
+      "displayed": false,
+      "includeInCount": false
+    },
+    {
+      "title": "MTA:",
+      "displayed": false,
+      "includeInCount": false
+    }
+  ]
 }
