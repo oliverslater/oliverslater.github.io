@@ -2,10 +2,16 @@
   "_comment": "Use this file to control visibility, count, and display order for ANY certification (whether from Credly, Microsoft Learn, or manual).",
   "_instructions": {
     "title": "Exact title or case-insensitive keyword match (e.g. 'Azure Solutions Architect' or 'Windows 7').",
+    "displayTitle": "string (optional). Rename or clean up the title displayed on the credential card.",
     "displayed": "boolean (default: true). Set false to hide this certification from the visible CV grid.",
-    "includeInCount": "boolean (default: true). Set false to exclude this certification from the headline badge count (e.g. '54 verified credentials').",
+    "includeInCount": "boolean (default: true). Set false to exclude this certification from the headline badge count (e.g. '47 verified credentials').",
     "priority": "number (default: 0). Higher numbers display first. E.g. priority: 10 pins to the top; priority: -1 sinks to bottom.",
-    "order": "number (alternative to priority). order: 1 = 1st place, order: 2 = 2nd place."
+    "order": "number (alternative to priority). order: 1 = 1st place, order: 2 = 2nd place.",
+    "expiresDate": "string (optional). Override expiry date (e.g. 'Jan 2028', '2028-01-15', or 'Never'). Setting a future date or 'Never' keeps an expired badge active.",
+    "verifyUrl": "string (optional). Custom verification URL (e.g. https://cp.certmetrics.com/... or custom transcript link).",
+    "imageUrl": "string (optional). Custom badge image URL or local asset path.",
+    "issuer": "string (optional). Custom issuer label (e.g. 'AWS', 'Microsoft', 'HashiCorp').",
+    "issueDate": "string (optional). Custom issue date (e.g. 'Jan 2024')."
   },
   "_examples": [
     {
@@ -17,6 +23,22 @@
       "_useCase": "Pin Azure Solutions Architect Expert right alongside AWS Pro",
       "title": "Azure Solutions Architect Expert",
       "priority": 10
+    },
+    {
+      "_useCase": "Override an expiration date after renewal (or set to 'Never')",
+      "title": "AWS Certified Machine Learning – Specialty",
+      "expiresDate": "Jan 2028"
+    },
+    {
+      "_useCase": "Override verification link with a direct official transcript / certmetrics link",
+      "title": "AWS Certified Solutions Architect – Professional",
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "_useCase": "Override badge image or rename display title",
+      "title": "Terraform Authoring and Operations Advanced",
+      "displayTitle": "HashiCorp Certified: Terraform Authoring & Operations (Advanced)",
+      "imageUrl": "https://images.credly.com/images/8b8e6f12-25e2-45e0-82d2-e5b1580235b3/kubernetes-administrator-cka.png"
     },
     {
       "_useCase": "Hide legacy or foundational credentials from the CV grid and count",

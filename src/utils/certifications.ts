@@ -1,5 +1,11 @@
 import type { CredentialItem, CertificationOverride } from './credentialTypes';
-import { isCredentialExpired, parseTime, resolvePriority } from './credentialTypes';
+import {
+  cleanIssuerName,
+  formatDate,
+  isCredentialExpired,
+  parseTime,
+  resolvePriority,
+} from './credentialTypes';
 import { fetchCredlyBadges } from './credly';
 import { fetchMicrosoftLearnBadges } from './mslearn';
 import { getManualCredentials, getLocalFallbackCredentials } from './manualCredentials';
@@ -11,8 +17,8 @@ import certSettings from '../content/cv/certification-settings.json';
  * 2. Pulls from Credly badges API (credly.ts)
  * 3. Pulls from manual credentials (manualCredentials.ts)
  * 4. Falls back to local education.json if offline
- * 5. Automatically filters out expired certifications
- * 6. Applies overrides (displayed, includeInCount, priority/order) from certification-settings.json
+ * 5. Applies overrides from certification-settings.json (title, issuer, dates, URLs, visibility, count, priority)
+ * 6. Automatically filters out expired certifications (unless explicitly kept with displayed: true)
  * 7. Sorts by priority (descending), then issue date (newest first), then title
  */
 export async function getAllCredentials(): Promise<CredentialItem[]> {
@@ -48,26 +54,40 @@ export async function getAllCredentials(): Promise<CredentialItem[]> {
     allBadges = [...combinedLive, ...nonDuplicatedManual];
   }
 
-  // 1. Filter out expired certifications (unless an override explicitly re-enables displayed: true)
-  const unexpiredBadges = allBadges.filter((b) => {
-    const expired = isCredentialExpired(b.rawExpiresDate, b.expiresDate);
-    if (!expired) return true;
-
-    // Check if user explicitly overrode to display this expired credential
-    const match = findOverrideMatch(b, overrides);
-    return match?.displayed === true;
+  // 1. Map and apply overrides to all badges
+  const processedBadges = allBadges.map((badge) => {
+    const match = findOverrideMatch(badge, overrides);
+    const updated = applyOverrideToBadge(badge, match);
+    return {
+      badge: updated,
+      explicitlyDisplayed: match?.displayed === true,
+      explicitlyHidden: match?.displayed === false,
+    };
   });
 
-  // 2. Apply visibility, count, and priority overrides, then sort
-  return unexpiredBadges
-    .map((badge) => applyOverrides(badge, overrides))
-    .sort(sortCredentials);
+  // 2. Filter out expired or hidden certifications
+  const visibleBadges = processedBadges
+    .filter(({ badge, explicitlyDisplayed, explicitlyHidden }) => {
+      // If explicitly hidden via settings, omit
+      if (explicitlyHidden) return false;
+
+      // If explicitly kept via displayed: true, retain even if expired
+      if (explicitlyDisplayed) return true;
+
+      // Otherwise filter out if expired
+      const expired = isCredentialExpired(badge.rawExpiresDate, badge.expiresDate);
+      return !expired;
+    })
+    .map(({ badge }) => badge);
+
+  // 3. Sort by priority, then issue date, then title
+  return visibleBadges.sort(sortCredentials);
 }
 
 // Backward compatibility alias
 export const getCredlyBadges = getAllCredentials;
 
-function findOverrideMatch(
+export function findOverrideMatch(
   badge: CredentialItem,
   overrides: CertificationOverride[]
 ): CertificationOverride | undefined {
@@ -83,22 +103,80 @@ function findOverrideMatch(
   });
 }
 
-function applyOverrides(
+export function applyOverrideToBadge(
+  badge: CredentialItem,
+  match?: CertificationOverride
+): CredentialItem {
+  if (!match) return badge;
+
+  const result: CredentialItem = { ...badge };
+
+  // 1. Display Title override
+  if (match.displayTitle) {
+    result.title = match.displayTitle;
+  } else if (match.id && match.title && match.id === badge.id) {
+    result.title = match.title;
+  }
+
+  // 2. Issuer override
+  if (match.issuer) {
+    result.issuer = cleanIssuerName(match.issuer);
+  }
+
+  // 3. Verification URL override (supports verifyUrl, verificationUrl, url)
+  const overrideVerifyUrl = match.verifyUrl || match.verificationUrl || match.url;
+  if (overrideVerifyUrl) {
+    result.verifyUrl = overrideVerifyUrl;
+  }
+
+  // 4. Badge Image URL override (supports imageUrl, badgeUrl, badgeImageUrl)
+  const overrideImageUrl = match.imageUrl || match.badgeUrl || match.badgeImageUrl;
+  if (overrideImageUrl) {
+    result.imageUrl = overrideImageUrl;
+  }
+
+  // 5. Issue Date override (supports issueDate, issuedDate, issued)
+  const overrideIssueDate = match.issueDate || match.issuedDate || match.issued;
+  if (overrideIssueDate) {
+    result.issueDate = formatDate(overrideIssueDate);
+    result.rawDate = overrideIssueDate;
+  }
+
+  // 6. Expiration Date override (supports expiresDate, expiryDate, expires)
+  const overrideExpires = match.expiresDate || match.expiryDate || match.expires;
+  if (overrideExpires !== undefined) {
+    const clean = String(overrideExpires).trim().toLowerCase();
+    if (!overrideExpires || clean === 'never' || clean === 'none' || clean === 'no expiry') {
+      result.expiresDate = undefined;
+      result.rawExpiresDate = undefined;
+    } else {
+      result.expiresDate = formatDate(overrideExpires);
+      result.rawExpiresDate = overrideExpires;
+    }
+  }
+
+  // 7. Visibility override
+  if (match.displayed !== undefined) {
+    result.displayed = match.displayed;
+  }
+
+  // 8. Count inclusion override
+  if (match.includeInCount !== undefined) {
+    result.includeInCount = match.includeInCount;
+  }
+
+  // 9. Priority / Order ranking
+  result.priority = resolvePriority(match.priority, match.order, badge.priority);
+
+  return result;
+}
+
+export function applyOverrides(
   badge: CredentialItem,
   overrides: CertificationOverride[]
 ): CredentialItem {
   const match = findOverrideMatch(badge, overrides);
-
-  if (match) {
-    return {
-      ...badge,
-      displayed: match.displayed !== undefined ? match.displayed : badge.displayed,
-      includeInCount: match.includeInCount !== undefined ? match.includeInCount : badge.includeInCount,
-      priority: resolvePriority(match.priority, match.order, badge.priority),
-    };
-  }
-
-  return badge;
+  return applyOverrideToBadge(badge, match);
 }
 
 /**

@@ -203,6 +203,9 @@ content:
             label: Certification Title (or keyword)
             type: string
             required: true
+          - name: displayTitle
+            label: Friendly Display Title (optional rename)
+            type: string
           - name: displayed
             label: Display on Website
             type: boolean
@@ -215,3 +218,15 @@ content:
             label: Priority (higher number = displayed first, default: 0)
             type: number
             default: 0
+          - name: expiresDate
+            label: Expiry Date Override (e.g. 'Jan 2028' or 'Never')
+            type: string
+          - name: verifyUrl
+            label: Custom Verification URL
+            type: string
+          - name: imageUrl
+            label: Custom Badge Image URL
+            type: string
+          - name: issuer
+            label: Issuer Label (e.g. AWS, Microsoft)
+            type: string

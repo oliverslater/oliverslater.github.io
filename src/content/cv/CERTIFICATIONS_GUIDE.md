@@ -30,15 +30,21 @@ The build pipeline in [`src/utils/certifications.ts`](file:///Users/oliverslater
 
 To customize how ANY certification is displayed (regardless of whether it came from Credly, Microsoft Learn, or manual entries), add an override entry to `src/content/cv/certification-settings.json`:
 
-### Feature Toggles
+### Available Override Attributes
 
 | Attribute | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `title` | `string` | *(required)* | Matches certification title exactly or by substring (case-insensitive). |
+| `displayTitle` | `string` | *(original title)* | Renames the title shown on the credential card. |
 | `displayed` | `boolean` | `true` | Set `false` to hide the credential card from the visible grid on `/cv`. |
-| `includeInCount` | `boolean` | `true` | Set `false` to omit from the headline counter badge (e.g. `54 verified credentials`). |
+| `includeInCount` | `boolean` | `true` | Set `false` to omit from the headline counter badge (e.g. `47 verified credentials`). |
 | `priority` | `number` | `0` | Higher numbers display first. E.g. `10` floats to the top; `-1` pushes to the bottom. |
 | `order` | `number` | *(optional)* | Friendly ranking alias: `order: 1` = 1st, `order: 2` = 2nd. |
+| `expiresDate` | `string` | *(synced date)* | Overrides expiry date (e.g. `"Jan 2028"` or `"Never"`). Also accepts aliases `expiryDate` or `expires`. If set to a future date or `"Never"`, an expired badge will automatically become active. |
+| `verifyUrl` | `string` | *(synced url)* | Overrides verification URL (e.g. custom transcript or certmetrics link). Also accepts aliases `verificationUrl` or `url`. |
+| `imageUrl` | `string` | *(synced url)* | Overrides badge image URL or SVG icon path. Also accepts `badgeUrl` or `badgeImageUrl`. |
+| `issuer` | `string` | *(synced issuer)* | Overrides issuer organization (e.g. `"AWS"`, `"Microsoft"`, `"HashiCorp"`). |
+| `issueDate` | `string` | *(synced date)* | Overrides issue date (e.g. `"Jan 2025"`). Also accepts `issuedDate` or `issued`. |
 
 ### Copy-Pasteable Override Examples
 
@@ -47,11 +53,22 @@ To customize how ANY certification is displayed (regardless of whether it came f
   "overrides": [
     {
       "title": "AWS Certified Solutions Architect – Professional",
-      "priority": 10
+      "priority": 10,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
     },
     {
       "title": "Azure Solutions Architect Expert",
       "priority": 10
+    },
+    {
+      "title": "AWS Certified Machine Learning – Specialty",
+      "expiresDate": "Jan 2028",
+      "verifyUrl": "https://cp.certmetrics.com/amazon/en/public/verify/credential/..."
+    },
+    {
+      "title": "Terraform Authoring and Operations Advanced",
+      "displayTitle": "HashiCorp Certified: Terraform Authoring & Operations (Advanced)",
+      "imageUrl": "https://images.credly.com/images/.../custom.png"
     },
     {
       "title": "MTA: Networking Fundamentals",

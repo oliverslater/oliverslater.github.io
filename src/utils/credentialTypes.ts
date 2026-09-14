@@ -19,10 +19,24 @@ export type CredlyBadge = CredentialItem;
 export interface CertificationOverride {
   id?: string;
   title?: string;
+  displayTitle?: string;
   displayed?: boolean;
   includeInCount?: boolean;
   priority?: number;
   order?: number;
+  expiresDate?: string;
+  expiryDate?: string;
+  expires?: string;
+  verifyUrl?: string;
+  verificationUrl?: string;
+  url?: string;
+  imageUrl?: string;
+  badgeUrl?: string;
+  badgeImageUrl?: string;
+  issueDate?: string;
+  issuedDate?: string;
+  issued?: string;
+  issuer?: string;
 }
 
 export function cleanIssuerName(raw: string): string {
