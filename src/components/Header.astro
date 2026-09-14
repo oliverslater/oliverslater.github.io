@@ -25,18 +25,17 @@ const isActive = (href: string) => {
 <div class="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[95vw] no-print">
   <nav
     id="main-nav"
-    class="flex items-center gap-1 sm:gap-4 px-4 sm:px-6 py-2.5 rounded-full border border-[#ffffff15] dark:border-[#ffffff15] border-neutral-200/80 bg-[#141414]/85 dark:bg-[#141414]/85 bg-white/85 backdrop-blur-xl shadow-xl transition-all duration-300"
+    class="flex items-center gap-1 sm:gap-4 px-4 sm:px-6 py-2.5 rounded-full border border-neutral-200/80 dark:border-[#ffffff15] bg-white/85 dark:bg-[#141414]/85 backdrop-blur-xl shadow-xl transition-all duration-300"
   >
     <!-- Brand / Name -->
     <a
       href="/"
-      class="group flex items-center gap-1.5 font-medium text-xs sm:text-sm tracking-tight text-[var(--white)] hover:text-white transition-colors mr-1 sm:mr-2"
+      class="group flex items-center gap-1.5 font-medium text-xs sm:text-sm tracking-tight text-[var(--white)] hover:text-neutral-900 dark:hover:text-white transition-colors mr-1 sm:mr-2"
     >
       <span class="font-semibold">os</span>
-      <span class="text-[var(--sec)]">.</span>
     </a>
 
-    <div class="w-px h-4 bg-[#ffffff15] dark:bg-[#ffffff15] bg-neutral-200"></div>
+    <div class="w-px h-4 bg-neutral-200 dark:bg-[#ffffff15]"></div>
 
     <!-- Navigation links -->
     <div class="flex items-center gap-1 sm:gap-2">
@@ -49,13 +48,13 @@ const isActive = (href: string) => {
               class:list={[
                 'relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-200 group',
                 active
-                  ? 'text-white font-medium bg-[#ffffff10] dark:bg-[#ffffff10] bg-neutral-100'
-                  : 'text-[var(--white-icon)] hover:text-white',
+                  ? 'text-neutral-900 dark:text-white font-medium bg-neutral-200/70 dark:bg-[#ffffff10]'
+                  : 'text-[var(--white-icon)] hover:text-neutral-900 dark:hover:text-white',
               ]}
               aria-current={active ? 'page' : undefined}
             >
               {active && (
-                <span class="w-1.5 h-1.5 rounded-full bg-[#A9FF5B] animate-pulse" aria-hidden="true"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse" aria-hidden="true"></span>
               )}
               <span>{item.label}</span>
             </a>
@@ -64,7 +63,7 @@ const isActive = (href: string) => {
       }
     </div>
 
-    <div class="w-px h-4 bg-[#ffffff15] dark:bg-[#ffffff15] bg-neutral-200 ml-1"></div>
+    <div class="w-px h-4 bg-neutral-200 dark:bg-[#ffffff15] ml-1"></div>
 
     <ThemeToggle />
   </nav>
