@@ -31,28 +31,28 @@ export async function getAllCredentials(): Promise<CredentialItem[]> {
     fetchMicrosoftLearnBadges(),
   ]);
 
-  let allBadges: CredentialItem[] = [];
 
-  // If both external APIs failed (e.g. offline build), fall back to local education.json
-  if (credlyBadges.length === 0 && msBadges.length === 0) {
+  // Graceful per-provider fallback: if either API fails/times out, use local education.json for that provider
+  let liveOrFallbackMs = msBadges;
+  if (liveOrFallbackMs.length === 0) {
     const fallbackList = getLocalFallbackCredentials();
-    const fallbackTitles = new Set(fallbackList.map((b) => b.title.toLowerCase().trim()));
-    const nonDuplicatedManual = manualBadges.filter(
-      (m) => !fallbackTitles.has(m.title.toLowerCase().trim())
-    );
-
-    allBadges = [...nonDuplicatedManual, ...fallbackList];
-  } else {
-    // Combine live feeds: Microsoft Learn + Credly + any non-duplicated manual entries
-    const combinedLive = [...msBadges, ...credlyBadges];
-    const liveTitles = new Set(combinedLive.map((b) => b.title.toLowerCase().trim()));
-
-    const nonDuplicatedManual = manualBadges.filter(
-      (m) => !liveTitles.has(m.title.toLowerCase().trim())
-    );
-
-    allBadges = [...combinedLive, ...nonDuplicatedManual];
+    liveOrFallbackMs = fallbackList.filter((b) => b.issuer === 'Microsoft');
   }
+
+  let liveOrFallbackCredly = credlyBadges;
+  if (liveOrFallbackCredly.length === 0) {
+    const fallbackList = getLocalFallbackCredentials();
+    liveOrFallbackCredly = fallbackList.filter((b) => b.issuer !== 'Microsoft');
+  }
+
+  const combinedFeeds = [...liveOrFallbackMs, ...liveOrFallbackCredly];
+  const feedTitles = new Set(combinedFeeds.map((b) => b.title.toLowerCase().trim()));
+
+  const nonDuplicatedManual = manualBadges.filter(
+    (m) => !feedTitles.has(m.title.toLowerCase().trim())
+  );
+
+  const allBadges = [...combinedFeeds, ...nonDuplicatedManual];
 
   // 1. Map and apply overrides to all badges
   const processedBadges = allBadges.map((badge) => {

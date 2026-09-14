@@ -95,6 +95,60 @@
       "issuer": "Microsoft Azure",
       "level": "Associate",
       "validity": "Oct 2024 – Oct 2027"
+    },
+    {
+      "title": "Microsoft Certified: Azure AI Fundamentals",
+      "issuer": "Microsoft Azure",
+      "level": "Fundamentals",
+      "validity": "Dec 2024"
+    },
+    {
+      "title": "Microsoft Certified: Azure Fundamentals",
+      "issuer": "Microsoft Azure",
+      "level": "Fundamentals",
+      "validity": "Jul 2024"
+    },
+    {
+      "title": "Microsoft Certified Professional",
+      "issuer": "Microsoft",
+      "level": "Professional",
+      "validity": "Apr 2012"
+    },
+    {
+      "title": "Microsoft Specialist: Windows 7, Configuring",
+      "issuer": "Microsoft",
+      "level": "Specialist",
+      "validity": "Dec 2015"
+    },
+    {
+      "title": "Microsoft Specialist: Windows 7, Enterprise Desktop Support Technician",
+      "issuer": "Microsoft",
+      "level": "Specialist",
+      "validity": "Dec 2015"
+    },
+    {
+      "title": "Microsoft® Certified IT Professional: Enterprise Desktop Support Technician on Windows 7",
+      "issuer": "Microsoft",
+      "level": "MCITP",
+      "validity": "Feb 2011"
+    },
+    {
+      "title": "MTA: Windows Server Administration Fundamentals",
+      "issuer": "Microsoft",
+      "level": "MTA",
+      "validity": "Feb 2011"
+    },
+    {
+      "title": "MTA: Security Fundamentals",
+      "issuer": "Microsoft",
+      "level": "MTA",
+      "validity": "Nov 2010"
+    },
+    {
+      "title": "MTA: Networking Fundamentals",
+      "issuer": "Microsoft",
+      "level": "MTA",
+      "validity": "Nov 2010"
     }
   ]
 }
