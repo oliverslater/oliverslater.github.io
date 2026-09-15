@@ -6,7 +6,7 @@ A high-performance personal portfolio, scannable virtual CV, and technical blog 
 
 ## ⚡ Tech Stack & Architecture
 
-- **Static Framework:** [Astro 5](https://astro.build/) (`output: 'static'`)
+- **Static Framework:** [Astro 7](https://astro.build/) (`output: 'static'`)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/) with custom DarkMinimal monochrome color scale
 - **Typography:** JetBrains Mono accents, clean sans-serif body, `@tailwindcss/typography`
 - **Theme Mode:**
@@ -29,8 +29,8 @@ A high-performance personal portfolio, scannable virtual CV, and technical blog 
 ├── public/
 │   └── assets/                  # Images and media uploads
 ├── src/
+│   ├── content.config.ts        # Content collections & TypeScript schemas
 │   ├── content/
-│   │   ├── config.ts            # Content collections & TypeScript schemas
 │   │   ├── blog/                # Markdown blog posts
 │   │   └── cv/                  # Structured CV data files
 │   │       ├── profile.json     # Bio, contact, competencies
@@ -66,28 +66,35 @@ A high-performance personal portfolio, scannable virtual CV, and technical blog 
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Run Local Development Server
+
 ```bash
 npm run dev
 ```
+
 Visit `http://localhost:4321` in your browser.
 
 ### 3. Type Checking & Diagnostics
+
 ```bash
 npm run check
 ```
 
 ### 4. Build Production Static Files
+
 ```bash
 npm run build
 ```
+
 Static production output will be generated into the `dist/` directory.
 
 ### 5. Preview Production Build
+
 ```bash
 npm run preview
 ```
@@ -122,12 +129,15 @@ This repository contains a ready-to-use `.pages.yml` file.
 ## 🏅 Credentials & Certifications Engine
 
 The `/cv` page dynamically synchronizes and renders verified certifications from:
+
 - **Credly API**: 43 active credentials fetched at build time.
 - **Microsoft Learn API**: 11 active certifications pulled from your public transcript (`d5on2cqnl3lgknq`).
 - **Manual Credentials**: Configurable via `src/content/cv/manual-certifications.json`.
 
 ### Granular Controls & Toggles
+
 In `src/content/cv/certification-settings.json`, you can customize ANY certification:
+
 - **`displayed: false`**: Hides the card from the CV grid.
 - **`includeInCount: false`**: Excludes the credential from the headline counter badge.
 - **`priority: 10`**: Floats the credential to the top of the page (higher number = displayed first).
@@ -152,7 +162,7 @@ The contact form in `src/components/ContactForm.astro` sends data using client-s
 3. **hCaptcha Spam Protection**:
    - Zero-config integration is enabled by default with dark theme styling.
    - Activate hCaptcha for your form in your [Web3Forms dashboard](https://app.webforms.com) under the form's spam settings.
-   - *(Optional)* If using your own custom hCaptcha site key, configure `PUBLIC_HCAPTCHA_SITEKEY` in `.env` or GitHub Secrets.
+   - _(Optional)_ If using your own custom hCaptcha site key, configure `PUBLIC_HCAPTCHA_SITEKEY` in `.env` or GitHub Secrets.
 4. For **Formspree** or custom webhook:
    - Set `PUBLIC_FORM_ENDPOINT="https://formspree.io/f/your_form_id"` in `.env`.
 
@@ -161,6 +171,7 @@ The contact form in `src/components/ContactForm.astro` sends data using client-s
 ## 🚢 Deployment
 
 ### GitHub Pages (Automated via GitHub Actions)
+
 A workflow is configured in `.github/workflows/deploy-github-pages.yml`.
 
 1. Push your code to the `main` branch:
@@ -178,6 +189,7 @@ A workflow is configured in `.github/workflows/deploy-github-pages.yml`.
 ## 📄 CV Printing & PDF Export
 
 The `/cv` page includes a dedicated **Print / PDF** button with specialized `@media print` rules:
+
 - Hides headers, navigation, footers, and interactive action buttons (`no-print`).
 - Enforces clean black text on white background.
 - Prevents page breaks inside work experience and education cards (`page-break-inside: avoid`).

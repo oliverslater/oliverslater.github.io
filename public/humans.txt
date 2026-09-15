@@ -10,7 +10,7 @@
 /* SITE */
   Standards: HTML5, CSS3, ES2024, WebP
   Components: React 19 Islands
-  Software: Astro 5 Static Site Generation (SSG)
+  Software: Astro 7 Static Site Generation (SSG)
   Styling: Tailwind CSS
   Typography: Montserrat Variable
   Hosting: GitHub Pages

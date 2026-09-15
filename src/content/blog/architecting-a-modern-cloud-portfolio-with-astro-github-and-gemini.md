@@ -2,7 +2,15 @@
 title: "Architecting a High-Performance Personal Platform with Astro, GitHub Actions, and Gemini"
 description: "An architectural deep-dive into building an enterprise-grade, edge-deployed digital CV and technical platform using Astro, Google DeepMind Gemini/Antigravity, and automated GitHub Actions CI/CD."
 pubDate: 2026-09-14
-tags: ["Cloud Architecture", "Astro", "GitHub Actions", "Gemini", "DevOps", "TypeScript"]
+tags:
+  [
+    "Cloud Architecture",
+    "Astro",
+    "GitHub Actions",
+    "Gemini",
+    "DevOps",
+    "TypeScript",
+  ]
 draft: false
 ---
 
@@ -16,7 +24,7 @@ Here is an architectural breakdown of how this platform was designed, engineered
 
 ## 1. Why Astro for Enterprise-Grade Portfolio Architecture
 
-Modern client-side single-page applications (SPAs) often introduce needless complexity for content-driven systems. By adopting **Astro 5** with static output mode (`output: 'static'`), the architecture achieves pure compile-time static generation:
+Modern client-side single-page applications (SPAs) often introduce needless complexity for content-driven systems. By adopting **Astro 7** with static output mode (`output: 'static'`), the architecture achieves pure compile-time static generation:
 
 - **Zero Client-Side JavaScript by Default:** Content, layout grids, and CV timelines compile to pure semantic HTML and Tailwind CSS.
 - **Island Architecture:** Interactive components—such as the matrix-inspired `LetterGlitch` canvas and the responsive `SkillsList` logo marquee—are isolated into lightweight React islands hydrated only where necessary (`client:visible` / `client:load`), without imposing runtime penalties on the document body.
@@ -47,13 +55,15 @@ Dark mode implementations often suffer from an unsettling white flash prior to c
 ```html
 <script is:inline>
   const getThemePreference = () => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
+    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+      return localStorage.getItem("theme");
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
   };
-  const isDark = getThemePreference() === 'dark';
-  document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+  const isDark = getThemePreference() === "dark";
+  document.documentElement.classList[isDark ? "add" : "remove"]("dark");
 </script>
 ```
 
@@ -125,4 +135,4 @@ The entire deployment lifecycle is governed by automated GitOps workflows hosted
 
 ## Conclusion
 
-A personal technology platform shouldn't be an afterthought—it should be a direct demonstration of architectural capability. By pairing static compilation via **Astro 5**, automated GitOps with **GitHub Actions**, and agentic AI acceleration with **Google DeepMind Gemini & Antigravity**, this site achieves high-velocity delivery with enterprise-grade reliability and performance.
+A personal technology platform shouldn't be an afterthought—it should be a direct demonstration of architectural capability. By pairing static compilation via **Astro 7**, automated GitOps with **GitHub Actions**, and agentic AI acceleration with **Google DeepMind Gemini & Antigravity**, this site achieves high-velocity delivery with enterprise-grade reliability and performance.
