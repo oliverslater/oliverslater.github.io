@@ -1,10 +1,4 @@
 ---
-title: "Architecting a High-Performance Personal Platform with Astro, GitHub Actions, and Gemini"
-description: "An architectural deep-dive into building an enterprise-grade, edge-deployed digital CV and technical platform using Astro, Google DeepMind Gemini/Antigravity, and automated GitHub Actions CI/CD."
-pubDate: 2026-09-14
-tags: ["Cloud Architecture", "Astro", "GitHub Actions", "Gemini", "DevOps", "TypeScript"]
-draft: false
----
 
 As a Cloud Architect, your digital presence should reflect the same architectural principles you champion in enterprise environments: **performance, security, simplicity, automation, and maintainability**. Too many engineering portfolios suffer from framework bloat—shipping multi-megabyte JavaScript bundles for what is fundamentally structured text and technical credentials.
 
@@ -41,6 +35,7 @@ Modern client-side single-page applications (SPAs) often introduce needless comp
 ## 2. Zero-FOUC Theming & Executive Print Engineering
 
 ### Synchronous Theme Resolution
+
 Dark mode implementations often suffer from an unsettling white flash prior to client-side hydration. To guarantee zero flicker regardless of device settings or network latency, a synchronous, blocking script runs directly inside `<head>` prior to any body or stylesheet rendering:
 
 ```html
@@ -59,6 +54,7 @@ Dark mode implementations often suffer from an unsettling white flash prior to c
 This ensures Tailwind’s `dark` variants and CSS custom properties (`--background`, `--sec`, `--white`) resolve before the first paint cycle.
 
 ### Document-Grade Print & PDF Stylesheet
+
 Most websites look disastrous when printed or exported to PDF. For a virtual CV, a native print stylesheet is a core deliverable:
 
 - **Ink-Friendly High Contrast:** When printing, `--background` forces `#ffffff` and text overrides to rich charcoal (`#111827`), ensuring readability even if the user clicks "Print" while viewing the site in dark mode.
