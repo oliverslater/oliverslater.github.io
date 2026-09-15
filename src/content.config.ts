@@ -15,14 +15,8 @@ const blog = defineCollection({
   }),
 });
 
-const cv = defineCollection({
-  loader: glob({ pattern: "**/*.json", base: "./src/content/cv" }),
-  schema: z.any(),
-});
-
 export const collections = {
   blog,
-  cv,
 };
 
 export interface ProfileData {

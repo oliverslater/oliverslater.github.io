@@ -40,7 +40,7 @@ export interface CertificationOverride {
 }
 
 import { formatMonthYear } from "./date";
-import certSettings from "../content/cv/certification-settings.json";
+import { issuerMappings } from "../data/siteData";
 
 export const DEFAULT_ISSUER_MAPPINGS: Record<string, string> = {
   "Amazon Web Services": "AWS",
@@ -64,8 +64,7 @@ export function cleanIssuerName(
   const trimmed = raw.trim();
   const lower = trimmed.toLowerCase();
 
-  const settingsMappings = ((certSettings as any)?.issuerMappings ||
-    {}) as Record<string, string>;
+  const settingsMappings = issuerMappings || {};
   const mergedMappings: Record<string, string> = {
     ...DEFAULT_ISSUER_MAPPINGS,
     ...settingsMappings,

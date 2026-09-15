@@ -1,6 +1,6 @@
 ---
 // src/components/ThemeToggle.astro
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon } from "lucide-react";
 ---
 
 <button
@@ -19,30 +19,32 @@ import { Sun, Moon } from 'lucide-react';
 
 <script>
   function setupThemeToggle() {
-    const toggleBtn = document.getElementById('theme-toggle');
+    const toggleBtn = document.getElementById("theme-toggle");
     if (!toggleBtn) return;
 
-    toggleBtn.addEventListener('click', () => {
-      const isDark = document.documentElement.classList.toggle('dark');
+    toggleBtn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
       try {
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        localStorage.setItem("theme", isDark ? "dark" : "light");
       } catch (e) {
         // Handle private browsing or localStorage disabled
       }
     });
 
     // Reactive listener for OS-level color scheme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', (event) => {
-      const savedTheme = localStorage.getItem('theme');
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    mediaQuery.addEventListener("change", (event) => {
+      const savedTheme = localStorage.getItem("theme");
       // If user hasn't explicitly set a preference, follow the OS
       if (!savedTheme) {
-        document.documentElement.classList[event.matches ? 'add' : 'remove']('dark');
+        document.documentElement.classList[event.matches ? "add" : "remove"](
+          "dark",
+        );
       }
     });
   }
 
   // Setup on initial load and view transitions
   setupThemeToggle();
-  document.addEventListener('astro:after-swap', setupThemeToggle);
+  document.addEventListener("astro:after-swap", setupThemeToggle);
 </script>

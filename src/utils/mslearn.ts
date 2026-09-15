@@ -1,9 +1,12 @@
 import type { CredentialItem } from "./credentialTypes";
 import { formatDate } from "./credentialTypes";
 import { getCachedData, getStaleCacheData, setCachedData } from "./cache";
+import { credentialProviderConfig } from "../data/siteData";
+import { fetchCredentialJson } from "./credentialApi";
 
-export const MS_LEARN_SHARE_ID = "d5on2cqnl3lgknq";
-export const MS_LEARN_PUBLIC_TRANSCRIPT_URL = `https://learn.microsoft.com/en-gb/users/oliverslater/transcript/${MS_LEARN_SHARE_ID}`;
+export const MS_LEARN_SHARE_ID = credentialProviderConfig.microsoftLearnShareId;
+export const MS_LEARN_PUBLIC_TRANSCRIPT_URL =
+  credentialProviderConfig.microsoftLearnTranscriptUrl;
 export const MS_LEARN_API_URL = `https://learn.microsoft.com/api/profiles/transcript/share/${MS_LEARN_SHARE_ID}`;
 
 /**
@@ -18,19 +21,9 @@ export async function fetchMicrosoftLearnBadges(): Promise<CredentialItem[]> {
   }
 
   try {
-    const res = await fetch(MS_LEARN_API_URL, {
-      headers: {
-        Accept: "application/json",
-        "User-Agent": "OliverSlater-VirtualCV/1.0",
-      },
-      signal: AbortSignal.timeout(12000),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Microsoft Learn API returned HTTP ${res.status}`);
-    }
-
-    const data = await res.json();
+    const data = await fetchCredentialJson<{
+      certificationData?: { activeCertifications?: unknown[] };
+    }>(MS_LEARN_API_URL, 12000, "Microsoft Learn");
     const certs = data.certificationData?.activeCertifications || [];
 
     const result: CredentialItem[] = certs.map((c: any, idx: number) => ({

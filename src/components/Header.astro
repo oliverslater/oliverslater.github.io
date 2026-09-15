@@ -1,5 +1,5 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
+import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   currentPath?: string;
@@ -8,15 +8,15 @@ interface Props {
 const { currentPath = Astro.url.pathname } = Astro.props;
 
 const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/cv', label: 'CV' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
+  { href: "/", label: "Home" },
+  { href: "/cv", label: "CV" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const isActive = (href: string) => {
-  if (href === '/') {
-    return currentPath === '/' || currentPath === '';
+  if (href === "/") {
+    return currentPath === "/" || currentPath === "";
   }
   return currentPath.startsWith(href);
 };
@@ -39,28 +39,29 @@ const isActive = (href: string) => {
 
     <!-- Navigation links -->
     <div class="flex items-center gap-1 sm:gap-2">
-      {
-        navItems.map((item) => {
-          const active = isActive(item.href);
-          return (
-            <a
-              href={item.href}
-              class:list={[
-                'relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-200 group',
-                active
-                  ? 'text-neutral-900 dark:text-white font-medium bg-neutral-200/70 dark:bg-[#ffffff10]'
-                  : 'text-[var(--white-icon)] hover:text-neutral-900 dark:hover:text-white',
-              ]}
-              aria-current={active ? 'page' : undefined}
-            >
-              {active && (
-                <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse" aria-hidden="true"></span>
-              )}
-              <span>{item.label}</span>
-            </a>
-          );
-        })
-      }
+      {navItems.map((item) => {
+        const active = isActive(item.href);
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              "relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-200 group",
+              active
+                ? "text-neutral-900 dark:text-white font-medium bg-neutral-200/70 dark:bg-[#ffffff10]"
+                : "text-[var(--white-icon)] hover:text-neutral-900 dark:hover:text-white",
+            ]}
+            aria-current={active ? "page" : undefined}
+          >
+            {active && (
+              <span
+                class="w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"
+                aria-hidden="true"
+              ></span>
+            )}
+            <span>{item.label}</span>
+          </a>
+        );
+      })}
     </div>
 
     <div class="w-px h-4 bg-neutral-200 dark:bg-[#ffffff15] ml-1"></div>

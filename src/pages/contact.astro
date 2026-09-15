@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ContactForm from "../components/ContactForm.astro";
-import profileData from "../content/cv/profile.json";
+import { profileData } from "../data/siteData";
 import { getContactDetails } from "../utils/profile";
 
 const { showEmail, contactEmail } = getContactDetails();

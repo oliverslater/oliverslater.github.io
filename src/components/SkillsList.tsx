@@ -131,59 +131,6 @@ function renderPillarIcon(category: string, iconKey?: string): React.ReactNode {
   );
 }
 
-const DEFAULT_PILLARS: PillarItem[] = [
-  {
-    category: "Enterprise Cloud Architecture",
-    icon: "cloud",
-    items: [
-      "AWS Golden Jacket Holder with 11 AWS Certifications",
-      "Microsoft Azure Solutions Architect Expert (AZ-104, AZ-305)",
-      "Enterprise Landing Zones, Multi-Account & Networking",
-      "Large-Scale Cloud Migration Strategy (MGN, DMS, MAP)",
-    ],
-  },
-  {
-    category: "Infrastructure as Code & CI/CD",
-    icon: "code",
-    items: [
-      "HashiCorp Certified Terraform Authoring & Operations Professional",
-      "AWS CloudFormation and AWS CDK Production Frameworks",
-      "Enterprise Pipeline Migrations (GitLab to GitHub Actions)",
-      "Automated Testing, Deployment Gating & Module Reusability",
-    ],
-  },
-  {
-    category: "Cloud Modernisation & Containerisation",
-    icon: "box",
-    items: [
-      "Public Sector & Healthcare Platform Modernisation",
-      "Containerisation & Orchestration with Docker and Amazon ECS",
-      "Greenfield & Brownfield Architecture Delivery",
-      "High-Availability, Regulated Cloud Environment Design",
-    ],
-  },
-  {
-    category: "Serverless & High-Volume Data",
-    icon: "zap",
-    items: [
-      "Architect of Serverless Healthcare Ingestion on Lambda & S3",
-      "DynamoDB Data Architect: Single-Table & NoSQL Optimization",
-      "Event-Driven Message Bus Designs (SQS, SNS, EventBridge)",
-      "High-Availability Low-Latency UK Healthcare Platforms",
-    ],
-  },
-  {
-    category: "DevSecOps & Well-Architected",
-    icon: "shield",
-    items: [
-      "AWS Well-Architected Framework Reviews across all 5 Pillars",
-      "Continuous Cloud Cost Optimisation, Right-Sizing & Lifecycle Policies",
-      "Healthcare Platform Security: Inspector, GuardDuty, Security Hub",
-      "Technical Mentorship & Practice-Wide Certification Coaching",
-    ],
-  },
-];
-
 const SkillsList = ({ pillars }: SkillsListProps) => {
   const normalizedPillars: PillarItem[] = Array.isArray(pillars)
     ? pillars
@@ -192,7 +139,7 @@ const SkillsList = ({ pillars }: SkillsListProps) => {
           category,
           items,
         }))
-      : DEFAULT_PILLARS;
+      : [];
 
   const [openItem, setOpenItem] = useState<string | null>(
     normalizedPillars[0]?.category || null,

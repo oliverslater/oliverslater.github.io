@@ -1,36 +1,31 @@
 import type { CredentialItem } from "./credentialTypes";
 import { cleanIssuerName, formatDate } from "./credentialTypes";
 import { getCachedData, getStaleCacheData, setCachedData } from "./cache";
+import { credentialProviderConfig } from "../data/siteData";
+import { fetchCredentialJson } from "./credentialApi";
 
 /**
  * Dynamically fetches Oliver Slater's verified credentials from Credly public API
  * Caches results locally to optimize build and dev times.
  */
-export async function fetchCredlyBadges(
-  username: string = "oliver-slater",
-): Promise<CredentialItem[]> {
-  const cacheKey = `credly-${username}`;
+export async function fetchCredlyBadges(): Promise<CredentialItem[]> {
+  const cacheKey = "credly";
   const cached = getCachedData<CredentialItem[]>(cacheKey);
   if (cached && Array.isArray(cached) && cached.length > 0) {
     return cached;
   }
 
-  const credlyEndpoint = `https://www.credly.com/users/${username}/badges.json`;
+  const credlyEndpoint = new URL(
+    "badges.json",
+    `${credentialProviderConfig.credlyProfileUrl}/`,
+  ).toString();
 
   try {
-    const response = await fetch(credlyEndpoint, {
-      headers: {
-        Accept: "application/json",
-        "User-Agent": "OliverSlater-VirtualCV/1.0",
-      },
-      signal: AbortSignal.timeout(6000),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Credly API returned HTTP ${response.status}`);
-    }
-
-    const payload = await response.json();
+    const payload = await fetchCredentialJson<{ data?: unknown[] }>(
+      credlyEndpoint,
+      6000,
+      "Credly",
+    );
     const badges = payload.data || [];
 
     if (!Array.isArray(badges) || badges.length === 0) {
@@ -54,7 +49,7 @@ export async function fetchCredlyBadges(
         expiresDate: rawExp ? formatDate(rawExp) : undefined,
         rawExpiresDate: rawExp,
         imageUrl: badge.image_url || badge.badge_template?.image_url,
-        verifyUrl: `https://www.credly.com/badges/${badge.id}`,
+        verifyUrl: credentialProviderConfig.credlyBadgeUrl(badge.id),
         displayed: true,
         includeInCount: true,
         priority: 0,
@@ -77,6 +72,4 @@ export async function fetchCredlyBadges(
   }
 }
 
-// Backward compatibility re-export
-export { getAllCredentials as getCredlyBadges } from "./certifications";
 export type { CredentialItem, CredlyBadge } from "./credentialTypes";

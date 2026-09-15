@@ -2,9 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import CVSection from "../components/CVSection.astro";
 import Headshot from "../components/Headshot.astro";
-import profileData from "../content/cv/profile.json";
-import experienceData from "../content/cv/experience.json";
-import skillsData from "../content/cv/skills.json";
+import { experienceData, profileData, skillsData } from "../data/siteData";
 import { getAllCredentials } from "../utils/certifications";
 import { getContactDetails } from "../utils/profile";
 import { calculateTotalExperienceYears } from "../utils/date";

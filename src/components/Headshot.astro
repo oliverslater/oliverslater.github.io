@@ -1,30 +1,32 @@
 ---
+import { profileData } from "../data/siteData";
+
 interface Props {
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   class?: string;
   alt?: string;
-  fetchpriority?: 'high' | 'low' | 'auto';
+  fetchpriority?: "high" | "low" | "auto";
 }
 
 const {
-  size = 'md',
-  class: className = '',
-  alt = 'Oliver Slater - Cloud Architect',
-  fetchpriority = 'high',
+  size = "md",
+  class: className = "",
+  alt = `${profileData.name} - ${profileData.title}`,
+  fetchpriority = "high",
 } = Astro.props;
 
 // Size mappings for responsiveness
 const sizeClasses = {
-  sm: 'w-16 h-16 rounded-xl',
-  md: 'w-20 h-20 sm:w-24 sm:h-24 rounded-2xl print:rounded-xl',
-  lg: 'w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl sm:rounded-3xl',
+  sm: "w-16 h-16 rounded-xl",
+  md: "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl print:rounded-xl",
+  lg: "w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl sm:rounded-3xl",
 }[size];
 
-const dimension = size === 'lg' ? 112 : size === 'md' ? 96 : 64;
+const dimension = size === "lg" ? 112 : size === "md" ? 96 : 64;
 const sizesAttr =
-  size === 'lg'
-    ? '(max-width: 640px) 80px, (max-width: 768px) 96px, 112px'
-    : '(max-width: 640px) 80px, 96px';
+  size === "lg"
+    ? "(max-width: 640px) 80px, (max-width: 768px) 96px, 112px"
+    : "(max-width: 640px) 80px, 96px";
 ---
 
 <picture class="flex-shrink-0">

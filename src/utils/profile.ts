@@ -1,4 +1,4 @@
-import profileData from "../content/cv/profile.json";
+import { profileData } from "../data/siteData";
 
 export interface ContactDetails {
   showEmail: boolean;
@@ -10,14 +10,11 @@ export interface ContactDetails {
 }
 
 export function getContactDetails(): ContactDetails {
-  const showEmail =
-    (profileData as any).showEmail ??
-    (profileData as any).emailVisible ??
-    false;
+  const showEmail = profileData.showEmail;
   const contactEmail =
     import.meta.env.CONTACT_EMAIL ||
     import.meta.env.PUBLIC_CONTACT_EMAIL ||
-    (profileData as any).email ||
+    profileData.email ||
     "";
 
   return {

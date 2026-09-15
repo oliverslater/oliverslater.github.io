@@ -4,9 +4,11 @@ import {
   getDefaultMicrosoftBadgeIcon,
   MS_LEARN_PUBLIC_TRANSCRIPT_URL,
 } from "./mslearn";
-import manualCertsData from "../content/cv/manual-certifications.json";
-import educationData from "../content/cv/education.json";
-import profileData from "../content/cv/profile.json";
+import {
+  educationData,
+  manualCertificationsData as manualCertsData,
+  profileData,
+} from "../data/siteData";
 
 /**
  * Loads and normalizes manual certifications from manual-certifications.json
@@ -63,7 +65,7 @@ export function getLocalFallbackCredentials(): CredentialItem[] {
       verifyUrl:
         issuer === "Microsoft"
           ? MS_LEARN_PUBLIC_TRANSCRIPT_URL
-          : profileData.credly || "https://www.credly.com/users/oliver-slater",
+          : profileData.credly,
       displayed: q.displayed !== undefined ? q.displayed : true,
       includeInCount: q.includeInCount !== undefined ? q.includeInCount : true,
       priority: resolvePriority(q.priority, q.order, 0),

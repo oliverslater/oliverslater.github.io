@@ -12,7 +12,7 @@ import {
   getManualCredentials,
   getLocalFallbackCredentials,
 } from "./manualCredentials";
-import certSettings from "../content/cv/certification-settings.json";
+import { certificationOverrides } from "../data/siteData";
 
 /**
  * Main credentials orchestrator:
@@ -25,8 +25,7 @@ import certSettings from "../content/cv/certification-settings.json";
  * 7. Sorts by priority (descending), then issue date (newest first), then title
  */
 export async function getAllCredentials(): Promise<CredentialItem[]> {
-  const overrides: CertificationOverride[] =
-    (certSettings as any).overrides || [];
+  const overrides: CertificationOverride[] = certificationOverrides || [];
 
   const manualBadges = getManualCredentials();
 
