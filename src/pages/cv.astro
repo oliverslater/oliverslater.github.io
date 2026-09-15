@@ -4,6 +4,7 @@ import CVSection from "../components/CVSection.astro";
 import Headshot from "../components/Headshot.astro";
 import { experienceData, profileData, skillsData } from "../data/siteData";
 import { getAllCredentials } from "../utils/certifications";
+import { isCredentialExpired } from "../utils/credentialTypes";
 import { getContactDetails } from "../utils/profile";
 import { calculateTotalExperienceYears } from "../utils/date";
 
@@ -335,58 +336,76 @@ const totalExperienceYears = calculateTotalExperienceYears(
 
       <!-- Screen View: Credential Cards with Badges -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 print:hidden">
-        {displayedBadges.map((cert) => (
-          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] flex items-start gap-3.5 hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-colors group">
-            {cert.imageUrl ? (
-              <img
-                src={cert.imageUrl}
-                alt={cert.title}
-                class="w-12 h-12 object-contain flex-shrink-0 group-hover:scale-105 transition-transform"
-                loading="lazy"
-                width="48"
-                height="48"
-              />
-            ) : (
-              <div class="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-[#ffffff08] flex items-center justify-center text-[var(--sec)] flex-shrink-0 text-sm">
-                ⚡
-              </div>
-            )}
-            <div class="flex-grow min-w-0">
-              <div class="flex items-center justify-between gap-1 mb-1">
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
-                  {cert.issuer}
-                </span>
-                <span class="text-[11px] font-mono text-neutral-500 whitespace-nowrap">
-                  {cert.issueDate}
-                </span>
-              </div>
-              <h3 class="text-sm font-semibold text-[var(--white)] leading-snug line-clamp-2">
-                {cert.title}
-              </h3>
-              <div class="mt-2.5 flex items-center justify-between text-xs font-mono">
-                {cert.expiresDate ? (
-                  <span class="text-[11px] text-neutral-500">
-                    Exp: {cert.expiresDate}
+        {displayedBadges.map((cert) => {
+          const isExpired = isCredentialExpired(
+            cert.rawExpiresDate,
+            cert.expiresDate,
+          );
+          return (
+            <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] flex items-start gap-3.5 hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-colors group">
+              {cert.imageUrl ? (
+                <img
+                  src={cert.imageUrl}
+                  alt={cert.title}
+                  class="w-12 h-12 object-contain flex-shrink-0 group-hover:scale-105 transition-transform"
+                  loading="lazy"
+                  width="48"
+                  height="48"
+                />
+              ) : (
+                <div class="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-[#ffffff08] flex items-center justify-center text-[var(--sec)] flex-shrink-0 text-sm">
+                  ⚡
+                </div>
+              )}
+              <div class="flex-grow min-w-0">
+                <div class="flex items-center justify-between gap-1 mb-1">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+                    {cert.issuer}
                   </span>
-                ) : (
-                  <span class="text-[11px] text-[#16a34a] dark:text-[#A9FF5B] font-medium">
-                    Active
+                  <span class="text-[11px] font-mono text-neutral-500 whitespace-nowrap">
+                    {cert.issueDate}
                   </span>
-                )}
-                <span>
-                  <a
-                    href={cert.verifyUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-[var(--sec)] hover:underline text-[11px] inline-flex items-center gap-0.5"
-                  >
-                    Verify &nearr;
-                  </a>
-                </span>
+                </div>
+                <h3 class="text-sm font-semibold text-[var(--white)] leading-snug line-clamp-2">
+                  {cert.title}
+                </h3>
+                <div class="mt-2.5 flex items-center justify-between text-xs font-mono">
+                  {isExpired ? (
+                    <span class="text-[11px] text-neutral-500">
+                      Expired{cert.expiresDate ? `: ${cert.expiresDate}` : ""}
+                    </span>
+                  ) : (
+                    <div class="flex items-center flex-wrap gap-x-1.5 gap-y-0.5 text-[11px]">
+                      <span class="text-[#16a34a] dark:text-[#A9FF5B] font-medium">
+                        Active
+                      </span>
+                      {cert.expiresDate && (
+                        <>
+                          <span class="text-neutral-400 dark:text-neutral-600">
+                            ·
+                          </span>
+                          <span class="text-neutral-500">
+                            Exp: {cert.expiresDate}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  <span>
+                    <a
+                      href={cert.verifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-[var(--sec)] hover:underline text-[11px] inline-flex items-center gap-0.5"
+                    >
+                      Verify &nearr;
+                    </a>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <!-- Print View: Clean Bulleted List (No Badges, No Boxes) -->
