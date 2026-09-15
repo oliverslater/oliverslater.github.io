@@ -28,7 +28,8 @@ const technologies: TechnologyItem[] = technologiesData.technologies;
             class="w-5 h-5 object-contain transition-transform group-hover:scale-110 flex-shrink-0 opacity-80 group-hover:opacity-100"
             width="20"
             height="20"
-            loading="eager"
+            loading="lazy"
+            fetchpriority="low"
             decoding="async"
           />
         ) : (

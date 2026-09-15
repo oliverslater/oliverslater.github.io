@@ -154,9 +154,9 @@ const SkillsList = ({ pillars }: SkillsListProps) => {
       <p className="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
         Architecture Capabilities
       </p>
-      <h3 className="text-[var(--white)] text-3xl md:text-4xl font-semibold mb-6">
+      <h2 className="text-[var(--white)] text-3xl md:text-4xl font-semibold mb-6">
         What I Deliver
-      </h3>
+      </h2>
 
       <ul className="space-y-3 w-full">
         {normalizedPillars.map((pillar) => {

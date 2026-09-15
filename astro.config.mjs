@@ -21,7 +21,7 @@ export default defineConfig({
     },
   },
   build: {
-    inlineStylesheets: "auto",
+    inlineStylesheets: "always",
   },
   server: {
     host: true,
