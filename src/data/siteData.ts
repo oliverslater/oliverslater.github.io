@@ -122,3 +122,12 @@ export const blogConfig = {
   feedPath: "/blog/feed.xml",
   rssPath: "/blog/rss.xml",
 };
+
+export function getCvPdfFilename(date: Date = new Date()): string {
+  const isoDate = date.toISOString().split("T")[0];
+  const safeName = (profileData.name || "CV").replace(/\s+/g, "_");
+  return `${safeName}_CV_${isoDate}.pdf`;
+}
+
+export const cvPdfFilename = getCvPdfFilename();
+export const cvPdfPath = `/${cvPdfFilename}`;
