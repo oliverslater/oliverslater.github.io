@@ -38,10 +38,8 @@ if (existsSync(profilePath)) {
 const isoDate = new Date().toISOString().split("T")[0];
 const safeName = (profileData.name || "CV").replace(/\s+/g, "_");
 const versionedPdfFilename = `${safeName}_CV_${isoDate}.pdf`;
-const legacyPdfFilename = `${safeName}_CV.pdf`;
 
 const targetVersionedPdf = resolve(publicDir, versionedPdfFilename);
-const targetLegacyPdf = resolve(publicDir, legacyPdfFilename);
 
 /**
  * Searches for a system-installed Chrome or Chromium binary across macOS, Linux, and Windows.
@@ -271,8 +269,16 @@ async function generateCvPdf() {
   if (generationSuccess && existsSync(tempPdfPath)) {
     const fileSize = statSync(tempPdfPath).size;
 
-    // Clean up outdated versioned PDFs matching ${safeName}_CV_*.pdf in public/
+    // Clean up unversioned legacy PDF and outdated versioned PDFs in public/
     try {
+      const legacyPath = resolve(publicDir, `${safeName}_CV.pdf`);
+      if (existsSync(legacyPath)) {
+        unlinkSync(legacyPath);
+        console.log(
+          `Cleaned up unversioned legacy PDF: public/${safeName}_CV.pdf`,
+        );
+      }
+
       const files = readdirSync(publicDir);
       for (const f of files) {
         if (
@@ -286,17 +292,20 @@ async function generateCvPdf() {
       }
     } catch {}
 
-    // Save to public versioned and legacy alias
+    // Save to public versioned path
     copyFileSync(tempPdfPath, targetVersionedPdf);
-    copyFileSync(tempPdfPath, targetLegacyPdf);
 
     // Also update dist/ if it exists so downstream check:links and compress immediately see it
     if (existsSync(distDir)) {
       copyFileSync(tempPdfPath, resolve(distDir, versionedPdfFilename));
-      copyFileSync(tempPdfPath, resolve(distDir, legacyPdfFilename));
 
-      // Clean up outdated in dist/
+      // Clean up legacy and outdated in dist/
       try {
+        const legacyDist = resolve(distDir, `${safeName}_CV.pdf`);
+        if (existsSync(legacyDist)) {
+          unlinkSync(legacyDist);
+        }
+
         const distFiles = readdirSync(distDir);
         for (const f of distFiles) {
           if (
@@ -315,7 +324,7 @@ async function generateCvPdf() {
     } catch {}
 
     console.log(
-      `✓ Successfully generated executive CV PDF (${(fileSize / 1024).toFixed(1)} KB) -> public/${versionedPdfFilename} and public/${legacyPdfFilename}`,
+      `✓ Successfully generated executive CV PDF (${(fileSize / 1024).toFixed(1)} KB) -> public/${versionedPdfFilename}`,
     );
     return;
   }
@@ -325,13 +334,7 @@ async function generateCvPdf() {
     "Note: Headless Chrome/Chromium not detected in environment. To generate the CV PDF, install Chrome or run in CI.",
   );
 
-  // If a valid PDF already exists in public/, copy it to the versioned target
-  if (existsSync(targetLegacyPdf) && statSync(targetLegacyPdf).size > 10000) {
-    copyFileSync(targetLegacyPdf, targetVersionedPdf);
-    console.log(
-      `✓ Preserved existing CV PDF as public/${versionedPdfFilename}`,
-    );
-  } else if (!existsSync(targetVersionedPdf)) {
+  if (!existsSync(targetVersionedPdf)) {
     // Generate minimal valid PDF so links and downloads don't 404
     const minimalPdf = `%PDF-1.4
 1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
@@ -359,10 +362,8 @@ startxref
 %%EOF
 `;
     writeFileSync(targetVersionedPdf, minimalPdf);
-    writeFileSync(targetLegacyPdf, minimalPdf);
     if (existsSync(distDir)) {
       writeFileSync(resolve(distDir, versionedPdfFilename), minimalPdf);
-      writeFileSync(resolve(distDir, legacyPdfFilename), minimalPdf);
     }
     console.log(
       `✓ Initialized fallback CV PDF at public/${versionedPdfFilename}`,
