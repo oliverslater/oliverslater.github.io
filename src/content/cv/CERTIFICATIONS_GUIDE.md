@@ -6,7 +6,7 @@ This website automatically synchronizes, normalizes, and renders Oliver Slater's
 
 ## 1. Data Sources & Architecture
 
-```
+```text
 External Feeds
 ├── Credly Public API (https://www.credly.com/users/oliver-slater/badges.json)
 └── Microsoft Learn API (https://learn.microsoft.com/api/profiles/transcript/share/d5on2cqnl3lgknq)

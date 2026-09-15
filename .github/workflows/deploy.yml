@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy Pipeline
 
 on:
   push:
@@ -19,11 +19,13 @@ concurrency:
 
 jobs:
   build:
-    name: Build Astro Site
+    name: Build & Gated Verification
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 #v7.0.0
@@ -34,7 +36,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate schemas and code
+      - name: Run Secret Security Scan (Gitleaks)
+        uses: gitleaks/gitleaks-action@e47fed9cf1293b7dfa6003ab799276d499e917d8 #v2.3.8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Validate Schemas, Markdown & Hygiene
         run: npm run validate
 
       - name: Cache credentials API responses
@@ -53,6 +61,12 @@ jobs:
           CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
           FORCE_REFRESH_CERTS: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
         run: npm run build
+
+      - name: Validate HTML & Check Broken Links
+        run: npm run check:links
+
+      - name: Pre-compress Static Assets (Gzip & Brotli)
+        run: npm run compress
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 #v5.0.0

@@ -102,7 +102,7 @@ Articles are grouped dynamically by Year (`<h2>`) and Month (`<h3>`), featuring 
 - `<h1>Engineering Notes</h1>`
 - `<h2>2026</h2>`
 - `<h3>September</h3>`
-- `<h4><a href="/blog/2026/09/slug">Article Title</a></h4>`
+- <code>&lt;h4&gt;&lt;a href="/blog/YYYY/MM/slug"&gt;Article Title&lt;/a&gt;&lt;/h4&gt;</code>
 
 ### Progressive Enhancement & Instant Search
 

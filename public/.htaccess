@@ -4,14 +4,38 @@
 # Security Headers
 # ------------------------------------------------------------------------------
 <IfModule mod_headers.c>
-  # Prevent site from being embedded in iframes
-  Header set X-Frame-Options "SAMEORIGIN"
+  # Prevent site from being embedded in iframes (anti-clickjacking)
+  Header set X-Frame-Options "DENY"
+
   # Prevent MIME-type sniffing
   Header set X-Content-Type-Options "nosniff"
+
+  # HTTP Strict Transport Security (HSTS) - 1 year with preload
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
   # Enforce referrer policy
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+
   # Permissions policy
   Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+  # Content-Security-Policy (CSP) tailored for Astro inline scripts/styles, Mermaid SVGs, and forms
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://api.web3forms.com https://*.hcaptcha.com; frame-src https://*.hcaptcha.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests;"
+
+  # Aggressive caching for hashed and static assets
+  <FilesMatch "\.(css|js|mjs|woff|woff2|ttf|eot|png|jpg|jpeg|gif|webp|svg|ico|gz|br)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Revalidation for HTML documents
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # Caching for XML feeds and sitemaps
+  <FilesMatch "\.(xml)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
 </IfModule>
 
 # ------------------------------------------------------------------------------
@@ -42,7 +66,7 @@
 </IfModule>
 
 # ------------------------------------------------------------------------------
-# Caching Strategy
+# Caching Strategy (mod_expires)
 # ------------------------------------------------------------------------------
 <IfModule mod_expires.c>
   ExpiresActive On
@@ -71,7 +95,7 @@
 </IfModule>
 
 # ------------------------------------------------------------------------------
-# Gzip / Brotli Compression
+# Gzip / Deflate Compression
 # ------------------------------------------------------------------------------
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
