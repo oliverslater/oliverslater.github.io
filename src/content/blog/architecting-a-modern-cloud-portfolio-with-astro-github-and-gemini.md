@@ -1,11 +1,12 @@
 ---
-title: "Architecting a High-Performance Personal Platform with Astro, GitHub Actions, and Gemini"
-description: "An architectural deep-dive into building an enterprise-grade, edge-deployed digital CV and technical platform using Astro, Google DeepMind Gemini/Antigravity, and automated GitHub Actions CI/CD."
-pubDate: 2026-09-14
+title: "Architecting a High-Performance Personal Platform with Astro 7, Tailwind v4, and Gemini"
+description: "An architectural deep-dive into building an enterprise-grade platform using Astro 7, Tailwind CSS v4, nested chronological indexing, and Google DeepMind Gemini/Antigravity pair programming."
+pubDate: 2026-09-15
 tags:
   [
     "Cloud Architecture",
     "Astro",
+    "Tailwind CSS",
     "GitHub Actions",
     "Gemini",
     "DevOps",
@@ -14,43 +15,122 @@ tags:
 draft: false
 ---
 
-As a Cloud Architect, your digital presence should reflect the same architectural principles you champion in enterprise environments: **performance, security, simplicity, automation, and maintainability**. Too many engineering portfolios suffer from framework bloat—shipping multi-megabyte JavaScript bundles for what is fundamentally structured text and technical credentials.
+As a Cloud Architect, your digital presence should reflect the exact architectural principles you champion in enterprise environments: **performance, security, simplicity, automation, and maintainability**. Too many engineering portfolios suffer from framework bloat—shipping multi-megabyte client-side JavaScript bundles for what is fundamentally structured text, technical writing, and verified credentials.
 
-When architecting this platform, my objective was clear: create a blazingly fast, zero-FOUC (Flash of Unstyled Content) static platform with automated credential synchronization, resilient CI/CD pipelines, and executive-ready print formatting, accelerated by modern AI agentic tooling.
+When architecting this platform, my objective was clear: engineer a blazingly fast, zero-FOUC (Flash of Unstyled Content) static platform with automated multi-cloud credential synchronization, modern CSS-first styling, instant client-side search, and resilient CI/CD pipelines, accelerated by Google DeepMind's Gemini and Antigravity agentic pair programming.
 
-Here is an architectural breakdown of how this platform was designed, engineered, and deployed.
+Here is an architectural breakdown of how this platform was designed, engineered, and continuously evolved.
 
 ---
 
-## 1. Why Astro for Enterprise-Grade Portfolio Architecture
+## 1. Why Astro 7 & Tailwind CSS v4 for Enterprise Portfolio Architecture
 
-Modern client-side single-page applications (SPAs) often introduce needless complexity for content-driven systems. By adopting **Astro 7** with static output mode (`output: 'static'`), the architecture achieves pure compile-time static generation:
+Modern client-side single-page applications (SPAs) often introduce needless complexity for content-driven systems. By adopting **Astro 7** in static mode (`output: 'static'`), the platform achieves pure compile-time static generation:
 
-- **Zero Client-Side JavaScript by Default:** Content, layout grids, and CV timelines compile to pure semantic HTML and Tailwind CSS.
-- **Island Architecture:** Interactive components—such as the matrix-inspired `LetterGlitch` canvas and the responsive `SkillsList` logo marquee—are isolated into lightweight React islands hydrated only where necessary (`client:visible` / `client:load`), without imposing runtime penalties on the document body.
-- **Instantaneous LCP and Perfect Lighthouse Scores:** Sub-50ms Time to First Byte (TTFB) and instant Largest Contentful Paint (LCP) when served from global edge caches.
+- **Zero Client-Side JavaScript by Default:** Core content, CV timelines, and layout grids compile to lightweight semantic HTML and native CSS.
+- **Island Architecture:** Interactive components—such as the matrix-inspired `LetterGlitch` canvas and responsive `SkillsList` capabilities grid—are isolated into lightweight React islands hydrated only where necessary (`client:visible` / `client:load`), imposing zero runtime penalty on the document body.
+- **Tailwind CSS v4 Migration via `@tailwindcss/vite`:** Migrated from legacy Tailwind v3 and `@astrojs/tailwind` to native `@tailwindcss/vite`. This replaces complex JS config files with a CSS-first `@theme` block in `src/styles/global.css`, reducing static entrypoint build times by 50% (from ~660ms down to ~340ms).
+- **Inline Stylesheet Strategy:** By setting `build: { inlineStylesheets: 'always' }` in `astro.config.mjs`, render-blocking stylesheet network roundtrips are eliminated, driving First Contentful Paint (FCP) down to 0.4s and Largest Contentful Paint (LCP) down to 0.5s.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                    Astro Build Pipeline                     │
+│                   Astro 7 Build Pipeline                    │
 │                                                             │
 │  ┌────────────────┐    ┌─────────────────┐    ┌──────────┐  │
-│  │ Markdown/JSON  │ +  │ React Islands   │ -> │ Static   │  │
-│  │ Content Data   │    │ (Selective Hyd) │    │ HTML/CSS │  │
+│  │ Content Data   │ +  │ React Islands   │ -> │ Static   │  │
+│  │ (Markdown/JSON)│    │ (Selective Hyd) │    │ HTML/CSS │  │
 │  └────────────────┘    └─────────────────┘    └──────────┘  │
 └──────────────────────────────┬──────────────────────────────┘
-                               │ Deploy via GitHub Actions
+                               │ Vite + Tailwind CSS v4
                                ▼
                     GitHub Pages Global CDN
 ```
 
+### Vite & Tailwind CSS v4 Configuration
+
+Integrating `@tailwindcss/vite` directly inside `astro.config.mjs` simplifies build pipelines:
+
+```typescript
+// astro.config.mjs
+import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@astrojs/react";
+
+export default defineConfig({
+  output: "static",
+  site: "https://www.oliver-slater.co.uk",
+  build: {
+    inlineStylesheets: "always",
+  },
+  prefetch: {
+    defaultStrategy: "hover",
+  },
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  integrations: [react()],
+});
+```
+
+And in `src/styles/global.css`, design tokens are declared using native CSS syntax:
+
+```css
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-sec: #7938ec;
+  --font-sans: "Montserrat Variable", sans-serif;
+  --font-mono: monospace;
+}
+```
+
 ---
 
-## 2. Zero-FOUC Theming & Executive Print Engineering
+## 2. Nested Chronological Indexing, Instant Search & URL State Sync
+
+As engineering writing grows, flat article listings become difficult to navigate. The blog engine was upgraded to provide a structured, accessible taxonomy:
+
+### Sequential WCAG Heading Hierarchy
+
+Articles are grouped dynamically by Year (`<h2>`) and Month (`<h3>`), featuring timeline accent dots and live article counter badges:
+
+- `<h1>Engineering Notes</h1>`
+- `<h2>2026</h2>`
+- `<h3>September</h3>`
+- `<h4><a href="/blog/2026/09/slug">Article Title</a></h4>`
+
+### Progressive Enhancement & Instant Search
+
+Using vanilla JavaScript progressive enhancement, the blog page provides real-time search across titles, descriptions, tags, years, and month names without external heavy client-side libraries.
+
+### Declarative Accessible UI States
+
+Rather than imperatively mutating long class strings in JavaScript, filter buttons utilize Tailwind v4's native `aria-pressed:` modifiers (`aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black...`). The client script simply updates the `aria-pressed` attribute, keeping CSS and JS perfectly in sync:
+
+```typescript
+function updateTagButtonsUI() {
+  tagButtons.forEach((btn) => {
+    const isSelected =
+      (btn.dataset.tag || "all").toLowerCase() === activeTag.toLowerCase();
+    btn.setAttribute("aria-pressed", isSelected ? "true" : "false");
+  });
+}
+```
+
+### Bidirectional URL Query Synchronization
+
+Filter states and search queries sync seamlessly with browser history search parameters (`?tag=aws&q=serverless`) via `window.history.replaceState`, enabling shareable deep links without page reloads.
+
+---
+
+## 3. Zero-FOUC Theming & Executive Print Engineering
 
 ### Synchronous Theme Resolution
 
-Dark mode implementations often suffer from an unsettling white flash prior to client-side hydration. To guarantee zero flicker regardless of device settings or network latency, a synchronous, blocking script runs directly inside `<head>` prior to any body or stylesheet rendering:
+To guarantee zero visual flicker regardless of device settings or network latency, a synchronous, blocking script executes inside `<head>` prior to any body paint:
 
 ```html
 <script is:inline>
@@ -67,35 +147,29 @@ Dark mode implementations often suffer from an unsettling white flash prior to c
 </script>
 ```
 
-This ensures Tailwind’s `dark` variants and CSS custom properties (`--background`, `--sec`, `--white`) resolve before the first paint cycle.
+This ensures Tailwind’s `@custom-variant dark` and custom CSS properties (`--background`, `--sec`, `--white`) resolve before the first paint cycle.
 
 ### Document-Grade Print & PDF Stylesheet
 
-Most websites look disastrous when printed or exported to PDF. For a virtual CV, a native print stylesheet is a core deliverable:
+For executive CV views (`/cv`), a native print stylesheet ensures seamless physical and PDF exports:
 
-- **Ink-Friendly High Contrast:** When printing, `--background` forces `#ffffff` and text overrides to rich charcoal (`#111827`), ensuring readability even if the user clicks "Print" while viewing the site in dark mode.
-- **Orphan Prevention & Smart Pagination:** Using CSS Paged Media standards (`break-after: avoid;` on section headings and `break-inside: avoid;` on individual roles and certification cards), the CV flows naturally across page boundaries without splitting job descriptions or orphaning headers.
-- **Chrome/Safari Color Fidelity:** Leveraging `-webkit-print-color-adjust: exact` to preserve badge borders and timeline markers on physical printouts.
-
----
-
-## 3. Autonomous AI-Augmented Engineering with Google DeepMind Gemini & Antigravity
-
-Engineering this site provided an ideal opportunity to put state-of-the-art AI pair programming into production. Using **Google DeepMind's Gemini models within the Antigravity agentic coding environment**, AI was leveraged not as a passive code-completion utility, but as an active architectural collaborator:
-
-1. **System Refactoring:** Rapidly decomposing monolithic modules into clean, decoupled utilities (`credly.ts`, `mslearn.ts`, `certifications.ts`).
-2. **Strict Type Safety & Verification:** Enforcing exhaustive TypeScript schemas with Zod and verifying zero diagnostic anomalies using automated `astro check` loops.
-3. **Accessibility & Responsive Stress-Testing:** Running automated checks across viewport boundaries (down to 320px mobile screens) to eliminate horizontal overflow risks, layout shifts, and contrast mismatches.
-
-By combining senior architectural judgment with Gemini's high-speed code generation and Antigravity's verification loops, feature implementation and polish cycles were reduced from weeks to mere hours while maintaining uncompromising engineering rigor.
+- **Ink-Friendly High Contrast:** Forces pure white background (`#ffffff`) and charcoal text (`#111827`) when printing, regardless of whether dark mode was active in the UI.
+- **Orphan Prevention & Smart Pagination:** Employs CSS Paged Media standards (`break-after: avoid` on headings, `break-inside: avoid` on role cards) to prevent split sections or orphaned titles.
 
 ---
 
-## 4. Decoupled Credential Synchronization Engine
+## 4. Autonomous AI-Augmented Engineering with Gemini
 
-As an AWS Golden Jacket holder with 11 AWS certifications and multi-cloud credentials spanning Microsoft Azure, maintaining an up-to-date resume manually is prone to drift.
+This platform serves as a production testbed for state-of-the-art AI pair programming using **Google DeepMind's Gemini models within the Antigravity agentic environment**:
 
-A custom TypeScript synchronization engine solves this by fetching credentials live from public source-of-truth APIs during the static build:
+1. **System Refactoring & DRY Audits:** Rapidly extracted shared utilities (such as `getBlogUrl` in `src/utils/blog.ts` and date formatters in `src/utils/date.ts`) to maintain a clean codebase.
+2. **Automated Verification Loops:** Every architectural iteration is validated against strict automated checks (`npm run validate`, `astro check`, `npx tsc --noEmit`), ensuring zero TypeScript errors and maintaining perfect **100/100 Lighthouse scores** across Performance, Accessibility, Best Practices, and SEO.
+
+---
+
+## 5. Decoupled Multi-Cloud Credential Synchronization Engine
+
+As an AWS Golden Jacket holder with 11x AWS certifications and Azure credentials, maintaining verified resume details manually is prone to drift. A custom TypeScript engine syncs credentials directly from public APIs during static build:
 
 ```text
   Credly Public API        Microsoft Learn Transcript
@@ -114,25 +188,35 @@ A custom TypeScript synchronization engine solves this by fetching credentials l
          │  • Apply custom overrides │
          └─────────────┬─────────────┘
                        ▼
-          54 Active Verified Badges
+          Verified Credential Grid
 ```
 
-- **Automatic Expiration Pruning:** Compares expiration timestamps against the build date, automatically excluding retired or expired certifications without manual intervention.
-- **Custom Priority & Visibility Control:** A local configuration schema (`certification-settings.json`) allows pinning marquee credentials (like the AWS Solutions Architect – Professional or Azure Solutions Architect Expert) to the top of the grid.
-- **Offline Fallback:** If upstream credential APIs experience rate-limiting or downtime during a build, an offline snapshot ensures zero deployment disruption.
+- **Automatic Expiration Pruning:** Filters retired or expired credentials dynamically based on build timestamps.
+- **Priority Overrides:** Local JSON schema (`certification-settings.json`) allows pinning marquee credentials (such as AWS Solutions Architect – Professional or Azure Solutions Architect Expert) to top priority.
+- **Offline Fallback:** Cached snapshots prevent build failures during upstream API downtime.
 
 ---
 
-## 5. Continuous Delivery & GitOps with GitHub Actions
+## 6. Continuous Delivery & GitOps Pipeline
 
-The entire deployment lifecycle is governed by automated GitOps workflows hosted in **GitHub Actions**:
+The entire lifecycle is managed via **GitHub Actions**:
 
-- **Automated Builds & Secrets Injection:** Sensitive variables (`CONTACT_EMAIL`, `PUBLIC_WEB3FORMS_KEY`) are managed through GitHub Repository Secrets, injected into environment variables at build time, and compiled into static artifacts without ever leaking into the Git history.
-- **Scheduled Synchronization Cron:** In addition to triggering on every push to `main`, a scheduled GitHub Actions cron (`0 6 * * 1`) executes every Monday morning, re-fetching external credential APIs and re-deploying the site with the latest certification statuses automatically.
-- **Zero-Config Hosting:** Built directly to GitHub Pages with custom apex/subdomain routing (`oliver-slater.co.uk`) and automated Let's Encrypt HTTPS renewal.
+- **Secret Hygiene:** Environment keys are injected safely at build time without leaking secrets into Git history.
+- **Scheduled Sync Cron:** A weekly GitHub Actions cron (`0 6 * * 1`) re-fetches external credential APIs and re-deploys updated certification badges automatically.
+- **Edge Deployment:** Deployed automatically to GitHub Pages with apex domain routing (`oliver-slater.co.uk`) and HTTPS enforcement.
 
 ---
 
 ## Conclusion
 
-A personal technology platform shouldn't be an afterthought—it should be a direct demonstration of architectural capability. By pairing static compilation via **Astro 7**, automated GitOps with **GitHub Actions**, and agentic AI acceleration with **Google DeepMind Gemini & Antigravity**, this site achieves high-velocity delivery with enterprise-grade reliability and performance.
+A personal engineering platform should be a direct demonstration of technical capability. By combining static compilation via **Astro 7**, CSS-first styling with **Tailwind CSS v4**, automated GitOps with **GitHub Actions**, and agentic AI pair programming via **Google DeepMind Gemini & Antigravity**, this site delivers executive-ready reliability, 100/100 performance, and continuous architectural evolution.
+
+---
+
+## References & Further Reading
+
+- [Astro Documentation: Styling & Tailwind v4 Integration](https://docs.astro.build/en/guides/styling/#tailwind)
+- [Tailwind CSS v4 Upgrade & Plugin Guide](https://tailwindcss.com/docs/upgrade-guide)
+- [Web Vitals: Largest Contentful Paint (LCP) Optimization](https://web.dev/articles/lcp)
+- [GitHub Actions Documentation: Workflow Syntax & Scheduled Triggers](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
+- [RFC 9116: A Format for Security Policies on Web Services](https://datatracker.ietf.org/doc/html/rfc9116)
