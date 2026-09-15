@@ -54,9 +54,8 @@ A high-performance personal portfolio, scannable virtual CV, and technical blog 
 │   │   │   └── [slug].astro     # Dynamic markdown post renderer
 │   │   └── contact.astro        # Dedicated contact page
 │   └── styles/
-│       └── global.css           # Tailwind layers, print CSS, selection styles
-├── astro.config.mjs             # Astro static configuration
-├── tailwind.config.mjs          # DarkMinimal neutral palette & prose theme
+│       └── global.css           # Tailwind 4 CSS-first theme, print CSS, animations
+├── astro.config.mjs             # Astro static configuration & @tailwindcss/vite
 ├── tsconfig.json                # TypeScript strict configuration
 └── package.json
 ```

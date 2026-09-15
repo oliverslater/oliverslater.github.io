@@ -1,8 +1,55 @@
 @import "@fontsource-variable/montserrat";
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-sec: var(--sec);
+  --color-white-custom: var(--white);
+  --color-white-icon: var(--white-icon);
+  --color-white-icon-tr: var(--white-icon-tr);
+  --color-component-bg: var(--component-bg);
+  --color-container: var(--container);
+
+  --font-sans:
+    "Montserrat Variable", Montserrat, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --animate-scale: scaleAnim 300ms ease-in-out;
+  --animate-heart-pulse: heart-pulse 0.6s ease-in-out;
+
+  @keyframes scaleAnim {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes heart-pulse {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.1);
+    }
+    50% {
+      transform: scale(1);
+    }
+    75% {
+      transform: scale(1.06);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
 
 @layer base {
   :root {
@@ -57,10 +104,8 @@
   }
 }
 
-@layer components {
-  .tag-pill {
-    @apply px-2 py-0.5 rounded text-[11px] font-mono bg-neutral-100 dark:bg-[#ffffff08] text-neutral-600 dark:text-[var(--white-icon)] border border-neutral-200/80 dark:border-[#ffffff10];
-  }
+@utility tag-pill {
+  @apply px-2 py-0.5 rounded text-[11px] font-mono bg-neutral-100 dark:bg-[#ffffff08] text-neutral-600 dark:text-[var(--white-icon)] border border-neutral-200/80 dark:border-[#ffffff10];
 }
 
 /* Gothsec DarkMinimal shimmer animations */
