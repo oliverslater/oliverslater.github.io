@@ -1,0 +1,85 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { profileData } from "../data/siteData";
+---
+
+<Layout
+  title={`404: Page Not Found | ${profileData.name}`}
+  description="The requested page could not be found."
+  noindex={true}
+>
+  <div class="max-w-xl mx-auto py-12 sm:py-20 text-center">
+    <div class="p-8 sm:p-12 rounded-3xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-xl dark:shadow-2xl backdrop-blur-sm relative overflow-hidden">
+      <!-- Ambient Glow effects -->
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-[var(--sec)]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- 404 Status Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-rose-50 dark:bg-[#ffffff08] border border-rose-200/60 dark:border-[#ffffff10] text-rose-600 dark:text-rose-400 mb-6">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+        HTTP 404 // Not Found
+      </div>
+
+      <!-- Large 404 Display -->
+      <div class="relative mb-6">
+        <span class="text-7xl sm:text-8xl font-mono font-bold tracking-tighter text-neutral-900/10 dark:text-white/10 select-none block">
+          404
+        </span>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-500 flex items-center justify-center shadow-inner">
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-[var(--white)] mb-3">
+        Page Not Found
+      </h1>
+
+      <p class="text-sm sm:text-base text-[var(--white-icon)] leading-relaxed mb-8 max-w-md mx-auto">
+        The page you are looking for does not exist, has been removed, or the
+        link may be mistyped.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+        <a
+          href="/"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-xs font-mono font-semibold bg-[var(--sec)] text-white dark:text-black hover:opacity-90 transition-all shadow-md"
+        >
+          <span>Return to Homepage</span>
+          <span>&rarr;</span>
+        </a>
+        <a
+          href="/blog"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-neutral-100 dark:bg-[#ffffff05] text-[var(--white)] hover:bg-neutral-200/60 dark:hover:bg-[#ffffff10] transition-colors"
+        >
+          Read Blog
+        </a>
+      </div>
+
+      <!-- Quick Helpful Links -->
+      <div class="pt-6 border-t border-neutral-200/60 dark:border-[var(--white-icon-tr)] flex items-center justify-center gap-6 text-xs text-[var(--white-icon)] font-mono">
+        <a href="/cv" class="hover:text-[var(--white)] transition-colors">
+          Curriculum Vitae
+        </a>
+        <span>&bull;</span>
+        <a href="/contact" class="hover:text-[var(--white)] transition-colors">
+          Contact
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>
