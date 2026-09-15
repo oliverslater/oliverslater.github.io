@@ -83,6 +83,15 @@ content:
       - name: twitter
         label: Twitter / X URL
         type: string
+      - name: headline
+        label: Headline Badge (e.g. AWS Golden Jacket Holder · 11x AWS Certified)
+        type: string
+      - name: credly
+        label: Credly Profile URL
+        type: string
+      - name: mslearn
+        label: Microsoft Learn Transcript URL
+        type: string
       - name: coreCompetencies
         label: Core Competencies
         type: string
@@ -154,6 +163,50 @@ content:
             label: Skill List
             type: string
             list: true
+
+  - name: deliverables
+    label: What I Deliver (Homepage Pillars)
+    type: file
+    path: src/content/cv/deliverables.json
+    fields:
+      - name: pillars
+        label: Architecture Capability Pillars
+        type: object
+        list: true
+        fields:
+          - name: category
+            label: Pillar Category Name
+            type: string
+            required: true
+          - name: icon
+            label: Icon Identifier (cloud, code, box, zap, shield)
+            type: string
+          - name: items
+            label: Key Value Deliverables
+            type: string
+            list: true
+
+  - name: technologies
+    label: Core Technologies & Tools
+    type: file
+    path: src/content/technologies.json
+    fields:
+      - name: technologies
+        label: Technologies
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Technology Name
+            type: string
+            required: true
+          - name: tag
+            label: Capability Tag / Distinction
+            type: string
+            required: true
+          - name: logo
+            label: Logo SVG Path (e.g. /svg/aws.svg)
+            type: string
 
   - name: manual-certifications
     label: Non-Credly Credentials

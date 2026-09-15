@@ -78,3 +78,23 @@ export interface QualificationItem {
 export interface EducationData {
   qualifications: QualificationItem[];
 }
+
+export interface DeliverablePillar {
+  category: string;
+  icon?: string;
+  items: string[];
+}
+
+export interface DeliverablesData {
+  pillars: DeliverablePillar[];
+}
+
+export interface TechnologyItem {
+  name: string;
+  tag: string;
+  logo?: string;
+}
+
+export interface TechnologiesData {
+  technologies: TechnologyItem[];
+}

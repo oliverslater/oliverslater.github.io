@@ -36,6 +36,6 @@ This platform serves as Oliver Slater's professional hub, interactive curriculum
 ## Contact & Links
 
 - **Website**: [https://www.oliver-slater.co.uk](https://www.oliver-slater.co.uk)
-- **LinkedIn**: [https://linkedin.com](https://linkedin.com)
+- **LinkedIn**: [https://linkedin.com/in/oliverslater](https://linkedin.com/in/oliverslater)
 - **GitHub**: [https://github.com/oliverslater](https://github.com/oliverslater)
 - **Location**: United Kingdom

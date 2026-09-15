@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import profileData from "../content/cv/profile.json";
 import experienceData from "../content/cv/experience.json";
+import deliverablesData from "../content/cv/deliverables.json";
 import LogoWall from "../components/LogoWall.astro";
 import LetterGlitch from "../components/LetterGlitch";
 import SkillsList from "../components/SkillsList";
@@ -17,6 +18,9 @@ const recentPosts = blogPosts
   .slice(0, 2);
 
 const featuredRoles = experienceData.roles.slice(0, 2);
+const titleParts = profileData.title.split(" ");
+const titleFirst = titleParts[0];
+const titleRest = titleParts.slice(1).join(" ");
 ---
 
 <Layout
@@ -42,7 +46,7 @@ const featuredRoles = experienceData.roles.slice(0, 2);
       </div>
       <div class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 gap-4">
         <h1 class="text-5xl sm:text-6xl md:text-7xl font-medium text-pretty leading-none text-[var(--white)] tracking-tight">
-          Cloud <br /> Architect
+          {titleFirst} {titleRest && <br />} {titleRest}
         </h1>
         <p class="text-base sm:text-xl text-[var(--white-icon)] leading-relaxed max-w-xl">
           Specialising in enterprise-scale{" "}
@@ -82,7 +86,7 @@ const featuredRoles = experienceData.roles.slice(0, 2);
   <section class="py-14 border-b border-[#ffffff10]">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div>
-        <SkillsList client:load />
+        <SkillsList client:load pillars={deliverablesData.pillars} />
       </div>
 
       <div class="w-full h-[320px] sm:h-[380px] flex items-center justify-center">

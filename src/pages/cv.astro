@@ -112,7 +112,10 @@ const totalExperienceYears = calculateTotalExperienceYears(
             >
               <span class="print:hidden">Contact Form &nearr;</span>
               <span class="hidden print:inline font-mono">
-                oliver-slater.co.uk/contact
+                {profileData.website
+                  .replace("https://www.", "")
+                  .replace("https://", "")}
+                /contact
               </span>
             </a>
           )}

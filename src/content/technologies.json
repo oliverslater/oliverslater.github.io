@@ -1,0 +1,43 @@
+{
+  "technologies": [
+    { "name": "AWS", "tag": "11x Certified", "logo": "/svg/aws.svg" },
+    {
+      "name": "Terraform",
+      "tag": "Professional",
+      "logo": "/svg/terraform.svg"
+    },
+    {
+      "name": "Azure",
+      "tag": "Solutions Architect Expert",
+      "logo": "/svg/azure.svg"
+    },
+    {
+      "name": "Python",
+      "tag": "Automation & Scripting",
+      "logo": "/svg/python.svg"
+    },
+    {
+      "name": "Kubernetes",
+      "tag": "Container Platform",
+      "logo": "/svg/kubernetes.svg"
+    },
+    {
+      "name": "GitHub Actions",
+      "tag": "CI/CD Automation",
+      "logo": "/svg/github-actions.svg"
+    },
+    { "name": "GitLab CI", "tag": "DevSecOps", "logo": "/svg/gitlab.svg" },
+    { "name": "DynamoDB", "tag": "NoSQL Data Architecture" },
+    { "name": "AWS Lambda", "tag": "Serverless" },
+    { "name": "Amazon S3", "tag": "Cloud Storage" },
+    { "name": "Amazon Aurora", "tag": "Relational Engine" },
+    { "name": "Security Hub", "tag": "Governance & IAM" },
+    { "name": "Docker", "tag": "Microservices", "logo": "/svg/docker.svg" },
+    {
+      "name": "Linux / OSS",
+      "tag": "Systems Engineering",
+      "logo": "/svg/linux.svg"
+    },
+    { "name": "Well-Architected", "tag": "Cloud Strategy" }
+  ]
+}
