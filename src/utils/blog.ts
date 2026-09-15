@@ -16,30 +16,49 @@ export function getBlogUrl(post: BlogPostLike): string {
   return `/blog/${year}/${month}/${post.id}`;
 }
 
+export interface PostVisibilityOptions {
+  allowFutureInDev?: boolean;
+  allowDraftsInDev?: boolean;
+}
+
 /**
- * Determines whether a blog post is published and visible based on draft flag and pubDate.
- * A post is visible if:
- * 1. `draft` is false (or undefined)
- * 2. `pubDate` <= current date/time (posts with future timestamps are treated as scheduled)
+ * Determines whether a blog post is published and visible based on draft status and publication date.
  *
- * In local development (DEV mode), future-dated posts can optionally be previewed if `allowFutureInDev` is true.
+ * Production Rules (strict):
+ * 1. Draft posts (`draft: true`) are omitted.
+ * 2. Future-dated posts (`pubDate > Date.now()`) are omitted as scheduled.
+ *
+ * Local Development Rules (`import.meta.env.DEV`):
+ * - Scheduled future posts and draft posts are permitted for previewing and testing when `allowInDev` is enabled (defaults to `import.meta.env.DEV`).
  */
 export function isPostPublished(
   post: BlogPostLike & { data: { draft?: boolean } },
-  allowFutureInDev = false,
+  allowInDev: boolean | PostVisibilityOptions = import.meta.env?.DEV ?? false,
 ): boolean {
-  if (post.data.draft) return false;
+  const isDev = Boolean(import.meta.env?.DEV);
+  const allowFuture =
+    typeof allowInDev === "object"
+      ? (allowInDev.allowFutureInDev ?? true)
+      : Boolean(allowInDev);
+  const allowDrafts =
+    typeof allowInDev === "object"
+      ? (allowInDev.allowDraftsInDev ?? true)
+      : Boolean(allowInDev);
+
+  // In production: strictly omit both drafts and future-dated posts
+  if (!isDev) {
+    if (post.data.draft) return false;
+    const pubDate = new Date(post.data.pubDate);
+    if (pubDate.getTime() > Date.now()) return false;
+    return true;
+  }
+
+  // In development (DEV mode):
+  if (post.data.draft && !allowDrafts) return false;
 
   const pubDate = new Date(post.data.pubDate);
   const isFuture = pubDate.getTime() > Date.now();
-
-  if (isFuture) {
-    // Allow previewing scheduled posts during local development
-    if (allowFutureInDev && import.meta.env?.DEV) {
-      return true;
-    }
-    return false;
-  }
+  if (isFuture && !allowFuture) return false;
 
   return true;
 }
