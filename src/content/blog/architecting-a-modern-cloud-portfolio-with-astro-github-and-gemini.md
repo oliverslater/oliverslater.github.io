@@ -1,4 +1,10 @@
 ---
+title: "Architecting a High-Performance Personal Platform with Astro, GitHub Actions, and Gemini"
+description: "An architectural deep-dive into building an enterprise-grade, edge-deployed digital CV and technical platform using Astro, Google DeepMind Gemini/Antigravity, and automated GitHub Actions CI/CD."
+pubDate: 2026-09-14
+tags: ["Cloud Architecture", "Astro", "GitHub Actions", "Gemini", "DevOps", "TypeScript"]
+draft: false
+---
 
 As a Cloud Architect, your digital presence should reflect the same architectural principles you champion in enterprise environments: **performance, security, simplicity, automation, and maintainability**. Too many engineering portfolios suffer from framework bloat—shipping multi-megabyte JavaScript bundles for what is fundamentally structured text and technical credentials.
 
