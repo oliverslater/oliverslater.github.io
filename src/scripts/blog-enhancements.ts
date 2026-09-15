@@ -100,58 +100,53 @@ let mermaidInstance: any = null;
 let diagramCounter = 0;
 
 function getMermaidThemeOptions(isDark: boolean) {
-  if (isDark) {
-    return {
-      theme: "base",
-      themeVariables: {
-        fontFamily:
-          '"Montserrat Variable", Montserrat, -apple-system, sans-serif',
-        fontSize: "14px",
-        darkMode: true,
-        background: "#141414",
-        mainBkg: "#141414",
-        primaryColor: "#221c35",
-        primaryTextColor: "#ffffff",
-        primaryBorderColor: "#a476ff",
-        lineColor: "#a476ff",
-        secondaryColor: "#1a1a1a",
-        tertiaryColor: "#101010",
-        nodeBorder: "#a476ff",
-        clusterBkg: "#161616",
-        clusterBorder: "#ffffff20",
-        titleColor: "#dfdfdf",
-        edgeLabelBackground: "#1a1a1a",
-        actorBkg: "#221c35",
-        actorBorder: "#a476ff",
-        actorTextColor: "#ffffff",
-        actorLineColor: "#a476ff",
-      },
-    };
-  }
+  const root = document.documentElement;
+  const styles = getComputedStyle(root);
+
+  // Dynamically resolve design tokens from active CSS variables
+  const secColor =
+    styles.getPropertyValue("--sec").trim() || (isDark ? "#a476ff" : "#7938ec");
+  const textColor =
+    styles.getPropertyValue("--white").trim() ||
+    (isDark ? "#dfdfdf" : "#121214");
+  const bgColor =
+    styles.getPropertyValue("--component-bg").trim() ||
+    (isDark ? "#141414" : "#ffffff");
+  const containerColor =
+    styles.getPropertyValue("--container").trim() ||
+    (isDark ? "#1a1a1a" : "#f0f0f2");
+  const borderTr =
+    styles.getPropertyValue("--white-icon-tr").trim() ||
+    (isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)");
+  const fontFamily =
+    styles.getPropertyValue("--font-sans").trim() ||
+    '"Montserrat Variable", Montserrat, -apple-system, sans-serif';
+
+  const nodeBkg = isDark ? "#221c35" : "#f3e8ff";
+
   return {
     theme: "base",
     themeVariables: {
-      fontFamily:
-        '"Montserrat Variable", Montserrat, -apple-system, sans-serif',
+      fontFamily,
       fontSize: "14px",
-      darkMode: false,
-      background: "#ffffff",
-      mainBkg: "#ffffff",
-      primaryColor: "#f3e8ff",
-      primaryTextColor: "#121214",
-      primaryBorderColor: "#7938ec",
-      lineColor: "#7938ec",
-      secondaryColor: "#f4f4f5",
-      tertiaryColor: "#fafafa",
-      nodeBorder: "#7938ec",
-      clusterBkg: "#f8fafc",
-      clusterBorder: "#e2e8f0",
-      titleColor: "#121214",
-      edgeLabelBackground: "#ffffff",
-      actorBkg: "#f3e8ff",
-      actorBorder: "#7938ec",
-      actorTextColor: "#121214",
-      actorLineColor: "#7938ec",
+      darkMode: isDark,
+      background: bgColor,
+      mainBkg: bgColor,
+      primaryColor: nodeBkg,
+      primaryTextColor: textColor,
+      primaryBorderColor: secColor,
+      lineColor: secColor,
+      secondaryColor: containerColor,
+      tertiaryColor: bgColor,
+      nodeBorder: secColor,
+      clusterBkg: containerColor,
+      clusterBorder: borderTr,
+      titleColor: textColor,
+      edgeLabelBackground: bgColor,
+      actorBkg: nodeBkg,
+      actorBorder: secColor,
+      actorTextColor: textColor,
+      actorLineColor: secColor,
     },
   };
 }

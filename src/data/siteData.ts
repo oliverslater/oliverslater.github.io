@@ -41,3 +41,26 @@ export const credentialProviderConfig = {
         .at(-1)
     : "",
 };
+
+export const siteConfig = {
+  name: profileData.name,
+  title: profileData.title,
+  website: profileData.website,
+  avatar: profileData.avatar,
+  location: profileData.location,
+  github: profileData.github,
+  linkedin: profileData.linkedin,
+  defaultOgImage: "/assets/og-image.png",
+};
+
+export const blogConfig = {
+  title: `Engineering Notes & Architecture Blog | ${profileData.name}`,
+  shortTitle: "Engineering Notes",
+  feedTitle: `${profileData.name} | Engineering Notes & Architecture Blog`,
+  description:
+    "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.",
+  author: profileData.name,
+  language: "en-gb",
+  feedPath: "/blog/feed.xml",
+  rssPath: "/blog/rss.xml",
+};

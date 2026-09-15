@@ -1,5 +1,5 @@
 import { getCollection } from "astro:content";
-import { profileData } from "../data/siteData";
+import { blogConfig, profileData } from "../data/siteData";
 import { getBlogUrl, isPostPublished } from "./blog";
 
 function escapeXml(unsafe: string): string {
@@ -12,11 +12,9 @@ function escapeXml(unsafe: string): string {
 }
 
 export async function generateRssFeed(
-  feedUrlPath = "/blog/feed.xml",
+  feedUrlPath = blogConfig.feedPath,
 ): Promise<string> {
-  const siteUrl = (
-    profileData.website || "https://www.oliver-slater.co.uk"
-  ).replace(/\/+$/, "");
+  const siteUrl = (profileData.website || "").replace(/\/+$/, "");
 
   const posts = await getCollection("blog", (post) => isPostPublished(post));
   const sortedPosts = posts.sort(
@@ -41,7 +39,7 @@ export async function generateRssFeed(
       <guid isPermaLink="true">${postUrl}</guid>
       <pubDate>${pubDateRfc822}</pubDate>
       <description><![CDATA[${post.data.description}]]></description>
-      <dc:creator>Oliver Slater</dc:creator>
+      <dc:creator>${escapeXml(blogConfig.author)}</dc:creator>
 ${categories ? categories + "\n" : ""}    </item>`;
     })
     .join("\n");
@@ -49,11 +47,11 @@ ${categories ? categories + "\n" : ""}    </item>`;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>${escapeXml(profileData.name)} | Engineering Notes &amp; Architecture Blog</title>
-    <description>Architecture notes, technical essays, and practical insights across AWS, serverless, and AI.</description>
+    <title>${escapeXml(blogConfig.feedTitle)}</title>
+    <description>${escapeXml(blogConfig.description)}</description>
     <link>${siteUrl}/blog/</link>
     <atom:link href="${siteUrl}${feedUrlPath}" rel="self" type="application/rss+xml" />
-    <language>en-gb</language>
+    <language>${blogConfig.language}</language>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
 ${itemsXml}
   </channel>

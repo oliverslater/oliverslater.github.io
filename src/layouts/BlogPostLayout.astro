@@ -29,16 +29,16 @@ const formattedUpdatedDate = frontmatter.updatedDate
   ? formatDate(frontmatter.updatedDate)
   : null;
 
-const siteUrl = (
-  Astro.site?.toString() ||
-  profileData.website ||
-  "https://www.oliver-slater.co.uk"
-).replace(/\/+$/, "");
+const siteUrl = (Astro.site?.toString() || profileData.website).replace(
+  /\/+$/,
+  "",
+);
 
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
 // Resolve PageCMS heroImage (e.g. /assets/hero.png) to absolute URL
-const heroImage = frontmatter.heroImage || "/assets/og-image.png";
+const heroImage =
+  frontmatter.heroImage || profileData.avatar || "/assets/og-image.png";
 const resolvedHeroImage = new URL(heroImage, canonicalURL).toString();
 
 const techArticleSchema = {
