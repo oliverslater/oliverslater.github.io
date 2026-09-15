@@ -11,9 +11,18 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "validate:yaml": "node scripts/validate-yaml.mjs",
+    "validate:json": "node scripts/validate-json.mjs",
+    "validate": "npm run validate:yaml && npm run validate:json && npm run check",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "licenses": "node scripts/generate-third-party-notices.mjs",
-    "licenses:check": "node scripts/generate-third-party-notices.mjs --check"
+    "licenses:check": "node scripts/generate-third-party-notices.mjs --check",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{yml,yaml}": "node scripts/validate-yaml.mjs",
+    "*.json": "node scripts/validate-json.mjs",
+    "*.{astro,ts,tsx}": "prettier --check"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
@@ -35,6 +44,8 @@
   },
   "devDependencies": {
     "@types/node": "^26.5.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.5.1",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^1.0.0"
   },
