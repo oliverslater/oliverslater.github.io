@@ -11,6 +11,7 @@ import SkillsList from "../components/SkillsList";
 import Headshot from "../components/Headshot.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import { formatDate } from "../utils/date";
+import { getBlogUrl } from "../utils/blog";
 import { getCollection } from "astro:content";
 
 const blogPosts = await getCollection("blog", ({ data }) => !data.draft);
@@ -19,12 +20,6 @@ const recentPosts = blogPosts
   .slice(0, 2);
 
 const featuredRoles = experienceData.roles.slice(0, 2);
-
-const blogUrl = (post: (typeof recentPosts)[number]) => {
-  const year = post.data.pubDate.getFullYear();
-  const month = String(post.data.pubDate.getMonth() + 1).padStart(2, "0");
-  return `/blog/${year}/${month}/${post.id}`;
-};
 const titleParts = profileData.title.split(" ");
 const titleFirst = titleParts[0];
 const titleRest = titleParts.slice(1).join(" ");
@@ -81,7 +76,7 @@ const titleRest = titleParts.slice(1).join(" ");
         href="/contact"
         class="flex items-center gap-2 px-5 py-3 rounded-xl bg-[var(--sec)] text-white dark:text-black font-semibold text-sm hover:opacity-90 transition duration-300"
       >
-        <span>Let's Talk</span>
+        <span>Get in Touch</span>
       </a>
     </div>
   </section>
@@ -195,7 +190,7 @@ const titleRest = titleParts.slice(1).join(" ");
       >
         {recentPosts.map((post) => (
           <a
-            href={blogUrl(post)}
+            href={getBlogUrl(post)}
             class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
           >
             <div>
@@ -225,7 +220,7 @@ const titleRest = titleParts.slice(1).join(" ");
     <div class="p-8 sm:p-12 rounded-3xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm relative overflow-hidden">
       <div class="max-w-2xl">
         <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
-          Let's Talk
+          Get in Touch
         </h2>
         <h3 class="text-3xl sm:text-4xl font-semibold text-[var(--white)] mb-4 tracking-tight">
           Ready to Modernise Your Cloud Architecture?
