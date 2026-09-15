@@ -1,13 +1,45 @@
 {
   "roles": [
     {
+      "id": "ibm-consulting-futurenow",
+      "role": "Technical Architect",
+      "company": "IBM Consulting FutureNow",
+      "location": "Remote",
+      "startDate": "Jul 2026",
+      "endDate": "Present",
+      "current": true,
+      "description": "Architecting and delivering mission-critical containerisation, modernisation, and platform engineering solutions across greenfield and brownfield public sector healthcare environments.",
+      "highlights": [
+        "Delivered technical architecture and modernization initiatives across both greenfield builds and complex brownfield transformations within public sector healthcare, ensuring zero disruption to live patient-critical services.",
+        "Architected scalable, resilient containerised platforms leveraging Amazon Elastic Container Service (Amazon ECS), AWS Fargate, and Docker, driving standardisation across microservices architectures and runtime environments.",
+        "Designed end-to-end container workflows and image build pipelines, embedding automated vulnerability scanning, immutable tagging, and secure distribution via Amazon Elastic Container Registry (ECR).",
+        "Engineered robust container networking and service discovery architectures utilizing AWS Cloud Map and Application Load Balancers (ALB) to deliver high-availability, low-latency inter-service communication.",
+        "Spearheaded legacy application modernisation, migrating monolithic workloads to modular, container-based architectures, significantly reducing infrastructure footprint and improving operational maintainability.",
+        "Authored modular Infrastructure as Code (IaC) with Terraform to provision container execution environments, cluster auto-scaling policies, and shared platform primitives across isolated deployment stages.",
+        "Championed platform governance and security compliance within regulated healthcare frameworks, enforcing principle of least privilege IAM roles for tasks, secret management via AWS Secrets Manager, and end-to-end encryption in transit and at rest.",
+        "Collaborated with clinical and public sector stakeholders to align architectural roadmaps with digital health standards, public sector healthcare clinical safety compliance, and government service design standards."
+      ],
+      "technologies": [
+        "Amazon ECS",
+        "AWS Fargate",
+        "Docker",
+        "Containerisation",
+        "Modernisation",
+        "Terraform",
+        "AWS Cloud Map",
+        "Amazon ECR",
+        "GitHub Actions",
+        "Healthcare Architecture"
+      ]
+    },
+    {
       "id": "nordcloud",
       "role": "AWS Cloud Architect",
       "company": "Nordcloud, an IBM Company",
       "location": "Remote",
       "startDate": "Jun 2024",
-      "endDate": "Present",
-      "current": true,
+      "endDate": "Jun 2026",
+      "current": false,
       "description": "Architecting and delivering enterprise-scale, serverless cloud solutions, platform engineering, and modern CI/CD automation for regulated UK healthcare systems.",
       "highlights": [
         "Architected and delivered scalable, serverless AWS solutions to support high-volume healthcare data ingestion and analytics workloads, leveraging services including Amazon DynamoDB, AWS Lambda and Amazon S3 to ensure high availability and low-latency processing for critical UK healthcare systems.",

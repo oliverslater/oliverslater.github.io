@@ -35,6 +35,8 @@
     {
       "category": "Cloud Migration & Modernisation",
       "skills": [
+        "Containerisation (Docker, Amazon ECS, AWS Fargate)",
+        "Greenfield & Brownfield Architecture",
         "AWS Application Migration Service (MGN)",
         "AWS Database Migration Service (DMS)",
         "AWS Well-Architected Framework Reviews",
