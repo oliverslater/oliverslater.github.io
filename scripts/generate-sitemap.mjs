@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const blogDir = resolve(rootDir, "src/content/blog");
 const sitemapPath = resolve(rootDir, "public/sitemap.xml");
-const SITE_URL = "https://www.oliver-slater.co.uk";
+const profilePath = resolve(rootDir, "src/content/cv/profile.json");
 
 // Static routes with changefreq & priority
 const staticRoutes = [
@@ -44,19 +44,28 @@ async function getBlogSlugs() {
 }
 
 async function generateSitemap() {
+  const profileRaw = await readFile(profilePath, "utf8");
+  const profile = JSON.parse(profileRaw);
+  if (!profile.website || typeof profile.website !== "string") {
+    throw new Error(
+      "Missing or invalid 'website' field in src/content/cv/profile.json",
+    );
+  }
+  const siteUrl = profile.website.trim().replace(/\/+$/, "");
+
   const blogSlugs = await getBlogSlugs();
 
   const urls = [
     ...staticRoutes.map(
       (r) => `  <url>
-    <loc>${SITE_URL}/${r.path}</loc>
+    <loc>${siteUrl}/${r.path}</loc>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>
   </url>`,
     ),
     ...blogSlugs.map(
       (path) => `  <url>
-    <loc>${SITE_URL}/blog/${path}</loc>
+    <loc>${siteUrl}/blog/${path}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`,
@@ -73,6 +82,15 @@ ${urls.join("\n")}
   console.log(
     `Generated sitemap with ${urls.length} URLs at public/sitemap.xml`,
   );
+
+  const robotsPath = resolve(rootDir, "public/robots.txt");
+  const robotsTxt = `User-agent: *
+Allow: /
+
+Sitemap: ${siteUrl}/sitemap.xml
+`;
+  await writeFile(robotsPath, robotsTxt, "utf8");
+  console.log(`Updated public/robots.txt with sitemap directive`);
 }
 
 generateSitemap().catch((err) => {

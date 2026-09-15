@@ -12,7 +12,7 @@ export interface Props {
 
 const {
   title = `${profileData.name} | ${profileData.title}`,
-  description = `${profileData.title} & AWS Golden Jacket holder specialising in enterprise-scale cloud solutions, serverless platforms, and large-scale transformation.`,
+  description = profileData.bio || `${profileData.name} | ${profileData.title}`,
   image = "/assets/og-image.png",
 } = Astro.props;
 

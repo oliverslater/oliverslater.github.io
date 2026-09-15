@@ -1,11 +1,12 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
+import profileData from "./src/content/cv/profile.json";
 
 // https://astro.build/config
 export default defineConfig({
   output: "static",
-  site: "https://www.oliver-slater.co.uk",
+  site: profileData.website,
   integrations: [react()],
   prefetch: {
     prefetchAll: false,
