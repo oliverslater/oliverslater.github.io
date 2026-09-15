@@ -11,9 +11,12 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
+    "check:hygiene": "node scripts/check-file-hygiene.mjs",
     "validate:yaml": "node scripts/validate-yaml.mjs",
     "validate:json": "node scripts/validate-json.mjs",
-    "validate": "npm run validate:yaml && npm run validate:json && npm run check",
+    "validate": "npm run validate:yaml && npm run validate:json && npm run check:hygiene && npm run check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "licenses": "node scripts/generate-third-party-notices.mjs",
     "licenses:check": "node scripts/generate-third-party-notices.mjs --check",
@@ -22,7 +25,8 @@
   "lint-staged": {
     "*.{yml,yaml}": "node scripts/validate-yaml.mjs",
     "*.json": "node scripts/validate-json.mjs",
-    "*.{astro,ts,tsx}": "prettier --check"
+    "*": "node scripts/check-file-hygiene.mjs",
+    "*.{astro,ts,tsx,js,mjs,md,css}": "prettier --write"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
