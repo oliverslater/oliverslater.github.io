@@ -34,12 +34,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Cache credentials API responses
+        uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/credentials
+          key: credentials-cache-${{ github.run_id }}
+          restore-keys: |
+            credentials-cache-
+
       - name: Build site
         env:
           PUBLIC_FORM_ENDPOINT: ${{ secrets.PUBLIC_FORM_ENDPOINT }}
           PUBLIC_WEB3FORMS_KEY: ${{ secrets.PUBLIC_WEB3FORMS_KEY }}
           PUBLIC_HCAPTCHA_SITEKEY: ${{ secrets.PUBLIC_HCAPTCHA_SITEKEY }}
           CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
+          FORCE_REFRESH_CERTS: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
         run: npm run build
 
       - name: Upload Pages artifact
