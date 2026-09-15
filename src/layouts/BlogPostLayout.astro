@@ -1,5 +1,7 @@
 ---
 import Layout from "./Layout.astro";
+import TableOfContents from "../components/TableOfContents.astro";
+import ReadingProgressBar from "../components/ReadingProgressBar.astro";
 import { profileData } from "../data/siteData";
 import { formatDate } from "../utils/date";
 
@@ -12,9 +14,15 @@ interface Props {
     heroImage?: string;
     tags?: string[];
   };
+  headings?: {
+    depth: number;
+    slug: string;
+    text: string;
+  }[];
+  post?: any;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, headings = [] } = Astro.props;
 
 const formattedDate = formatDate(frontmatter.pubDate);
 const formattedUpdatedDate = frontmatter.updatedDate
@@ -26,65 +34,77 @@ const formattedUpdatedDate = frontmatter.updatedDate
   title={`${frontmatter.title} | ${profileData.name}`}
   description={frontmatter.description}
 >
-  <article class="max-w-3xl mx-auto">
-    <!-- Back to blog navigation -->
-    <div class="mb-8">
-      <a
-        href="/blog"
-        class="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
-      >
-        <span aria-hidden="true">&larr;</span> Back to all posts
-      </a>
-    </div>
+  <ReadingProgressBar />
 
-    <!-- Article Header -->
-    <header class="mb-10 pb-8 border-b border-[#ffffff10]">
-      <div class="flex items-center gap-3 text-xs font-mono text-[var(--sec)] mb-3">
-        <time datetime={new Date(frontmatter.pubDate).toISOString()}>
-          {formattedDate}
-        </time>
-        {formattedUpdatedDate && (
-          <>
-            <span class="text-neutral-500">·</span>
-            <span class="text-[var(--white-icon)]">
-              Updated {formattedUpdatedDate}
-            </span>
-          </>
-        )}
+  <div class="relative max-w-5xl mx-auto lg:flex lg:items-start lg:gap-10 xl:gap-12">
+    <article class="flex-1 min-w-0 max-w-3xl">
+      <!-- Back to blog navigation -->
+      <div class="mb-8">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
+        >
+          <span aria-hidden="true">&larr;</span> Back to all posts
+        </a>
       </div>
 
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[var(--white)] mb-4 leading-tight">
-        {frontmatter.title}
-      </h1>
-
-      <p class="text-lg text-[var(--white-icon)] leading-relaxed mb-6">
-        {frontmatter.description}
-      </p>
-
-      {frontmatter.tags && frontmatter.tags.length > 0 && (
-        <div class="flex flex-wrap gap-2">
-          {frontmatter.tags.map((tag) => (
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
-              #{tag}
-            </span>
-          ))}
+      <!-- Article Header -->
+      <header class="mb-10 pb-8 border-b border-[#ffffff10]">
+        <div class="flex items-center gap-3 text-xs font-mono text-[var(--sec)] mb-3">
+          <time datetime={new Date(frontmatter.pubDate).toISOString()}>
+            {formattedDate}
+          </time>
+          {formattedUpdatedDate && (
+            <>
+              <span class="text-neutral-500">·</span>
+              <span class="text-[var(--white-icon)]">
+                Updated {formattedUpdatedDate}
+              </span>
+            </>
+          )}
         </div>
-      )}
-    </header>
 
-    <!-- Post Body Content -->
-    <div class="prose dark:prose-invert max-w-none prose-headings:font-medium prose-headings:text-[var(--white)] prose-p:text-[var(--white-icon)] prose-p:leading-relaxed prose-strong:text-[var(--white)] prose-a:text-[var(--sec)] prose-a:underline-offset-4 prose-code:text-[var(--sec)] prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-neutral-900 dark:prose-pre:bg-[#141414] prose-pre:text-neutral-100 prose-pre:border prose-pre:border-neutral-800 dark:prose-pre:border-[#ffffff10] prose-li:text-[var(--white-icon)] prose-hr:border-neutral-200 dark:prose-hr:border-[#ffffff10]">
-      <slot />
-    </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[var(--white)] mb-4 leading-tight">
+          {frontmatter.title}
+        </h1>
 
-    <!-- Article Footer -->
-    <footer class="mt-14 pt-8 border-t border-[#ffffff10] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">
-      <a href="/blog" class="hover:text-[var(--white)] transition-colors">
-        &larr; Back to all posts
-      </a>
-      <a href="#top" class="hover:text-[var(--white)] transition-colors">
-        Back to top &uarr;
-      </a>
-    </footer>
-  </article>
+        <p class="text-lg text-[var(--white-icon)] leading-relaxed mb-6">
+          {frontmatter.description}
+        </p>
+
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {frontmatter.tags.map((tag) => (
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- Mobile / Tablet Collapsible Table of Contents -->
+      <TableOfContents headings={headings} mode="mobile" />
+
+      <!-- Post Body Content -->
+      <div class="prose dark:prose-invert max-w-none prose-headings:font-medium prose-headings:text-[var(--white)] prose-p:text-[var(--white-icon)] prose-p:leading-relaxed prose-strong:text-[var(--white)] prose-a:text-[var(--sec)] prose-a:underline-offset-4 prose-code:text-[var(--sec)] prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-neutral-900 dark:prose-pre:bg-[#141414] prose-pre:text-neutral-100 prose-pre:border prose-pre:border-neutral-800 dark:prose-pre:border-[#ffffff10] prose-li:text-[var(--white-icon)] prose-hr:border-neutral-200 dark:prose-hr:border-[#ffffff10]">
+        <slot />
+      </div>
+
+      <!-- Article Footer -->
+      <footer class="mt-14 pt-8 border-t border-[#ffffff10] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">
+        <a href="/blog" class="hover:text-[var(--white)] transition-colors">
+          &larr; Back to all posts
+        </a>
+        <a href="#top" class="hover:text-[var(--white)] transition-colors">
+          Back to top &uarr;
+        </a>
+      </footer>
+    </article>
+
+    <!-- Desktop Sticky Sidebar Table of Contents -->
+    <TableOfContents headings={headings} mode="desktop" />
+  </div>
+
+  <script src="../scripts/blog-enhancements.ts"></script>
 </Layout>

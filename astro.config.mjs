@@ -18,6 +18,26 @@ export default defineConfig({
   build: {
     inlineStylesheets: "always",
   },
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
+      defaultColor: false,
+      langs: [
+        "hcl",
+        "terraform",
+        "bash",
+        "zsh",
+        "yaml",
+        "json",
+        "python",
+        "dockerfile",
+      ],
+      wrap: false,
+    },
+  },
   server: {
     host: true,
     port: 4321,
