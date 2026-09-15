@@ -2,23 +2,67 @@ import { useState } from "react";
 
 const CategoryIcons: Record<string, React.ReactNode> = {
   "Enterprise Cloud Architecture": (
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--sec)]">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-[var(--sec)]"
+    >
       <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
     </svg>
   ),
   "Infrastructure as Code & CI/CD": (
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--sec)]">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-[var(--sec)]"
+    >
       <polyline points="16 18 22 12 16 6" />
       <polyline points="8 6 2 12 8 18" />
     </svg>
   ),
   "Serverless & High-Volume Data": (
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--sec)]">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-[var(--sec)]"
+    >
       <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
     </svg>
   ),
   "DevSecOps & Well-Architected": (
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--sec)]">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-[var(--sec)]"
+    >
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   ),
@@ -52,7 +96,9 @@ const pillars = {
 };
 
 const SkillsList = () => {
-  const [openItem, setOpenItem] = useState<string | null>("Enterprise Cloud Architecture");
+  const [openItem, setOpenItem] = useState<string | null>(
+    "Enterprise Cloud Architecture",
+  );
 
   const toggleItem = (item: string) => {
     setOpenItem(openItem === item ? null : item);
@@ -104,7 +150,9 @@ const SkillsList = () => {
                     <ul className="space-y-2">
                       {items.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2">
-                          <span className="text-[var(--sec)] font-mono text-xs mt-0.5">&bull;</span>
+                          <span className="text-[var(--sec)] font-mono text-xs mt-0.5">
+                            &bull;
+                          </span>
                           <span className="text-xs sm:text-sm">{item}</span>
                         </li>
                       ))}

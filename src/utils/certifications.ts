@@ -1,15 +1,18 @@
-import type { CredentialItem, CertificationOverride } from './credentialTypes';
+import type { CredentialItem, CertificationOverride } from "./credentialTypes";
 import {
   cleanIssuerName,
   formatDate,
   isCredentialExpired,
   parseTime,
   resolvePriority,
-} from './credentialTypes';
-import { fetchCredlyBadges } from './credly';
-import { fetchMicrosoftLearnBadges } from './mslearn';
-import { getManualCredentials, getLocalFallbackCredentials } from './manualCredentials';
-import certSettings from '../content/cv/certification-settings.json';
+} from "./credentialTypes";
+import { fetchCredlyBadges } from "./credly";
+import { fetchMicrosoftLearnBadges } from "./mslearn";
+import {
+  getManualCredentials,
+  getLocalFallbackCredentials,
+} from "./manualCredentials";
+import certSettings from "../content/cv/certification-settings.json";
 
 /**
  * Main credentials orchestrator:
@@ -22,7 +25,8 @@ import certSettings from '../content/cv/certification-settings.json';
  * 7. Sorts by priority (descending), then issue date (newest first), then title
  */
 export async function getAllCredentials(): Promise<CredentialItem[]> {
-  const overrides: CertificationOverride[] = (certSettings as any).overrides || [];
+  const overrides: CertificationOverride[] =
+    (certSettings as any).overrides || [];
 
   const manualBadges = getManualCredentials();
 
@@ -31,25 +35,26 @@ export async function getAllCredentials(): Promise<CredentialItem[]> {
     fetchMicrosoftLearnBadges(),
   ]);
 
-
   // Graceful per-provider fallback: if either API fails/times out, use local education.json for that provider
   let liveOrFallbackMs = msBadges;
   if (liveOrFallbackMs.length === 0) {
     const fallbackList = getLocalFallbackCredentials();
-    liveOrFallbackMs = fallbackList.filter((b) => b.issuer === 'Microsoft');
+    liveOrFallbackMs = fallbackList.filter((b) => b.issuer === "Microsoft");
   }
 
   let liveOrFallbackCredly = credlyBadges;
   if (liveOrFallbackCredly.length === 0) {
     const fallbackList = getLocalFallbackCredentials();
-    liveOrFallbackCredly = fallbackList.filter((b) => b.issuer !== 'Microsoft');
+    liveOrFallbackCredly = fallbackList.filter((b) => b.issuer !== "Microsoft");
   }
 
   const combinedFeeds = [...liveOrFallbackMs, ...liveOrFallbackCredly];
-  const feedTitles = new Set(combinedFeeds.map((b) => b.title.toLowerCase().trim()));
+  const feedTitles = new Set(
+    combinedFeeds.map((b) => b.title.toLowerCase().trim()),
+  );
 
   const nonDuplicatedManual = manualBadges.filter(
-    (m) => !feedTitles.has(m.title.toLowerCase().trim())
+    (m) => !feedTitles.has(m.title.toLowerCase().trim()),
   );
 
   const allBadges = [...combinedFeeds, ...nonDuplicatedManual];
@@ -75,7 +80,10 @@ export async function getAllCredentials(): Promise<CredentialItem[]> {
       if (explicitlyDisplayed) return true;
 
       // Otherwise filter out if expired
-      const expired = isCredentialExpired(badge.rawExpiresDate, badge.expiresDate);
+      const expired = isCredentialExpired(
+        badge.rawExpiresDate,
+        badge.expiresDate,
+      );
       return !expired;
     })
     .map(({ badge }) => badge);
@@ -89,7 +97,7 @@ export const getCredlyBadges = getAllCredentials;
 
 export function findOverrideMatch(
   badge: CredentialItem,
-  overrides: CertificationOverride[]
+  overrides: CertificationOverride[],
 ): CertificationOverride | undefined {
   const badgeTitle = badge.title.toLowerCase().trim();
   const badgeId = badge.id.toLowerCase().trim();
@@ -98,14 +106,15 @@ export function findOverrideMatch(
     const oId = o.id?.toLowerCase().trim();
     const oTitle = o.title?.toLowerCase().trim();
     if (oId && oId === badgeId) return true;
-    if (oTitle && (badgeTitle === oTitle || badgeTitle.includes(oTitle))) return true;
+    if (oTitle && (badgeTitle === oTitle || badgeTitle.includes(oTitle)))
+      return true;
     return false;
   });
 }
 
 export function applyOverrideToBadge(
   badge: CredentialItem,
-  match?: CertificationOverride
+  match?: CertificationOverride,
 ): CredentialItem {
   if (!match) return badge;
 
@@ -124,13 +133,15 @@ export function applyOverrideToBadge(
   }
 
   // 3. Verification URL override (supports verifyUrl, verificationUrl, url)
-  const overrideVerifyUrl = match.verifyUrl || match.verificationUrl || match.url;
+  const overrideVerifyUrl =
+    match.verifyUrl || match.verificationUrl || match.url;
   if (overrideVerifyUrl) {
     result.verifyUrl = overrideVerifyUrl;
   }
 
   // 4. Badge Image URL override (supports imageUrl, badgeUrl, badgeImageUrl)
-  const overrideImageUrl = match.imageUrl || match.badgeUrl || match.badgeImageUrl;
+  const overrideImageUrl =
+    match.imageUrl || match.badgeUrl || match.badgeImageUrl;
   if (overrideImageUrl) {
     result.imageUrl = overrideImageUrl;
   }
@@ -143,10 +154,16 @@ export function applyOverrideToBadge(
   }
 
   // 6. Expiration Date override (supports expiresDate, expiryDate, expires)
-  const overrideExpires = match.expiresDate || match.expiryDate || match.expires;
+  const overrideExpires =
+    match.expiresDate || match.expiryDate || match.expires;
   if (overrideExpires !== undefined) {
     const clean = String(overrideExpires).trim().toLowerCase();
-    if (!overrideExpires || clean === 'never' || clean === 'none' || clean === 'no expiry') {
+    if (
+      !overrideExpires ||
+      clean === "never" ||
+      clean === "none" ||
+      clean === "no expiry"
+    ) {
       result.expiresDate = undefined;
       result.rawExpiresDate = undefined;
     } else {
@@ -166,14 +183,18 @@ export function applyOverrideToBadge(
   }
 
   // 9. Priority / Order ranking
-  result.priority = resolvePriority(match.priority, match.order, badge.priority);
+  result.priority = resolvePriority(
+    match.priority,
+    match.order,
+    badge.priority,
+  );
 
   return result;
 }
 
 export function applyOverrides(
   badge: CredentialItem,
-  overrides: CertificationOverride[]
+  overrides: CertificationOverride[],
 ): CredentialItem {
   const match = findOverrideMatch(badge, overrides);
   return applyOverrideToBadge(badge, match);

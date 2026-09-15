@@ -23,7 +23,18 @@
         "Provided technical leadership and mentorship to engineers and architects, supporting AWS certification pathways and upskilling teams in serverless architecture, Terraform, and cloud-native best practices.",
         "Acted as a key technical stakeholder interface, translating complex architectural concepts into clear recommendations for both technical and non-technical audiences, including senior leadership."
       ],
-      "technologies": ["AWS Lambda", "Amazon DynamoDB", "Amazon S3", "Terraform", "GitHub Actions", "GitLab", "Amazon Inspector", "AWS GuardDuty", "AWS Security Hub", "AWS Well-Architected"]
+      "technologies": [
+        "AWS Lambda",
+        "Amazon DynamoDB",
+        "Amazon S3",
+        "Terraform",
+        "GitHub Actions",
+        "GitLab",
+        "Amazon Inspector",
+        "AWS GuardDuty",
+        "AWS Security Hub",
+        "AWS Well-Architected"
+      ]
     },
     {
       "id": "cloudreach",
@@ -48,7 +59,17 @@
         "Served as a trusted advisor to customers, influencing architectural decisions and guiding cloud adoption journeys from initial strategy through to implementation and optimisation.",
         "Mentored and developed engineers and architects across the practice, contributing to capability growth, certification achievement, and the establishment of cloud architecture best practices within the organisation."
       ],
-      "technologies": ["AWS Landing Zones", "AWS MGN", "AWS DMS", "Terraform", "AWS CloudFormation", "AWS CDK", "DevSecOps", "AWS MAP", "Multi-Account Architecture"]
+      "technologies": [
+        "AWS Landing Zones",
+        "AWS MGN",
+        "AWS DMS",
+        "Terraform",
+        "AWS CloudFormation",
+        "AWS CDK",
+        "DevSecOps",
+        "AWS MAP",
+        "Multi-Account Architecture"
+      ]
     },
     {
       "id": "piksel",
@@ -72,7 +93,16 @@
         "Contributed to pre-sales and commercial activities, including pricing, solution design, and customer presentations, supporting the acquisition and expansion of customer engagements.",
         "Acted as a key technical escalation point within the managed service, supporting complex incident resolution and continuous improvement of platform stability and performance."
       ],
-      "technologies": ["Amazon EC2 Auto Scaling", "Amazon Aurora", "Amazon RDS", "AWS Lambda", "Amazon SQS/SNS", "SAP Hybris (SAP Commerce Cloud)", "Terraform", "CloudFormation"]
+      "technologies": [
+        "Amazon EC2 Auto Scaling",
+        "Amazon Aurora",
+        "Amazon RDS",
+        "AWS Lambda",
+        "Amazon SQS/SNS",
+        "SAP Hybris (SAP Commerce Cloud)",
+        "Terraform",
+        "CloudFormation"
+      ]
     },
     {
       "id": "arqiva",
@@ -87,7 +117,13 @@
         "Responsible for working as a member of a shift-based NOC, providing technical support and incident response for the UK Smart Metering Network with a specialisation in Linux and OSS.",
         "Monitored mission-critical network systems, triaged telemetry anomalies, and maintained high availability across distributed IoT/M2M infrastructure."
       ],
-      "technologies": ["Linux", "Open Source Software (OSS)", "NOC Operations", "M2M Systems", "Network Monitoring"]
+      "technologies": [
+        "Linux",
+        "Open Source Software (OSS)",
+        "NOC Operations",
+        "M2M Systems",
+        "Network Monitoring"
+      ]
     },
     {
       "id": "host-europe",
@@ -103,7 +139,14 @@
         "Designed and supported managed hosting architectures, high-availability dedicated clusters, virtual private servers (VPS), and enterprise storage systems.",
         "Progressed through technical support tiers: VPS Hosting Support Technician, Dedicated Hosting Support Engineer, Managed Hosting Support Technician, and Technical Account Manager."
       ],
-      "technologies": ["Web Hosting Architecture", "Dedicated Servers", "VPS Infrastructure", "Enterprise Storage", "Linux/Windows Server", "Pre-Sales Engineering"]
+      "technologies": [
+        "Web Hosting Architecture",
+        "Dedicated Servers",
+        "VPS Infrastructure",
+        "Enterprise Storage",
+        "Linux/Windows Server",
+        "Pre-Sales Engineering"
+      ]
     }
   ]
 }

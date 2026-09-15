@@ -34,15 +34,70 @@ const LetterGlitch = ({
   const charHeight = 20;
 
   const lettersAndSymbols = [
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-    "!", "@", "#", "$", "&", "*", "(", ")", "-", "_", "+", "=", "/",
-    "[", "]", "{", "}", ";", ":", "<", ">", ",", "0", "1", "2", "3",
-    "4", "5", "6", "7", "8", "9"
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "!",
+    "@",
+    "#",
+    "$",
+    "&",
+    "*",
+    "(",
+    ")",
+    "-",
+    "_",
+    "+",
+    "=",
+    "/",
+    "[",
+    "]",
+    "{",
+    "}",
+    ";",
+    ":",
+    "<",
+    ">",
+    ",",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
   ];
 
   const getRandomChar = () => {
-    return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
+    return lettersAndSymbols[
+      Math.floor(Math.random() * lettersAndSymbols.length)
+    ];
   };
 
   const getRandomColor = () => {
@@ -65,7 +120,7 @@ const LetterGlitch = ({
   const interpolateColor = (
     start: { r: number; g: number; b: number },
     end: { r: number; g: number; b: number },
-    factor: number
+    factor: number,
   ) => {
     const result = {
       r: Math.round(start.r + (end.r - start.r) * factor),
@@ -150,7 +205,11 @@ const LetterGlitch = ({
         const startRgb = hexToRgb(letter.color);
         const endRgb = hexToRgb(letter.targetColor);
         if (startRgb && endRgb) {
-          letter.color = interpolateColor(startRgb, endRgb, letter.colorProgress);
+          letter.color = interpolateColor(
+            startRgb,
+            endRgb,
+            letter.colorProgress,
+          );
           needsRedraw = true;
         }
       }

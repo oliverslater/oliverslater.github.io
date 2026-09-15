@@ -18,6 +18,7 @@ Local Files
 ```
 
 The build pipeline in [`src/utils/certifications.ts`](file:///Users/oliverslater/Downloads/Repo/oliverslater.github.io/oliverslater.github.io/src/utils/certifications.ts):
+
 1. Dynamically pulls from Credly and Microsoft Learn.
 2. Merges with any manual credentials in `manual-certifications.json`.
 3. Automatically excludes expired certifications.
@@ -32,19 +33,19 @@ To customize how ANY certification is displayed (regardless of whether it came f
 
 ### Available Override Attributes
 
-| Attribute | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `title` | `string` | *(required)* | Matches certification title exactly or by substring (case-insensitive). |
-| `displayTitle` | `string` | *(original title)* | Renames the title shown on the credential card. |
-| `displayed` | `boolean` | `true` | Set `false` to hide the credential card from the visible grid on `/cv`. |
-| `includeInCount` | `boolean` | `true` | Set `false` to omit from the headline counter badge (e.g. `47 verified credentials`). |
-| `priority` | `number` | `0` | Higher numbers display first. E.g. `10` floats to the top; `-1` pushes to the bottom. |
-| `order` | `number` | *(optional)* | Friendly ranking alias: `order: 1` = 1st, `order: 2` = 2nd. |
-| `expiresDate` | `string` | *(synced date)* | Overrides expiry date (e.g. `"Jan 2028"` or `"Never"`). Also accepts aliases `expiryDate` or `expires`. If set to a future date or `"Never"`, an expired badge will automatically become active. |
-| `verifyUrl` | `string` | *(synced url)* | Overrides verification URL (e.g. custom transcript or certmetrics link). Also accepts aliases `verificationUrl` or `url`. |
-| `imageUrl` | `string` | *(synced url)* | Overrides badge image URL or SVG icon path. Also accepts `badgeUrl` or `badgeImageUrl`. |
-| `issuer` | `string` | *(synced issuer)* | Overrides issuer organization (e.g. `"AWS"`, `"Microsoft"`, `"HashiCorp"`). |
-| `issueDate` | `string` | *(synced date)* | Overrides issue date (e.g. `"Jan 2025"`). Also accepts `issuedDate` or `issued`. |
+| Attribute        | Type      | Default            | Description                                                                                                                                                                                      |
+| :--------------- | :-------- | :----------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`          | `string`  | _(required)_       | Matches certification title exactly or by substring (case-insensitive).                                                                                                                          |
+| `displayTitle`   | `string`  | _(original title)_ | Renames the title shown on the credential card.                                                                                                                                                  |
+| `displayed`      | `boolean` | `true`             | Set `false` to hide the credential card from the visible grid on `/cv`.                                                                                                                          |
+| `includeInCount` | `boolean` | `true`             | Set `false` to omit from the headline counter badge (e.g. `47 verified credentials`).                                                                                                            |
+| `priority`       | `number`  | `0`                | Higher numbers display first. E.g. `10` floats to the top; `-1` pushes to the bottom.                                                                                                            |
+| `order`          | `number`  | _(optional)_       | Friendly ranking alias: `order: 1` = 1st, `order: 2` = 2nd.                                                                                                                                      |
+| `expiresDate`    | `string`  | _(synced date)_    | Overrides expiry date (e.g. `"Jan 2028"` or `"Never"`). Also accepts aliases `expiryDate` or `expires`. If set to a future date or `"Never"`, an expired badge will automatically become active. |
+| `verifyUrl`      | `string`  | _(synced url)_     | Overrides verification URL (e.g. custom transcript or certmetrics link). Also accepts aliases `verificationUrl` or `url`.                                                                        |
+| `imageUrl`       | `string`  | _(synced url)_     | Overrides badge image URL or SVG icon path. Also accepts `badgeUrl` or `badgeImageUrl`.                                                                                                          |
+| `issuer`         | `string`  | _(synced issuer)_  | Overrides issuer organization (e.g. `"AWS"`, `"Microsoft"`, `"HashiCorp"`).                                                                                                                      |
+| `issueDate`      | `string`  | _(synced date)_    | Overrides issue date (e.g. `"Jan 2025"`). Also accepts `issuedDate` or `issued`.                                                                                                                 |
 
 ### Copy-Pasteable Override Examples
 
@@ -119,5 +120,6 @@ To add credentials not hosted on Credly or Microsoft Learn (e.g. Linux Foundatio
 ## 4. Managing via Pages CMS Browser GUI
 
 Both configuration files are registered in `.pages.yml`:
+
 1. **Non-Credly Credentials**: In Pages CMS, click "Non-Credly Credentials" to add new certifications with direct inputs for title, issuer, dates, `badgeImageUrl`, `verifyUrl`, `displayed`, `includeInCount`, and `priority`.
 2. **Credential Visibility & Count Toggles**: Click "Credential Visibility & Count Toggles" to adjust toggles and priorities with a graphical interface.

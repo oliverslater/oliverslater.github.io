@@ -1,12 +1,14 @@
-import type { CredentialItem } from './credentialTypes';
-import { cleanIssuerName, formatDate } from './credentialTypes';
-import { getCachedData, getStaleCacheData, setCachedData } from './cache';
+import type { CredentialItem } from "./credentialTypes";
+import { cleanIssuerName, formatDate } from "./credentialTypes";
+import { getCachedData, getStaleCacheData, setCachedData } from "./cache";
 
 /**
  * Dynamically fetches Oliver Slater's verified credentials from Credly public API
  * Caches results locally to optimize build and dev times.
  */
-export async function fetchCredlyBadges(username: string = 'oliver-slater'): Promise<CredentialItem[]> {
+export async function fetchCredlyBadges(
+  username: string = "oliver-slater",
+): Promise<CredentialItem[]> {
   const cacheKey = `credly-${username}`;
   const cached = getCachedData<CredentialItem[]>(cacheKey);
   if (cached && Array.isArray(cached) && cached.length > 0) {
@@ -18,8 +20,8 @@ export async function fetchCredlyBadges(username: string = 'oliver-slater'): Pro
   try {
     const response = await fetch(credlyEndpoint, {
       headers: {
-        Accept: 'application/json',
-        'User-Agent': 'OliverSlater-VirtualCV/1.0',
+        Accept: "application/json",
+        "User-Agent": "OliverSlater-VirtualCV/1.0",
       },
       signal: AbortSignal.timeout(6000),
     });
@@ -32,14 +34,14 @@ export async function fetchCredlyBadges(username: string = 'oliver-slater'): Pro
     const badges = payload.data || [];
 
     if (!Array.isArray(badges) || badges.length === 0) {
-      throw new Error('No badges returned from Credly API');
+      throw new Error("No badges returned from Credly API");
     }
 
     const result: CredentialItem[] = badges.map((badge: any) => {
       const issuerName =
         badge.issuer?.entities?.[0]?.entity?.name ||
         badge.badge_template?.issuer?.entities?.[0]?.entity?.name ||
-        'Amazon Web Services';
+        "Amazon Web Services";
 
       const rawExp = badge.expires_at || badge.expires_at_date;
 
@@ -64,14 +66,17 @@ export async function fetchCredlyBadges(username: string = 'oliver-slater'): Pro
   } catch (err) {
     const stale = getStaleCacheData<CredentialItem[]>(cacheKey);
     if (stale && Array.isArray(stale) && stale.length > 0) {
-      console.warn('Notice: Using stale cached credentials for Credly due to network/API error:', err);
+      console.warn(
+        "Notice: Using stale cached credentials for Credly due to network/API error:",
+        err,
+      );
       return stale;
     }
-    console.warn('Notice: Using local credentials fallback for Credly:', err);
+    console.warn("Notice: Using local credentials fallback for Credly:", err);
     return [];
   }
 }
 
 // Backward compatibility re-export
-export { getAllCredentials as getCredlyBadges } from './certifications';
-export type { CredentialItem, CredlyBadge } from './credentialTypes';
+export { getAllCredentials as getCredlyBadges } from "./certifications";
+export type { CredentialItem, CredlyBadge } from "./credentialTypes";

@@ -1,6 +1,6 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import yaml from 'js-yaml';
+import fs from "node:fs";
+import path from "node:path";
+import yaml from "js-yaml";
 
 const rootDir = process.cwd();
 
@@ -8,13 +8,20 @@ const rootDir = process.cwd();
 function findYamlFiles(dir, fileList = []) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
-    if (entry.name === 'node_modules' || entry.name === '.git' || entry.name === 'dist') {
+    if (
+      entry.name === "node_modules" ||
+      entry.name === ".git" ||
+      entry.name === "dist"
+    ) {
       continue;
     }
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       findYamlFiles(fullPath, fileList);
-    } else if (entry.isFile() && (entry.name.endsWith('.yml') || entry.name.endsWith('.yaml'))) {
+    } else if (
+      entry.isFile() &&
+      (entry.name.endsWith(".yml") || entry.name.endsWith(".yaml"))
+    ) {
       fileList.push(fullPath);
     }
   }
@@ -29,7 +36,7 @@ console.log(`Validating ${yamlFiles.length} YAML file(s)...`);
 for (const filePath of yamlFiles) {
   const relativePath = path.relative(rootDir, filePath);
   try {
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, "utf8");
     yaml.load(content);
     console.log(`  ✓ ${relativePath}`);
   } catch (err) {
@@ -40,8 +47,8 @@ for (const filePath of yamlFiles) {
 }
 
 if (hasError) {
-  console.error('\nYAML validation failed!');
+  console.error("\nYAML validation failed!");
   process.exit(1);
 } else {
-  console.log('\nAll YAML files validated successfully.');
+  console.log("\nAll YAML files validated successfully.");
 }

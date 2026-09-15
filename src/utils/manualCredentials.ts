@@ -1,8 +1,11 @@
-import type { CredentialItem } from './credentialTypes';
-import { cleanIssuerName, resolvePriority } from './credentialTypes';
-import { getDefaultMicrosoftBadgeIcon, MS_LEARN_PUBLIC_TRANSCRIPT_URL } from './mslearn';
-import manualCertsData from '../content/cv/manual-certifications.json';
-import educationData from '../content/cv/education.json';
+import type { CredentialItem } from "./credentialTypes";
+import { cleanIssuerName, resolvePriority } from "./credentialTypes";
+import {
+  getDefaultMicrosoftBadgeIcon,
+  MS_LEARN_PUBLIC_TRANSCRIPT_URL,
+} from "./mslearn";
+import manualCertsData from "../content/cv/manual-certifications.json";
+import educationData from "../content/cv/education.json";
 
 /**
  * Loads and normalizes manual certifications from manual-certifications.json
@@ -18,7 +21,12 @@ export function getManualCredentials(): CredentialItem[] {
       rawDate: c.rawDate || c.issueDate,
       expiresDate: c.expiresDate,
       rawExpiresDate: c.expiresDate,
-      imageUrl: c.badgeImageUrl || c.imageUrl || (issuer === 'Microsoft' ? getDefaultMicrosoftBadgeIcon(c.title) : undefined),
+      imageUrl:
+        c.badgeImageUrl ||
+        c.imageUrl ||
+        (issuer === "Microsoft"
+          ? getDefaultMicrosoftBadgeIcon(c.title)
+          : undefined),
       verifyUrl: c.verifyUrl,
       displayed: c.displayed !== undefined ? c.displayed : true,
       includeInCount: c.includeInCount !== undefined ? c.includeInCount : true,
@@ -33,7 +41,9 @@ export function getManualCredentials(): CredentialItem[] {
  */
 export function getLocalFallbackCredentials(): CredentialItem[] {
   return educationData.qualifications.map((q: any, idx: number) => {
-    const expStr = q.validity?.includes('–') ? q.validity.split('–')[1]?.trim() : undefined;
+    const expStr = q.validity?.includes("–")
+      ? q.validity.split("–")[1]?.trim()
+      : undefined;
     const issuer = cleanIssuerName(q.issuer);
     return {
       id: `local-fallback-${idx}`,
@@ -43,10 +53,16 @@ export function getLocalFallbackCredentials(): CredentialItem[] {
       rawDate: q.validity,
       expiresDate: expStr,
       rawExpiresDate: expStr,
-      imageUrl: q.badgeImageUrl || q.imageUrl || (issuer === 'Microsoft' ? getDefaultMicrosoftBadgeIcon(q.title) : undefined),
-      verifyUrl: issuer === 'Microsoft'
-        ? MS_LEARN_PUBLIC_TRANSCRIPT_URL
-        : 'https://www.credly.com/users/oliver-slater',
+      imageUrl:
+        q.badgeImageUrl ||
+        q.imageUrl ||
+        (issuer === "Microsoft"
+          ? getDefaultMicrosoftBadgeIcon(q.title)
+          : undefined),
+      verifyUrl:
+        issuer === "Microsoft"
+          ? MS_LEARN_PUBLIC_TRANSCRIPT_URL
+          : "https://www.credly.com/users/oliver-slater",
       displayed: q.displayed !== undefined ? q.displayed : true,
       includeInCount: q.includeInCount !== undefined ? q.includeInCount : true,
       priority: resolvePriority(q.priority, q.order, 0),

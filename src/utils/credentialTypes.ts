@@ -40,20 +40,20 @@ export interface CertificationOverride {
 }
 
 export function cleanIssuerName(raw: string): string {
-  if (raw.includes('Amazon Web Services')) return 'AWS';
-  if (raw.includes('HashiCorp')) return 'HashiCorp';
-  if (raw.includes('Microsoft')) return 'Microsoft';
-  if (raw.includes('IBM')) return 'IBM';
+  if (raw.includes("Amazon Web Services")) return "AWS";
+  if (raw.includes("HashiCorp")) return "HashiCorp";
+  if (raw.includes("Microsoft")) return "Microsoft";
+  if (raw.includes("IBM")) return "IBM";
   return raw;
 }
 
 export function formatDate(dateStr?: string): string {
-  if (!dateStr) return '';
+  if (!dateStr) return "";
   try {
     const d = new Date(dateStr);
-    return new Intl.DateTimeFormat('en-GB', {
-      month: 'short',
-      year: 'numeric',
+    return new Intl.DateTimeFormat("en-GB", {
+      month: "short",
+      year: "numeric",
     }).format(d);
   } catch {
     return dateStr;
@@ -71,13 +71,20 @@ export function parseTime(str?: string): number {
   }
 }
 
-export function isCredentialExpired(rawExpiresDate?: string, formattedExpiresDate?: string): boolean {
+export function isCredentialExpired(
+  rawExpiresDate?: string,
+  formattedExpiresDate?: string,
+): boolean {
   if (!rawExpiresDate && !formattedExpiresDate) return false;
   const target = rawExpiresDate || formattedExpiresDate;
   if (!target) return false;
 
   try {
-    const clean = target.split(/[–—]|\s+-\s+/).pop()?.trim() || target;
+    const clean =
+      target
+        .split(/[–—]|\s+-\s+/)
+        .pop()
+        ?.trim() || target;
     const expTime = new Date(clean).getTime();
     if (isNaN(expTime)) return false;
 
@@ -85,7 +92,14 @@ export function isCredentialExpired(rawExpiresDate?: string, formattedExpiresDat
     const isOnlyMonthYear = /^[A-Za-z]{3,}\s+\d{4}$/.test(clean);
     if (isOnlyMonthYear) {
       const d = new Date(clean);
-      const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).getTime();
+      const endOfMonth = new Date(
+        d.getFullYear(),
+        d.getMonth() + 1,
+        0,
+        23,
+        59,
+        59,
+      ).getTime();
       return endOfMonth < Date.now();
     }
 
@@ -95,7 +109,11 @@ export function isCredentialExpired(rawExpiresDate?: string, formattedExpiresDat
   }
 }
 
-export function resolvePriority(priority?: number, order?: number, defaultVal: number = 0): number {
+export function resolvePriority(
+  priority?: number,
+  order?: number,
+  defaultVal: number = 0,
+): number {
   if (priority !== undefined && !isNaN(Number(priority))) {
     return Number(priority);
   }

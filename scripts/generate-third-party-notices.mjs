@@ -1,31 +1,36 @@
-import { createHash } from 'node:crypto';
-import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { createHash } from "node:crypto";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import prettier from "prettier";
 
-const rootDirectory = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const lockfilePath = resolve(rootDirectory, 'package-lock.json');
-const noticesPath = resolve(rootDirectory, 'THIRD-PARTY-NOTICES.md');
-const licensesDirectory = resolve(rootDirectory, 'third-party-licenses');
-const checkOnly = process.argv.includes('--check');
+const rootDirectory = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const lockfilePath = resolve(rootDirectory, "package-lock.json");
+const noticesPath = resolve(rootDirectory, "THIRD-PARTY-NOTICES.md");
+const licensesDirectory = resolve(rootDirectory, "third-party-licenses");
+const checkOnly = process.argv.includes("--check");
 const distributedPackageNames = new Set([
-  '@fontsource-variable/montserrat',
-  'react',
-  'react-dom',
+  "@fontsource-variable/montserrat",
+  "react",
+  "react-dom",
 ]);
 
-const lockfile = JSON.parse(await readFile(lockfilePath, 'utf8'));
+const lockfile = JSON.parse(await readFile(lockfilePath, "utf8"));
 const packages = Object.entries(lockfile.packages)
-  .filter(([path]) => path.startsWith('node_modules/'))
+  .filter(([path]) => path.startsWith("node_modules/"))
   .map(([path, metadata]) => ({
     path,
     name: getPackageName(path, metadata),
-    version: metadata.version ?? 'unknown',
+    version: metadata.version ?? "unknown",
     license: getLicense(metadata),
-    scope: 'distributed',
+    scope: "distributed",
   }))
   .filter((packageInfo) => distributedPackageNames.has(packageInfo.name))
-  .sort((left, right) => left.name.localeCompare(right.name) || left.version.localeCompare(right.version));
+  .sort(
+    (left, right) =>
+      left.name.localeCompare(right.name) ||
+      left.version.localeCompare(right.version),
+  );
 
 const licenseFiles = await collectLicenseFiles(packages);
 const licenseLinks = await writeLicenseFiles(licenseFiles);
@@ -37,15 +42,21 @@ const licenseCounts = packages.reduce((counts, packageInfo) => {
 
 const summary = [...licenseCounts.entries()]
   .sort(([left], [right]) => left.localeCompare(right))
-  .map(([license, count]) => `- ${license}: ${count} package${count === 1 ? '' : 's'}`)
-  .join('\n');
+  .map(
+    ([license, count]) =>
+      `- ${license}: ${count} package${count === 1 ? "" : "s"}`,
+  )
+  .join("\n");
 
-const rows = packages.map((packageInfo) => {
-  const packageUrl = `https://www.npmjs.com/package/${packageInfo.name}`;
-  return `| [${packageInfo.name}](${packageUrl}) | ${packageInfo.version} | ${packageInfo.license} | ${packageInfo.scope} | [full text](third-party-licenses/${licenseLinks.get(packageInfo.path)}) |`;
-}).join('\n');
+const rows = packages
+  .map((packageInfo) => {
+    const packageUrl = `https://www.npmjs.com/package/${packageInfo.name}`;
+    return `| [${packageInfo.name}](${packageUrl}) | ${packageInfo.version} | ${packageInfo.license} | ${packageInfo.scope} | [full text](third-party-licenses/${licenseLinks.get(packageInfo.path)}) |`;
+  })
+  .join("\n");
 
-const content = `# Third-Party Notices
+const content = await prettier.format(
+  `# Third-Party Notices
 
 This file records npm packages bundled into the browser-facing static assets. It is generated from [package-lock.json](package-lock.json) and intentionally excludes Astro, Tailwind, Sharp, TypeScript, and other build-time dependencies that are not included in \`dist/\`.
 
@@ -75,10 +86,12 @@ ${rows}
 - A package's license applies to that package and its authors; the project's MIT license applies only to original project code that Oliver Slater can license.
 - Every redistributed package entry links to a preserved full license or notice text collected from its installed package metadata.
 - The distributed package set is maintained explicitly in \`distributedPackageNames\` above. Recheck it when generated browser assets change.
-`;
+`,
+  { filepath: noticesPath },
+);
 
 if (checkOnly) {
-  const currentContent = await readFile(noticesPath, 'utf8').catch(() => null);
+  const currentContent = await readFile(noticesPath, "utf8").catch(() => null);
   if (currentContent !== content) {
     console.error(`${noticesPath} is out of date. Run npm run licenses.`);
     process.exitCode = 1;
@@ -87,7 +100,9 @@ if (checkOnly) {
   }
 } else {
   await writeFile(noticesPath, content);
-  console.log(`Wrote ${packages.length} package notices and ${licenseLinks.size} full-text notices.`);
+  console.log(
+    `Wrote ${packages.length} package notices and ${licenseLinks.size} full-text notices.`,
+  );
 }
 
 async function collectLicenseFiles(packageInfos) {
@@ -99,7 +114,7 @@ async function collectLicenseFiles(packageInfos) {
     const candidates = await findNoticeFiles(packageDirectory);
     for (const candidate of candidates) {
       const content = await readFile(candidate);
-      const hash = createHash('sha256').update(content).digest('hex');
+      const hash = createHash("sha256").update(content).digest("hex");
       const notice = { content, hash, source: candidate };
       filesByHash.set(hash, notice);
       filesByLicense.set(packageInfo.license, notice);
@@ -109,8 +124,9 @@ async function collectLicenseFiles(packageInfos) {
 
   const result = new Map();
   for (const packageInfo of packageInfos) {
-    const notice = filesByLicense.get(`${packageInfo.name}@${packageInfo.version}`)
-      ?? filesByLicense.get(packageInfo.license);
+    const notice =
+      filesByLicense.get(`${packageInfo.name}@${packageInfo.version}`) ??
+      filesByLicense.get(packageInfo.license);
     if (notice) {
       result.set(packageInfo.path, notice);
     }
@@ -120,9 +136,17 @@ async function collectLicenseFiles(packageInfos) {
 }
 
 async function findNoticeFiles(packageDirectory) {
-  const entries = await readdir(packageDirectory, { withFileTypes: true }).catch(() => []);
+  const entries = await readdir(packageDirectory, {
+    withFileTypes: true,
+  }).catch(() => []);
   return entries
-    .filter((entry) => entry.isFile() && /^(license|licence|copying|notice|copyright)([-_.].*)?$/i.test(entry.name))
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        /^(license|licence|copying|notice|copyright)([-_.].*)?$/i.test(
+          entry.name,
+        ),
+    )
     .map((entry) => resolve(packageDirectory, entry.name));
 }
 
@@ -136,7 +160,9 @@ async function writeLicenseFiles(licenseFiles) {
     let relativePath = pathsByHash.get(notice.hash);
     if (!relativePath) {
       const packageInfo = packages.find(({ path }) => path === packagePath);
-      const safeName = packageInfo.name.replace(/[^a-zA-Z0-9@._-]/g, '-').replace(/^@/, 'at-');
+      const safeName = packageInfo.name
+        .replace(/[^a-zA-Z0-9@._-]/g, "-")
+        .replace(/^@/, "at-");
       relativePath = `${safeName}-${notice.hash.slice(0, 12)}.txt`;
       await writeFile(resolve(licensesDirectory, relativePath), notice.content);
       pathsByHash.set(notice.hash, relativePath);
@@ -152,20 +178,22 @@ function getPackageName(packagePath, metadata) {
     return metadata.name;
   }
 
-  const packagePathParts = packagePath.split('node_modules/').at(-1).split('/');
-  return packagePathParts[0].startsWith('@')
-    ? packagePathParts.slice(0, 2).join('/')
+  const packagePathParts = packagePath.split("node_modules/").at(-1).split("/");
+  return packagePathParts[0].startsWith("@")
+    ? packagePathParts.slice(0, 2).join("/")
     : packagePathParts[0];
 }
 
 function getLicense(metadata) {
-  if (typeof metadata.license === 'string') {
+  if (typeof metadata.license === "string") {
     return metadata.license;
   }
 
   if (Array.isArray(metadata.licenses)) {
-    return metadata.licenses.map((license) => license.type ?? license).join(' OR ');
+    return metadata.licenses
+      .map((license) => license.type ?? license)
+      .join(" OR ");
   }
 
-  return 'UNKNOWN';
+  return "UNKNOWN";
 }

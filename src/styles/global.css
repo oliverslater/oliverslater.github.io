@@ -1,4 +1,4 @@
-@import '@fontsource-variable/montserrat';
+@import "@fontsource-variable/montserrat";
 
 @tailwind base;
 @tailwind components;
@@ -38,9 +38,17 @@
   body {
     background-color: var(--background);
     color: var(--white);
-    font-family: 'Montserrat Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family:
+      "Montserrat Variable",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif;
     min-height: 100vh;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
   }
 
   ::selection {
@@ -108,13 +116,18 @@ html:not(.dark) .shiny-white {
     size: auto;
   }
 
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
   /* Force light theme across all elements in print, regardless of user UI theme preference */
-  :root, html, html.dark, body {
+  :root,
+  html,
+  html.dark,
+  body {
     --background: #ffffff !important;
     --white: #111827 !important;
     --white-icon: #374151 !important;
@@ -208,7 +221,10 @@ html:not(.dark) .shiny-white {
     page-break-inside: avoid !important;
   }
 
-  h1, h2, h3, h4,
+  h1,
+  h2,
+  h3,
+  h4,
   .print-break-after-avoid {
     break-after: avoid !important;
     page-break-after: avoid !important;
