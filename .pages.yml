@@ -32,7 +32,8 @@ content:
         type: image
       - name: tags
         label: Tags
-        type: list
+        type: string
+        list: true
       - name: draft
         label: Draft
         type: boolean
@@ -81,7 +82,8 @@ content:
         type: string
       - name: coreCompetencies
         label: Core Competencies
-        type: list
+        type: string
+        list: true
 
   - name: experience
     label: CV Experience
@@ -90,7 +92,8 @@ content:
     fields:
       - name: roles
         label: Work Roles
-        type: list
+        type: object
+        list: true
         fields:
           - name: id
             label: ID
@@ -124,10 +127,12 @@ content:
             type: text
           - name: highlights
             label: Achievements / Highlights
-            type: list
+            type: string
+            list: true
           - name: technologies
             label: Technologies Used
-            type: list
+            type: string
+            list: true
 
   - name: skills
     label: CV Skills
@@ -136,14 +141,16 @@ content:
     fields:
       - name: categories
         label: Skill Categories
-        type: list
+        type: object
+        list: true
         fields:
           - name: category
             label: Category Name
             type: string
           - name: skills
             label: Skill List
-            type: list
+            type: string
+            list: true
 
   - name: manual-certifications
     label: Non-Credly Credentials
@@ -152,7 +159,8 @@ content:
     fields:
       - name: certifications
         label: Certifications
-        type: list
+        type: object
+        list: true
         fields:
           - name: id
             label: Unique ID (slug)
@@ -200,7 +208,8 @@ content:
     fields:
       - name: overrides
         label: Credential Visibility & Count Overrides
-        type: list
+        type: object
+        list: true
         fields:
           - name: title
             label: Certification Title (or keyword)
