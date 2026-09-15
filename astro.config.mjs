@@ -20,4 +20,11 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    inlineStylesheets: 'auto',
+  },
+  server: {
+    host: true,
+    port: 4321,
+  },
 });
