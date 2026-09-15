@@ -14,11 +14,15 @@ const navItems = [
   { href: "/contact", label: "Contact" },
 ];
 
+const normalize = (path: string) => path.replace(/\/+$/, "") || "/";
+const normCurrent = normalize(currentPath);
+
 const isActive = (href: string) => {
-  if (href === "/") {
-    return currentPath === "/" || currentPath === "";
+  const normHref = normalize(href);
+  if (normHref === "/") {
+    return normCurrent === "/";
   }
-  return currentPath.startsWith(href);
+  return normCurrent === normHref || normCurrent.startsWith(`${normHref}/`);
 };
 ---
 
@@ -26,11 +30,13 @@ const isActive = (href: string) => {
   <nav
     id="main-nav"
     class="flex items-center gap-1 sm:gap-4 px-4 sm:px-6 py-2.5 rounded-full border border-neutral-200/80 dark:border-[#ffffff15] bg-white/85 dark:bg-[#141414]/85 backdrop-blur-xl shadow-xl transition-all duration-300"
+    aria-label="Primary navigation"
   >
     <!-- Brand / Name -->
     <a
       href="/"
-      class="group flex items-center gap-1.5 font-medium text-xs sm:text-sm tracking-tight text-[var(--white)] hover:text-neutral-900 dark:hover:text-white transition-colors mr-1 sm:mr-2"
+      class="group flex items-center gap-1.5 font-medium text-xs sm:text-sm tracking-tight text-[var(--white)] hover:text-neutral-900 dark:hover:text-white transition-colors mr-1 sm:mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] rounded-full px-1.5 py-0.5"
+      aria-label="Oliver Slater Home"
     >
       <span class="font-semibold">os</span>
     </a>
@@ -44,8 +50,9 @@ const isActive = (href: string) => {
         return (
           <a
             href={item.href}
+            data-nav-item="true"
             class:list={[
-              "relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-200 group",
+              "relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]",
               active
                 ? "text-neutral-900 dark:text-white font-medium bg-neutral-200/70 dark:bg-[#ffffff10]"
                 : "text-[var(--white-icon)] hover:text-neutral-900 dark:hover:text-white",
@@ -54,7 +61,7 @@ const isActive = (href: string) => {
           >
             {active && (
               <span
-                class="w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"
+                class="nav-active-dot w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"
                 aria-hidden="true"
               ></span>
             )}
@@ -69,3 +76,54 @@ const isActive = (href: string) => {
     <ThemeToggle />
   </nav>
 </div>
+
+<script>
+  function syncActiveNav() {
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>(
+      "#main-nav a[data-nav-item='true']",
+    );
+    const pathname = window.location.pathname.replace(/\/+$/, "") || "/";
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href")?.replace(/\/+$/, "") || "/";
+      const isMatch =
+        href === "/"
+          ? pathname === "/"
+          : pathname === href || pathname.startsWith(href + "/");
+
+      if (isMatch) {
+        link.setAttribute("aria-current", "page");
+        link.classList.add(
+          "text-neutral-900",
+          "dark:text-white",
+          "font-medium",
+          "bg-neutral-200/70",
+          "dark:bg-[#ffffff10]",
+        );
+        link.classList.remove("text-[var(--white-icon)]");
+        if (!link.querySelector(".nav-active-dot")) {
+          const dot = document.createElement("span");
+          dot.className =
+            "nav-active-dot w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse";
+          dot.setAttribute("aria-hidden", "true");
+          link.prepend(dot);
+        }
+      } else {
+        link.removeAttribute("aria-current");
+        link.classList.remove(
+          "text-neutral-900",
+          "dark:text-white",
+          "font-medium",
+          "bg-neutral-200/70",
+          "dark:bg-[#ffffff10]",
+        );
+        link.classList.add("text-[var(--white-icon)]");
+        const dot = link.querySelector(".nav-active-dot");
+        if (dot) dot.remove();
+      }
+    });
+  }
+
+  syncActiveNav();
+  document.addEventListener("astro:after-swap", syncActiveNav);
+</script>

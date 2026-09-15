@@ -23,6 +23,7 @@
     "sitemap": "node scripts/generate-sitemap.mjs",
     "licenses": "node scripts/generate-third-party-notices.mjs",
     "licenses:check": "node scripts/generate-third-party-notices.mjs --check",
+    "pdf": "node scripts/generate-pdf.mjs",
     "prepare": "husky"
   },
   "lint-staged": {

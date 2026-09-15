@@ -1,0 +1,288 @@
+---
+// src/components/TechPill.astro
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className = "" } = Astro.props;
+
+// Determine icon based on normalized technology name
+const norm = name.toLowerCase().trim();
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono border transition-colors select-none",
+    "bg-neutral-100/90 dark:bg-[#ffffff08] text-neutral-700 dark:text-[var(--white)] border-neutral-200/80 dark:border-[#ffffff15] hover:border-neutral-300 dark:hover:border-[#ffffff25]",
+    "print:border-none print:p-0 print:bg-transparent print:!text-neutral-800",
+    className,
+  ]}
+>
+  {/* Inline Clean SVGs */}
+  {norm.includes("aws") &&
+    !norm.includes("lambda") &&
+    !norm.includes("s3") &&
+    !norm.includes("aurora") && (
+      <svg
+        class="w-3.5 h-3.5 text-[#FF9900] shrink-0 print:hidden"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        width="14"
+        height="14"
+        aria-hidden="true"
+      >
+        <path d="M18.75 14.25C17.5 15.2 15.2 16.1 12 16.1c-4.4 0-6.9-1.9-7.2-2.1-.3-.2-.5 0-.5.3 0 .1.1.3.3.4.4.4 2.8 2.3 7.4 2.3 3.5 0 6.1-1 7.4-2.1.3-.2.2-.6-.2-.6h-.45zM19.9 15.8c-.2-.3-1.4-.7-2.7-.7-.4 0-.4.3 0 .5 1.1.5 2.4.5 2.6.4.2 0 .3-.1.1-.2z" />
+        <path
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          opacity="0.2"
+        />
+      </svg>
+    )}
+
+  {norm.includes("lambda") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#FF9900] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M7.7 20h2.6l3.4-6.3 3 6.3h2.6l-4.4-8.7L18.4 4h-2.6l-3.3 6.3L9.5 4H6.9l4.5 8.7L7.7 20z" />
+    </svg>
+  )}
+
+  {(norm.includes("s3") || norm.includes("storage")) && (
+    <svg
+      class="w-3.5 h-3.5 text-[#569A31] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" />
+      <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" />
+    </svg>
+  )}
+
+  {(norm.includes("dynamodb") || norm.includes("nosql")) && (
+    <svg
+      class="w-3.5 h-3.5 text-[#3F8624] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5" />
+      <path d="M3 12v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6" />
+    </svg>
+  )}
+
+  {(norm.includes("aurora") ||
+    norm.includes("sql") ||
+    norm.includes("relational")) &&
+    !norm.includes("nosql") && (
+      <svg
+        class="w-3.5 h-3.5 text-[#2E73B8] shrink-0 print:hidden"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        width="14"
+        height="14"
+        aria-hidden="true"
+      >
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+      </svg>
+    )}
+
+  {norm.includes("azure") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#0089D6] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M13.05 4.24l-5.69 9.87 4.7 3.32 6.54-11.23L13.05 4.24zm-6.6 11.45l-3.95 4.07h13.9l-2.73-4.07H6.45z" />
+    </svg>
+  )}
+
+  {norm.includes("terraform") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#844FBA] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M1.44 0v7.575l6.561 3.79V3.788L1.44 0zm7.2 4.212v7.575L15.2 8V.424L8.64 4.212zm7.2 0v7.575l6.56-3.789V.424L15.84 4.212zM8.64 12.213v7.575l6.56-3.79V8.423l-6.56 3.79z" />
+    </svg>
+  )}
+
+  {norm.includes("kubernetes") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#326CE5] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M12 2l8.66 5v10L12 22l-8.66-5V7L12 2zm-.03 2.31L4.99 8.52v6.96l6.98 4.21 6.98-4.21V8.52l-6.98-4.21z" />
+    </svg>
+  )}
+
+  {norm.includes("docker") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#2496ED] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.186.186.186" />
+    </svg>
+  )}
+
+  {norm.includes("python") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#3776AB] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M11.91 2c-4.22 0-3.95 1.83-3.95 1.83l.01 1.9h4.03v.57H6.28S2 5.83 2 10.05c0 4.22 3.73 4.07 3.73 4.07h1.12v-1.57s-.06-1.87 1.84-1.87h4.01s1.77.03 1.77-1.74V4.99S14.86 2 11.91 2z" />
+    </svg>
+  )}
+
+  {norm.includes("github") && (
+    <svg
+      class="w-3.5 h-3.5 text-[var(--white)] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z" />
+    </svg>
+  )}
+
+  {norm.includes("gitlab") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#FC6D26] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="m23.6 9.6-1.6-4.9c-.2-.6-.9-.8-1.4-.4l-8.6 6.5L3.4 4.3c-.5-.4-1.2-.2-1.4.4L.4 9.6c-.2.5 0 1.1.4 1.4l11.2 8.3L23.2 11c.4-.3.6-.9.4-1.4z" />
+    </svg>
+  )}
+
+  {norm.includes("linux") && (
+    <svg
+      class="w-3.5 h-3.5 text-[#FCC624] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      />
+      <circle cx="9" cy="10" r="1.5" />
+      <circle cx="15" cy="10" r="1.5" />
+      <path
+        d="M10 15c.5.5 1.5.8 2 .8s1.5-.3 2-.8"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+    </svg>
+  )}
+
+  {(norm.includes("security") ||
+    norm.includes("iam") ||
+    norm.includes("governance") ||
+    norm.includes("well-architected")) && (
+    <svg
+      class="w-3.5 h-3.5 text-[var(--sec)] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  )}
+
+  {/* Fallback Chip / Terminal Icon for other technologies */}
+  {!norm.includes("aws") &&
+    !norm.includes("azure") &&
+    !norm.includes("terraform") &&
+    !norm.includes("kubernetes") &&
+    !norm.includes("docker") &&
+    !norm.includes("python") &&
+    !norm.includes("github") &&
+    !norm.includes("gitlab") &&
+    !norm.includes("linux") &&
+    !norm.includes("security") &&
+    !norm.includes("iam") &&
+    !norm.includes("governance") &&
+    !norm.includes("well-architected") && (
+      <svg
+        class="w-3.5 h-3.5 text-[var(--sec)] shrink-0 opacity-80 print:hidden"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        width="14"
+        height="14"
+        aria-hidden="true"
+      >
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
+      </svg>
+    )}
+
+  <span>{name}</span>
+</span>

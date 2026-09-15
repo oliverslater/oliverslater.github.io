@@ -80,11 +80,23 @@
   "overrides": [
     {
       "title": "AWS Certified Solutions Architect – Professional",
-      "priority": 10
+      "priority": 25,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
     },
     {
       "title": "Azure Solutions Architect Expert",
-      "priority": 10
+      "priority": 20,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "HashiCorp Certified: Terraform Authoring and Operations Professional",
+      "priority": 18,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "HashiCorp Certified: Terraform Associate",
+      "priority": 16,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
     },
     {
       "title": "AWS Partner: Generative AI Essentials",

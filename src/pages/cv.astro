@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import CVSection from "../components/CVSection.astro";
 import Headshot from "../components/Headshot.astro";
+import TechPill from "../components/TechPill.astro";
 import { experienceData, profileData, skillsData } from "../data/siteData";
 import { getAllCredentials } from "../utils/certifications";
 import { isCredentialExpired } from "../utils/credentialTypes";
@@ -23,8 +24,8 @@ const totalExperienceYears = calculateTotalExperienceYears(
   description={`Scannable curriculum vitae of ${profileData.name} - ${profileData.title}. Detailed work history, system architecture experience, and skill set.`}
 >
   <div class="max-w-4xl mx-auto">
-    <!-- Top Action Bar (Print & Contact) -->
-    <div class="no-print flex items-center justify-between pb-6 mb-8 border-b border-[#ffffff10]">
+    <!-- Top Action Bar (Print & Direct PDF Download) -->
+    <div class="no-print flex flex-wrap items-center justify-between gap-3 pb-6 mb-8 border-b border-[#ffffff10]">
       <a
         href="/"
         class="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
@@ -32,11 +33,11 @@ const totalExperienceYears = calculateTotalExperienceYears(
         <span>&larr;</span> Back to Overview
       </a>
 
-      <div class="flex items-center gap-2.5">
+      <div class="flex flex-wrap items-center gap-2.5">
         <button
           type="button"
-          onclick="window.print()"
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors"
+          id="cv-print-btn"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors cursor-pointer"
         >
           <svg
             class="w-3.5 h-3.5 text-[var(--sec)]"
@@ -47,13 +48,42 @@ const totalExperienceYears = calculateTotalExperienceYears(
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            width="14"
+            height="14"
+            aria-hidden="true"
           >
             <polyline points="6 9 6 2 18 2 18 9"></polyline>
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
             <rect x="6" y="14" width="12" height="8"></rect>
           </svg>
-          Print / PDF
+          <span>Print / PDF</span>
         </button>
+
+        <a
+          href="/Oliver_Slater_CV.pdf"
+          download="Oliver_Slater_CV.pdf"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors"
+          aria-label="Download Oliver Slater CV as PDF directly"
+        >
+          <svg
+            class="w-3.5 h-3.5 text-[var(--sec)]"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            width="14"
+            height="14"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download PDF</span>
+        </a>
 
         <a
           href="/contact"
@@ -63,6 +93,32 @@ const totalExperienceYears = calculateTotalExperienceYears(
         </a>
       </div>
     </div>
+
+    <!-- Fallback Print Dialog -->
+    <dialog
+      id="print-fallback-dialog"
+      class="backdrop:bg-black/60 p-6 rounded-2xl bg-white dark:bg-[#18181b] text-[var(--white)] border border-neutral-200 dark:border-[var(--white-icon-tr)] shadow-2xl max-w-sm mx-auto my-auto"
+    >
+      <h3 class="text-base font-semibold mb-2">Print to PDF</h3>
+      <p class="text-xs text-[var(--white-icon)] leading-relaxed mb-4">
+        To save as a clean PDF, open your browser's print dialog (
+        <kbd class="px-1.5 py-0.5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 font-mono">
+          Cmd + P
+        </kbd>{" "}
+        on Mac or{" "}
+        <kbd class="px-1.5 py-0.5 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 font-mono">
+          Ctrl + P
+        </kbd>{" "}
+        on Windows) and select <strong>Save as PDF</strong> as the destination.
+      </p>
+      <button
+        type="button"
+        id="close-print-dialog"
+        class="w-full py-2 rounded-xl text-xs font-semibold bg-[var(--sec)] text-white dark:text-black hover:opacity-90 transition-opacity"
+      >
+        Understood
+      </button>
+    </dialog>
 
     <!-- CV Header -->
     <header class="mb-14 pb-8 print:mb-4 print:pb-3 border-b border-[#ffffff10] print:border-neutral-300">
@@ -100,14 +156,14 @@ const totalExperienceYears = calculateTotalExperienceYears(
           {showEmail && contactEmail ? (
             <a
               href={`mailto:${contactEmail}`}
-              class="hover:text-[var(--sec)] transition-colors print:!text-black"
+              class="hover:text-[var(--sec)] transition-colors print:!text-black no-print-url"
             >
               {contactEmail}
             </a>
           ) : (
             <a
               href="/contact"
-              class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-[var(--sec)]/10 border border-[var(--sec)]/30 text-[var(--sec)] print:p-0 print:border-none print:!text-black font-mono text-[11px] print:text-[10px]"
+              class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-[var(--sec)]/10 border border-[var(--sec)]/30 text-[var(--sec)] print:p-0 print:border-none print:!text-black font-mono text-[11px] print:text-[10px] no-print-url"
             >
               <span class="print:hidden">Get in Touch &nearr;</span>
               <span class="hidden print:inline font-mono">
@@ -127,7 +183,7 @@ const totalExperienceYears = calculateTotalExperienceYears(
             href={profileData.website}
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-[var(--sec)] transition-colors print:!text-black"
+            class="hover:text-[var(--sec)] transition-colors print:!text-black no-print-url"
           >
             {profileData.website.replace("https://", "")}
           </a>
@@ -140,7 +196,7 @@ const totalExperienceYears = calculateTotalExperienceYears(
             href={profileData.github}
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-[var(--sec)] transition-colors print:!text-black"
+            class="hover:text-[var(--sec)] transition-colors print:!text-black no-print-url"
           >
             {profileData.github.replace("https://", "")}
           </a>
@@ -153,7 +209,7 @@ const totalExperienceYears = calculateTotalExperienceYears(
             href={profileData.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-[var(--sec)] transition-colors print:!text-black"
+            class="hover:text-[var(--sec)] transition-colors print:!text-black no-print-url"
           >
             {profileData.linkedin
               .replace("https://www.", "")
@@ -243,7 +299,7 @@ const totalExperienceYears = calculateTotalExperienceYears(
                     <!-- Screen View: Pill Badges -->
                     <div class="flex flex-wrap gap-1.5 pt-3 border-t border-neutral-100 dark:border-[var(--white-icon-tr)] print:hidden">
                       {role.technologies.map((tech) => (
-                        <span class="tag-pill">{tech}</span>
+                        <TechPill name={tech} />
                       ))}
                     </div>
 
@@ -275,7 +331,7 @@ const totalExperienceYears = calculateTotalExperienceYears(
             <!-- Screen View: Interactive Tag Cards -->
             <div class="flex flex-wrap gap-1.5 print:hidden">
               {category.skills.map((skill) => (
-                <span class="tag-pill">{skill}</span>
+                <TechPill name={skill} />
               ))}
             </div>
 
@@ -342,12 +398,21 @@ const totalExperienceYears = calculateTotalExperienceYears(
             cert.expiresDate,
           );
           return (
-            <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] flex items-start gap-3.5 hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-colors group">
+            <div class="relative group/card p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] flex items-start gap-3.5 hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-colors print-break-inside-avoid">
+              <!-- Micro-tooltip indicating credential details on hover/focus -->
+              <div
+                role="tooltip"
+                class="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-lg bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 text-[10.5px] font-mono whitespace-nowrap opacity-0 group-hover/card:opacity-100 group-focus-within/card:opacity-100 transition-opacity shadow-lg z-20"
+              >
+                Issued: {cert.issueDate}{" "}
+                {cert.expiresDate ? `· Exp: ${cert.expiresDate}` : "· Active"}
+              </div>
+
               {cert.imageUrl ? (
                 <img
                   src={cert.imageUrl}
                   alt={cert.title}
-                  class="w-12 h-12 object-contain flex-shrink-0 group-hover:scale-105 transition-transform"
+                  class="w-12 h-12 object-contain flex-shrink-0 group-hover/card:scale-105 transition-transform"
                   loading="lazy"
                   width="48"
                   height="48"
@@ -396,7 +461,7 @@ const totalExperienceYears = calculateTotalExperienceYears(
                       href={cert.verifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="text-[var(--sec)] hover:underline text-[11px] inline-flex items-center gap-0.5"
+                      class="text-[var(--sec)] hover:underline text-[11px] inline-flex items-center gap-0.5 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--sec)] rounded"
                     >
                       Verify &nearr;
                     </a>
@@ -436,3 +501,34 @@ const totalExperienceYears = calculateTotalExperienceYears(
     </div>
   </div>
 </Layout>
+
+<script>
+  function setupCvPrint() {
+    const printBtn = document.getElementById("cv-print-btn");
+    const dialog = document.getElementById(
+      "print-fallback-dialog",
+    ) as HTMLDialogElement | null;
+    const closeBtn = document.getElementById("close-print-dialog");
+
+    if (printBtn) {
+      printBtn.addEventListener("click", () => {
+        try {
+          if (typeof window.print === "function") {
+            window.print();
+          } else if (dialog) {
+            dialog.showModal();
+          }
+        } catch {
+          if (dialog) dialog.showModal();
+        }
+      });
+    }
+
+    if (closeBtn && dialog) {
+      closeBtn.addEventListener("click", () => dialog.close());
+    }
+  }
+
+  setupCvPrint();
+  document.addEventListener("astro:after-swap", setupCvPrint);
+</script>

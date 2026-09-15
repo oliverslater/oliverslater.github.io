@@ -20,12 +20,15 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
   )}
   <!-- Web3Forms redirect URL after success -->
   <input type="hidden" name="redirect" value={thankYouUrl} />
-  <!-- Honeypot for spam protection -->
+  <!-- Honeypot for spam protection (reusing existing botcheck) -->
   <input
     type="checkbox"
     name="botcheck"
-    class="hidden"
-    style="display: none;"
+    id="contact-botcheck"
+    class="sr-only"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
   />
 
   <!-- Name field -->
@@ -43,8 +46,16 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       required
       autocomplete="name"
       placeholder="Your Name"
+      aria-describedby="contact-name-error"
       class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-[#1414149c] text-[var(--white)] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 border border-neutral-200/80 dark:border-[var(--white-icon-tr)] focus:border-[var(--sec)] focus:ring-1 focus:ring-[var(--sec)] focus:outline-none shadow-sm transition-all"
     />
+    <p
+      id="contact-name-error"
+      class="hidden mt-1.5 text-xs font-mono text-red-500 dark:text-red-400"
+      role="alert"
+    >
+      Please enter your name.
+    </p>
   </div>
 
   <!-- Email field -->
@@ -63,8 +74,16 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       autocomplete="email"
       inputmode="email"
       placeholder="your.email@example.com"
+      aria-describedby="contact-email-error"
       class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-[#1414149c] text-[var(--white)] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 border border-neutral-200/80 dark:border-[var(--white-icon-tr)] focus:border-[var(--sec)] focus:ring-1 focus:ring-[var(--sec)] focus:outline-none shadow-sm transition-all"
     />
+    <p
+      id="contact-email-error"
+      class="hidden mt-1.5 text-xs font-mono text-red-500 dark:text-red-400"
+      role="alert"
+    >
+      Please enter a valid email address.
+    </p>
   </div>
 
   <!-- Subject field -->
@@ -98,8 +117,16 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       rows="5"
       required
       placeholder="Feel free to ask an architectural question, share an interesting tech story, or say hello..."
+      aria-describedby="contact-message-error"
       class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-[#1414149c] text-[var(--white)] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 border border-neutral-200/80 dark:border-[var(--white-icon-tr)] focus:border-[var(--sec)] focus:ring-1 focus:ring-[var(--sec)] focus:outline-none shadow-sm transition-all resize-y"
     ></textarea>
+    <p
+      id="contact-message-error"
+      class="hidden mt-1.5 text-xs font-mono text-red-500 dark:text-red-400"
+      role="alert"
+    >
+      Please enter your message.
+    </p>
   </div>
 
   <!-- hCaptcha Spam Protection -->
@@ -240,11 +267,86 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       attributeFilter: ["class"],
     });
 
+    // Inline field validation helpers
+    const nameInput = document.getElementById(
+      "contact-name",
+    ) as HTMLInputElement | null;
+    const emailInput = document.getElementById(
+      "contact-email",
+    ) as HTMLInputElement | null;
+    const messageInput = document.getElementById(
+      "contact-message",
+    ) as HTMLTextAreaElement | null;
+    const requiredInputs = [nameInput, emailInput, messageInput].filter(
+      Boolean,
+    ) as (HTMLInputElement | HTMLTextAreaElement)[];
+
+    function validateField(
+      input: HTMLInputElement | HTMLTextAreaElement,
+    ): boolean {
+      const errorEl = document.getElementById(`${input.id}-error`);
+      const isValid = input.checkValidity();
+
+      if (!isValid) {
+        input.setAttribute("aria-invalid", "true");
+        input.classList.add("border-red-500", "dark:border-red-500");
+        input.classList.remove(
+          "border-neutral-200/80",
+          "dark:border-[var(--white-icon-tr)]",
+        );
+        if (errorEl) errorEl.classList.remove("hidden");
+      } else {
+        input.removeAttribute("aria-invalid");
+        input.classList.remove("border-red-500", "dark:border-red-500");
+        input.classList.add(
+          "border-neutral-200/80",
+          "dark:border-[var(--white-icon-tr)]",
+        );
+        if (errorEl) errorEl.classList.add("hidden");
+      }
+
+      return isValid;
+    }
+
+    requiredInputs.forEach((input) => {
+      input.addEventListener("blur", () => {
+        validateField(input);
+      });
+      input.addEventListener("input", () => {
+        if (input.getAttribute("aria-invalid") === "true") {
+          validateField(input);
+        }
+      });
+    });
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      if (!form.checkValidity()) {
-        form.reportValidity();
+      // Honeypot spam defense check
+      const botCheck = form.elements.namedItem(
+        "botcheck",
+      ) as HTMLInputElement | null;
+      if (botCheck && botCheck.checked) {
+        // Silently thwart bot submission by simulating instant success
+        if (successMsg) successMsg.classList.remove("hidden");
+        form.reset();
+        return;
+      }
+
+      // Check validation across all required fields
+      let allValid = true;
+      let firstInvalid: (HTMLInputElement | HTMLTextAreaElement) | null = null;
+      for (const input of requiredInputs) {
+        if (!validateField(input)) {
+          allValid = false;
+          if (!firstInvalid) {
+            firstInvalid = input;
+          }
+        }
+      }
+
+      if (!allValid) {
+        if (firstInvalid) (firstInvalid as HTMLElement).focus();
         return;
       }
 
@@ -292,10 +394,19 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
         });
 
         if (response.ok) {
-          successMsg?.classList.remove("hidden");
+          // In-place success state without requiring a page redirect
+          if (successMsg) {
+            successMsg.classList.remove("hidden");
+            successMsg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
           form.reset();
+          requiredInputs.forEach((input) => {
+            input.removeAttribute("aria-invalid");
+            input.classList.remove("border-red-500", "dark:border-red-500");
+            const errorEl = document.getElementById(`${input.id}-error`);
+            if (errorEl) errorEl.classList.add("hidden");
+          });
           (window as any).hcaptcha?.reset();
-          window.location.href = "/thank-you";
         } else {
           (window as any).hcaptcha?.reset();
           const resData = await response.json().catch(() => null);

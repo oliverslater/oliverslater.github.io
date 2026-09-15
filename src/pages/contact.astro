@@ -4,7 +4,11 @@ import ContactForm from "../components/ContactForm.astro";
 import { profileData } from "../data/siteData";
 import { getContactDetails } from "../utils/profile";
 
-const { showEmail, contactEmail } = getContactDetails();
+const { contactEmail } = getContactDetails();
+const emailUser = contactEmail ? contactEmail.split("@")[0] : "contact";
+const emailDomain = contactEmail
+  ? contactEmail.split("@")[1]
+  : profileData.website.replace("https://www.", "").replace("https://", "");
 ---
 
 <Layout
@@ -28,33 +32,68 @@ const { showEmail, contactEmail } = getContactDetails();
       </p>
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-        {showEmail && contactEmail ? (
-          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
-            <span class="block text-neutral-500 mb-1">Direct Email</span>
-            <a
-              href={`mailto:${contactEmail}`}
-              class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all"
+        <!-- Direct Contact with Copy Button & Anti-Scraper Obfuscation -->
+        <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="block text-neutral-500 mb-1">Direct Contact</span>
+            <span
+              id="obfuscated-email"
+              class="text-[var(--white)] font-medium select-all break-all cursor-pointer hover:text-[var(--sec)] transition-colors"
+              data-user={emailUser}
+              data-domain={emailDomain}
+              title="Click to copy email address"
             >
-              {contactEmail}
+              {emailUser} [at] {emailDomain}
+            </span>
+          </div>
+
+          <div class="mt-3 pt-2 border-t border-neutral-100 dark:border-[var(--white-icon-tr)] flex items-center justify-between gap-2">
+            <button
+              type="button"
+              id="copy-contact-btn"
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--sec)]/10 text-[var(--sec)] hover:bg-[var(--sec)]/20 transition-colors cursor-pointer text-[11px] font-mono focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--sec)]"
+              aria-label="Copy direct contact email to clipboard"
+            >
+              <svg
+                id="copy-icon"
+                class="w-3.5 h-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="14"
+                height="14"
+                aria-hidden="true"
+              >
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+              </svg>
+              <span id="copy-btn-text">Copy Email</span>
+            </button>
+
+            <a
+              id="mailto-link"
+              href="#"
+              class="text-[11px] text-[var(--white-icon)] hover:text-[var(--sec)] transition-colors"
+              aria-label="Open default mail client"
+            >
+              Mail &nearr;
             </a>
           </div>
-        ) : (
-          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
-            <span class="block text-neutral-500 mb-1">GitHub</span>
-            <a
-              href={profileData.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
-            >
-              {profileData.github.replace("https://", "")} &nearr;
-            </a>
-          </div>
-        )}
+        </div>
 
         <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
-          <span class="block text-neutral-500 mb-1">Location</span>
-          <span class="text-[var(--white)]">{profileData.location}</span>
+          <span class="block text-neutral-500 mb-1">GitHub</span>
+          <a
+            href={profileData.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
+          >
+            {profileData.github.replace("https://", "")} &nearr;
+          </a>
         </div>
 
         <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
@@ -99,6 +138,53 @@ const { showEmail, contactEmail } = getContactDetails();
       } catch {}
     }
   }
+
+  function setupDirectContact() {
+    const emailEl = document.getElementById("obfuscated-email");
+    const copyBtn = document.getElementById("copy-contact-btn");
+    const copyText = document.getElementById("copy-btn-text");
+    const mailtoLink = document.getElementById(
+      "mailto-link",
+    ) as HTMLAnchorElement | null;
+
+    if (emailEl) {
+      const user = emailEl.getAttribute("data-user") || "contact";
+      const domain =
+        emailEl.getAttribute("data-domain") || "oliver-slater.co.uk";
+      const realEmail = `${user}@${domain}`;
+      emailEl.textContent = realEmail;
+      if (mailtoLink) mailtoLink.href = `mailto:${realEmail}`;
+
+      const handleCopy = async () => {
+        try {
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(realEmail);
+          } else {
+            const input = document.createElement("input");
+            input.value = realEmail;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand("copy");
+            document.body.removeChild(input);
+          }
+          if (copyText) copyText.textContent = "Copied!";
+          copyBtn?.classList.add("bg-emerald-500/20", "text-emerald-400");
+          setTimeout(() => {
+            if (copyText) copyText.textContent = "Copy Email";
+            copyBtn?.classList.remove("bg-emerald-500/20", "text-emerald-400");
+          }, 2000);
+        } catch {}
+      };
+
+      copyBtn?.addEventListener("click", handleCopy);
+      emailEl.addEventListener("click", handleCopy);
+    }
+  }
+
   recordContactReferrer();
-  document.addEventListener("astro:after-swap", recordContactReferrer);
+  setupDirectContact();
+  document.addEventListener("astro:after-swap", () => {
+    recordContactReferrer();
+    setupDirectContact();
+  });
 </script>

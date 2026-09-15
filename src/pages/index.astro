@@ -10,6 +10,7 @@ import LetterGlitch from "../components/LetterGlitch";
 import SkillsList from "../components/SkillsList";
 import Headshot from "../components/Headshot.astro";
 import SocialLinks from "../components/SocialLinks.astro";
+import TechPill from "../components/TechPill.astro";
 import { formatDate } from "../utils/date";
 import { getBlogUrl, isPostPublished } from "../utils/blog";
 import { getCollection } from "astro:content";
@@ -104,6 +105,146 @@ const titleRest = titleParts.slice(1).join(" ");
     </div>
   </section>
 
+  <!-- Verified Credentials & Authority Signals -->
+  <section class="py-14 border-b border-[#ffffff10]" id="credentials">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-8">
+      <div>
+        <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
+          Technical Authority & Credentials
+        </h2>
+        <h3 class="text-3xl sm:text-4xl font-semibold text-[var(--white)] tracking-tight">
+          Verified Enterprise Signals
+        </h3>
+      </div>
+
+      <a
+        href="https://www.credly.com/users/oliver-slater/badges"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-xs font-mono text-[var(--sec)] hover:underline flex items-center gap-1.5 transition-colors"
+      >
+        <span>View Credly Profile</span>
+        <span>&nearr;</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <!-- AWS Solutions Architect Professional -->
+      <a
+        href="https://www.credly.com/users/oliver-slater/badges"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
+      >
+        <div class="flex items-start gap-3.5 mb-3">
+          <div class="w-12 h-12 rounded-xl bg-[#FF9900]/10 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <svg
+              class="w-7 h-7 text-[#FF9900]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              width="28"
+              height="28"
+              aria-hidden="true"
+            >
+              <path d="M18.75 14.25C17.5 15.2 15.2 16.1 12 16.1c-4.4 0-6.9-1.9-7.2-2.1-.3-.2-.5 0-.5.3 0 .1.1.3.3.4.4.4 2.8 2.3 7.4 2.3 3.5 0 6.1-1 7.4-2.1.3-.2.2-.6-.2-.6h-.45zM19.9 15.8c-.2-.3-1.4-.7-2.7-.7-.4 0-.4.3 0 .5 1.1.5 2.4.5 2.6.4.2 0 .3-.1.1-.2z" />
+            </svg>
+          </div>
+          <div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-orange-500/10 text-[#FF9900] border border-orange-500/20">
+              AWS Pro · 11x
+            </span>
+            <h4 class="text-sm font-semibold text-[var(--white)] mt-1 group-hover:text-[var(--sec)] transition-colors">
+              Solutions Architect Pro
+            </h4>
+          </div>
+        </div>
+        <p class="text-xs text-[var(--white-icon)] leading-relaxed mb-3">
+          Professional architecture, serverless, devops, and security
+          credentials.
+        </p>
+        <div class="text-[11px] font-mono text-[var(--sec)] flex items-center gap-1">
+          <span>Verify Credly &nearr;</span>
+        </div>
+      </a>
+
+      <!-- Azure Solutions Architect Expert -->
+      <a
+        href="https://www.credly.com/users/oliver-slater/badges"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
+      >
+        <div class="flex items-start gap-3.5 mb-3">
+          <div class="w-12 h-12 rounded-xl bg-[#0089D6]/10 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <svg
+              class="w-7 h-7 text-[#0089D6]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              width="28"
+              height="28"
+              aria-hidden="true"
+            >
+              <path d="M13.05 4.24l-5.69 9.87 4.7 3.32 6.54-11.23L13.05 4.24zm-6.6 11.45l-3.95 4.07h13.9l-2.73-4.07H6.45z" />
+            </svg>
+          </div>
+          <div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-blue-500/10 text-[#0089D6] border border-blue-500/20">
+              Microsoft Expert
+            </span>
+            <h4 class="text-sm font-semibold text-[var(--white)] mt-1 group-hover:text-[var(--sec)] transition-colors">
+              Azure Solutions Architect
+            </h4>
+          </div>
+        </div>
+        <p class="text-xs text-[var(--white-icon)] leading-relaxed mb-3">
+          Cross-cloud architecture mastery across AZ-104 and AZ-305 expert
+          tracks.
+        </p>
+        <div class="text-[11px] font-mono text-[var(--sec)] flex items-center gap-1">
+          <span>Verify Credly &nearr;</span>
+        </div>
+      </a>
+
+      <!-- HashiCorp Terraform -->
+      <a
+        href="https://www.credly.com/users/oliver-slater/badges"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
+      >
+        <div class="flex items-start gap-3.5 mb-3">
+          <div class="w-12 h-12 rounded-xl bg-[#844FBA]/10 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <svg
+              class="w-7 h-7 text-[#844FBA]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              width="28"
+              height="28"
+              aria-hidden="true"
+            >
+              <path d="M1.44 0v7.575l6.561 3.79V3.788L1.44 0zm7.2 4.212v7.575L15.2 8V.424L8.64 4.212zm7.2 0v7.575l6.56-3.789V.424L15.84 4.212zM8.64 12.213v7.575l6.56-3.79V8.423l-6.56 3.79z" />
+            </svg>
+          </div>
+          <div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-purple-500/10 text-[#844FBA] border border-purple-500/20">
+              HashiCorp Pro
+            </span>
+            <h4 class="text-sm font-semibold text-[var(--white)] mt-1 group-hover:text-[var(--sec)] transition-colors">
+              Terraform Professional
+            </h4>
+          </div>
+        </div>
+        <p class="text-xs text-[var(--white-icon)] leading-relaxed mb-3">
+          Enterprise Infrastructure as Code authoring, operations, and state
+          governance.
+        </p>
+        <div class="text-[11px] font-mono text-[var(--sec)] flex items-center gap-1">
+          <span>Verify Credly &nearr;</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
   <!-- Work Experience / Highlights -->
   <section class="py-14 border-b border-[#ffffff10]" id="work">
     <div class="flex items-center justify-between mb-8">
@@ -152,7 +293,7 @@ const titleRest = titleParts.slice(1).join(" ");
 
           <div class="flex flex-wrap gap-1.5 pt-2 border-t border-neutral-100 dark:border-[var(--white-icon-tr)]">
             {role.technologies.slice(0, 5).map((tech) => (
-              <span class="tag-pill">{tech}</span>
+              <TechPill name={tech} />
             ))}
           </div>
         </div>

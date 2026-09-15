@@ -264,6 +264,11 @@ html:not(.dark) .shiny-white {
     line-height: 1.45;
   }
 
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
   main {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -271,14 +276,21 @@ html:not(.dark) .shiny-white {
   }
 
   .no-print,
+  #main-nav,
   nav,
   button,
-  footer {
+  footer,
+  #theme-toggle,
+  #reading-progress,
+  [data-print-hide] {
     display: none !important;
   }
 
   .print-break-inside-avoid,
-  .print-page-break-inside-avoid {
+  .print-page-break-inside-avoid,
+  .experience-entry,
+  .credential-card,
+  .skill-cluster {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
@@ -297,6 +309,23 @@ html:not(.dark) .shiny-white {
     text-decoration: none !important;
     color: inherit !important;
   }
+
+  /* Append destination URL for offline printed consumption */
+  a[href^="http"]:not(.no-print-url):not([href*="oliver-slater.co.uk"])::after,
+  a.print-show-url::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #4b5563 !important;
+    font-family: var(--font-mono);
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Global Accessibility: High-Contrast Focus Rings                            */
+/* -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--sec);
+  outline-offset: 2px;
 }
 
 /* -------------------------------------------------------------------------- */

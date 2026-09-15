@@ -161,13 +161,19 @@ const SkillsList = ({ pillars }: SkillsListProps) => {
       <ul className="space-y-3 w-full">
         {normalizedPillars.map((pillar) => {
           const isOpen = openItem === pillar.category;
+          const panelId = `pillar-panel-${pillar.category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+          const btnId = `pillar-btn-${pillar.category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
           return (
             <li key={pillar.category} className="w-full">
-              <div
-                onClick={() => toggleItem(pillar.category)}
-                className="w-full bg-white dark:bg-[#1414149c] rounded-2xl text-left transition-all border border-neutral-200/80 dark:border-[var(--white-icon-tr)] hover:border-neutral-300 dark:hover:border-[#ffffff20] cursor-pointer overflow-hidden shadow-sm"
-              >
-                <div className="flex items-center gap-3 p-4">
+              <div className="w-full bg-white dark:bg-[#1414149c] rounded-2xl text-left transition-all border border-neutral-200/80 dark:border-[var(--white-icon-tr)] hover:border-neutral-300 dark:hover:border-[#ffffff20] overflow-hidden shadow-sm">
+                <button
+                  type="button"
+                  id={btnId}
+                  onClick={() => toggleItem(pillar.category)}
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  className="w-full flex items-center gap-3 p-4 text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] rounded-2xl transition-colors"
+                >
                   {renderPillarIcon(pillar.category, pillar.icon)}
                   <span className="flex-grow text-[var(--white)] text-base sm:text-lg font-medium">
                     {pillar.category}
@@ -188,10 +194,15 @@ const SkillsList = ({ pillars }: SkillsListProps) => {
                   >
                     <polyline points="6 9 12 15 18 9" />
                   </svg>
-                </div>
+                </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-4 pt-1 border-t border-[var(--white-icon-tr)] text-sm text-[var(--white-icon)]">
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={btnId}
+                    className="px-5 pb-4 pt-1 border-t border-[var(--white-icon-tr)] text-sm text-[var(--white-icon)]"
+                  >
                     <ul className="space-y-2">
                       {pillar.items.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2">
