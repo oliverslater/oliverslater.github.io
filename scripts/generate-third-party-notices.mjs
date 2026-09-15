@@ -8,8 +8,10 @@ const lockfilePath = resolve(rootDirectory, 'package-lock.json');
 const noticesPath = resolve(rootDirectory, 'THIRD-PARTY-NOTICES.md');
 const licensesDirectory = resolve(rootDirectory, 'third-party-licenses');
 const checkOnly = process.argv.includes('--check');
-const licenseOverrides = new Map([
-  ['zod-to-ts', 'MIT'],
+const distributedPackageNames = new Set([
+  '@fontsource-variable/montserrat',
+  'react',
+  'react-dom',
 ]);
 
 const lockfile = JSON.parse(await readFile(lockfilePath, 'utf8'));
@@ -19,10 +21,10 @@ const packages = Object.entries(lockfile.packages)
     path,
     name: getPackageName(path, metadata),
     version: metadata.version ?? 'unknown',
-    license: getLicense(path, metadata),
-    scope: metadata.dev ? 'development' : 'production',
-    optional: metadata.optional === true ? 'optional' : '',
+    license: getLicense(metadata),
+    scope: 'distributed',
   }))
+  .filter((packageInfo) => distributedPackageNames.has(packageInfo.name))
   .sort((left, right) => left.name.localeCompare(right.name) || left.version.localeCompare(right.version));
 
 const licenseFiles = await collectLicenseFiles(packages);
@@ -40,16 +42,12 @@ const summary = [...licenseCounts.entries()]
 
 const rows = packages.map((packageInfo) => {
   const packageUrl = `https://www.npmjs.com/package/${packageInfo.name}`;
-  const optional = packageInfo.optional ? ` (${packageInfo.optional})` : '';
-  const licenseLink = licenseLinks.get(packageInfo.path)
-    ? `[full text](third-party-licenses/${licenseLinks.get(packageInfo.path)})`
-    : 'build-only; not redistributed';
-  return `| [${packageInfo.name}](${packageUrl}) | ${packageInfo.version} | ${packageInfo.license} | ${packageInfo.scope}${optional} | ${licenseLink} |`;
+  return `| [${packageInfo.name}](${packageUrl}) | ${packageInfo.version} | ${packageInfo.license} | ${packageInfo.scope} | [full text](third-party-licenses/${licenseLinks.get(packageInfo.path)}) |`;
 }).join('\n');
 
 const content = `# Third-Party Notices
 
-This file records third-party software included in the repository's npm dependency tree. It is generated from [package-lock.json](package-lock.json).
+This file records npm packages bundled into the browser-facing static assets. It is generated from [package-lock.json](package-lock.json) and intentionally excludes Astro, Tailwind, Sharp, TypeScript, and other build-time dependencies that are not included in \`dist/\`.
 
 Run \`npm run licenses\` after changing dependencies and review the result before committing. The package links below identify the corresponding license and source metadata published by each package. Full license and notice texts are preserved in [third-party-licenses/](third-party-licenses/).
 
@@ -73,11 +71,10 @@ ${rows}
 
 ## Notes
 
-- This inventory covers packages recorded in the lockfile, including development and optional platform packages.
+- This inventory covers only packages bundled into the generated browser assets.
 - A package's license applies to that package and its authors; the project's MIT license applies only to original project code that Oliver Slater can license.
-- The \`zod-to-ts\` entry is verified as MIT from npm registry metadata because its package manifest omits a license field.
 - Every redistributed package entry links to a preserved full license or notice text collected from its installed package metadata.
-- Entries marked \`build-only; not redistributed\` are dependencies used by the local build toolchain and are not included in the generated static site. If you redistribute \`node_modules\` or platform binaries, add their full license texts before doing so.
+- The distributed package set is maintained explicitly in \`distributedPackageNames\` above. Recheck it when generated browser assets change.
 `;
 
 if (checkOnly) {
@@ -161,12 +158,7 @@ function getPackageName(packagePath, metadata) {
     : packagePathParts[0];
 }
 
-function getLicense(packagePath, metadata) {
-  const packageName = getPackageName(packagePath, metadata);
-  if (licenseOverrides.has(packageName)) {
-    return licenseOverrides.get(packageName);
-  }
-
+function getLicense(metadata) {
   if (typeof metadata.license === 'string') {
     return metadata.license;
   }
