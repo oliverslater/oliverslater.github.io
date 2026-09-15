@@ -200,7 +200,7 @@ content:
             type: boolean
             default: true
           - name: priority
-            label: Priority (higher number = displayed first, default: 0)
+            label: "Priority (higher number = displayed first, default: 0)"
             type: number
             default: 0
 
@@ -230,18 +230,18 @@ content:
             type: boolean
             default: true
           - name: priority
-            label: Priority (higher number = displayed first, default: 0)
+            label: "Priority (higher number = displayed first; default 0)"
             type: number
             default: 0
           - name: expiresDate
-            label: Expiry Date Override (e.g. 'Jan 2028' or 'Never')
+            label: "Expiry Date Override (e.g. 'Jan 2028' or 'Never')"
             type: string
           - name: verifyUrl
-            label: Custom Verification URL
+            label: "Custom Verification URL"
             type: string
           - name: imageUrl
-            label: Custom Badge Image URL
+            label: "Custom Badge Image URL"
             type: string
           - name: issuer
-            label: Issuer Label (e.g. AWS, Microsoft)
+            label: "Issuer Label (e.g. AWS, Microsoft)"
             type: string
