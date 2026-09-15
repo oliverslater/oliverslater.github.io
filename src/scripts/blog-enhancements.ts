@@ -8,6 +8,8 @@
  * 4. Reading progress indicator pinned to viewport top
  */
 
+import { copyToClipboard } from "../utils/clipboard";
+
 // Icons as SVG strings
 const COPY_ICON = `<svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>`;
 const CHECK_ICON = `<svg class="w-3.5 h-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
@@ -52,26 +54,8 @@ export function setupCodeCopyButtons() {
       const codeEl = pre.querySelector("code");
       const textToCopy = (codeEl ? codeEl.innerText : pre.innerText).trimEnd();
 
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(textToCopy);
-        } else {
-          // Fallback for non-secure contexts
-          const textarea = document.createElement("textarea");
-          textarea.value = textToCopy;
-          textarea.style.position = "fixed";
-          textarea.style.left = "-999999px";
-          textarea.style.top = "-999999px";
-          document.body.appendChild(textarea);
-          textarea.focus();
-          textarea.select();
-          // Fallback copy for legacy/non-secure contexts
-          try {
-            (document as any).execCommand("copy");
-          } catch {}
-          document.body.removeChild(textarea);
-        }
-
+      const success = await copyToClipboard(textToCopy);
+      if (success) {
         // Visual confirmation feedback
         btn.classList.add("copied");
         btn.setAttribute("aria-label", "Code copied to clipboard");
@@ -83,8 +67,6 @@ export function setupCodeCopyButtons() {
           btn.setAttribute("aria-label", "Copy code to clipboard");
           btn.innerHTML = `${COPY_ICON}<span>Copy</span>`;
         }, 2000);
-      } catch (err) {
-        console.error("Failed to copy code snippet:", err);
       }
     });
 

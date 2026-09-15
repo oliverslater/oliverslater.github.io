@@ -92,3 +92,20 @@ export interface TechnologyItem {
 export interface TechnologiesData {
   technologies: TechnologyItem[];
 }
+
+export interface FeaturedCredentialItem {
+  id: string;
+  title: string;
+  issuer: string;
+  description: string;
+  provider?: "aws" | "azure" | "terraform" | string;
+  url?: string;
+  badgeClass?: string;
+  bgClass?: string;
+  iconColor?: string;
+  svgPath?: string;
+}
+
+export interface FeaturedCredentialsData {
+  featured: FeaturedCredentialItem[];
+}

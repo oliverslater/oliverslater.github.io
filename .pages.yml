@@ -199,6 +199,43 @@ content:
             type: string
             list: true
 
+  - name: featured-credentials
+    label: Featured Credentials (Homepage Signals)
+    type: file
+    path: src/content/cv/featured-credentials.json
+    fields:
+      - name: featured
+        label: Featured Credentials
+        type: object
+        list: true
+        fields:
+          - name: id
+            label: Unique ID
+            type: string
+            required: true
+          - name: title
+            label: Credential Title
+            type: string
+            required: true
+          - name: issuer
+            label: Issuer Badge (e.g. AWS Pro · 11x)
+            type: string
+            required: true
+          - name: description
+            label: Summary Description
+            type: text
+            required: true
+          - name: provider
+            label: Provider / Icon
+            type: string
+            options:
+              - aws
+              - azure
+              - terraform
+          - name: url
+            label: Custom Verification URL (optional)
+            type: string
+
   - name: technologies
     label: Core Technologies & Tools
     type: file

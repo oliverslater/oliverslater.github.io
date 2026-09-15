@@ -78,6 +78,15 @@ const isActive = (href: string) => {
 </div>
 
 <script>
+  const ACTIVE_CLASSES = [
+    "text-neutral-900",
+    "dark:text-white",
+    "font-medium",
+    "bg-neutral-200/70",
+    "dark:bg-[#ffffff10]",
+  ];
+  const INACTIVE_CLASSES = ["text-[var(--white-icon)]"];
+
   function syncActiveNav() {
     const navLinks = document.querySelectorAll<HTMLAnchorElement>(
       "#main-nav a[data-nav-item='true']",
@@ -93,14 +102,8 @@ const isActive = (href: string) => {
 
       if (isMatch) {
         link.setAttribute("aria-current", "page");
-        link.classList.add(
-          "text-neutral-900",
-          "dark:text-white",
-          "font-medium",
-          "bg-neutral-200/70",
-          "dark:bg-[#ffffff10]",
-        );
-        link.classList.remove("text-[var(--white-icon)]");
+        link.classList.add(...ACTIVE_CLASSES);
+        link.classList.remove(...INACTIVE_CLASSES);
         if (!link.querySelector(".nav-active-dot")) {
           const dot = document.createElement("span");
           dot.className =
@@ -110,14 +113,8 @@ const isActive = (href: string) => {
         }
       } else {
         link.removeAttribute("aria-current");
-        link.classList.remove(
-          "text-neutral-900",
-          "dark:text-white",
-          "font-medium",
-          "bg-neutral-200/70",
-          "dark:bg-[#ffffff10]",
-        );
-        link.classList.add("text-[var(--white-icon)]");
+        link.classList.remove(...ACTIVE_CLASSES);
+        link.classList.add(...INACTIVE_CLASSES);
         const dot = link.querySelector(".nav-active-dot");
         if (dot) dot.remove();
       }

@@ -1,8 +1,9 @@
 import type { APIRoute } from "astro";
 import { generateRssFeed } from "../../utils/feed";
+import { blogConfig } from "../../data/siteData";
 
 export const GET: APIRoute = async () => {
-  const feedXml = await generateRssFeed("/blog/rss.xml");
+  const feedXml = await generateRssFeed(blogConfig.rssPath);
   return new Response(feedXml, {
     status: 200,
     headers: {

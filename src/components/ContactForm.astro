@@ -281,6 +281,17 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       Boolean,
     ) as (HTMLInputElement | HTMLTextAreaElement)[];
 
+    function clearValidation(input: HTMLInputElement | HTMLTextAreaElement) {
+      input.removeAttribute("aria-invalid");
+      input.classList.remove("border-red-500", "dark:border-red-500");
+      input.classList.add(
+        "border-neutral-200/80",
+        "dark:border-[var(--white-icon-tr)]",
+      );
+      const errorEl = document.getElementById(`${input.id}-error`);
+      if (errorEl) errorEl.classList.add("hidden");
+    }
+
     function validateField(
       input: HTMLInputElement | HTMLTextAreaElement,
     ): boolean {
@@ -296,13 +307,7 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
         );
         if (errorEl) errorEl.classList.remove("hidden");
       } else {
-        input.removeAttribute("aria-invalid");
-        input.classList.remove("border-red-500", "dark:border-red-500");
-        input.classList.add(
-          "border-neutral-200/80",
-          "dark:border-[var(--white-icon-tr)]",
-        );
-        if (errorEl) errorEl.classList.add("hidden");
+        clearValidation(input);
       }
 
       return isValid;
@@ -330,6 +335,7 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
         // Silently thwart bot submission by simulating instant success
         if (successMsg) successMsg.classList.remove("hidden");
         form.reset();
+        requiredInputs.forEach(clearValidation);
         return;
       }
 
@@ -400,12 +406,7 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
             successMsg.scrollIntoView({ behavior: "smooth", block: "nearest" });
           }
           form.reset();
-          requiredInputs.forEach((input) => {
-            input.removeAttribute("aria-invalid");
-            input.classList.remove("border-red-500", "dark:border-red-500");
-            const errorEl = document.getElementById(`${input.id}-error`);
-            if (errorEl) errorEl.classList.add("hidden");
-          });
+          requiredInputs.forEach(clearValidation);
           (window as any).hcaptcha?.reset();
         } else {
           (window as any).hcaptcha?.reset();

@@ -1,7 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { profileData } from "../data/siteData";
+import { profileData, blogConfig } from "../data/siteData";
 import "../styles/global.css";
 
 export interface Props {
@@ -55,13 +55,13 @@ const imageURL = new URL(image, canonicalURL);
       rel="alternate"
       type="application/rss+xml"
       title={`${profileData.name} Blog (RSS Feed)`}
-      href="/blog/feed.xml"
+      href={blogConfig.feedPath}
     />
     <link
       rel="alternate"
       type="application/rss+xml"
       title={`${profileData.name} Blog (RSS 2.0)`}
-      href="/blog/rss.xml"
+      href={blogConfig.rssPath}
     />
 
     <!-- Canonical URL -->

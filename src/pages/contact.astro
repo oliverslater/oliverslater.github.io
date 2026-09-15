@@ -121,6 +121,8 @@ const emailDomain = contactEmail
 </Layout>
 
 <script>
+  import { copyToClipboard } from "../utils/clipboard";
+
   function recordContactReferrer() {
     if (document.referrer) {
       try {
@@ -156,24 +158,15 @@ const emailDomain = contactEmail
       if (mailtoLink) mailtoLink.href = `mailto:${realEmail}`;
 
       const handleCopy = async () => {
-        try {
-          if (navigator.clipboard) {
-            await navigator.clipboard.writeText(realEmail);
-          } else {
-            const input = document.createElement("input");
-            input.value = realEmail;
-            document.body.appendChild(input);
-            input.select();
-            document.execCommand("copy");
-            document.body.removeChild(input);
-          }
+        const success = await copyToClipboard(realEmail);
+        if (success) {
           if (copyText) copyText.textContent = "Copied!";
           copyBtn?.classList.add("bg-emerald-500/20", "text-emerald-400");
           setTimeout(() => {
             if (copyText) copyText.textContent = "Copy Email";
             copyBtn?.classList.remove("bg-emerald-500/20", "text-emerald-400");
           }, 2000);
-        } catch {}
+        }
       };
 
       copyBtn?.addEventListener("click", handleCopy);
