@@ -1,18 +1,22 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import CVSection from '../components/CVSection.astro';
-import Headshot from '../components/Headshot.astro';
-import profileData from '../content/cv/profile.json';
-import experienceData from '../content/cv/experience.json';
-import skillsData from '../content/cv/skills.json';
-import { getAllCredentials } from '../utils/certifications';
-import { getContactDetails } from '../utils/profile';
+import Layout from "../layouts/Layout.astro";
+import CVSection from "../components/CVSection.astro";
+import Headshot from "../components/Headshot.astro";
+import profileData from "../content/cv/profile.json";
+import experienceData from "../content/cv/experience.json";
+import skillsData from "../content/cv/skills.json";
+import { getAllCredentials } from "../utils/certifications";
+import { getContactDetails } from "../utils/profile";
+import { calculateTotalExperienceYears } from "../utils/date";
 
 const allBadges = await getAllCredentials();
 const displayedBadges = allBadges.filter((b) => b.displayed);
 const countedBadges = allBadges.filter((b) => b.includeInCount);
 const totalCount = countedBadges.length;
 const { showEmail, contactEmail } = getContactDetails();
+const totalExperienceYears = calculateTotalExperienceYears(
+  experienceData.roles,
+);
 ---
 
 <Layout
@@ -83,13 +87,22 @@ const { showEmail, contactEmail } = getContactDetails();
       <!-- Contact and links grid -->
       <div class="mt-6 print:mt-3 flex flex-wrap items-center gap-x-6 print:gap-x-5 gap-y-2 text-xs font-mono text-[var(--white-icon)] print:!text-neutral-700">
         <div class="flex items-center gap-1.5">
-          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">Location:</span>
-          <span class="text-[var(--white)] print:!text-black">{profileData.location}</span>
+          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">
+            Location:
+          </span>
+          <span class="text-[var(--white)] print:!text-black">
+            {profileData.location}
+          </span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">{showEmail && contactEmail ? 'Email:' : 'Contact:'}</span>
+          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">
+            {showEmail && contactEmail ? "Email:" : "Contact:"}
+          </span>
           {showEmail && contactEmail ? (
-            <a href={`mailto:${contactEmail}`} class="hover:text-[var(--sec)] transition-colors print:!text-black">
+            <a
+              href={`mailto:${contactEmail}`}
+              class="hover:text-[var(--sec)] transition-colors print:!text-black"
+            >
               {contactEmail}
             </a>
           ) : (
@@ -98,25 +111,48 @@ const { showEmail, contactEmail } = getContactDetails();
               class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-[var(--sec)]/10 border border-[var(--sec)]/30 text-[var(--sec)] print:p-0 print:border-none print:!text-black font-mono text-[11px]"
             >
               <span class="print:hidden">Contact Form &nearr;</span>
-              <span class="hidden print:inline font-mono">oliver-slater.co.uk/contact</span>
+              <span class="hidden print:inline font-mono">
+                oliver-slater.co.uk/contact
+              </span>
             </a>
           )}
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">Web:</span>
-          <a href={profileData.website} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--sec)] transition-colors print:!text-black">
-            {profileData.website.replace('https://', '')}
+          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">
+            Web:
+          </span>
+          <a
+            href={profileData.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-[var(--sec)] transition-colors print:!text-black"
+          >
+            {profileData.website.replace("https://", "")}
           </a>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">GitHub:</span>
-          <a href={profileData.github} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--sec)] transition-colors print:!text-black">
+          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">
+            GitHub:
+          </span>
+          <a
+            href={profileData.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-[var(--sec)] transition-colors print:!text-black"
+          >
             github.com/oliverslater
           </a>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">LinkedIn:</span>
-          <a href={profileData.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--sec)] transition-colors print:!text-black">
+          <span class="text-neutral-500 print:!text-neutral-800 font-semibold">
+            LinkedIn:
+          </span>
+          <a
+            href={profileData.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-[var(--sec)] transition-colors print:!text-black"
+          >
             in/oliverslater
           </a>
         </div>
@@ -131,91 +167,106 @@ const { showEmail, contactEmail } = getContactDetails();
     </CVSection>
 
     <!-- Work Experience -->
-    <CVSection title="Work Experience" badge={`${experienceData.roles.length} enterprise roles`}>
+    <CVSection
+      title="Work Experience"
+      badge={`${totalExperienceYears}+ years experience`}
+    >
       <div class="relative border-l border-[#ffffff15] print:border-neutral-300 ml-2 space-y-12 print:space-y-4 pl-6 sm:pl-8 print:pl-4">
-        {
-          experienceData.roles.map((role) => (
-            <div class="relative print-break-inside-avoid">
-              <!-- Timeline node marker -->
-              <span class="absolute -left-[31px] sm:-left-[39px] print:-left-[23px] top-1.5 w-3 h-3 rounded-full border-2 border-[var(--background)] print:border-white bg-[var(--sec)] print:bg-neutral-800"></span>
+        {experienceData.roles.map((role) => (
+          <div class="relative print-break-inside-avoid">
+            <!-- Timeline node marker -->
+            <span class="absolute -left-[31px] sm:-left-[39px] print:-left-[23px] top-1.5 w-3 h-3 rounded-full border-2 border-[var(--background)] print:border-white bg-[var(--sec)] print:bg-neutral-800"></span>
 
-              <div class="p-6 print:p-4 rounded-2xl print:rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm print:shadow-none transition-colors">
-                <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2 print:mb-1">
-                  <div>
-                    <h3 class="text-lg print:text-sm font-semibold text-[var(--white)] print:!text-black">
-                      {role.role}
-                    </h3>
-                    <div class="text-sm print:text-xs text-[var(--white-icon)] print:!text-neutral-700 font-medium">
-                      <span class="font-semibold print:!text-black">{role.company}</span>
-                      {role.location && (
-                        <span class="text-neutral-500 print:!text-neutral-600"> &middot; {role.location}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div class="font-mono text-xs print:text-[11px] text-[var(--sec)] print:!text-neutral-700 whitespace-nowrap font-medium">
-                    <span>{role.startDate}</span> &mdash;{' '}
-                    <span class={role.current ? 'text-[#16a34a] dark:text-[#A9FF5B] print:!text-black font-semibold' : ''}>
-                      {role.endDate}
+            <div class="p-6 print:p-4 rounded-2xl print:rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm print:shadow-none transition-colors">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2 print:mb-1">
+                <div>
+                  <h3 class="text-lg print:text-sm font-semibold text-[var(--white)] print:!text-black">
+                    {role.role}
+                  </h3>
+                  <div class="text-sm print:text-xs text-[var(--white-icon)] print:!text-neutral-700 font-medium">
+                    <span class="font-semibold print:!text-black">
+                      {role.company}
                     </span>
+                    {role.location && (
+                      <span class="text-neutral-500 print:!text-neutral-600">
+                        {" "}
+                        &middot; {role.location}
+                      </span>
+                    )}
                   </div>
                 </div>
 
-                <p class="text-sm print:text-xs text-[var(--white-icon)] print:!text-neutral-800 mt-3 print:mt-1 mb-4 print:mb-2 leading-relaxed">
-                  {role.description}
-                </p>
-
-                {role.highlights && role.highlights.length > 0 && (
-                  <ul class="space-y-2 print:space-y-1 mb-5 print:mb-2">
-                    {role.highlights.map((highlight) => (
-                      <li class="flex items-start text-xs sm:text-sm print:text-xs text-[var(--white-icon)] print:!text-neutral-800 leading-relaxed">
-                        <span class="mr-2 text-[var(--sec)] print:!text-neutral-500 font-mono">&bull;</span>
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {role.technologies && (
-                  <div class="flex flex-wrap gap-1.5 pt-3 print:pt-1.5 border-t border-neutral-100 dark:border-[var(--white-icon-tr)] print:!border-neutral-200">
-                    {role.technologies.map((tech) => (
-                      <span class="px-2 py-0.5 rounded text-[11px] print:text-[10px] font-mono bg-neutral-100 dark:bg-[#ffffff08] print:!bg-neutral-100 text-neutral-600 dark:text-[var(--white-icon)] print:!text-neutral-800 border border-neutral-200/80 dark:border-[#ffffff10] print:!border-neutral-300">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                <div class="font-mono text-xs print:text-[11px] text-[var(--sec)] print:!text-neutral-700 whitespace-nowrap font-medium">
+                  <span>{role.startDate}</span> &mdash;{" "}
+                  <span
+                    class={
+                      role.current
+                        ? "text-[#16a34a] dark:text-[#A9FF5B] print:!text-black font-semibold"
+                        : ""
+                    }
+                  >
+                    {role.endDate}
+                  </span>
+                </div>
               </div>
+
+              <p class="text-sm print:text-xs text-[var(--white-icon)] print:!text-neutral-800 mt-3 print:mt-1 mb-4 print:mb-2 leading-relaxed">
+                {role.description}
+              </p>
+
+              {role.highlights && role.highlights.length > 0 && (
+                <ul class="space-y-2 print:space-y-1 mb-5 print:mb-2">
+                  {role.highlights.map((highlight) => (
+                    <li class="flex items-start text-xs sm:text-sm print:text-xs text-[var(--white-icon)] print:!text-neutral-800 leading-relaxed">
+                      <span class="mr-2 text-[var(--sec)] print:!text-neutral-500 font-mono">
+                        &bull;
+                      </span>
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {role.technologies && (
+                <div class="flex flex-wrap gap-1.5 pt-3 print:pt-1.5 border-t border-neutral-100 dark:border-[var(--white-icon-tr)] print:!border-neutral-200">
+                  {role.technologies.map((tech) => (
+                    <span class="px-2 py-0.5 rounded text-[11px] print:text-[10px] font-mono bg-neutral-100 dark:bg-[#ffffff08] print:!bg-neutral-100 text-neutral-600 dark:text-[var(--white-icon)] print:!text-neutral-800 border border-neutral-200/80 dark:border-[#ffffff10] print:!border-neutral-300">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </CVSection>
 
     <!-- Technical Skills Matrix -->
     <CVSection title="Technical Capabilities & Tooling">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 print:gap-2.5">
-        {
-          skillsData.categories.map((category) => (
-            <div class="p-5 print:p-3 rounded-2xl print:rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white shadow-sm print:shadow-none print-break-inside-avoid">
-              <h3 class="font-mono text-xs print:text-[11px] font-semibold text-[var(--sec)] print:!text-neutral-900 uppercase tracking-wider mb-3 print:mb-1.5">
-                {category.category}
-              </h3>
-              <div class="flex flex-wrap gap-1.5 print:gap-1">
-                {category.skills.map((skill) => (
-                  <span class="px-2 py-0.5 rounded text-xs print:text-[10px] font-mono bg-neutral-100 dark:bg-[#ffffff08] print:!bg-neutral-100 text-neutral-600 dark:text-[var(--white-icon)] print:!text-neutral-800 border border-neutral-200/80 dark:border-[#ffffff10] print:!border-neutral-300">
-                    {skill}
-                  </span>
-                ))}
-              </div>
+        {skillsData.categories.map((category) => (
+          <div class="p-5 print:p-3 rounded-2xl print:rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white shadow-sm print:shadow-none print-break-inside-avoid">
+            <h3 class="font-mono text-xs print:text-[11px] font-semibold text-[var(--sec)] print:!text-neutral-900 uppercase tracking-wider mb-3 print:mb-1.5">
+              {category.category}
+            </h3>
+            <div class="flex flex-wrap gap-1.5 print:gap-1">
+              {category.skills.map((skill) => (
+                <span class="px-2 py-0.5 rounded text-xs print:text-[10px] font-mono bg-neutral-100 dark:bg-[#ffffff08] print:!bg-neutral-100 text-neutral-600 dark:text-[var(--white-icon)] print:!text-neutral-800 border border-neutral-200/80 dark:border-[#ffffff10] print:!border-neutral-300">
+                  {skill}
+                </span>
+              ))}
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </CVSection>
 
     <!-- Education & Professional Qualifications -->
-    <CVSection title="Education & Verified Credentials" badge={`${totalCount} verified credentials`}>
+    <CVSection
+      title="Education & Verified Credentials"
+      badge={`${totalCount} verified credentials`}
+    >
       <div class="mb-4 print:mb-2 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-[var(--white-icon)] print:text-neutral-600">
         <span>Verified via Credly & Microsoft Learn</span>
         <div class="flex items-center gap-3 print:hidden">
@@ -240,56 +291,58 @@ const { showEmail, contactEmail } = getContactDetails();
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 print:gap-2">
-        {
-          displayedBadges.map((cert) => (
-            <div class="p-4 print:p-2 rounded-2xl print:rounded-lg border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white flex items-start gap-3.5 print:gap-2 hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm print:shadow-none transition-colors group print-break-inside-avoid">
-              {cert.imageUrl ? (
-                <img
-                  src={cert.imageUrl}
-                  alt={cert.title}
-                  class="w-12 h-12 print:w-8 print:h-8 object-contain flex-shrink-0 group-hover:scale-105 transition-transform"
-                  loading="lazy"
-                  width="48"
-                  height="48"
-                />
-              ) : (
-                <div class="w-12 h-12 print:w-8 print:h-8 rounded-xl bg-neutral-100 dark:bg-[#ffffff08] print:!bg-neutral-100 flex items-center justify-center text-[var(--sec)] flex-shrink-0 text-sm">
-                  ⚡
-                </div>
-              )}
-              <div class="flex-grow min-w-0">
-                <div class="flex items-center justify-between gap-1 mb-1 print:mb-0.5">
-                  <span class="px-2 py-0.5 rounded-full text-[10px] print:text-[8px] font-mono uppercase tracking-wider bg-purple-50 dark:bg-[#ffffff08] print:!bg-neutral-100 text-[var(--sec)] print:!text-neutral-700 border border-purple-200/60 dark:border-[#ffffff10] print:!border-neutral-300">
-                    {cert.issuer}
+        {displayedBadges.map((cert) => (
+          <div class="p-4 print:p-2 rounded-2xl print:rounded-lg border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white flex items-start gap-3.5 print:gap-2 hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm print:shadow-none transition-colors group print-break-inside-avoid">
+            {cert.imageUrl ? (
+              <img
+                src={cert.imageUrl}
+                alt={cert.title}
+                class="w-12 h-12 print:w-8 print:h-8 object-contain flex-shrink-0 group-hover:scale-105 transition-transform"
+                loading="lazy"
+                width="48"
+                height="48"
+              />
+            ) : (
+              <div class="w-12 h-12 print:w-8 print:h-8 rounded-xl bg-neutral-100 dark:bg-[#ffffff08] print:!bg-neutral-100 flex items-center justify-center text-[var(--sec)] flex-shrink-0 text-sm">
+                ⚡
+              </div>
+            )}
+            <div class="flex-grow min-w-0">
+              <div class="flex items-center justify-between gap-1 mb-1 print:mb-0.5">
+                <span class="px-2 py-0.5 rounded-full text-[10px] print:text-[8px] font-mono uppercase tracking-wider bg-purple-50 dark:bg-[#ffffff08] print:!bg-neutral-100 text-[var(--sec)] print:!text-neutral-700 border border-purple-200/60 dark:border-[#ffffff10] print:!border-neutral-300">
+                  {cert.issuer}
+                </span>
+                <span class="text-[11px] print:text-[9px] font-mono text-neutral-500 print:!text-neutral-600 whitespace-nowrap">
+                  {cert.issueDate}
+                </span>
+              </div>
+              <h3 class="text-sm print:text-[11px] font-semibold text-[var(--white)] print:!text-neutral-900 leading-snug line-clamp-2">
+                {cert.title}
+              </h3>
+              <div class="mt-2.5 print:mt-0.5 flex items-center justify-between text-xs print:text-[9px] font-mono">
+                {cert.expiresDate ? (
+                  <span class="text-[11px] print:text-[9px] text-neutral-500 print:!text-neutral-600">
+                    Exp: {cert.expiresDate}
                   </span>
-                  <span class="text-[11px] print:text-[9px] font-mono text-neutral-500 print:!text-neutral-600 whitespace-nowrap">
-                    {cert.issueDate}
+                ) : (
+                  <span class="text-[11px] print:text-[9px] text-[#16a34a] dark:text-[#A9FF5B] print:!text-neutral-700 font-medium">
+                    Active
                   </span>
-                </div>
-                <h3 class="text-sm print:text-[11px] font-semibold text-[var(--white)] print:!text-neutral-900 leading-snug line-clamp-2">
-                  {cert.title}
-                </h3>
-                <div class="mt-2.5 print:mt-0.5 flex items-center justify-between text-xs print:text-[9px] font-mono">
-                  {cert.expiresDate ? (
-                    <span class="text-[11px] print:text-[9px] text-neutral-500 print:!text-neutral-600">Exp: {cert.expiresDate}</span>
-                  ) : (
-                    <span class="text-[11px] print:text-[9px] text-[#16a34a] dark:text-[#A9FF5B] print:!text-neutral-700 font-medium">Active</span>
-                  )}
-                  <span class="print:hidden">
-                    <a
-                      href={cert.verifyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-[var(--sec)] hover:underline text-[11px] inline-flex items-center gap-0.5"
-                    >
-                      Verify &nearr;
-                    </a>
-                  </span>
-                </div>
+                )}
+                <span class="print:hidden">
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[var(--sec)] hover:underline text-[11px] inline-flex items-center gap-0.5"
+                  >
+                    Verify &nearr;
+                  </a>
+                </span>
               </div>
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </CVSection>
 
