@@ -1,5 +1,6 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate } from '../../utils/date';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -12,7 +13,7 @@ const allTags = Array.from(
 ).sort();
 ---
 
-<BaseLayout
+<Layout
   title="Engineering Notes & Architecture Blog | Oliver Slater"
   description="Technical essays, architecture notes, and cloud engineering insights on AWS, serverless, distributed systems, and modern platform engineering."
 >
@@ -47,11 +48,7 @@ const allTags = Array.from(
     <div class="space-y-6">
       {
         sortedPosts.map((post) => {
-          const formattedDate = new Intl.DateTimeFormat('en-GB', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          }).format(new Date(post.data.pubDate));
+          const formattedDate = formatDate(post.data.pubDate);
 
           return (
             <article class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-all duration-300">
@@ -96,4 +93,4 @@ const allTags = Array.from(
       }
     </div>
   </div>
-</BaseLayout>
+</Layout>

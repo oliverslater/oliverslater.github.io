@@ -1,13 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
 import profileData from '../content/cv/profile.json';
+import { getContactDetails } from '../utils/profile';
 
-const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVisible ?? false;
-const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CONTACT_EMAIL || (profileData as any).email || '';
+const { showEmail, contactEmail } = getContactDetails();
 ---
 
-<BaseLayout
+<Layout
   title={`Contact | ${profileData.name}`}
   description="Get in touch with Oliver Slater for cloud architecture, enterprise advisory, or platform engineering initiatives."
 >
@@ -70,7 +70,7 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
       <ContactForm />
     </section>
   </div>
-</BaseLayout>
+</Layout>
 
 <script>
   function recordContactReferrer() {

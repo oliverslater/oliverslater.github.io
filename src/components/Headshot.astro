@@ -1,0 +1,50 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  alt?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  size = 'md',
+  class: className = '',
+  alt = 'Oliver Slater - Cloud Architect',
+  fetchpriority = 'high',
+} = Astro.props;
+
+// Size mappings for responsiveness
+const sizeClasses = {
+  sm: 'w-16 h-16 rounded-xl',
+  md: 'w-20 h-20 sm:w-24 sm:h-24 rounded-2xl print:rounded-xl',
+  lg: 'w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl sm:rounded-3xl',
+}[size];
+
+const dimension = size === 'lg' ? 112 : size === 'md' ? 96 : 64;
+const sizesAttr =
+  size === 'lg'
+    ? '(max-width: 640px) 80px, (max-width: 768px) 96px, 112px'
+    : '(max-width: 640px) 80px, 96px';
+---
+
+<picture class="flex-shrink-0">
+  <source
+    type="image/webp"
+    srcset="/assets/oliver-slater-128.webp 128w, /assets/oliver-slater-256.webp 256w, /assets/oliver-slater-384.webp 384w"
+    sizes={sizesAttr}
+  />
+  <source
+    type="image/png"
+    srcset="/assets/oliver-slater-128.png 128w, /assets/oliver-slater-256.png 256w, /assets/oliver-slater-384.png 384w"
+    sizes={sizesAttr}
+  />
+  <img
+    src="/assets/oliver-slater-256.png"
+    alt={alt}
+    class={`object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white shadow-sm print:shadow-none ${sizeClasses} ${className}`}
+    width={dimension}
+    height={dimension}
+    fetchpriority={fetchpriority}
+    decoding="async"
+  />
+</picture>

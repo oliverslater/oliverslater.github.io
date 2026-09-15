@@ -1,20 +1,21 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import Layout from '../layouts/Layout.astro';
 import CVSection from '../components/CVSection.astro';
+import Headshot from '../components/Headshot.astro';
 import profileData from '../content/cv/profile.json';
 import experienceData from '../content/cv/experience.json';
 import skillsData from '../content/cv/skills.json';
 import { getAllCredentials } from '../utils/certifications';
+import { getContactDetails } from '../utils/profile';
 
 const allBadges = await getAllCredentials();
 const displayedBadges = allBadges.filter((b) => b.displayed);
 const countedBadges = allBadges.filter((b) => b.includeInCount);
 const totalCount = countedBadges.length;
-const showEmail = (profileData as any).showEmail ?? (profileData as any).emailVisible ?? false;
-const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CONTACT_EMAIL || (profileData as any).email || '';
+const { showEmail, contactEmail } = getContactDetails();
 ---
 
-<BaseLayout
+<Layout
   title={`CV & Resume | ${profileData.name}`}
   description={`Scannable curriculum vitae of ${profileData.name} - ${profileData.title}. Detailed work history, system architecture experience, and skill set.`}
 >
@@ -76,29 +77,7 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
           </p>
         </div>
 
-        <div class="flex-shrink-0">
-          <picture>
-            <source
-              type="image/webp"
-              srcset="/assets/oliver-slater-128.webp 128w, /assets/oliver-slater-256.webp 256w, /assets/oliver-slater-384.webp 384w"
-              sizes="(max-width: 640px) 80px, 96px"
-            />
-            <source
-              type="image/png"
-              srcset="/assets/oliver-slater-128.png 128w, /assets/oliver-slater-256.png 256w, /assets/oliver-slater-384.png 384w"
-              sizes="(max-width: 640px) 80px, 96px"
-            />
-            <img
-              src="/assets/oliver-slater-256.png"
-              alt={profileData.name}
-              class="w-20 h-20 sm:w-24 sm:h-24 print:w-16 print:h-16 rounded-2xl print:rounded-xl object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white shadow-sm print:shadow-none"
-              width="96"
-              height="96"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </picture>
-        </div>
+        <Headshot size="md" />
       </div>
 
       <!-- Contact and links grid -->
@@ -319,4 +298,4 @@ const contactEmail = import.meta.env.CONTACT_EMAIL || import.meta.env.PUBLIC_CON
       References available on request
     </div>
   </div>
-</BaseLayout>
+</Layout>

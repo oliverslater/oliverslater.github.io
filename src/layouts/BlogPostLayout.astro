@@ -1,5 +1,6 @@
 ---
-import BaseLayout from './BaseLayout.astro';
+import Layout from './Layout.astro';
+import { formatDate } from '../utils/date';
 
 interface Props {
   frontmatter: {
@@ -14,22 +15,11 @@ interface Props {
 
 const { frontmatter } = Astro.props;
 
-const formattedDate = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'short',
-  year: 'numeric',
-}).format(new Date(frontmatter.pubDate));
-
-const formattedUpdatedDate = frontmatter.updatedDate
-  ? new Intl.DateTimeFormat('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    }).format(new Date(frontmatter.updatedDate))
-  : null;
+const formattedDate = formatDate(frontmatter.pubDate);
+const formattedUpdatedDate = frontmatter.updatedDate ? formatDate(frontmatter.updatedDate) : null;
 ---
 
-<BaseLayout title={`${frontmatter.title} | Oliver Slater`} description={frontmatter.description}>
+<Layout title={`${frontmatter.title} | Oliver Slater`} description={frontmatter.description}>
   <article class="max-w-3xl mx-auto">
     <!-- Back to blog navigation -->
     <div class="mb-8">
@@ -97,4 +87,4 @@ const formattedUpdatedDate = frontmatter.updatedDate
       </a>
     </footer>
   </article>
-</BaseLayout>
+</Layout>
