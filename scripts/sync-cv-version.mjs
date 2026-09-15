@@ -12,20 +12,36 @@ const cvDir = resolve(rootDir, "src/content/cv");
 const profilePath = resolve(cvDir, "profile.json");
 const cvVersionPath = resolve(cvDir, "cv-version.json");
 
-let profileData = { name: "Oliver Slater" };
-if (existsSync(profilePath)) {
-  try {
-    profileData = JSON.parse(readFileSync(profilePath, "utf8"));
-  } catch {}
+if (!existsSync(profilePath)) {
+  console.error(`✗ Missing required profile data file at: ${profilePath}`);
+  process.exit(1);
 }
 
-const safeName = (profileData.name || "CV").replace(/\s+/g, "_");
+let profileData;
+try {
+  profileData = JSON.parse(readFileSync(profilePath, "utf8"));
+} catch (err) {
+  console.error(
+    `✗ Failed to parse profile data from ${profilePath}:`,
+    err.message,
+  );
+  process.exit(1);
+}
+
+if (!profileData.name || typeof profileData.name !== "string") {
+  console.error(
+    "✗ Missing or invalid 'name' field in src/content/cv/profile.json",
+  );
+  process.exit(1);
+}
+
+const safeName = profileData.name.trim().replace(/\s+/g, "_");
 
 // 1. Determine version date
 let versionDate = new Date().toISOString().split("T")[0];
 try {
   const uncommitted = execSync(
-    "git status --porcelain -- src/content/cv src/pages/cv.astro",
+    'git status --porcelain -- src/content/cv src/pages/cv.astro ":(exclude)src/content/cv/cv-version.json"',
     {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
@@ -33,14 +49,16 @@ try {
   ).trim();
 
   if (!uncommitted) {
-    const lastCommitDate = execSync(
-      "git log -1 --format=%cs -- src/content/cv src/pages/cv.astro",
+    const gitDate = execSync(
+      'git log -1 --format=%cs -- src/content/cv src/pages/cv.astro ":(exclude)src/content/cv/cv-version.json"',
       {
         encoding: "utf8",
         stdio: ["ignore", "pipe", "ignore"],
       },
     ).trim();
-    if (lastCommitDate) versionDate = lastCommitDate;
+    if (gitDate && /^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
+      versionDate = gitDate;
+    }
   }
 } catch {}
 

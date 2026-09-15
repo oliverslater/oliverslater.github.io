@@ -25,18 +25,31 @@ const cvVersionPath = resolve(cvDir, "cv-version.json");
 const profilePath = resolve(cvDir, "profile.json");
 const pdfCachePath = resolve(astroCacheDir, "cv-pdf-cache.json");
 
-// Read profile data dynamically
-let profileData = {
-  name: "Oliver Slater",
-  website: "https://www.oliver-slater.co.uk",
-};
-if (existsSync(profilePath)) {
-  try {
-    profileData = JSON.parse(readFileSync(profilePath, "utf8"));
-  } catch {}
+// Read profile data dynamically from content store
+if (!existsSync(profilePath)) {
+  console.error(`✗ Missing required profile data file at: ${profilePath}`);
+  process.exit(1);
 }
 
-const safeName = (profileData.name || "CV").replace(/\s+/g, "_");
+let profileData;
+try {
+  profileData = JSON.parse(readFileSync(profilePath, "utf8"));
+} catch (err) {
+  console.error(
+    `✗ Failed to parse profile data from ${profilePath}:`,
+    err.message,
+  );
+  process.exit(1);
+}
+
+if (!profileData.name || typeof profileData.name !== "string") {
+  console.error(
+    "✗ Missing or invalid 'name' field in src/content/cv/profile.json",
+  );
+  process.exit(1);
+}
+
+const safeName = profileData.name.trim().replace(/\s+/g, "_");
 
 // Read CV version metadata (synchronized during prebuild)
 let cvVersion = {
