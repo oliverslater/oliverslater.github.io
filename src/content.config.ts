@@ -22,7 +22,9 @@ export const collections = {
 export interface ProfileData {
   name: string;
   title: string;
+  avatar?: string;
   email: string;
+  showEmail?: boolean;
   location?: string;
   bio: string;
   website?: string;
