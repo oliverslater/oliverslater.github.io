@@ -16,13 +16,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.oliver-slater.co.uk/blog/architecting-a-modern-cloud-portfolio-with-astro-github-and-gemini</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://www.oliver-slater.co.uk/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.oliver-slater.co.uk/blog/architecting-a-modern-cloud-portfolio-with-astro-github-and-gemini</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
