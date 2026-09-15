@@ -55,6 +55,9 @@ content:
         label: Professional Title
         type: string
         required: true
+      - name: avatar
+        label: Profile Picture / Avatar
+        type: image
       - name: email
         label: Email Address (optional / private via .env CONTACT_EMAIL)
         type: string
