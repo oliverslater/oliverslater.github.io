@@ -5,26 +5,24 @@ interface Props {
   class?: string;
 }
 
-const { title, badge, class: className = '' } = Astro.props;
+const { title, badge, class: className = "" } = Astro.props;
 ---
 
-<section class:list={['mb-14 print:mb-7', className]}>
-  <div class="flex items-center justify-between pb-3 mb-8 print:mb-4 border-b border-[#ffffff10] print:border-neutral-300 print-break-after-avoid">
+<section class:list={["mb-14 print:mb-5", className]}>
+  <div class="flex items-center justify-between pb-3 mb-8 print:mb-2.5 print:pb-1 border-b border-[#ffffff10] print:border-neutral-300 print-break-after-avoid">
     <div class="flex items-center gap-3">
-      <h2 class="text-2xl print:text-lg font-semibold tracking-tight text-[var(--white)] print:text-neutral-900">
+      <h2 class="text-2xl print:text-base font-semibold tracking-tight text-[var(--white)] print:text-neutral-900">
         {title}
       </h2>
-      {
-        badge && (
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-[var(--white-icon-tr)] print:bg-neutral-100 text-[var(--sec)] print:text-neutral-700 border border-[#ffffff10] print:border-neutral-300">
-            {badge}
-          </span>
-        )
-      }
+      {badge && (
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-[var(--white-icon-tr)] print:bg-transparent text-[var(--sec)] print:!text-neutral-500 border border-[#ffffff10] print:border-none print:p-0 print:text-[11px] print:font-normal print:before:content-['('] print:after:content-[')']">
+          {badge}
+        </span>
+      )}
     </div>
   </div>
 
-  <div class="space-y-8 print:space-y-4">
+  <div class="space-y-8 print:space-y-3">
     <slot />
   </div>
 </section>

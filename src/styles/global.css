@@ -112,8 +112,8 @@ html:not(.dark) .shiny-white {
 /* Print optimizations for CV and PDF export */
 @media print {
   @page {
-    margin: 12mm 15mm;
-    size: auto;
+    size: A4;
+    margin: 12mm 14mm;
   }
 
   *,
@@ -144,6 +144,11 @@ html:not(.dark) .shiny-white {
     background-color: #ffffff !important;
   }
 
+  html.dark [class*="print:!bg-transparent"],
+  html.dark [class*="print:bg-transparent"] {
+    background-color: transparent !important;
+  }
+
   html.dark [class*="print:!bg-white"],
   html.dark [class*="print:bg-white"] {
     background-color: #ffffff !important;
@@ -156,6 +161,12 @@ html:not(.dark) .shiny-white {
 
   html.dark [class*="dark:border-"] {
     border-color: #e5e7eb !important;
+  }
+
+  html.dark [class*="print:border-none"],
+  html.dark [class*="print:border-0"],
+  html.dark [class*="print:border-l-0"] {
+    border: none !important;
   }
 
   html.dark [class*="print:!border-neutral-300"],
