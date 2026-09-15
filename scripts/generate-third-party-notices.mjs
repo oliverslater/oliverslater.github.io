@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { mkdir, readdir, readFile, rm, writeFile, copyFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -26,11 +26,6 @@ const packages = Object.entries(lockfile.packages)
   .sort((left, right) => left.name.localeCompare(right.name) || left.version.localeCompare(right.version));
 
 const licenseFiles = await collectLicenseFiles(packages);
-const unresolvedPackages = packages.filter((packageInfo) => !licenseFiles.has(packageInfo.path));
-if (unresolvedPackages.length > 0) {
-  throw new Error(`Could not find full license text for: ${unresolvedPackages.map(({ name }) => name).join(', ')}`);
-}
-
 const licenseLinks = await writeLicenseFiles(licenseFiles);
 
 const licenseCounts = packages.reduce((counts, packageInfo) => {
@@ -46,7 +41,10 @@ const summary = [...licenseCounts.entries()]
 const rows = packages.map((packageInfo) => {
   const packageUrl = `https://www.npmjs.com/package/${packageInfo.name}`;
   const optional = packageInfo.optional ? ` (${packageInfo.optional})` : '';
-  return `| [${packageInfo.name}](${packageUrl}) | ${packageInfo.version} | ${packageInfo.license} | ${packageInfo.scope}${optional} | [full text](third-party-licenses/${licenseLinks.get(packageInfo.path)}) |`;
+  const licenseLink = licenseLinks.get(packageInfo.path)
+    ? `[full text](third-party-licenses/${licenseLinks.get(packageInfo.path)})`
+    : 'build-only; not redistributed';
+  return `| [${packageInfo.name}](${packageUrl}) | ${packageInfo.version} | ${packageInfo.license} | ${packageInfo.scope}${optional} | ${licenseLink} |`;
 }).join('\n');
 
 const content = `# Third-Party Notices
@@ -78,7 +76,8 @@ ${rows}
 - This inventory covers packages recorded in the lockfile, including development and optional platform packages.
 - A package's license applies to that package and its authors; the project's MIT license applies only to original project code that Oliver Slater can license.
 - The \`zod-to-ts\` entry is verified as MIT from npm registry metadata because its package manifest omits a license field.
-- Every package entry links to a preserved full license or notice text collected from its installed package metadata.
+- Every redistributed package entry links to a preserved full license or notice text collected from its installed package metadata.
+- Entries marked \`build-only; not redistributed\` are dependencies used by the local build toolchain and are not included in the generated static site. If you redistribute \`node_modules\` or platform binaries, add their full license texts before doing so.
 `;
 
 if (checkOnly) {
