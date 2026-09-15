@@ -39,6 +39,8 @@ export interface CertificationOverride {
   issuer?: string;
 }
 
+import { formatMonthYear } from "./date";
+
 export function cleanIssuerName(raw: string): string {
   if (raw.includes("Amazon Web Services")) return "AWS";
   if (raw.includes("HashiCorp")) return "HashiCorp";
@@ -48,16 +50,7 @@ export function cleanIssuerName(raw: string): string {
 }
 
 export function formatDate(dateStr?: string): string {
-  if (!dateStr) return "";
-  try {
-    const d = new Date(dateStr);
-    return new Intl.DateTimeFormat("en-GB", {
-      month: "short",
-      year: "numeric",
-    }).format(d);
-  } catch {
-    return dateStr;
-  }
+  return formatMonthYear(dateStr);
 }
 
 export function parseTime(str?: string): number {

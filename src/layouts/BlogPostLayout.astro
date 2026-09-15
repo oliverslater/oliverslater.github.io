@@ -1,6 +1,7 @@
 ---
-import Layout from './Layout.astro';
-import { formatDate } from '../utils/date';
+import Layout from "./Layout.astro";
+import profileData from "../content/cv/profile.json";
+import { formatDate } from "../utils/date";
 
 interface Props {
   frontmatter: {
@@ -16,10 +17,15 @@ interface Props {
 const { frontmatter } = Astro.props;
 
 const formattedDate = formatDate(frontmatter.pubDate);
-const formattedUpdatedDate = frontmatter.updatedDate ? formatDate(frontmatter.updatedDate) : null;
+const formattedUpdatedDate = frontmatter.updatedDate
+  ? formatDate(frontmatter.updatedDate)
+  : null;
 ---
 
-<Layout title={`${frontmatter.title} | Oliver Slater`} description={frontmatter.description}>
+<Layout
+  title={`${frontmatter.title} | ${profileData.name}`}
+  description={frontmatter.description}
+>
   <article class="max-w-3xl mx-auto">
     <!-- Back to blog navigation -->
     <div class="mb-8">
@@ -34,15 +40,17 @@ const formattedUpdatedDate = frontmatter.updatedDate ? formatDate(frontmatter.up
     <!-- Article Header -->
     <header class="mb-10 pb-8 border-b border-[#ffffff10]">
       <div class="flex items-center gap-3 text-xs font-mono text-[var(--sec)] mb-3">
-        <time datetime={new Date(frontmatter.pubDate).toISOString()}>{formattedDate}</time>
-        {
-          formattedUpdatedDate && (
-            <>
-              <span class="text-neutral-500">·</span>
-              <span class="text-[var(--white-icon)]">Updated {formattedUpdatedDate}</span>
-            </>
-          )
-        }
+        <time datetime={new Date(frontmatter.pubDate).toISOString()}>
+          {formattedDate}
+        </time>
+        {formattedUpdatedDate && (
+          <>
+            <span class="text-neutral-500">·</span>
+            <span class="text-[var(--white-icon)]">
+              Updated {formattedUpdatedDate}
+            </span>
+          </>
+        )}
       </div>
 
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[var(--white)] mb-4 leading-tight">
@@ -53,17 +61,15 @@ const formattedUpdatedDate = frontmatter.updatedDate ? formatDate(frontmatter.up
         {frontmatter.description}
       </p>
 
-      {
-        frontmatter.tags && frontmatter.tags.length > 0 && (
-          <div class="flex flex-wrap gap-2">
-            {frontmatter.tags.map((tag) => (
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )
-      }
+      {frontmatter.tags && frontmatter.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {frontmatter.tags.map((tag) => (
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
     </header>
 
     <!-- Post Body Content -->
@@ -73,16 +79,10 @@ const formattedUpdatedDate = frontmatter.updatedDate ? formatDate(frontmatter.up
 
     <!-- Article Footer -->
     <footer class="mt-14 pt-8 border-t border-[#ffffff10] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">
-      <a
-        href="/blog"
-        class="hover:text-[var(--white)] transition-colors"
-      >
+      <a href="/blog" class="hover:text-[var(--white)] transition-colors">
         &larr; Back to all posts
       </a>
-      <a
-        href="#top"
-        class="hover:text-[var(--white)] transition-colors"
-      >
+      <a href="#top" class="hover:text-[var(--white)] transition-colors">
         Back to top &uarr;
       </a>
     </footer>

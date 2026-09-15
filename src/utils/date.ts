@@ -1,16 +1,29 @@
 export function formatDate(
-  date: Date | string | number,
+  date?: Date | string | number | null,
   options: Intl.DateTimeFormatOptions = {
     day: "numeric",
     month: "short",
     year: "numeric",
   },
 ): string {
-  const d =
-    typeof date === "string" || typeof date === "number"
-      ? new Date(date)
-      : date;
-  return new Intl.DateTimeFormat("en-GB", options).format(d);
+  if (!date) return "";
+  try {
+    const d =
+      typeof date === "string" || typeof date === "number"
+        ? new Date(date)
+        : date;
+    if (isNaN(d.getTime())) return typeof date === "string" ? date : "";
+    return new Intl.DateTimeFormat("en-GB", options).format(d);
+  } catch {
+    return typeof date === "string" ? date : "";
+  }
+}
+
+/**
+ * Formats a date into "Month Year" (e.g. "Nov 2023"), commonly used for credentials and milestones.
+ */
+export function formatMonthYear(date?: Date | string | number | null): string {
+  return formatDate(date, { month: "short", year: "numeric" });
 }
 
 const MONTH_NAMES: Record<string, number> = {

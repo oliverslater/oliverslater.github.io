@@ -35,6 +35,9 @@ export interface ProfileData {
   github?: string;
   linkedin?: string;
   twitter?: string;
+  headline?: string;
+  credly?: string;
+  mslearn?: string;
   coreCompetencies: string[];
 }
 

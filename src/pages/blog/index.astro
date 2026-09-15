@@ -1,20 +1,21 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { formatDate } from '../../utils/date';
-import { getCollection } from 'astro:content';
+import Layout from "../../layouts/Layout.astro";
+import profileData from "../../content/cv/profile.json";
+import { formatDate } from "../../utils/date";
+import { getCollection } from "astro:content";
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = await getCollection("blog", ({ data }) => !data.draft);
 const sortedPosts = posts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
 const allTags = Array.from(
-  new Set(sortedPosts.flatMap((post) => post.data.tags || []))
+  new Set(sortedPosts.flatMap((post) => post.data.tags || [])),
 ).sort();
 ---
 
 <Layout
-  title="Engineering Notes & Architecture Blog | Oliver Slater"
+  title={`Engineering Notes & Architecture Blog | ${profileData.name}`}
   description="Technical essays, architecture notes, and cloud engineering insights on AWS, serverless, distributed systems, and modern platform engineering."
 >
   <div class="max-w-4xl mx-auto">
@@ -27,70 +28,65 @@ const allTags = Array.from(
         Engineering Notes
       </h1>
       <p class="text-base text-[var(--white-icon)] leading-relaxed max-w-xl">
-        Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.
+        Articles on cloud architecture, serverless infrastructure,
+        Infrastructure as Code, and platform reliability.
       </p>
 
-      {
-        allTags.length > 0 && (
-          <div class="mt-6 flex flex-wrap items-center gap-2">
-            <span class="text-xs font-mono text-neutral-500 mr-1">Topics:</span>
-            {allTags.map((tag) => (
-              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )
-      }
+      {allTags.length > 0 && (
+        <div class="mt-6 flex flex-wrap items-center gap-2">
+          <span class="text-xs font-mono text-neutral-500 mr-1">Topics:</span>
+          {allTags.map((tag) => (
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
     </header>
 
     <!-- Post list -->
     <div class="space-y-6">
-      {
-        sortedPosts.map((post) => {
-          const formattedDate = formatDate(post.data.pubDate);
+      {sortedPosts.map((post) => {
+        const formattedDate = formatDate(post.data.pubDate);
 
-          return (
-            <article class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-all duration-300">
-              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
-                <time
-                  datetime={new Date(post.data.pubDate).toISOString()}
-                  class="font-mono text-xs text-[var(--sec)]"
-                >
-                  {formattedDate}
-                </time>
-                {post.data.tags && (
-                  <div class="flex flex-wrap gap-1.5">
-                    {post.data.tags.slice(0, 3).map((tag) => (
-                      <span class="text-xs font-mono text-neutral-500">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <h2 class="text-xl font-semibold tracking-tight text-[var(--white)] hover:text-[var(--sec)] transition-colors mb-2">
-                <a href={`/blog/${post.id}`}>
-                  {post.data.title}
-                </a>
-              </h2>
-
-              <p class="text-sm text-[var(--white-icon)] leading-relaxed mb-4">
-                {post.data.description}
-              </p>
-
-              <a
-                href={`/blog/${post.id}`}
-                class="inline-flex items-center gap-1 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
+        return (
+          <article class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-all duration-300">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+              <time
+                datetime={new Date(post.data.pubDate).toISOString()}
+                class="font-mono text-xs text-[var(--sec)]"
               >
-                <span>Read article</span>
-                <span class="text-[var(--sec)]">&rarr;</span>
-              </a>
-            </article>
-          );
-        })
-      }
+                {formattedDate}
+              </time>
+              {post.data.tags && (
+                <div class="flex flex-wrap gap-1.5">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span class="text-xs font-mono text-neutral-500">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <h2 class="text-xl font-semibold tracking-tight text-[var(--white)] hover:text-[var(--sec)] transition-colors mb-2">
+              <a href={`/blog/${post.id}`}>{post.data.title}</a>
+            </h2>
+
+            <p class="text-sm text-[var(--white-icon)] leading-relaxed mb-4">
+              {post.data.description}
+            </p>
+
+            <a
+              href={`/blog/${post.id}`}
+              class="inline-flex items-center gap-1 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
+            >
+              <span>Read article</span>
+              <span class="text-[var(--sec)]">&rarr;</span>
+            </a>
+          </article>
+        );
+      })}
     </div>
   </div>
 </Layout>

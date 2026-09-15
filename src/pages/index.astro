@@ -1,17 +1,17 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import profileData from '../content/cv/profile.json';
-import experienceData from '../content/cv/experience.json';
-import LogoWall from '../components/LogoWall.astro';
-import LetterGlitch from '../components/LetterGlitch';
-import SkillsList from '../components/SkillsList';
-import ContactForm from '../components/ContactForm.astro';
-import Headshot from '../components/Headshot.astro';
-import SocialLinks from '../components/SocialLinks.astro';
-import { formatDate } from '../utils/date';
-import { getCollection } from 'astro:content';
+import Layout from "../layouts/Layout.astro";
+import profileData from "../content/cv/profile.json";
+import experienceData from "../content/cv/experience.json";
+import LogoWall from "../components/LogoWall.astro";
+import LetterGlitch from "../components/LetterGlitch";
+import SkillsList from "../components/SkillsList";
+import ContactForm from "../components/ContactForm.astro";
+import Headshot from "../components/Headshot.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import { formatDate } from "../utils/date";
+import { getCollection } from "astro:content";
 
-const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
+const blogPosts = await getCollection("blog", ({ data }) => !data.draft);
 const recentPosts = blogPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 2);
@@ -20,7 +20,7 @@ const featuredRoles = experienceData.roles.slice(0, 2);
 ---
 
 <Layout
-  title={`${profileData.name} | Cloud Architect`}
+  title={`${profileData.name} | ${profileData.title}`}
   description={profileData.bio}
 >
   <!-- Hero Section -->
@@ -30,45 +30,49 @@ const featuredRoles = experienceData.roles.slice(0, 2);
         <div class="space-y-3">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-neutral-100 dark:bg-[#1414149c] border border-neutral-200/80 dark:border-[var(--white-icon-tr)] text-[var(--white-icon)] shadow-sm">
             <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"></span>
-            AWS Golden Jacket Holder &middot; 11x AWS Certified
+            {profileData.headline}
           </div>
 
           <p class="text-base sm:text-lg text-[var(--white-icon)] shiny-white">
-            Hi, I'm Oliver Slater
+            Hi, I'm {profileData.name}
           </p>
         </div>
 
         <Headshot size="lg" />
       </div>
-        <div class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 gap-4">
-          <h1 class="text-5xl sm:text-6xl md:text-7xl font-medium text-pretty leading-none text-[var(--white)] tracking-tight">
-            Cloud <br /> Architect
-          </h1>
-          <p class="text-base sm:text-xl text-[var(--white-icon)] leading-relaxed max-w-xl">
-            Specialising in enterprise-scale <span class="text-[var(--sec)] shiny-sec font-medium">cloud solutions</span>, serverless systems, and large-scale AWS & Azure transformations.
-          </p>
-        </div>
+      <div class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 gap-4">
+        <h1 class="text-5xl sm:text-6xl md:text-7xl font-medium text-pretty leading-none text-[var(--white)] tracking-tight">
+          Cloud <br /> Architect
+        </h1>
+        <p class="text-base sm:text-xl text-[var(--white-icon)] leading-relaxed max-w-xl">
+          Specialising in enterprise-scale{" "}
+          <span class="text-[var(--sec)] shiny-sec font-medium">
+            cloud solutions
+          </span>
+          , serverless systems, and large-scale AWS & Azure transformations.
+        </p>
       </div>
+    </div>
 
-      <!-- Social and quick action buttons -->
-      <div class="flex flex-wrap items-center gap-3 pt-4">
-        <SocialLinks variant="hero" />
+    <!-- Social and quick action buttons -->
+    <div class="flex flex-wrap items-center gap-3 pt-4">
+      <SocialLinks variant="hero" />
 
-        <a
-          href="/cv"
-          class="flex items-center gap-2 px-5 py-3 rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-sm font-medium text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition duration-300"
-        >
-          <span>View Scannable CV</span>
-          <span class="text-[var(--sec)]">&rarr;</span>
-        </a>
+      <a
+        href="/cv"
+        class="flex items-center gap-2 px-5 py-3 rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-sm font-medium text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition duration-300"
+      >
+        <span>View Scannable CV</span>
+        <span class="text-[var(--sec)]">&rarr;</span>
+      </a>
 
-        <a
-          href="/contact"
-          class="flex items-center gap-2 px-5 py-3 rounded-xl bg-[var(--sec)] text-black font-medium text-sm hover:opacity-90 transition duration-300"
-        >
-          <span>Let's Talk</span>
-        </a>
-      </div>
+      <a
+        href="/contact"
+        class="flex items-center gap-2 px-5 py-3 rounded-xl bg-[var(--sec)] text-black font-medium text-sm hover:opacity-90 transition duration-300"
+      >
+        <span>Let's Talk</span>
+      </a>
+    </div>
   </section>
 
   <!-- Logo Wall Marquee -->
@@ -116,95 +120,94 @@ const featuredRoles = experienceData.roles.slice(0, 2);
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {
-        featuredRoles.map((role) => (
-          <div class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div class="flex items-baseline justify-between gap-2 mb-2">
-                <span class="text-xs font-mono text-[var(--sec)]">
-                  {role.startDate} &mdash; {role.endDate}
-                </span>
-                <span class="text-xs font-mono text-[var(--white-icon)]">
-                  {role.location}
-                </span>
-              </div>
-
-              <h4 class="text-xl font-semibold text-[var(--white)] mb-1">
-                {role.role}
-              </h4>
-              <p class="text-sm text-[var(--white-icon)] font-medium mb-3">
-                {role.company}
-              </p>
-
-              <p class="text-xs sm:text-sm text-[var(--white-icon)] leading-relaxed mb-4">
-                {role.description}
-              </p>
+      {featuredRoles.map((role) => (
+        <div class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="flex items-baseline justify-between gap-2 mb-2">
+              <span class="text-xs font-mono text-[var(--sec)]">
+                {role.startDate} &mdash; {role.endDate}
+              </span>
+              <span class="text-xs font-mono text-[var(--white-icon)]">
+                {role.location}
+              </span>
             </div>
 
-            <div class="flex flex-wrap gap-1.5 pt-2 border-t border-neutral-100 dark:border-[var(--white-icon-tr)]">
-              {role.technologies.slice(0, 5).map((tech) => (
-                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-neutral-100 dark:bg-[#ffffff08] text-neutral-600 dark:text-[var(--white-icon)] border border-neutral-200/80 dark:border-[#ffffff10]">
-                  {tech}
-                </span>
-              ))}
-            </div>
+            <h4 class="text-xl font-semibold text-[var(--white)] mb-1">
+              {role.role}
+            </h4>
+            <p class="text-sm text-[var(--white-icon)] font-medium mb-3">
+              {role.company}
+            </p>
+
+            <p class="text-xs sm:text-sm text-[var(--white-icon)] leading-relaxed mb-4">
+              {role.description}
+            </p>
           </div>
-        ))
-      }
+
+          <div class="flex flex-wrap gap-1.5 pt-2 border-t border-neutral-100 dark:border-[var(--white-icon-tr)]">
+            {role.technologies.slice(0, 5).map((tech) => (
+              <span class="tag-pill">{tech}</span>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   </section>
 
   <!-- Engineering Notes / Blog -->
-  {
-    recentPosts.length > 0 && (
-      <section class="py-14 border-b border-[#ffffff10]">
-        <div class="flex items-center justify-between mb-8">
-          <div>
-            <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
-              Engineering Notes
-            </h2>
-            <h3 class="text-3xl sm:text-4xl font-semibold text-[var(--white)] tracking-tight">
-              Recent Articles
-            </h3>
-          </div>
+  {recentPosts.length > 0 && (
+    <section class="py-14 border-b border-[#ffffff10]">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
+            Engineering Notes
+          </h2>
+          <h3 class="text-3xl sm:text-4xl font-semibold text-[var(--white)] tracking-tight">
+            Recent Articles
+          </h3>
+        </div>
 
+        <a
+          href="/blog"
+          class="text-xs font-mono text-[var(--white-icon)] hover:text-[var(--white)] flex items-center gap-1.5 transition-colors"
+        >
+          <span>All Articles</span>
+          <span class="text-[var(--sec)]">&rarr;</span>
+        </a>
+      </div>
+
+      <div
+        class:list={[
+          "grid gap-6",
+          recentPosts.length > 1 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1",
+        ]}
+      >
+        {recentPosts.map((post) => (
           <a
-            href="/blog"
-            class="text-xs font-mono text-[var(--white-icon)] hover:text-[var(--white)] flex items-center gap-1.5 transition-colors"
+            href={`/blog/${post.id}`}
+            class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
           >
-            <span>All Articles</span>
-            <span class="text-[var(--sec)]">&rarr;</span>
+            <div>
+              <time class="block text-xs font-mono text-[var(--sec)] mb-2">
+                {formatDate(post.data.pubDate)}
+              </time>
+              <h4 class="text-lg font-semibold text-[var(--white)] group-hover:text-[var(--sec)] transition-colors mb-2">
+                {post.data.title}
+              </h4>
+              <p class="text-xs sm:text-sm text-[var(--white-icon)] line-clamp-2 leading-relaxed">
+                {post.data.description}
+              </p>
+            </div>
+
+            <div class="mt-4 pt-3 flex items-center justify-between border-t border-[var(--white-icon-tr)] text-xs font-mono text-[var(--white-icon)]">
+              <span>Read article</span>
+              <span class="text-[var(--sec)]">&rarr;</span>
+            </div>
           </a>
-        </div>
-
-        <div class:list={['grid gap-6', recentPosts.length > 1 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1']}>
-          {recentPosts.map((post) => (
-            <a
-              href={`/blog/${post.id}`}
-              class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
-            >
-              <div>
-                <time class="block text-xs font-mono text-[var(--sec)] mb-2">
-                  {formatDate(post.data.pubDate)}
-                </time>
-                <h4 class="text-lg font-semibold text-[var(--white)] group-hover:text-[var(--sec)] transition-colors mb-2">
-                  {post.data.title}
-                </h4>
-                <p class="text-xs sm:text-sm text-[var(--white-icon)] line-clamp-2 leading-relaxed">
-                  {post.data.description}
-                </p>
-              </div>
-
-              <div class="mt-4 pt-3 flex items-center justify-between border-t border-[var(--white-icon-tr)] text-xs font-mono text-[var(--white-icon)]">
-                <span>Read article</span>
-                <span class="text-[var(--sec)]">&rarr;</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
-    )
-  }
+        ))}
+      </div>
+    </section>
+  )}
 
   <!-- Contact Section -->
   <section class="py-14" id="contact">
@@ -216,7 +219,8 @@ const featuredRoles = experienceData.roles.slice(0, 2);
         Get in Touch
       </h3>
       <p class="text-sm text-[var(--white-icon)] leading-relaxed mb-8">
-        Have an architecture project, consulting inquiry, or cloud transformation initiative? Send a message directly below.
+        Have an architecture project, consulting inquiry, or cloud
+        transformation initiative? Send a message directly below.
       </p>
 
       <ContactForm />

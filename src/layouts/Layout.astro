@@ -1,7 +1,8 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/global.css';
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import profileData from "../content/cv/profile.json";
+import "../styles/global.css";
 
 export interface Props {
   title?: string;
@@ -10,12 +11,15 @@ export interface Props {
 }
 
 const {
-  title = 'Oliver Slater | Cloud Architect',
-  description = 'Cloud Architect & AWS Golden Jacket holder specialising in enterprise-scale cloud solutions, serverless platforms, and large-scale transformation.',
-  image = '/assets/og-image.png',
+  title = `${profileData.name} | ${profileData.title}`,
+  description = `${profileData.title} & AWS Golden Jacket holder specialising in enterprise-scale cloud solutions, serverless platforms, and large-scale transformation.`,
+  image = "/assets/og-image.png",
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://www.oliver-slater.co.uk');
+const canonicalURL = new URL(
+  Astro.url.pathname,
+  Astro.site || profileData.website,
+);
 const imageURL = new URL(image, canonicalURL);
 ---
 
@@ -59,20 +63,30 @@ const imageURL = new URL(image, canonicalURL);
     <!-- Zero-FOUC System/Stored Theme Preference Initializer -->
     <script is:inline>
       const getTheme = () => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
         }
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
       };
       const theme = getTheme();
-      document.documentElement.classList[theme === 'dark' ? 'add' : 'remove']('dark');
+      document.documentElement.classList[theme === "dark" ? "add" : "remove"](
+        "dark",
+      );
 
-      if (typeof localStorage !== 'undefined') {
+      if (typeof localStorage !== "undefined") {
         const observer = new MutationObserver(() => {
-          const isDark = document.documentElement.classList.contains('dark');
-          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          const isDark = document.documentElement.classList.contains("dark");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
         });
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["class"],
+        });
       }
     </script>
   </head>
@@ -84,7 +98,10 @@ const imageURL = new URL(image, canonicalURL);
       Skip to main content
     </a>
     <Header />
-    <main id="main-content" class="flex-1 w-full max-w-5xl mx-auto px-5 sm:px-8 pt-24 sm:pt-32 pb-16">
+    <main
+      id="main-content"
+      class="flex-1 w-full max-w-5xl mx-auto px-5 sm:px-8 pt-24 sm:pt-32 pb-16"
+    >
       <slot />
     </main>
     <Footer />

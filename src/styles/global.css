@@ -57,6 +57,12 @@
   }
 }
 
+@layer components {
+  .tag-pill {
+    @apply px-2 py-0.5 rounded text-[11px] font-mono bg-neutral-100 dark:bg-[#ffffff08] text-neutral-600 dark:text-[var(--white-icon)] border border-neutral-200/80 dark:border-[#ffffff10];
+  }
+}
+
 /* Gothsec DarkMinimal shimmer animations */
 .shiny-sec {
   background: linear-gradient(135deg, #a476ff 25%, #eee5ff 50%, #a476ff 75%);

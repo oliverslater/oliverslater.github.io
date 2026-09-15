@@ -1,9 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import profileData from "../content/cv/profile.json";
 ---
 
 <Layout
-  title="Thank You | Oliver Slater"
+  title={`Thank You | ${profileData.name}`}
   description="Your message has been sent successfully."
 >
   <div class="max-w-xl mx-auto py-12 sm:py-20 text-center">
@@ -14,7 +15,15 @@ import Layout from '../layouts/Layout.astro';
 
       <!-- Success Icon -->
       <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#A9FF5B]/10 border border-[#A9FF5B]/30 text-[#A9FF5B] mb-6 shadow-inner">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          class="w-8 h-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
@@ -29,17 +38,38 @@ import Layout from '../layouts/Layout.astro';
       </h1>
 
       <p class="text-sm sm:text-base text-[var(--white-icon)] leading-relaxed mb-8 max-w-md mx-auto">
-        Your message has been received successfully. I will review your inquiry and get back to you as soon as possible.
+        Your message has been received successfully. I will review your inquiry
+        and get back to you as soon as possible.
       </p>
 
       <!-- Countdown Banner -->
       <div class="p-4 rounded-2xl bg-neutral-100 dark:bg-[#ffffff05] border border-neutral-200/80 dark:border-[#ffffff10] text-xs font-mono text-[var(--white-icon)] mb-8 flex items-center justify-center gap-2">
-        <svg class="w-4 h-4 text-[var(--sec)] animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+        <svg
+          class="w-4 h-4 text-[var(--sec)] animate-spin"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v8H4z"
+          ></path>
         </svg>
         <span>
-          Redirecting back in <span id="countdown" class="font-bold text-[var(--sec)] text-sm">5</span> seconds...
+          Redirecting back in{" "}
+          <span id="countdown" class="font-bold text-[var(--sec)] text-sm">
+            5
+          </span>{" "}
+          seconds...
         </span>
       </div>
 
@@ -67,25 +97,34 @@ import Layout from '../layouts/Layout.astro';
 <script>
   function setupRedirect() {
     let secondsLeft = 5;
-    const countdownEl = document.getElementById('countdown');
-    const returnBtn = document.getElementById('return-btn') as HTMLAnchorElement | null;
+    const countdownEl = document.getElementById("countdown");
+    const returnBtn = document.getElementById(
+      "return-btn",
+    ) as HTMLAnchorElement | null;
 
     // Determine target URL:
     // 1. Check if user came from a specific internal page (saved in sessionStorage)
     // 2. Check document.referrer (if same origin and not /thank-you or /contact)
     // 3. Fallback to homepage '/'
-    let targetUrl = '/';
+    let targetUrl = "/";
     try {
-      const savedRef = sessionStorage.getItem('contact_referrer');
+      const savedRef = sessionStorage.getItem("contact_referrer");
       if (savedRef) {
         const parsed = new URL(savedRef, window.location.origin);
-        if (parsed.origin === window.location.origin && !parsed.pathname.includes('/thank-you')) {
+        if (
+          parsed.origin === window.location.origin &&
+          !parsed.pathname.includes("/thank-you")
+        ) {
           targetUrl = parsed.pathname + parsed.search + parsed.hash;
         }
-        sessionStorage.removeItem('contact_referrer');
+        sessionStorage.removeItem("contact_referrer");
       } else if (document.referrer) {
         const parsed = new URL(document.referrer, window.location.origin);
-        if (parsed.origin === window.location.origin && !parsed.pathname.includes('/thank-you') && !parsed.pathname.includes('/contact')) {
+        if (
+          parsed.origin === window.location.origin &&
+          !parsed.pathname.includes("/thank-you") &&
+          !parsed.pathname.includes("/contact")
+        ) {
           targetUrl = parsed.pathname + parsed.search + parsed.hash;
         }
       }
@@ -110,5 +149,5 @@ import Layout from '../layouts/Layout.astro';
   }
 
   setupRedirect();
-  document.addEventListener('astro:after-swap', setupRedirect);
+  document.addEventListener("astro:after-swap", setupRedirect);
 </script>

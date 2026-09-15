@@ -1,15 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ContactForm from '../components/ContactForm.astro';
-import profileData from '../content/cv/profile.json';
-import { getContactDetails } from '../utils/profile';
+import Layout from "../layouts/Layout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import profileData from "../content/cv/profile.json";
+import { getContactDetails } from "../utils/profile";
 
 const { showEmail, contactEmail } = getContactDetails();
 ---
 
 <Layout
   title={`Contact | ${profileData.name}`}
-  description="Get in touch with Oliver Slater for cloud architecture, enterprise advisory, or platform engineering initiatives."
+  description={`Get in touch with ${profileData.name} for cloud architecture, enterprise advisory, or platform engineering initiatives.`}
 >
   <div class="max-w-3xl mx-auto">
     <!-- Header -->
@@ -21,14 +21,19 @@ const { showEmail, contactEmail } = getContactDetails();
         Contact
       </h1>
       <p class="text-base text-[var(--white-icon)] leading-relaxed max-w-xl">
-        Have an architecture project, consulting inquiry, or cloud transformation initiative? Send a message directly below or reach out via direct coordinates.
+        Have an architecture project, consulting inquiry, or cloud
+        transformation initiative? Send a message directly below or reach out
+        via direct coordinates.
       </p>
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
         {showEmail && contactEmail ? (
           <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
             <span class="block text-neutral-500 mb-1">Direct Email</span>
-            <a href={`mailto:${contactEmail}`} class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all">
+            <a
+              href={`mailto:${contactEmail}`}
+              class="text-[var(--white)] hover:text-[var(--sec)] transition-colors break-all"
+            >
               {contactEmail}
             </a>
           </div>
@@ -41,7 +46,7 @@ const { showEmail, contactEmail } = getContactDetails();
               rel="noopener noreferrer"
               class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
             >
-              github.com/oliverslater &nearr;
+              {profileData.github.replace("https://", "")} &nearr;
             </a>
           </div>
         )}
@@ -59,7 +64,10 @@ const { showEmail, contactEmail } = getContactDetails();
             rel="noopener noreferrer"
             class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
           >
-            in/oliverslater &nearr;
+            {profileData.linkedin
+              .replace("https://www.", "")
+              .replace("https://", "")}{" "}
+            &nearr;
           </a>
         </div>
       </div>
@@ -79,14 +87,17 @@ const { showEmail, contactEmail } = getContactDetails();
         const ref = new URL(document.referrer);
         if (
           ref.origin === window.location.origin &&
-          !ref.pathname.includes('/contact') &&
-          !ref.pathname.includes('/thank-you')
+          !ref.pathname.includes("/contact") &&
+          !ref.pathname.includes("/thank-you")
         ) {
-          sessionStorage.setItem('contact_referrer', ref.pathname + ref.search + ref.hash);
+          sessionStorage.setItem(
+            "contact_referrer",
+            ref.pathname + ref.search + ref.hash,
+          );
         }
       } catch {}
     }
   }
   recordContactReferrer();
-  document.addEventListener('astro:after-swap', recordContactReferrer);
+  document.addEventListener("astro:after-swap", recordContactReferrer);
 </script>
