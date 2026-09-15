@@ -28,11 +28,60 @@ const formattedDate = formatDate(frontmatter.pubDate);
 const formattedUpdatedDate = frontmatter.updatedDate
   ? formatDate(frontmatter.updatedDate)
   : null;
+
+const siteUrl = (
+  Astro.site?.toString() ||
+  profileData.website ||
+  "https://www.oliver-slater.co.uk"
+).replace(/\/+$/, "");
+
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+
+// Resolve PageCMS heroImage (e.g. /assets/hero.png) to absolute URL
+const heroImage = frontmatter.heroImage || "/assets/og-image.png";
+const resolvedHeroImage = new URL(heroImage, canonicalURL).toString();
+
+const techArticleSchema = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  headline: frontmatter.title,
+  description: frontmatter.description,
+  url: canonicalURL.toString(),
+  image: resolvedHeroImage,
+  datePublished: new Date(frontmatter.pubDate).toISOString(),
+  dateModified: frontmatter.updatedDate
+    ? new Date(frontmatter.updatedDate).toISOString()
+    : new Date(frontmatter.pubDate).toISOString(),
+  author: {
+    "@type": "Person",
+    name: profileData.name,
+    url: siteUrl,
+    jobTitle: profileData.title,
+  },
+  publisher: {
+    "@type": "Person",
+    name: profileData.name,
+    url: siteUrl,
+  },
+  inLanguage: "en-GB",
+  keywords: (frontmatter.tags || []).join(", "),
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalURL.toString(),
+  },
+};
 ---
 
 <Layout
   title={`${frontmatter.title} | ${profileData.name}`}
   description={frontmatter.description}
+  image={heroImage}
+  type="article"
+  publishedTime={frontmatter.pubDate}
+  modifiedTime={frontmatter.updatedDate}
+  author={profileData.name}
+  tags={frontmatter.tags}
+  schema={techArticleSchema}
 >
   <ReadingProgressBar />
 
