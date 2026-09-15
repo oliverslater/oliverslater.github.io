@@ -25,11 +25,14 @@ async function getBlogSlugs() {
         // Check for draft: true
         if (!/draft:\s*true/i.test(content)) {
           const slug = file.replace(/\.(md|mdx)$/, "");
-          const dateMatch = content.match(
-            /pubDate:\s*["']?(\d{4})-(\d{2})-\d{2}/i,
-          );
+          const dateMatch = content.match(/pubDate:\s*["']?([^\r\n"']+)["']?/i);
           if (dateMatch) {
-            slugs.push(`${dateMatch[1]}/${dateMatch[2]}/${slug}`);
+            const pubDate = new Date(dateMatch[1].trim());
+            if (!isNaN(pubDate.getTime()) && pubDate.getTime() <= Date.now()) {
+              const year = String(pubDate.getFullYear());
+              const month = String(pubDate.getMonth() + 1).padStart(2, "0");
+              slugs.push(`${year}/${month}/${slug}`);
+            }
           }
         }
       }

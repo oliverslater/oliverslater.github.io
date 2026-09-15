@@ -2,10 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import { profileData } from "../../data/siteData";
 import { formatDate } from "../../utils/date";
-import { getBlogUrl } from "../../utils/blog";
+import { getBlogUrl, isPostPublished } from "../../utils/blog";
 import { getCollection } from "astro:content";
 
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getCollection("blog", (post) => isPostPublished(post));
 const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );

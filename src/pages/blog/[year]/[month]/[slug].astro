@@ -1,9 +1,10 @@
 ---
 import { getCollection, render } from "astro:content";
 import BlogPostLayout from "../../../../layouts/BlogPostLayout.astro";
+import { isPostPublished } from "../../../../utils/blog";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("blog", (post) => isPostPublished(post));
   return posts.map((post) => {
     const year = String(post.data.pubDate.getFullYear());
     const month = String(post.data.pubDate.getMonth() + 1).padStart(2, "0");
