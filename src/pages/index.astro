@@ -110,7 +110,6 @@ const featuredRoles = experienceData.roles.slice(0, 2);
           <span>Let's Talk</span>
         </a>
       </div>
-    </div>
   </section>
 
   <!-- Logo Wall Marquee -->
@@ -222,7 +221,7 @@ const featuredRoles = experienceData.roles.slice(0, 2);
         <div class:list={['grid gap-6', recentPosts.length > 1 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1']}>
           {recentPosts.map((post) => (
             <a
-              href={`/blog/${post.slug}`}
+              href={`/blog/${post.id}`}
               class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
             >
               <div>

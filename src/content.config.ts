@@ -1,8 +1,9 @@
-import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 
-// Blog collection schema
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -14,9 +15,8 @@ const blog = defineCollection({
   }),
 });
 
-// CV data collection schema
 const cv = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/cv' }),
   schema: z.any(),
 });
 
@@ -25,7 +25,6 @@ export const collections = {
   cv,
 };
 
-// TypeScript definitions for CV data structures
 export interface ProfileData {
   name: string;
   title: string;

@@ -74,7 +74,7 @@ const allTags = Array.from(
               </div>
 
               <h2 class="text-xl font-semibold tracking-tight text-[var(--white)] hover:text-[var(--sec)] transition-colors mb-2">
-                <a href={`/blog/${post.slug}`}>
+                <a href={`/blog/${post.id}`}>
                   {post.data.title}
                 </a>
               </h2>
@@ -84,7 +84,7 @@ const allTags = Array.from(
               </p>
 
               <a
-                href={`/blog/${post.slug}`}
+                href={`/blog/${post.id}`}
                 class="inline-flex items-center gap-1 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
               >
                 <span>Read article</span>
