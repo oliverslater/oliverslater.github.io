@@ -19,9 +19,13 @@ const __dirname = dirname(__filename);
 const rootDir = resolve(__dirname, "..");
 const publicDir = resolve(rootDir, "public");
 const distDir = resolve(rootDir, "dist");
-const profilePath = resolve(rootDir, "src/content/cv/profile.json");
+const astroCacheDir = resolve(rootDir, ".astro");
+const cvDir = resolve(rootDir, "src/content/cv");
+const cvVersionPath = resolve(cvDir, "cv-version.json");
+const profilePath = resolve(cvDir, "profile.json");
+const pdfCachePath = resolve(astroCacheDir, "cv-pdf-cache.json");
 
-// Read profile data dynamically to eliminate hardcoded constants
+// Read profile data dynamically
 let profileData = {
   name: "Oliver Slater",
   website: "https://www.oliver-slater.co.uk",
@@ -29,16 +33,25 @@ let profileData = {
 if (existsSync(profilePath)) {
   try {
     profileData = JSON.parse(readFileSync(profilePath, "utf8"));
-  } catch (err) {
-    console.warn("Could not parse profile.json, using defaults:", err.message);
-  }
+  } catch {}
 }
 
-// Generate versioned ISO datestamp filename: e.g. Oliver_Slater_CV_2026-09-16.pdf
-const isoDate = new Date().toISOString().split("T")[0];
 const safeName = (profileData.name || "CV").replace(/\s+/g, "_");
-const versionedPdfFilename = `${safeName}_CV_${isoDate}.pdf`;
 
+// Read CV version metadata (synchronized during prebuild)
+let cvVersion = {
+  versionDate: new Date().toISOString().split("T")[0],
+  contentHash: "",
+  filename: `${safeName}_CV_${new Date().toISOString().split("T")[0]}.pdf`,
+};
+
+if (existsSync(cvVersionPath)) {
+  try {
+    cvVersion = JSON.parse(readFileSync(cvVersionPath, "utf8"));
+  } catch {}
+}
+
+const versionedPdfFilename = cvVersion.filename;
 const targetVersionedPdf = resolve(publicDir, versionedPdfFilename);
 
 /**
@@ -101,6 +114,31 @@ function findSystemChrome() {
 }
 
 /**
+ * Prunes outdated versioned PDFs or legacy files from target directory.
+ */
+function pruneOutdatedPdfs(dir) {
+  if (!existsSync(dir)) return;
+  try {
+    const files = readdirSync(dir);
+    for (const f of files) {
+      if (
+        f === `${safeName}_CV.pdf` ||
+        (f.startsWith(`${safeName}_CV_`) &&
+          f.endsWith(".pdf") &&
+          f !== versionedPdfFilename)
+      ) {
+        unlinkSync(join(dir, f));
+        console.log(`Cleaned up outdated CV PDF: ${pathRelative(dir, f)}`);
+      }
+    }
+  } catch {}
+}
+
+function pathRelative(dir, file) {
+  return `${join(dir === publicDir ? "public" : "dist", file)}`;
+}
+
+/**
  * Starts a minimal zero-dependency static file server for dist/
  * to allow Chrome to render the exact local build and print CSS.
  */
@@ -152,16 +190,53 @@ function startDistServer(dir) {
 }
 
 /**
- * Generates the executive CV PDF using Chrome headless CLI or Playwright/Puppeteer.
+ * Generates the executive CV PDF only if content has changed or target is missing.
  */
 async function generateCvPdf() {
   if (!existsSync(publicDir)) mkdirSync(publicDir, { recursive: true });
+
+  // 1. Check if cache is valid (content hash matches and PDF exists with valid size)
+  let isCacheValid = false;
+  if (
+    existsSync(targetVersionedPdf) &&
+    statSync(targetVersionedPdf).size > 10000 &&
+    existsSync(pdfCachePath)
+  ) {
+    try {
+      const cached = JSON.parse(readFileSync(pdfCachePath, "utf8"));
+      if (
+        cached.contentHash &&
+        cached.contentHash === cvVersion.contentHash &&
+        cached.filename === versionedPdfFilename
+      ) {
+        isCacheValid = true;
+      }
+    } catch {}
+  }
+
+  // If cache is valid and regeneration is not forced, skip browser render
+  if (isCacheValid && !process.env.FORCE_REGEN_PDF) {
+    console.log(
+      `✓ CV content unchanged (${cvVersion.contentHash || "cached"}). Reusing: public/${versionedPdfFilename}`,
+    );
+
+    pruneOutdatedPdfs(publicDir);
+
+    if (existsSync(distDir)) {
+      copyFileSync(targetVersionedPdf, resolve(distDir, versionedPdfFilename));
+      pruneOutdatedPdfs(distDir);
+    }
+    return;
+  }
+
+  console.log(
+    `Rendering updated CV PDF for version: ${versionedPdfFilename}...`,
+  );
 
   const chromePath = findSystemChrome();
   const distCvHtml = resolve(distDir, "cv/index.html");
   const hasLocalDist = existsSync(distCvHtml);
 
-  // Dynamic render URL resolution
   let serverInstance = null;
   let renderUrl = process.env.CV_RENDER_URL;
 
@@ -171,7 +246,6 @@ async function generateCvPdf() {
     renderUrl = `http://127.0.0.1:${port}/cv/`;
     console.log(`Serving local build for PDF generation at ${renderUrl}`);
   } else if (!renderUrl) {
-    // Dynamically derived from profileData.website
     renderUrl = new URL(
       "/cv/",
       profileData.website || "http://127.0.0.1:4321",
@@ -180,7 +254,6 @@ async function generateCvPdf() {
   }
 
   const tempPdfPath = resolve(publicDir, `.temp_${versionedPdfFilename}`);
-
   let generationSuccess = false;
 
   if (chromePath) {
@@ -224,7 +297,7 @@ async function generateCvPdf() {
       });
       generationSuccess = true;
     } catch (err) {
-      console.warn("Headless browser generation warning:", err.message);
+      console.warn("Headless browser generation error:", err.message);
     }
   }
 
@@ -269,59 +342,34 @@ async function generateCvPdf() {
   if (generationSuccess && existsSync(tempPdfPath)) {
     const fileSize = statSync(tempPdfPath).size;
 
-    // Clean up unversioned legacy PDF and outdated versioned PDFs in public/
-    try {
-      const legacyPath = resolve(publicDir, `${safeName}_CV.pdf`);
-      if (existsSync(legacyPath)) {
-        unlinkSync(legacyPath);
-        console.log(
-          `Cleaned up unversioned legacy PDF: public/${safeName}_CV.pdf`,
-        );
-      }
-
-      const files = readdirSync(publicDir);
-      for (const f of files) {
-        if (
-          f.startsWith(`${safeName}_CV_`) &&
-          f.endsWith(".pdf") &&
-          f !== versionedPdfFilename
-        ) {
-          unlinkSync(join(publicDir, f));
-          console.log(`Cleaned up previous versioned PDF: public/${f}`);
-        }
-      }
-    } catch {}
-
-    // Save to public versioned path
+    pruneOutdatedPdfs(publicDir);
     copyFileSync(tempPdfPath, targetVersionedPdf);
 
-    // Also update dist/ if it exists so downstream check:links and compress immediately see it
     if (existsSync(distDir)) {
       copyFileSync(tempPdfPath, resolve(distDir, versionedPdfFilename));
-
-      // Clean up legacy and outdated in dist/
-      try {
-        const legacyDist = resolve(distDir, `${safeName}_CV.pdf`);
-        if (existsSync(legacyDist)) {
-          unlinkSync(legacyDist);
-        }
-
-        const distFiles = readdirSync(distDir);
-        for (const f of distFiles) {
-          if (
-            f.startsWith(`${safeName}_CV_`) &&
-            f.endsWith(".pdf") &&
-            f !== versionedPdfFilename
-          ) {
-            unlinkSync(join(distDir, f));
-          }
-        }
-      } catch {}
+      pruneOutdatedPdfs(distDir);
     }
 
     try {
       unlinkSync(tempPdfPath);
     } catch {}
+
+    // Save build cache metadata
+    if (!existsSync(astroCacheDir))
+      mkdirSync(astroCacheDir, { recursive: true });
+    writeFileSync(
+      pdfCachePath,
+      JSON.stringify(
+        {
+          contentHash: cvVersion.contentHash,
+          filename: versionedPdfFilename,
+          fileSize,
+          renderedAt: new Date().toISOString(),
+        },
+        null,
+        2,
+      ) + "\n",
+    );
 
     console.log(
       `✓ Successfully generated executive CV PDF (${(fileSize / 1024).toFixed(1)} KB) -> public/${versionedPdfFilename}`,
@@ -329,49 +377,15 @@ async function generateCvPdf() {
     return;
   }
 
-  // Graceful fallback for environments lacking headless Chrome/Chromium
-  console.log(
-    "Note: Headless Chrome/Chromium not detected in environment. To generate the CV PDF, install Chrome or run in CI.",
-  );
-
+  // Fatal error if generation failed
+  console.error("✗ Error: Headless browser failed to generate CV PDF.");
   if (!existsSync(targetVersionedPdf)) {
-    // Generate minimal valid PDF so links and downloads don't 404
-    const minimalPdf = `%PDF-1.4
-1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
-2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
-3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj
-4 0 obj << /Length 72 >> stream
-BT
-/F1 14 Tf
-50 780 Td
-(${profileData.name} - ${profileData.title} CV) Tj
-ET
-endstream endobj
-5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
-xref
-0 6
-0000000000 65535 f 
-0000000009 00000 n 
-0000000058 00000 n 
-0000000115 00000 n 
-0000000244 00000 n 
-0000000366 00000 n 
-trailer << /Size 6 /Root 1 0 R >>
-startxref
-437
-%%EOF
-`;
-    writeFileSync(targetVersionedPdf, minimalPdf);
-    if (existsSync(distDir)) {
-      writeFileSync(resolve(distDir, versionedPdfFilename), minimalPdf);
-    }
-    console.log(
-      `✓ Initialized fallback CV PDF at public/${versionedPdfFilename}`,
-    );
+    console.error(`  Target file missing: ${targetVersionedPdf}`);
+    process.exit(1);
   }
 }
 
 generateCvPdf().catch((err) => {
-  console.warn("PDF generation warning:", err.message);
-  process.exit(0);
+  console.error("Fatal PDF generation error:", err);
+  process.exit(1);
 });

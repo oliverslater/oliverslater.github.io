@@ -1,5 +1,6 @@
 import type { FeaturedCredentialItem } from "../content.config";
 import certificationSettingsData from "../content/cv/certification-settings.json";
+import cvVersionData from "../content/cv/cv-version.json";
 import deliverablesData from "../content/cv/deliverables.json";
 import educationData from "../content/cv/education.json";
 import experienceData from "../content/cv/experience.json";
@@ -11,6 +12,7 @@ import technologiesData from "../content/technologies.json";
 
 export {
   certificationSettingsData,
+  cvVersionData,
   deliverablesData,
   educationData,
   experienceData,
@@ -123,11 +125,5 @@ export const blogConfig = {
   rssPath: "/blog/rss.xml",
 };
 
-export function getCvPdfFilename(date: Date = new Date()): string {
-  const isoDate = date.toISOString().split("T")[0];
-  const safeName = (profileData.name || "CV").replace(/\s+/g, "_");
-  return `${safeName}_CV_${isoDate}.pdf`;
-}
-
-export const cvPdfFilename = getCvPdfFilename();
+export const cvPdfFilename = cvVersionData.filename;
 export const cvPdfPath = `/${cvPdfFilename}`;
