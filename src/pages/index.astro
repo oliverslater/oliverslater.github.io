@@ -18,6 +18,12 @@ const recentPosts = blogPosts
   .slice(0, 2);
 
 const featuredRoles = experienceData.roles.slice(0, 2);
+
+const blogUrl = (post: (typeof recentPosts)[number]) => {
+  const year = post.data.pubDate.getFullYear();
+  const month = String(post.data.pubDate.getMonth() + 1).padStart(2, "0");
+  return `/blog/${year}/${month}/${post.id}`;
+};
 const titleParts = profileData.title.split(" ");
 const titleFirst = titleParts[0];
 const titleRest = titleParts.slice(1).join(" ");
@@ -188,7 +194,7 @@ const titleRest = titleParts.slice(1).join(" ");
       >
         {recentPosts.map((post) => (
           <a
-            href={`/blog/${post.id}`}
+            href={blogUrl(post)}
             class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
           >
             <div>

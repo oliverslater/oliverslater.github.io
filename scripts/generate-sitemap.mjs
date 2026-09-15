@@ -25,7 +25,12 @@ async function getBlogSlugs() {
         // Check for draft: true
         if (!/draft:\s*true/i.test(content)) {
           const slug = file.replace(/\.(md|mdx)$/, "");
-          slugs.push(slug);
+          const dateMatch = content.match(
+            /pubDate:\s*["']?(\d{4})-(\d{2})-\d{2}/i,
+          );
+          if (dateMatch) {
+            slugs.push(`${dateMatch[1]}/${dateMatch[2]}/${slug}`);
+          }
         }
       }
     }
@@ -47,8 +52,8 @@ async function generateSitemap() {
   </url>`,
     ),
     ...blogSlugs.map(
-      (slug) => `  <url>
-    <loc>${SITE_URL}/blog/${slug}</loc>
+      (path) => `  <url>
+    <loc>${SITE_URL}/blog/${path}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`,

@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from "astro:content";
+import BlogPostLayout from "../../../../layouts/BlogPostLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => {
+    const year = String(post.data.pubDate.getFullYear());
+    const month = String(post.data.pubDate.getMonth() + 1).padStart(2, "0");
+
+    return {
+      params: { year, month, slug: post.id },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BlogPostLayout frontmatter={post.data}>
+  <Content />
+</BlogPostLayout>

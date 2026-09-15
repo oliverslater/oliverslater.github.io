@@ -12,6 +12,12 @@ const sortedPosts = posts.sort(
 const allTags = Array.from(
   new Set(sortedPosts.flatMap((post) => post.data.tags || [])),
 ).sort();
+
+const blogUrl = (post: (typeof sortedPosts)[number]) => {
+  const year = post.data.pubDate.getFullYear();
+  const month = String(post.data.pubDate.getMonth() + 1).padStart(2, "0");
+  return `/blog/${year}/${month}/${post.id}`;
+};
 ---
 
 <Layout
@@ -70,7 +76,7 @@ const allTags = Array.from(
             </div>
 
             <h2 class="text-xl font-semibold tracking-tight text-[var(--white)] hover:text-[var(--sec)] transition-colors mb-2">
-              <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              <a href={blogUrl(post)}>{post.data.title}</a>
             </h2>
 
             <p class="text-sm text-[var(--white-icon)] leading-relaxed mb-4">
@@ -78,7 +84,7 @@ const allTags = Array.from(
             </p>
 
             <a
-              href={`/blog/${post.id}`}
+              href={blogUrl(post)}
               class="inline-flex items-center gap-1 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
             >
               <span>Read article</span>
