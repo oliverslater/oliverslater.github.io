@@ -65,6 +65,18 @@
       "includeInCount": true
     }
   ],
+  "issuerMappings": {
+    "Amazon Web Services": "AWS",
+    "HashiCorp": "HashiCorp",
+    "Microsoft": "Microsoft",
+    "IBM": "IBM",
+    "The Linux Foundation": "Linux Foundation",
+    "Linux Foundation": "Linux Foundation",
+    "Cloud Native Computing Foundation": "CNCF",
+    "CNCF": "CNCF",
+    "Google": "Google Cloud",
+    "Red Hat": "Red Hat"
+  },
   "overrides": [
     {
       "title": "AWS Certified Solutions Architect – Professional",

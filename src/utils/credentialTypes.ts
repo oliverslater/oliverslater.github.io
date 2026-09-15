@@ -40,13 +40,45 @@ export interface CertificationOverride {
 }
 
 import { formatMonthYear } from "./date";
+import certSettings from "../content/cv/certification-settings.json";
 
-export function cleanIssuerName(raw: string): string {
-  if (raw.includes("Amazon Web Services")) return "AWS";
-  if (raw.includes("HashiCorp")) return "HashiCorp";
-  if (raw.includes("Microsoft")) return "Microsoft";
-  if (raw.includes("IBM")) return "IBM";
-  return raw;
+export const DEFAULT_ISSUER_MAPPINGS: Record<string, string> = {
+  "Amazon Web Services": "AWS",
+  AWS: "AWS",
+  Microsoft: "Microsoft",
+  HashiCorp: "HashiCorp",
+  IBM: "IBM",
+  "The Linux Foundation": "Linux Foundation",
+  "Linux Foundation": "Linux Foundation",
+  "Cloud Native Computing Foundation": "CNCF",
+  CNCF: "CNCF",
+  Google: "Google Cloud",
+  "Red Hat": "Red Hat",
+};
+
+export function cleanIssuerName(
+  raw?: string,
+  customMappings?: Record<string, string>,
+): string {
+  if (!raw) return "";
+  const trimmed = raw.trim();
+  const lower = trimmed.toLowerCase();
+
+  const settingsMappings = ((certSettings as any)?.issuerMappings ||
+    {}) as Record<string, string>;
+  const mergedMappings: Record<string, string> = {
+    ...DEFAULT_ISSUER_MAPPINGS,
+    ...settingsMappings,
+    ...customMappings,
+  };
+
+  for (const [pattern, normalized] of Object.entries(mergedMappings)) {
+    if (lower.includes(pattern.toLowerCase())) {
+      return normalized;
+    }
+  }
+
+  return trimmed;
 }
 
 export function formatDate(dateStr?: string): string {
