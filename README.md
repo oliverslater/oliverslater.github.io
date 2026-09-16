@@ -185,8 +185,6 @@ Articles follow a canonical hierarchical route structure:
 
 For example: `/blog/2026/09/architecting-a-modern-cloud-portfolio-with-astro-github-and-gemini`
 
-A catch-all route at `/blog/[slug].astro` automatically maintains backwards compatibility by redirecting legacy flat links to their canonical nested paths.
-
 ### Instant Client-Side Search & Topic Filtering
 
 - **Instant Search:** Interactive client-side filtering searches article titles and descriptions in real time.
