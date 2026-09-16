@@ -5,11 +5,10 @@ import { pageSeoData, profileData } from "../data/siteData";
 import { getContactDetails } from "../utils/profile";
 import { getContactPageSchema } from "../utils/schema";
 
-const { contactEmail } = getContactDetails();
-const emailUser = contactEmail ? contactEmail.split("@")[0] : "contact";
-const emailDomain = contactEmail
-  ? contactEmail.split("@")[1]
-  : profileData.website.replace("https://www.", "").replace("https://", "");
+const { showEmail, contactEmail } = getContactDetails();
+const hasDirectEmail = Boolean(showEmail && contactEmail);
+const emailUser = hasDirectEmail ? contactEmail.split("@")[0] : "";
+const emailDomain = hasDirectEmail ? contactEmail.split("@")[1] : "";
 
 const contactSchema = getContactPageSchema({
   siteUrl: Astro.site,
@@ -34,68 +33,90 @@ const contactSchema = getContactPageSchema({
       </p>
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
-        <!-- Direct Contact with Copy Button & Anti-Scraper Obfuscation -->
-        <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm flex flex-col justify-between">
-          <div>
-            <span class="block text-neutral-500 mb-1">Direct Contact</span>
-            <span
-              id="obfuscated-email"
-              class="text-[var(--white)] font-medium select-all break-all cursor-pointer hover:text-[var(--sec)] transition-colors"
-              data-user={emailUser}
-              data-domain={emailDomain}
-              title="Click to copy email address"
-            >
-              {emailUser} [at] {emailDomain}
-            </span>
-          </div>
-
-          <div class="mt-3 pt-2 border-t border-neutral-100 dark:border-[var(--white-icon-tr)] flex items-center justify-between gap-2">
-            <button
-              type="button"
-              id="copy-contact-btn"
-              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--sec)]/10 text-[var(--sec)] hover:bg-[var(--sec)]/20 transition-colors cursor-pointer text-[11px] font-mono focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--sec)]"
-              aria-label="Copy direct contact email to clipboard"
-            >
-              <svg
-                id="copy-icon"
-                class="w-3.5 h-3.5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                width="14"
-                height="14"
-                aria-hidden="true"
+        {hasDirectEmail ? (
+          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="block text-neutral-500 mb-1">Direct Contact</span>
+              <span
+                id="obfuscated-email"
+                class="text-[var(--white)] font-medium select-all break-all cursor-pointer hover:text-[var(--sec)] transition-colors"
+                data-user={emailUser}
+                data-domain={emailDomain}
+                title="Click to copy email address"
               >
-                <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-              </svg>
-              <span id="copy-btn-text">Copy Email</span>
-            </button>
+                {emailUser} [at] {emailDomain}
+              </span>
+            </div>
 
+            <div class="mt-3 pt-2 border-t border-neutral-100 dark:border-[var(--white-icon-tr)] flex items-center justify-between gap-2">
+              <button
+                type="button"
+                id="copy-contact-btn"
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[var(--sec)]/10 text-[var(--sec)] hover:bg-[var(--sec)]/20 transition-colors cursor-pointer text-[11px] font-mono focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--sec)]"
+                aria-label="Copy direct contact email to clipboard"
+              >
+                <svg
+                  id="copy-icon"
+                  class="w-3.5 h-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  width="14"
+                  height="14"
+                  aria-hidden="true"
+                >
+                  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                </svg>
+                <span id="copy-btn-text">Copy Email</span>
+              </button>
+
+              <a
+                id="mailto-link"
+                href="#"
+                class="text-[11px] text-[var(--white-icon)] hover:text-[var(--sec)] transition-colors"
+                aria-label="Open default mail client"
+              >
+                Mail &nearr;
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
+            <span class="block text-neutral-500 mb-1">GitHub</span>
             <a
-              id="mailto-link"
-              href="#"
-              class="text-[11px] text-[var(--white-icon)] hover:text-[var(--sec)] transition-colors"
-              aria-label="Open default mail client"
+              href={profileData.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
             >
-              Mail &nearr;
+              {profileData.github.replace("https://", "")} &nearr;
             </a>
           </div>
-        </div>
+        )}
 
         <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
-          <span class="block text-neutral-500 mb-1">GitHub</span>
-          <a
-            href={profileData.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
-          >
-            {profileData.github.replace("https://", "")} &nearr;
-          </a>
+          {hasDirectEmail ? (
+            <>
+              <span class="block text-neutral-500 mb-1">GitHub</span>
+              <a
+                href={profileData.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[var(--white)] hover:text-[var(--sec)] transition-colors"
+              >
+                {profileData.github.replace("https://", "")} &nearr;
+              </a>
+            </>
+          ) : (
+            <>
+              <span class="block text-neutral-500 mb-1">Location</span>
+              <span class="text-[var(--white)]">{profileData.location}</span>
+            </>
+          )}
         </div>
 
         <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm">
@@ -152,9 +173,9 @@ const contactSchema = getContactPageSchema({
     ) as HTMLAnchorElement | null;
 
     if (emailEl) {
-      const user = emailEl.getAttribute("data-user") || "contact";
-      const domain =
-        emailEl.getAttribute("data-domain") || "oliver-slater.co.uk";
+      const user = emailEl.getAttribute("data-user");
+      const domain = emailEl.getAttribute("data-domain");
+      if (!user || !domain) return;
       const realEmail = `${user}@${domain}`;
       emailEl.textContent = realEmail;
       if (mailtoLink) mailtoLink.href = `mailto:${realEmail}`;
