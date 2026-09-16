@@ -182,23 +182,13 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       </svg>
     </button>
 
-    <!-- Inline Status Messages -->
-    <div
-      id="status-success"
-      class="hidden p-4 rounded-xl text-sm font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-      role="alert"
-    >
-      &check; Thank you! Your message has been sent successfully. I will get
-      back to you soon.
-    </div>
-
+    <!-- Submission Error Alert -->
     <div
       id="status-error"
       class="hidden p-4 rounded-xl text-sm font-mono border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400"
       role="alert"
     >
-      &cross; An error occurred while sending your message. Please try again or
-      email directly.
+      &cross; An error occurred while sending your message. Please try again.
     </div>
   </div>
 </form>
@@ -217,7 +207,6 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
     ) as HTMLButtonElement | null;
     const btnText = document.getElementById("btn-text");
     const btnSpinner = document.getElementById("btn-spinner");
-    const successMsg = document.getElementById("status-success");
     const errorMsg = document.getElementById("status-error");
 
     // Dynamic hCaptcha theme alignment with light/dark mode
@@ -333,9 +322,9 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       ) as HTMLInputElement | null;
       if (botCheck && botCheck.checked) {
         // Silently thwart bot submission by simulating instant success
-        if (successMsg) successMsg.classList.remove("hidden");
         form.reset();
         requiredInputs.forEach(clearValidation);
+        window.location.href = "/thank-you";
         return;
       }
 
@@ -370,7 +359,6 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
       }
 
       // Hide prior alerts
-      successMsg?.classList.add("hidden");
       errorMsg?.classList.add("hidden");
 
       // Set loading state
@@ -400,14 +388,10 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
         });
 
         if (response.ok) {
-          // In-place success state without requiring a page redirect
-          if (successMsg) {
-            successMsg.classList.remove("hidden");
-            successMsg.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          }
           form.reset();
           requiredInputs.forEach(clearValidation);
           (window as any).hcaptcha?.reset();
+          window.location.href = "/thank-you";
         } else {
           (window as any).hcaptcha?.reset();
           const resData = await response.json().catch(() => null);
