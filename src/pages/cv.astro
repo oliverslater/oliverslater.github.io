@@ -7,6 +7,7 @@ import {
   cvPdfFilename,
   cvPdfPath,
   experienceData,
+  pageSeoData,
   profileData,
   skillsData,
 } from "../data/siteData";
@@ -27,16 +28,12 @@ const totalExperienceYears = calculateTotalExperienceYears(
 
 const cvSchema = getProfilePageSchema({
   path: "/cv/",
-  name: `CV & Resume | ${profileData.name}`,
+  name: pageSeoData.cv.title,
   siteUrl: Astro.site,
 });
 ---
 
-<Layout
-  title={`CV & Resume | ${profileData.name}`}
-  description={`Professional CV of ${profileData.name}, AWS Golden Jacket holder and ${profileData.title}. Detailed work history, certifications, and technical architecture expertise.`}
-  schema={cvSchema}
->
+<Layout {...pageSeoData.cv} schema={cvSchema}>
   <div class="max-w-4xl mx-auto">
     <!-- Top Action Bar (Print & Direct PDF Download) -->
     <div class="no-print flex flex-wrap items-center justify-between gap-3 pb-6 mb-8 border-b border-[#ffffff10]">
@@ -526,7 +523,9 @@ const cvSchema = getProfilePageSchema({
 
     if (printBtn) {
       printBtn.addEventListener("click", () => {
+        const originalTitle = document.title;
         try {
+          document.title = "Oliver Slater - Curriculum Vitae";
           if (typeof window.print === "function") {
             window.print();
           } else if (dialog) {
@@ -534,6 +533,10 @@ const cvSchema = getProfilePageSchema({
           }
         } catch {
           if (dialog) dialog.showModal();
+        } finally {
+          setTimeout(() => {
+            document.title = originalTitle;
+          }, 1000);
         }
       });
     }

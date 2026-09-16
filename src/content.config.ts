@@ -19,6 +19,18 @@ export const collections = {
   blog,
 };
 
+export interface PageSeoItem {
+  title: string;
+  description: string;
+}
+
+export interface PageSeoData {
+  home: PageSeoItem;
+  cv: PageSeoItem;
+  contact: PageSeoItem;
+  blog: PageSeoItem;
+}
+
 export interface ProfileData {
   name: string;
   title: string;

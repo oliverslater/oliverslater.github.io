@@ -1,8 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { blogConfig } from "../../data/siteData";
+import { blogConfig, pageSeoData, profileData } from "../../data/siteData";
 import { formatDate } from "../../utils/date";
 import { getBlogUrl, isPostPublished } from "../../utils/blog";
+import { getBlogIndexSchema } from "../../utils/schema";
 import { getCollection } from "astro:content";
 
 const posts = await getCollection("blog", (post) => isPostPublished(post));
@@ -75,9 +76,21 @@ const yearGroups: YearGroup[] = Object.keys(postsByYearAndMonth)
     const totalPosts = months.reduce((sum, m) => sum + m.posts.length, 0);
     return { year, months, totalPosts };
   });
+
+const blogSchema = getBlogIndexSchema({
+  siteUrl: Astro.site,
+  posts: sortedPosts.map((post) => ({
+    title: post.data.title,
+    url: new URL(
+      getBlogUrl(post),
+      Astro.site || profileData.website,
+    ).toString(),
+    date: post.data.pubDate,
+  })),
+});
 ---
 
-<Layout title={blogConfig.title} description={blogConfig.description}>
+<Layout {...pageSeoData.blog} schema={blogSchema}>
   <div class="max-w-4xl mx-auto">
     <!-- Header -->
     <header class="mb-10 pb-8 border-b border-[#ffffff10]">

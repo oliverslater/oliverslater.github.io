@@ -115,16 +115,19 @@ export interface TechArticleSchemaOptions {
  */
 export function getTechArticleSchema(options: TechArticleSchemaOptions) {
   const siteUrl = getCanonicalSiteUrl(options.siteUrl);
+  const articleUrl = options.url.endsWith("/")
+    ? options.url
+    : `${options.url}/`;
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "TechArticle",
-        "@id": `${options.url}#article`,
+        "@id": `${articleUrl}#article`,
         headline: options.title,
         description: options.description,
-        url: options.url,
+        url: articleUrl,
         image: options.image,
         datePublished: new Date(options.pubDate).toISOString(),
         dateModified: options.updatedDate
@@ -140,7 +143,110 @@ export function getTechArticleSchema(options: TechArticleSchemaOptions) {
         keywords: (options.tags || []).join(", "),
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": options.url,
+          "@id": articleUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${articleUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${siteUrl}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blog",
+            item: `${siteUrl}/blog/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: options.title,
+            item: articleUrl,
+          },
+        ],
+      },
+      getPersonSchema(siteUrl),
+    ],
+  };
+}
+
+export interface BlogIndexSchemaOptions {
+  siteUrl?: URL | string;
+  posts?: { title: string; url: string; date: string | Date }[];
+}
+
+/**
+ * Schema.org Blog graph linking the blog, its posts, and the publisher Person entity.
+ */
+export function getBlogIndexSchema(options: BlogIndexSchemaOptions = {}) {
+  const siteUrl = getCanonicalSiteUrl(options.siteUrl);
+  const blogUrl = `${siteUrl}/blog/`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": `${blogUrl}#blog`,
+        url: blogUrl,
+        name: `Engineering Notes & Architecture Blog | ${profileData.name}`,
+        description:
+          "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.",
+        isPartOf: {
+          "@type": "WebSite",
+          "@id": `${siteUrl}/#website`,
+          url: `${siteUrl}/`,
+          name: profileData.name,
+        },
+        publisher: {
+          "@id": `${siteUrl}/#person`,
+        },
+        inLanguage: "en-GB",
+        blogPost: (options.posts || []).map((p) => ({
+          "@type": "BlogPosting",
+          headline: p.title,
+          url: p.url,
+          datePublished: new Date(p.date).toISOString(),
+        })),
+      },
+      getPersonSchema(siteUrl),
+    ],
+  };
+}
+
+export interface ContactPageSchemaOptions {
+  siteUrl?: URL | string;
+}
+
+/**
+ * Schema.org ContactPage graph linking contact page and the Person entity.
+ */
+export function getContactPageSchema(options: ContactPageSchemaOptions = {}) {
+  const siteUrl = getCanonicalSiteUrl(options.siteUrl);
+  const contactUrl = `${siteUrl}/contact/`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ContactPage",
+        "@id": `${contactUrl}#webpage`,
+        url: contactUrl,
+        name: `Contact | ${profileData.name} – Cloud Architecture & Consulting`,
+        description: `Get in touch with ${profileData.name} to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering.`,
+        isPartOf: {
+          "@type": "WebSite",
+          "@id": `${siteUrl}/#website`,
+          url: `${siteUrl}/`,
+          name: profileData.name,
+        },
+        mainEntity: {
+          "@id": `${siteUrl}/#person`,
         },
       },
       getPersonSchema(siteUrl),

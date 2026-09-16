@@ -1,20 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ContactForm from "../components/ContactForm.astro";
-import { profileData } from "../data/siteData";
+import { pageSeoData, profileData } from "../data/siteData";
 import { getContactDetails } from "../utils/profile";
+import { getContactPageSchema } from "../utils/schema";
 
 const { contactEmail } = getContactDetails();
 const emailUser = contactEmail ? contactEmail.split("@")[0] : "contact";
 const emailDomain = contactEmail
   ? contactEmail.split("@")[1]
   : profileData.website.replace("https://www.", "").replace("https://", "");
+
+const contactSchema = getContactPageSchema({
+  siteUrl: Astro.site,
+});
 ---
 
-<Layout
-  title={`Contact | ${profileData.name}`}
-  description={`Get in touch with ${profileData.name} to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering.`}
->
+<Layout {...pageSeoData.contact} schema={contactSchema}>
   <div class="max-w-3xl mx-auto">
     <!-- Header -->
     <header class="mb-10 pb-8 border-b border-[#ffffff10]">

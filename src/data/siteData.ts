@@ -7,6 +7,7 @@ import experienceData from "../content/cv/experience.json";
 import featuredCredentialsData from "../content/cv/featured-credentials.json";
 import manualCertificationsData from "../content/cv/manual-certifications.json";
 import profileData from "../content/cv/profile.json";
+import pageSeoData from "../content/page-seo.json";
 import skillsData from "../content/cv/skills.json";
 import technologiesData from "../content/technologies.json";
 
@@ -18,10 +19,13 @@ export {
   experienceData,
   featuredCredentialsData,
   manualCertificationsData,
+  pageSeoData,
   profileData,
   skillsData,
   technologiesData,
 };
+
+export const PAGE_SEO = pageSeoData;
 
 export const certificationOverrides = certificationSettingsData.overrides;
 export const issuerMappings = certificationSettingsData.issuerMappings;

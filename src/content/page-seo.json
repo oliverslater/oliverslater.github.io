@@ -1,0 +1,18 @@
+{
+  "home": {
+    "title": "Oliver Slater | AWS & Azure Enterprise Cloud Architect",
+    "description": "Oliver Slater is an AWS Golden Jacket holder and 11x AWS Certified Cloud Architect specialising in enterprise cloud architecture and platform engineering."
+  },
+  "cv": {
+    "title": "CV | Oliver Slater – Cloud Architect",
+    "description": "Professional CV of Oliver Slater, AWS Golden Jacket holder and Enterprise Cloud Architect. Detailed work history, certifications, and technical architecture expertise."
+  },
+  "contact": {
+    "title": "Contact | Oliver Slater – Cloud Architect",
+    "description": "Get in touch with Oliver Slater to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering."
+  },
+  "blog": {
+    "title": "Engineering Notes & Architecture Blog | Oliver Slater",
+    "description": "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability."
+  }
+}

@@ -113,6 +113,60 @@ content:
         type: string
         list: true
 
+  - name: pageSeo
+    label: Page SEO & SERP Snippets
+    type: file
+    path: src/content/page-seo.json
+    fields:
+      - name: home
+        label: Homepage SERP
+        type: object
+        fields:
+          - name: title
+            label: Title Tag
+            type: string
+            required: true
+          - name: description
+            label: Meta Description
+            type: text
+            required: true
+      - name: cv
+        label: CV Page SERP
+        type: object
+        fields:
+          - name: title
+            label: Title Tag
+            type: string
+            required: true
+          - name: description
+            label: Meta Description
+            type: text
+            required: true
+      - name: contact
+        label: Contact Page SERP
+        type: object
+        fields:
+          - name: title
+            label: Title Tag
+            type: string
+            required: true
+          - name: description
+            label: Meta Description
+            type: text
+            required: true
+      - name: blog
+        label: Blog Index SERP
+        type: object
+        fields:
+          - name: title
+            label: Title Tag
+            type: string
+            required: true
+          - name: description
+            label: Meta Description
+            type: text
+            required: true
+
   - name: experience
     label: CV Experience
     type: file

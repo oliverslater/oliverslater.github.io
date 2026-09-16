@@ -5,6 +5,7 @@ import {
   deliverablesData,
   experienceData,
   featuredCredentials,
+  pageSeoData,
   profileData,
 } from "../data/siteData";
 import LogoWall from "../components/LogoWall.astro";
@@ -30,16 +31,12 @@ const titleRest = titleParts.slice(1).join(" ");
 
 const homeSchema = getProfilePageSchema({
   path: "/",
-  name: `${profileData.name} | ${profileData.title}`,
+  name: pageSeoData.home.title,
   siteUrl: Astro.site,
 });
 ---
 
-<Layout
-  title={`${profileData.name} | ${profileData.title}`}
-  description={profileData.metaDescription || profileData.bio}
-  schema={homeSchema}
->
+<Layout {...pageSeoData.home} schema={homeSchema}>
   <!-- Hero Section -->
   <section class="text-[var(--white)] pt-4 sm:pt-8 mb-16" id="home">
     <div class="space-y-6">
