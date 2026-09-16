@@ -111,6 +111,7 @@ export const siteConfig = {
   github: profileData.github,
   linkedin: profileData.linkedin,
   defaultOgImage: "/assets/og-image.png",
+  description: profileData.metaDescription || profileData.bio,
 };
 
 export const blogConfig = {

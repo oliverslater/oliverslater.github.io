@@ -30,7 +30,7 @@ const titleRest = titleParts.slice(1).join(" ");
 
 <Layout
   title={`${profileData.name} | ${profileData.title}`}
-  description={profileData.bio}
+  description={profileData.metaDescription || profileData.bio}
 >
   <!-- Hero Section -->
   <section class="text-[var(--white)] pt-4 sm:pt-8 mb-16" id="home">

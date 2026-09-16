@@ -12,6 +12,7 @@ import {
 import { resolve, dirname, extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import http from "node:http";
+import crypto from "node:crypto";
 import { spawn, execSync } from "node:child_process";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -209,6 +210,16 @@ async function generateCvPdf() {
   if (!existsSync(publicDir)) mkdirSync(publicDir, { recursive: true });
 
   // 1. Check if cache is valid (content hash matches and PDF exists with valid size)
+  const distCvHtml = resolve(distDir, "cv/index.html");
+  let distCvHash = "";
+  if (existsSync(distCvHtml)) {
+    distCvHash = crypto
+      .createHash("sha256")
+      .update(readFileSync(distCvHtml))
+      .digest("hex")
+      .slice(0, 16);
+  }
+
   let isCacheValid = false;
   if (
     existsSync(targetVersionedPdf) &&
@@ -217,9 +228,13 @@ async function generateCvPdf() {
   ) {
     try {
       const cached = JSON.parse(readFileSync(pdfCachePath, "utf8"));
+      const isContentHashMatch =
+        cached.contentHash && cached.contentHash === cvVersion.contentHash;
+      const isDistHtmlMatch =
+        distCvHash && cached.distCvHash && cached.distCvHash === distCvHash;
+
       if (
-        cached.contentHash &&
-        cached.contentHash === cvVersion.contentHash &&
+        (isContentHashMatch || isDistHtmlMatch) &&
         cached.filename === versionedPdfFilename
       ) {
         isCacheValid = true;
@@ -230,7 +245,7 @@ async function generateCvPdf() {
   // If cache is valid and regeneration is not forced, skip browser render
   if (isCacheValid && !process.env.FORCE_REGEN_PDF) {
     console.log(
-      `✓ CV content unchanged (${cvVersion.contentHash || "cached"}). Reusing: public/${versionedPdfFilename}`,
+      `✓ CV content unchanged (${distCvHash || cvVersion.contentHash || "cached"}). Reusing: public/${versionedPdfFilename}`,
     );
 
     pruneOutdatedPdfs(publicDir);
@@ -247,7 +262,6 @@ async function generateCvPdf() {
   );
 
   const chromePath = findSystemChrome();
-  const distCvHtml = resolve(distDir, "cv/index.html");
   const hasLocalDist = existsSync(distCvHtml);
 
   let serverInstance = null;
@@ -375,6 +389,7 @@ async function generateCvPdf() {
       JSON.stringify(
         {
           contentHash: cvVersion.contentHash,
+          distCvHash,
           filename: versionedPdfFilename,
           fileSize,
           renderedAt: new Date().toISOString(),

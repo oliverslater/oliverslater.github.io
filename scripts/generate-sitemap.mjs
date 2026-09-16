@@ -1,43 +1,69 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execSync } from "node:child_process";
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const blogDir = resolve(rootDir, "src/content/blog");
 const sitemapPath = resolve(rootDir, "public/sitemap.xml");
 const profilePath = resolve(rootDir, "src/content/cv/profile.json");
+const cvVersionPath = resolve(rootDir, "src/content/cv/cv-version.json");
 
-// Static routes with changefreq & priority
-const staticRoutes = [
-  { path: "", changefreq: "weekly", priority: "1.0" },
-  { path: "cv", changefreq: "weekly", priority: "0.9" },
-  { path: "blog", changefreq: "weekly", priority: "0.8" },
-  { path: "contact", changefreq: "monthly", priority: "0.6" },
-];
+function getGitLastMod(pathPattern, fallbackDate) {
+  try {
+    const gitDate = execSync(`git log -1 --format=%cs -- ${pathPattern}`, {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+    if (gitDate && /^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
+      return gitDate;
+    }
+  } catch {}
+  return fallbackDate;
+}
 
-async function getBlogSlugs() {
+async function getPublishedBlogPosts() {
   try {
     const files = await readdir(blogDir);
-    const slugs = [];
+    const posts = [];
     for (const file of files) {
       if (file.endsWith(".md") || file.endsWith(".mdx")) {
         const content = await readFile(resolve(blogDir, file), "utf8");
         // Check for draft: true
         if (!/draft:\s*true/i.test(content)) {
           const slug = file.replace(/\.(md|mdx)$/, "");
-          const dateMatch = content.match(/pubDate:\s*["']?([^\r\n"']+)["']?/i);
-          if (dateMatch) {
-            const pubDate = new Date(dateMatch[1].trim());
+          const pubMatch = content.match(/pubDate:\s*["']?([^\r\n"']+)["']?/i);
+          if (pubMatch) {
+            const pubDate = new Date(pubMatch[1].trim());
             if (!isNaN(pubDate.getTime()) && pubDate.getTime() <= Date.now()) {
               const year = String(pubDate.getFullYear());
               const month = String(pubDate.getMonth() + 1).padStart(2, "0");
-              slugs.push(`${year}/${month}/${slug}`);
+              const path = `${year}/${month}/${slug}/`;
+
+              // Determine lastmod from updatedDate, pubDate, or git log
+              let lastmod = null;
+              const updatedMatch = content.match(
+                /updatedDate:\s*["']?([^\r\n"']+)["']?/i,
+              );
+              if (updatedMatch) {
+                const updatedDate = new Date(updatedMatch[1].trim());
+                if (!isNaN(updatedDate.getTime())) {
+                  lastmod = updatedDate.toISOString().split("T")[0];
+                }
+              }
+
+              if (!lastmod) {
+                lastmod = pubDate.toISOString().split("T")[0];
+              }
+
+              posts.push({ path, lastmod });
             }
           }
         }
       }
     }
-    return slugs;
+    return posts;
   } catch {
     return [];
   }
@@ -52,20 +78,71 @@ async function generateSitemap() {
     );
   }
   const siteUrl = profile.website.trim().replace(/\/+$/, "");
+  const today = new Date().toISOString().split("T")[0];
 
-  const blogSlugs = await getBlogSlugs();
+  // Read CV version metadata if available
+  let cvLastMod = null;
+  if (existsSync(cvVersionPath)) {
+    try {
+      const cvVersion = JSON.parse(readFileSync(cvVersionPath, "utf8"));
+      if (cvVersion.versionDate) cvLastMod = cvVersion.versionDate;
+    } catch {}
+  }
+  if (!cvLastMod) {
+    cvLastMod = getGitLastMod("src/content/cv src/pages/cv.astro", today);
+  }
+
+  const blogPosts = await getPublishedBlogPosts();
+
+  // Derive latest blog update for /blog/ landing page
+  let blogIndexLastMod = today;
+  if (blogPosts.length > 0) {
+    const dates = blogPosts.map((p) => p.lastmod).sort();
+    blogIndexLastMod = dates[dates.length - 1];
+  } else {
+    blogIndexLastMod = getGitLastMod("src/pages/blog src/content/blog", today);
+  }
+
+  const staticRoutes = [
+    {
+      path: "",
+      changefreq: "weekly",
+      priority: "1.0",
+      lastmod: getGitLastMod("src/pages/index.astro src/content", today),
+    },
+    {
+      path: "cv/",
+      changefreq: "weekly",
+      priority: "0.9",
+      lastmod: cvLastMod,
+    },
+    {
+      path: "blog/",
+      changefreq: "weekly",
+      priority: "0.8",
+      lastmod: blogIndexLastMod,
+    },
+    {
+      path: "contact/",
+      changefreq: "monthly",
+      priority: "0.6",
+      lastmod: getGitLastMod("src/pages/contact.astro", today),
+    },
+  ];
 
   const urls = [
     ...staticRoutes.map(
       (r) => `  <url>
     <loc>${siteUrl}/${r.path}</loc>
+    <lastmod>${r.lastmod}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>
   </url>`,
     ),
-    ...blogSlugs.map(
-      (path) => `  <url>
-    <loc>${siteUrl}/blog/${path}</loc>
+    ...blogPosts.map(
+      (post) => `  <url>
+    <loc>${siteUrl}/blog/${post.path}</loc>
+    <lastmod>${post.lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`,

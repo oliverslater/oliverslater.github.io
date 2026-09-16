@@ -26,6 +26,7 @@ export interface ProfileData {
   email: string;
   showEmail?: boolean;
   location?: string;
+  metaDescription?: string;
   bio: string;
   website?: string;
   github?: string;

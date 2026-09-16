@@ -84,6 +84,32 @@ for (const rel of extraFiles) {
   if (existsSync(p)) hash.update(readFileSync(p));
 }
 
+// Check local credentials cache (populated by src/utils/credly.ts and mslearn.ts)
+const credentialsCacheDir = resolve(rootDir, "node_modules/.cache/credentials");
+if (existsSync(credentialsCacheDir)) {
+  try {
+    const cacheFiles = readdirSync(credentialsCacheDir)
+      .filter((f) => f.endsWith(".json"))
+      .sort();
+    for (const file of cacheFiles) {
+      const filePath = join(credentialsCacheDir, file);
+      const content = readFileSync(filePath, "utf8");
+      hash.update(content);
+      const items = JSON.parse(content);
+      if (Array.isArray(items)) {
+        for (const item of items) {
+          const rawDate = item.rawDate ? String(item.rawDate).slice(0, 10) : "";
+          if (rawDate && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)) {
+            if (rawDate > versionDate) {
+              versionDate = rawDate;
+            }
+          }
+        }
+      }
+    }
+  } catch {}
+}
+
 const contentHash = hash.digest("hex").slice(0, 16);
 const filename = `${safeName}_CV_${versionDate}.pdf`;
 

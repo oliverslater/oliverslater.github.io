@@ -81,6 +81,9 @@ content:
       - name: location
         label: Location
         type: string
+      - name: metaDescription
+        label: Meta Description (SEO preview / meta tag)
+        type: text
       - name: bio
         label: Bio / Summary
         type: text

@@ -19,7 +19,9 @@ export interface Props {
 
 const {
   title = `${profileData.name} | ${profileData.title}`,
-  description = profileData.bio || `${profileData.name} | ${profileData.title}`,
+  description = profileData.metaDescription ||
+    profileData.bio ||
+    `${profileData.name} | ${profileData.title}`,
   image = "/assets/og-image.png",
   noindex = false,
   type = "website",
