@@ -118,26 +118,37 @@ export function getTechArticleSchema(options: TechArticleSchemaOptions) {
   const articleUrl = options.url.endsWith("/")
     ? options.url
     : `${options.url}/`;
+  const headshotImage = new URL(SEO_CONFIG.headshotImage, siteUrl).toString();
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "TechArticle",
+        "@type": ["Article", "TechArticle"],
         "@id": `${articleUrl}#article`,
         headline: options.title,
         description: options.description,
         url: articleUrl,
-        image: options.image,
+        image: [options.image],
         datePublished: new Date(options.pubDate).toISOString(),
         dateModified: options.updatedDate
           ? new Date(options.updatedDate).toISOString()
           : new Date(options.pubDate).toISOString(),
         author: {
+          "@type": "Person",
           "@id": `${siteUrl}/#person`,
+          name: profileData.name,
+          url: `${siteUrl}/`,
         },
         publisher: {
+          "@type": "Person",
           "@id": `${siteUrl}/#person`,
+          name: profileData.name,
+          url: `${siteUrl}/`,
+          logo: {
+            "@type": "ImageObject",
+            url: headshotImage,
+          },
         },
         inLanguage: "en-GB",
         keywords: (options.tags || []).join(", "),
