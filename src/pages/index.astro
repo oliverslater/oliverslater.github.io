@@ -15,6 +15,7 @@ import SocialLinks from "../components/SocialLinks.astro";
 import TechPill from "../components/TechPill.astro";
 import { formatDate } from "../utils/date";
 import { getBlogUrl, isPostPublished } from "../utils/blog";
+import { getProfilePageSchema } from "../utils/schema";
 import { getCollection } from "astro:content";
 
 const blogPosts = await getCollection("blog", (post) => isPostPublished(post));
@@ -26,11 +27,18 @@ const featuredRoles = experienceData.roles.slice(0, 2);
 const titleParts = profileData.title.split(" ");
 const titleFirst = titleParts[0];
 const titleRest = titleParts.slice(1).join(" ");
+
+const homeSchema = getProfilePageSchema({
+  path: "/",
+  name: `${profileData.name} | ${profileData.title}`,
+  siteUrl: Astro.site,
+});
 ---
 
 <Layout
   title={`${profileData.name} | ${profileData.title}`}
   description={profileData.metaDescription || profileData.bio}
+  schema={homeSchema}
 >
   <!-- Hero Section -->
   <section class="text-[var(--white)] pt-4 sm:pt-8 mb-16" id="home">

@@ -14,6 +14,7 @@ import { getAllCredentials } from "../utils/certifications";
 import { isCredentialExpired } from "../utils/credentialTypes";
 import { getContactDetails } from "../utils/profile";
 import { calculateTotalExperienceYears } from "../utils/date";
+import { getProfilePageSchema } from "../utils/schema";
 
 const allBadges = await getAllCredentials();
 const displayedBadges = allBadges.filter((b) => b.displayed);
@@ -23,11 +24,18 @@ const { showEmail, contactEmail } = getContactDetails();
 const totalExperienceYears = calculateTotalExperienceYears(
   experienceData.roles,
 );
+
+const cvSchema = getProfilePageSchema({
+  path: "/cv/",
+  name: `CV & Resume | ${profileData.name}`,
+  siteUrl: Astro.site,
+});
 ---
 
 <Layout
   title={`CV & Resume | ${profileData.name}`}
   description={`Professional CV of ${profileData.name}, AWS Golden Jacket holder and ${profileData.title}. Detailed work history, certifications, and technical architecture expertise.`}
+  schema={cvSchema}
 >
   <div class="max-w-4xl mx-auto">
     <!-- Top Action Bar (Print & Direct PDF Download) -->

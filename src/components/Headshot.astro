@@ -1,5 +1,6 @@
 ---
 import { profileData } from "../data/siteData";
+import { SEO_CONFIG } from "../utils/schema";
 
 interface Props {
   size?: "sm" | "md" | "lg";
@@ -37,10 +38,11 @@ const sizesAttr =
   />
   <source
     type="image/png"
-    srcset="/assets/oliver-slater-128.png 128w, /assets/oliver-slater-256.png 256w, /assets/oliver-slater-384.png 384w"
+    srcset={`/assets/oliver-slater-128.png 128w, /assets/oliver-slater-256.png 256w, /assets/oliver-slater-384.png 384w, ${SEO_CONFIG.headshotImage} 512w`}
     sizes={sizesAttr}
   />
   <img
+    itemprop="image"
     src="/assets/oliver-slater-256.png"
     alt={alt}
     class={`object-cover border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:!border-neutral-300 bg-white dark:bg-[#1414149c] print:!bg-white shadow-sm print:shadow-none ${sizeClasses} ${className}`}

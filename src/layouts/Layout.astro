@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { profileData, blogConfig } from "../data/siteData";
+import { SEO_CONFIG } from "../utils/schema";
 import "../styles/global.css";
 
 export interface Props {
@@ -22,7 +23,7 @@ const {
   description = profileData.metaDescription ||
     profileData.bio ||
     `${profileData.name} | ${profileData.title}`,
-  image = "/assets/og-image.png",
+  image = SEO_CONFIG.defaultOgImage,
   noindex = false,
   type = "website",
   publishedTime,
@@ -70,7 +71,10 @@ const imageURL = new URL(image, canonicalURL);
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Robots -->
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta
+      name="robots"
+      content={noindex ? SEO_CONFIG.robots.noindex : SEO_CONFIG.robots.default}
+    />
 
     <!-- Primary Meta Tags -->
     <title>{title}</title>

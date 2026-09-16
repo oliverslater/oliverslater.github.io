@@ -4,6 +4,11 @@ import TableOfContents from "../components/TableOfContents.astro";
 import ReadingProgressBar from "../components/ReadingProgressBar.astro";
 import { profileData } from "../data/siteData";
 import { formatDate } from "../utils/date";
+import {
+  getCanonicalSiteUrl,
+  getTechArticleSchema,
+  SEO_CONFIG,
+} from "../utils/schema";
 
 interface Props {
   frontmatter: {
@@ -29,47 +34,24 @@ const formattedUpdatedDate = frontmatter.updatedDate
   ? formatDate(frontmatter.updatedDate)
   : null;
 
-const siteUrl = (Astro.site?.toString() || profileData.website).replace(
-  /\/+$/,
-  "",
-);
-
+const siteUrl = getCanonicalSiteUrl(Astro.site);
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
 // Resolve PageCMS heroImage (e.g. /assets/hero.png) to absolute URL
 const heroImage =
-  frontmatter.heroImage || profileData.avatar || "/assets/og-image.png";
+  frontmatter.heroImage || profileData.avatar || SEO_CONFIG.defaultOgImage;
 const resolvedHeroImage = new URL(heroImage, canonicalURL).toString();
 
-const techArticleSchema = {
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  headline: frontmatter.title,
+const techArticleSchema = getTechArticleSchema({
+  title: frontmatter.title,
   description: frontmatter.description,
   url: canonicalURL.toString(),
   image: resolvedHeroImage,
-  datePublished: new Date(frontmatter.pubDate).toISOString(),
-  dateModified: frontmatter.updatedDate
-    ? new Date(frontmatter.updatedDate).toISOString()
-    : new Date(frontmatter.pubDate).toISOString(),
-  author: {
-    "@type": "Person",
-    name: profileData.name,
-    url: siteUrl,
-    jobTitle: profileData.title,
-  },
-  publisher: {
-    "@type": "Person",
-    name: profileData.name,
-    url: siteUrl,
-  },
-  inLanguage: "en-GB",
-  keywords: (frontmatter.tags || []).join(", "),
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": canonicalURL.toString(),
-  },
-};
+  pubDate: frontmatter.pubDate,
+  updatedDate: frontmatter.updatedDate,
+  tags: frontmatter.tags,
+  siteUrl,
+});
 ---
 
 <Layout
