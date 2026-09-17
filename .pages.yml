@@ -9,7 +9,7 @@ content:
     path: src/content/blog
     format: yaml-frontmatter
     view:
-      fields: [title, pubDate, draft]
+      fields: [title, pubDate, lastUpdated, draft]
       primary: title
     fields:
       - name: title
@@ -24,9 +24,10 @@ content:
         label: Publication Date
         type: date
         required: true
-      - name: updatedDate
-        label: Updated Date
+      - name: lastUpdated
+        label: Last Updated Date
         type: date
+        description: "Optional. Set when tweaking an existing post after publishing. Cannot be earlier than Publication Date."
       - name: heroImage
         label: Hero Image
         type: image

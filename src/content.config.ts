@@ -4,15 +4,33 @@ import { z } from "astro/zod";
 
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    heroImage: z.string().optional(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
+  schema: z
+    .object({
+      title: z.string(),
+      description: z.string(),
+      pubDate: z.coerce.date(),
+      lastUpdated: z.coerce.date().optional(),
+      updatedDate: z.coerce.date().optional(),
+      heroImage: z.string().optional(),
+      tags: z.array(z.string()).default([]),
+      draft: z.boolean().default(false),
+    })
+    .refine(
+      (data) => {
+        const updated = data.lastUpdated || data.updatedDate;
+        if (updated && data.pubDate) {
+          return (
+            new Date(updated).getTime() >= new Date(data.pubDate).getTime()
+          );
+        }
+        return true;
+      },
+      {
+        message:
+          "The 'lastUpdated' date cannot be earlier than the publication date ('pubDate').",
+        path: ["lastUpdated"],
+      },
+    ),
 });
 
 export const collections = {

@@ -24,49 +24,51 @@ function getGitLastMod(pathPattern, fallbackDate) {
 }
 
 async function getPublishedBlogPosts() {
-  try {
-    const files = await readdir(blogDir);
-    const posts = [];
-    for (const file of files) {
-      if (file.endsWith(".md") || file.endsWith(".mdx")) {
-        const content = await readFile(resolve(blogDir, file), "utf8");
-        // Check for draft: true
-        if (!/draft:\s*true/i.test(content)) {
-          const slug = file.replace(/\.(md|mdx)$/, "");
-          const pubMatch = content.match(/pubDate:\s*["']?([^\r\n"']+)["']?/i);
-          if (pubMatch) {
-            const pubDate = new Date(pubMatch[1].trim());
-            if (!isNaN(pubDate.getTime()) && pubDate.getTime() <= Date.now()) {
-              const year = String(pubDate.getFullYear());
-              const month = String(pubDate.getMonth() + 1).padStart(2, "0");
-              const path = `${year}/${month}/${slug}/`;
+  if (!existsSync(blogDir)) return [];
+  const files = await readdir(blogDir);
+  const posts = [];
+  for (const file of files) {
+    if (file.endsWith(".md") || file.endsWith(".mdx")) {
+      const content = await readFile(resolve(blogDir, file), "utf8");
+      // Check for draft: true
+      if (!/draft:\s*true/i.test(content)) {
+        const slug = file.replace(/\.(md|mdx)$/, "");
+        const pubMatch = content.match(/pubDate:\s*["']?([^\r\n"']+)["']?/i);
+        if (pubMatch) {
+          const pubDate = new Date(pubMatch[1].trim());
+          if (!isNaN(pubDate.getTime()) && pubDate.getTime() <= Date.now()) {
+            const year = String(pubDate.getFullYear());
+            const month = String(pubDate.getMonth() + 1).padStart(2, "0");
+            const path = `${year}/${month}/${slug}/`;
 
-              // Determine lastmod from updatedDate, pubDate, or git log
-              let lastmod = null;
-              const updatedMatch = content.match(
-                /updatedDate:\s*["']?([^\r\n"']+)["']?/i,
-              );
-              if (updatedMatch) {
-                const updatedDate = new Date(updatedMatch[1].trim());
-                if (!isNaN(updatedDate.getTime())) {
-                  lastmod = updatedDate.toISOString().split("T")[0];
+            // Determine lastmod: latter of pubDate and lastUpdated/updatedDate
+            let lastmod = pubDate.toISOString().split("T")[0];
+            const updatedMatch = content.match(
+              /(?:lastUpdated|updatedDate):\s*["']?([^\r\n"']+)["']?/i,
+            );
+            if (updatedMatch) {
+              const updatedDate = new Date(updatedMatch[1].trim());
+              if (!isNaN(updatedDate.getTime())) {
+                if (updatedDate.getTime() < pubDate.getTime()) {
+                  console.error(
+                    `✗ In blog post '${file}': last updated date (${updatedMatch[1].trim()}) cannot be earlier than publication date (${pubMatch[1].trim()})`,
+                  );
+                  process.exit(1);
+                }
+                const updatedDateStr = updatedDate.toISOString().split("T")[0];
+                if (updatedDateStr > lastmod) {
+                  lastmod = updatedDateStr;
                 }
               }
-
-              if (!lastmod) {
-                lastmod = pubDate.toISOString().split("T")[0];
-              }
-
-              posts.push({ path, lastmod });
             }
+
+            posts.push({ path, lastmod });
           }
         }
       }
     }
-    return posts;
-  } catch {
-    return [];
   }
+  return posts;
 }
 
 async function generateSitemap() {

@@ -15,6 +15,7 @@ interface Props {
     title: string;
     description: string;
     pubDate: Date | string;
+    lastUpdated?: Date | string;
     updatedDate?: Date | string;
     heroImage?: string;
     tags?: string[];
@@ -29,9 +30,16 @@ interface Props {
 
 const { frontmatter, headings = [] } = Astro.props;
 
+const rawUpdatedDate = frontmatter.lastUpdated || frontmatter.updatedDate;
+const hasValidUpdatedDate =
+  Boolean(rawUpdatedDate) &&
+  new Date(rawUpdatedDate!).getTime() >=
+    new Date(frontmatter.pubDate).getTime();
+
+const effectiveUpdatedDate = hasValidUpdatedDate ? rawUpdatedDate : undefined;
 const formattedDate = formatDate(frontmatter.pubDate);
-const formattedUpdatedDate = frontmatter.updatedDate
-  ? formatDate(frontmatter.updatedDate)
+const formattedUpdatedDate = effectiveUpdatedDate
+  ? formatDate(effectiveUpdatedDate)
   : null;
 
 const siteUrl = getCanonicalSiteUrl(Astro.site);
@@ -48,7 +56,7 @@ const techArticleSchema = getTechArticleSchema({
   url: canonicalURL.toString(),
   image: resolvedHeroImage,
   pubDate: frontmatter.pubDate,
-  updatedDate: frontmatter.updatedDate,
+  updatedDate: effectiveUpdatedDate,
   tags: frontmatter.tags,
   siteUrl,
 });
@@ -60,7 +68,7 @@ const techArticleSchema = getTechArticleSchema({
   image={heroImage}
   type="article"
   publishedTime={frontmatter.pubDate}
-  modifiedTime={frontmatter.updatedDate}
+  modifiedTime={effectiveUpdatedDate}
   author={profileData.name}
   tags={frontmatter.tags}
   schema={techArticleSchema}
@@ -81,15 +89,23 @@ const techArticleSchema = getTechArticleSchema({
 
       <!-- Article Header -->
       <header class="mb-10 pb-8 border-b border-[#ffffff10]">
-        <div class="flex items-center gap-3 text-xs font-mono text-[var(--sec)] mb-3">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-[var(--sec)] mb-3">
           <time datetime={new Date(frontmatter.pubDate).toISOString()}>
             {formattedDate}
           </time>
           {formattedUpdatedDate && (
             <>
-              <span class="text-neutral-500">·</span>
+              <span
+                class="text-neutral-400 dark:text-neutral-600"
+                aria-hidden="true"
+              >
+                ·
+              </span>
               <span class="text-[var(--white-icon)]">
-                Updated {formattedUpdatedDate}
+                Last updated:{" "}
+                <time datetime={new Date(effectiveUpdatedDate!).toISOString()}>
+                  {formattedUpdatedDate}
+                </time>
               </span>
             </>
           )}
