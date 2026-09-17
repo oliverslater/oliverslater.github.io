@@ -30,15 +30,27 @@ const TITLE_CASE_MINOR_WORDS = new Set([
   "&",
 ]);
 
+const SPECIAL_TECH_CASES = new Set(["vLLM", "eBPF", "gRPC", "mTLS"]);
+
 export function isTitleCaseTag(val: string): boolean {
   const words = val.trim().split(/[\s-]+/);
   if (words.length === 0) return false;
   return words.every((word, idx) => {
     if (!word) return true;
-    if (idx === 0) return /^[A-Z0-9]/.test(word);
+    if (idx === 0) {
+      return (
+        /^[A-Z0-9]/.test(word) ||
+        /^[a-z][A-Z]{2,}/.test(word) ||
+        SPECIAL_TECH_CASES.has(word)
+      );
+    }
     if (word === "&") return true;
     if (TITLE_CASE_MINOR_WORDS.has(word.toLowerCase())) return true;
-    return /^[A-Z0-9]/.test(word);
+    return (
+      /^[A-Z0-9]/.test(word) ||
+      /^[a-z][A-Z]{2,}/.test(word) ||
+      SPECIAL_TECH_CASES.has(word)
+    );
   });
 }
 
