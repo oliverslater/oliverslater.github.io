@@ -35,15 +35,33 @@ content:
         type: string
         list: true
         options:
+          - Cloud Architecture
+          - Enterprise Strategy
+          - Platform Engineering
+          - DevSecOps
+          - Governance
+          - Homelab
+          - Edge Computing
+          - Self-Hosted
+          - IoT & Automation
+          - Experiments
           - AWS
+          - Azure
           - Terraform
           - Serverless
-          - Architecture
-          - Cloud Architecture
-          - DevOps
-          - Governance
+          - Kubernetes
+          - Docker
+          - Linux
           - Security
+          - High Availability
+          - Disaster Recovery
+          - Cost Optimization
+          - Performance
+          - Observability
+          - CI/CD
+          - Networking
           - TypeScript
+          - Python
           - Astro
           - Tailwind CSS
           - Gemini
