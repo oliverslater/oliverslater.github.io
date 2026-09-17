@@ -14,7 +14,9 @@ export interface Props {
   publishedTime?: string | Date;
   modifiedTime?: string | Date;
   author?: string;
+  categories?: string[];
   tags?: string[];
+  keywords?: string[];
   schema?: Record<string, any>;
 }
 
@@ -29,9 +31,15 @@ const {
   publishedTime,
   modifiedTime,
   author = profileData.name,
+  categories = [],
   tags = [],
+  keywords = [],
   schema,
 } = Astro.props;
+
+const allMetaKeywords = Array.from(
+  new Set([...categories, ...tags, ...keywords]),
+);
 
 // Smart Title Formatter with Safe Fallbacks:
 // 1. If inputTitle is omitted/empty: default to full root title (pageSeoData.home.title)
@@ -91,6 +99,9 @@ const imageURL = new URL(image, canonicalURL);
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
+    {allMetaKeywords.length > 0 && (
+      <meta name="keywords" content={allMetaKeywords.join(", ")} />
+    )}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={type} />
@@ -116,7 +127,13 @@ const imageURL = new URL(image, canonicalURL);
     )}
     {type === "article" && <meta property="article:author" content={author} />}
     {type === "article" &&
-      tags.map((tag) => <meta property="article:tag" content={tag} />)}
+      categories.map((cat) => (
+        <meta property="article:section" content={cat} />
+      ))}
+    {type === "article" &&
+      allMetaKeywords.map((keyword) => (
+        <meta property="article:tag" content={keyword} />
+      ))}
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />

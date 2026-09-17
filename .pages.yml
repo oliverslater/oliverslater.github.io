@@ -31,8 +31,8 @@ content:
       - name: heroImage
         label: Hero Image
         type: image
-      - name: tags
-        label: Tags
+      - name: categories
+        label: Categories
         type: string
         list: true
         options:
@@ -46,26 +46,12 @@ content:
           - Self-Hosted
           - IoT & Automation
           - Experiments
-          - AWS
-          - Azure
-          - Terraform
-          - Serverless
-          - Kubernetes
-          - Docker
-          - Linux
-          - Security
-          - High Availability
-          - Disaster Recovery
-          - Cost Optimization
-          - Performance
-          - Observability
-          - CI/CD
-          - Networking
-          - TypeScript
-          - Python
-          - Astro
-          - Tailwind CSS
-          - Gemini
+        description: "Primary architectural or tinkering pillars. Drives the filter pills on /blog."
+      - name: tags
+        label: Tags (Hashtags)
+        type: string
+        list: true
+        description: "Freeform technical tags & hashtags for search, SEO, and card badges. Must be Title Case (e.g. AWS, Terraform, High Availability, Disaster Recovery). Max 35 chars."
       - name: draft
         label: Draft
         type: boolean

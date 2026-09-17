@@ -106,6 +106,7 @@ export interface TechArticleSchemaOptions {
   image: string;
   pubDate: string | Date;
   updatedDate?: string | Date;
+  categories?: string[];
   tags?: string[];
   siteUrl?: URL | string;
 }
@@ -119,6 +120,8 @@ export function getTechArticleSchema(options: TechArticleSchemaOptions) {
     ? options.url
     : `${options.url}/`;
   const headshotImage = new URL(SEO_CONFIG.headshotImage, siteUrl).toString();
+  const allKeywords = [...(options.categories || []), ...(options.tags || [])];
+  const primaryCategory = (options.categories || [])[0];
 
   return {
     "@context": "https://schema.org",
@@ -151,7 +154,8 @@ export function getTechArticleSchema(options: TechArticleSchemaOptions) {
           },
         },
         inLanguage: "en-GB",
-        keywords: (options.tags || []).join(", "),
+        keywords: allKeywords.join(", "),
+        ...(primaryCategory ? { articleSection: primaryCategory } : {}),
         mainEntityOfPage: {
           "@type": "WebPage",
           "@id": articleUrl,

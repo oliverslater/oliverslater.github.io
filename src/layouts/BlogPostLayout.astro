@@ -18,6 +18,8 @@ interface Props {
     lastUpdated?: Date | string;
     updatedDate?: Date | string;
     heroImage?: string;
+    categories?: string[];
+    category?: string;
     tags?: string[];
   };
   headings?: {
@@ -29,6 +31,14 @@ interface Props {
 }
 
 const { frontmatter, headings = [] } = Astro.props;
+
+const postCategories =
+  frontmatter.categories && frontmatter.categories.length > 0
+    ? frontmatter.categories
+    : frontmatter.category
+      ? [frontmatter.category]
+      : [];
+const postTags = frontmatter.tags || [];
 
 const rawUpdatedDate = frontmatter.lastUpdated || frontmatter.updatedDate;
 const hasValidUpdatedDate =
@@ -57,7 +67,8 @@ const techArticleSchema = getTechArticleSchema({
   image: resolvedHeroImage,
   pubDate: frontmatter.pubDate,
   updatedDate: effectiveUpdatedDate,
-  tags: frontmatter.tags,
+  categories: postCategories,
+  tags: postTags,
   siteUrl,
 });
 ---
@@ -70,7 +81,8 @@ const techArticleSchema = getTechArticleSchema({
   publishedTime={frontmatter.pubDate}
   modifiedTime={effectiveUpdatedDate}
   author={profileData.name}
-  tags={frontmatter.tags}
+  categories={postCategories}
+  tags={postTags}
   schema={techArticleSchema}
 >
   <ReadingProgressBar />
@@ -90,6 +102,24 @@ const techArticleSchema = getTechArticleSchema({
       <!-- Article Header -->
       <header class="mb-10 pb-8 border-b border-[#ffffff10]">
         <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-[var(--sec)] mb-3">
+          {postCategories.length > 0 && (
+            <>
+              {postCategories.map((cat) => (
+                <a
+                  href={`/blog?category=${encodeURIComponent(cat)}`}
+                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-purple-100 dark:bg-[#ffffff15] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10] hover:bg-purple-200 dark:hover:bg-[#ffffff25] transition-colors"
+                >
+                  {cat}
+                </a>
+              ))}
+              <span
+                class="text-neutral-400 dark:text-neutral-600"
+                aria-hidden="true"
+              >
+                ·
+              </span>
+            </>
+          )}
           <time datetime={new Date(frontmatter.pubDate).toISOString()}>
             {formattedDate}
           </time>
@@ -119,12 +149,16 @@ const techArticleSchema = getTechArticleSchema({
           {frontmatter.description}
         </p>
 
-        {frontmatter.tags && frontmatter.tags.length > 0 && (
+        {postTags.length > 0 && (
           <div class="flex flex-wrap gap-2">
-            {frontmatter.tags.map((tag) => (
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+            {postTags.map((tag) => (
+              <a
+                href={`/blog?q=${encodeURIComponent(tag)}`}
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10] hover:bg-purple-100 dark:hover:bg-[#ffffff15] transition-colors"
+                title={`Search for #${tag}`}
+              >
                 #{tag}
-              </span>
+              </a>
             ))}
           </div>
         )}

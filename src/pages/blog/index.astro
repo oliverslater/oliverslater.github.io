@@ -5,21 +5,36 @@ import { formatDate } from "../../utils/date";
 import { getBlogUrl, isPostPublished } from "../../utils/blog";
 import { getBlogIndexSchema } from "../../utils/schema";
 import { getCollection } from "astro:content";
+import { BLOG_CATEGORIES } from "../../content.config";
 
 const posts = await getCollection("blog", (post) => isPostPublished(post));
 const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const allTags = Array.from(
-  new Set(sortedPosts.flatMap((post) => post.data.tags || [])),
-).sort();
+// Collect all unique categories present in published posts
+const presentCategories = new Set(
+  sortedPosts.flatMap(
+    (post) =>
+      post.data.categories || (post.data.category ? [post.data.category] : []),
+  ),
+);
 
-// Pre-compute tag frequencies
-const tagCounts = sortedPosts.reduce(
+// Order categories according to BLOG_CATEGORIES first, followed by any custom categories
+const allCategories = [
+  ...BLOG_CATEGORIES.filter((cat) => presentCategories.has(cat)),
+  ...Array.from(presentCategories).filter(
+    (cat) => !BLOG_CATEGORIES.includes(cat as any),
+  ),
+];
+
+// Pre-compute category frequencies
+const categoryCounts = sortedPosts.reduce(
   (acc, post) => {
-    post.data.tags?.forEach((t) => {
-      acc[t] = (acc[t] || 0) + 1;
+    const cats =
+      post.data.categories || (post.data.category ? [post.data.category] : []);
+    cats.forEach((c) => {
+      acc[c] = (acc[c] || 0) + 1;
     });
     return acc;
   },
@@ -127,7 +142,7 @@ const blogSchema = getBlogIndexSchema({
           <input
             type="search"
             id="blog-search"
-            placeholder="Search articles by title, topic, or keyword..."
+            placeholder="Search articles by title, topic, or #tag..."
             class="w-full pl-10 pr-10 py-2.5 rounded-xl text-sm bg-white dark:bg-[#1414149c] text-[var(--white)] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 border border-neutral-200/80 dark:border-[var(--white-icon-tr)] focus:border-[var(--sec)] focus:ring-1 focus:ring-[var(--sec)] focus:outline-hidden shadow-sm transition-all"
             autocomplete="off"
             aria-label="Search articles"
@@ -155,31 +170,31 @@ const blogSchema = getBlogIndexSchema({
           </button>
         </div>
 
-        <!-- Topics filter -->
-        {allTags.length > 0 && (
+        <!-- Categories filter -->
+        {allCategories.length > 0 && (
           <div
             class="flex flex-wrap items-center gap-2 pt-1"
-            id="tag-filter-container"
+            id="category-filter-container"
           >
             <span class="text-xs font-mono text-neutral-500 mr-1 select-none">
-              Topics:
+              Categories:
             </span>
             <button
               type="button"
-              class="tag-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[#ffffff10] bg-purple-50/60 dark:bg-[#ffffff08] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[#ffffff15] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
-              data-tag="all"
+              class="category-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[#ffffff10] bg-purple-50/60 dark:bg-[#ffffff08] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[#ffffff15] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
+              data-category="all"
               aria-pressed="true"
             >
               All ({sortedPosts.length})
             </button>
-            {allTags.map((tag) => (
+            {allCategories.map((category) => (
               <button
                 type="button"
-                class="tag-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[#ffffff10] bg-purple-50/60 dark:bg-[#ffffff08] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[#ffffff15] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
-                data-tag={tag}
+                class="category-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[#ffffff10] bg-purple-50/60 dark:bg-[#ffffff08] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[#ffffff15] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
+                data-category={category}
                 aria-pressed="false"
               >
-                #{tag} ({tagCounts[tag] || 0})
+                {category} ({categoryCounts[category] || 0})
               </button>
             ))}
           </div>
@@ -236,6 +251,12 @@ const blogSchema = getBlogIndexSchema({
                 <div class="space-y-6">
                   {posts.map((post) => {
                     const formattedDate = formatDate(post.data.pubDate);
+                    const postCategories =
+                      post.data.categories && post.data.categories.length > 0
+                        ? post.data.categories
+                        : post.data.category
+                          ? [post.data.category]
+                          : [];
                     const postTags = post.data.tags || [];
 
                     return (
@@ -243,19 +264,31 @@ const blogSchema = getBlogIndexSchema({
                         class="blog-post-card p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-all duration-300"
                         data-title={post.data.title.toLowerCase()}
                         data-description={post.data.description.toLowerCase()}
+                        data-categories={JSON.stringify(
+                          postCategories.map((c: string) => c.toLowerCase()),
+                        )}
                         data-tags={JSON.stringify(
                           postTags.map((t: string) => t.toLowerCase()),
                         )}
                         data-year={year}
                         data-month={monthName.toLowerCase()}
                       >
-                        <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
-                          <time
-                            datetime={new Date(post.data.pubDate).toISOString()}
-                            class="font-mono text-xs text-[var(--sec)]"
-                          >
-                            {formattedDate}
-                          </time>
+                        <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-2">
+                          <div class="flex items-center gap-2">
+                            <time
+                              datetime={new Date(
+                                post.data.pubDate,
+                              ).toISOString()}
+                              class="font-mono text-xs text-[var(--sec)]"
+                            >
+                              {formattedDate}
+                            </time>
+                            {postCategories.length > 0 && (
+                              <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-purple-100 dark:bg-[#ffffff15] text-[var(--sec)]">
+                                {postCategories[0]}
+                              </span>
+                            )}
+                          </div>
                           {postTags.length > 0 && (
                             <div class="flex flex-wrap gap-1.5">
                               {postTags.slice(0, 4).map((tag: string) => (
@@ -263,7 +296,7 @@ const blogSchema = getBlogIndexSchema({
                                   type="button"
                                   class="post-tag-badge text-xs font-mono text-neutral-500 hover:text-[var(--sec)] transition-colors cursor-pointer"
                                   data-tag={tag}
-                                  title={`Filter by #${tag}`}
+                                  title={`Search for #${tag}`}
                                 >
                                   #{tag}
                                 </button>
@@ -344,8 +377,9 @@ const blogSchema = getBlogIndexSchema({
     const clearSearchBtn = document.getElementById(
       "clear-search",
     ) as HTMLButtonElement | null;
-    const tagButtons =
-      document.querySelectorAll<HTMLButtonElement>(".tag-filter-btn");
+    const categoryButtons = document.querySelectorAll<HTMLButtonElement>(
+      ".category-filter-btn",
+    );
     const postTagBadges =
       document.querySelectorAll<HTMLButtonElement>(".post-tag-badge");
     const postCards = document.querySelectorAll<HTMLElement>(".blog-post-card");
@@ -367,9 +401,10 @@ const blogSchema = getBlogIndexSchema({
 
     const totalPostsCount = postCards.length;
 
-    // Parse initial state from URL search params
+    // Parse initial state from URL search params (supporting 'category' and legacy 'tag')
     const urlParams = new URLSearchParams(window.location.search);
-    let activeTag = urlParams.get("tag") || "all";
+    let activeCategory =
+      urlParams.get("category") || urlParams.get("tag") || "all";
     let searchQuery = urlParams.get("q") || "";
 
     if (searchInput && searchQuery) {
@@ -379,8 +414,8 @@ const blogSchema = getBlogIndexSchema({
 
     function syncUrl() {
       const params = new URLSearchParams();
-      if (activeTag && activeTag !== "all") {
-        params.set("tag", activeTag);
+      if (activeCategory && activeCategory !== "all") {
+        params.set("category", activeCategory);
       }
       if (searchQuery && searchQuery.trim() !== "") {
         params.set("q", searchQuery.trim());
@@ -392,17 +427,19 @@ const blogSchema = getBlogIndexSchema({
       window.history.replaceState({}, "", newUrl);
     }
 
-    function updateTagButtonsUI() {
-      tagButtons.forEach((btn) => {
-        const btnTag = btn.dataset.tag || "all";
-        const isSelected = btnTag.toLowerCase() === activeTag.toLowerCase();
+    function updateCategoryButtonsUI() {
+      categoryButtons.forEach((btn) => {
+        const btnCat = btn.dataset.category || "all";
+        const isSelected =
+          btnCat.toLowerCase() === activeCategory.toLowerCase();
         btn.setAttribute("aria-pressed", isSelected ? "true" : "false");
       });
     }
 
     function applyFilters() {
-      const q = searchQuery.trim().toLowerCase();
-      const tagLower = activeTag.toLowerCase();
+      const rawQ = searchQuery.trim().toLowerCase();
+      const cleanQ = rawQ.replace(/^#/, "");
+      const catLower = activeCategory.toLowerCase();
       let visibleTotal = 0;
 
       // Filter individual post cards
@@ -411,23 +448,29 @@ const blogSchema = getBlogIndexSchema({
         const description = card.dataset.description || "";
         const year = card.dataset.year || "";
         const month = card.dataset.month || "";
+        let categories: string[] = [];
         let tags: string[] = [];
+        try {
+          categories = JSON.parse(card.dataset.categories || "[]");
+        } catch {}
         try {
           tags = JSON.parse(card.dataset.tags || "[]");
         } catch {}
 
-        const matchesTag =
-          tagLower === "all" || tags.some((t) => t.toLowerCase() === tagLower);
+        const matchesCategory =
+          catLower === "all" ||
+          categories.some((c) => c.toLowerCase() === catLower);
 
         const matchesSearch =
-          !q ||
-          title.includes(q) ||
-          description.includes(q) ||
-          year.includes(q) ||
-          month.includes(q) ||
-          tags.some((t) => t.includes(q));
+          !rawQ ||
+          title.includes(rawQ) ||
+          description.includes(rawQ) ||
+          year.includes(rawQ) ||
+          month.includes(rawQ) ||
+          categories.some((c) => c.includes(cleanQ)) ||
+          tags.some((t) => t.includes(cleanQ));
 
-        const isVisible = matchesTag && matchesSearch;
+        const isVisible = matchesCategory && matchesSearch;
 
         if (isVisible) {
           card.classList.remove("hidden");
@@ -480,7 +523,8 @@ const blogSchema = getBlogIndexSchema({
         }
       }
 
-      const hasActiveFilters = (activeTag && activeTag !== "all") || q !== "";
+      const hasActiveFilters =
+        (activeCategory && activeCategory !== "all") || rawQ !== "";
       if (resetFiltersBtn) {
         resetFiltersBtn.classList.toggle("hidden", !hasActiveFilters);
       }
@@ -493,36 +537,43 @@ const blogSchema = getBlogIndexSchema({
         if (postsContainer) postsContainer.classList.remove("hidden");
       }
 
-      updateTagButtonsUI();
+      updateCategoryButtonsUI();
       syncUrl();
     }
 
-    // Event Listeners for Tags
-    tagButtons.forEach((btn) => {
+    // Event Listeners for Category buttons
+    categoryButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
-        const clickedTag = btn.dataset.tag || "all";
+        const clickedCat = btn.dataset.category || "all";
         if (
-          activeTag.toLowerCase() === clickedTag.toLowerCase() &&
-          clickedTag !== "all"
+          activeCategory.toLowerCase() === clickedCat.toLowerCase() &&
+          clickedCat !== "all"
         ) {
-          activeTag = "all";
+          activeCategory = "all";
         } else {
-          activeTag = clickedTag;
+          activeCategory = clickedCat;
         }
         applyFilters();
       });
     });
 
-    // Event Listeners for in-article tags
+    // Event Listeners for in-article hashtag badges -> populates and triggers search
     postTagBadges.forEach((badge) => {
       badge.addEventListener("click", () => {
-        const clickedTag = badge.dataset.tag || "all";
-        activeTag = clickedTag;
+        const clickedTag = badge.dataset.tag || "";
+        searchQuery = clickedTag;
+        if (searchInput) {
+          searchInput.value = clickedTag;
+          searchInput.focus();
+        }
+        if (clearSearchBtn) {
+          clearSearchBtn.classList.remove("hidden");
+        }
         applyFilters();
 
-        const filterContainer = document.getElementById("tag-filter-container");
-        if (filterContainer) {
-          filterContainer.scrollIntoView({
+        const searchContainer = document.getElementById("blog-search");
+        if (searchContainer) {
+          searchContainer.scrollIntoView({
             behavior: "smooth",
             block: "nearest",
           });
@@ -563,7 +614,7 @@ const blogSchema = getBlogIndexSchema({
 
     // Reset buttons
     function resetAll() {
-      activeTag = "all";
+      activeCategory = "all";
       searchQuery = "";
       if (searchInput) searchInput.value = "";
       if (clearSearchBtn) clearSearchBtn.classList.add("hidden");

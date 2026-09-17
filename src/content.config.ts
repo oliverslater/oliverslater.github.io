@@ -2,6 +2,57 @@ import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 
+export const BLOG_CATEGORIES = [
+  "Cloud Architecture",
+  "Enterprise Strategy",
+  "Platform Engineering",
+  "DevSecOps",
+  "Governance",
+  "Homelab",
+  "Edge Computing",
+  "Self-Hosted",
+  "IoT & Automation",
+  "Experiments",
+] as const;
+
+export type BlogCategory = (typeof BLOG_CATEGORIES)[number];
+
+const TITLE_CASE_MINOR_WORDS = new Set([
+  "as",
+  "in",
+  "of",
+  "for",
+  "and",
+  "the",
+  "to",
+  "on",
+  "with",
+  "&",
+]);
+
+export function isTitleCaseTag(val: string): boolean {
+  const words = val.trim().split(/[\s-]+/);
+  if (words.length === 0) return false;
+  return words.every((word, idx) => {
+    if (!word) return true;
+    if (idx === 0) return /^[A-Z0-9]/.test(word);
+    if (word === "&") return true;
+    if (TITLE_CASE_MINOR_WORDS.has(word.toLowerCase())) return true;
+    return /^[A-Z0-9]/.test(word);
+  });
+}
+
+const titleCaseTagSchema = z
+  .string()
+  .transform((v) => v.trim().replace(/^#/, ""))
+  .refine((v) => v.length >= 2 && v.length <= 35, {
+    message: "Tag must be between 2 and 35 characters.",
+  })
+  .refine(isTitleCaseTag, {
+    message:
+      "Tags must be in Title Case (e.g. 'AWS', 'Terraform', 'High Availability', 'Disaster Recovery').",
+  });
+
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: z
@@ -12,7 +63,9 @@ const blog = defineCollection({
       lastUpdated: z.coerce.date().optional(),
       updatedDate: z.coerce.date().optional(),
       heroImage: z.string().optional(),
-      tags: z.array(z.string()).default([]),
+      categories: z.array(z.string()).default([]),
+      category: z.string().optional(),
+      tags: z.array(titleCaseTagSchema).default([]),
       draft: z.boolean().default(false),
     })
     .refine(

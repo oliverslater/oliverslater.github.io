@@ -29,8 +29,13 @@ export async function generateRssFeed(
     .map((post) => {
       const postUrl = `${siteUrl}${getBlogUrl(post)}`;
       const pubDateRfc822 = new Date(post.data.pubDate).toUTCString();
-      const categories = (post.data.tags || [])
-        .map((tag) => `      <category>${escapeXml(tag)}</category>`)
+      const postCategories = [
+        ...(post.data.categories || []),
+        ...(post.data.category ? [post.data.category] : []),
+        ...(post.data.tags || []),
+      ];
+      const categoriesXml = postCategories
+        .map((cat) => `      <category>${escapeXml(cat)}</category>`)
         .join("\n");
 
       return `    <item>
@@ -40,7 +45,7 @@ export async function generateRssFeed(
       <pubDate>${pubDateRfc822}</pubDate>
       <description><![CDATA[${post.data.description}]]></description>
       <dc:creator>${escapeXml(blogConfig.author)}</dc:creator>
-${categories ? categories + "\n" : ""}    </item>`;
+${categoriesXml ? categoriesXml + "\n" : ""}    </item>`;
     })
     .join("\n");
 
