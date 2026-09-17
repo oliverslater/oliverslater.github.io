@@ -1,22 +1,23 @@
 ---
-title: "Architecting a High-Performance Personal Platform with Astro 7, Tailwind v4, and Gemini"
-description: "An architectural deep-dive into building an enterprise-grade platform using Astro 7, Tailwind CSS v4, nested chronological indexing, and Google DeepMind Gemini/Antigravity pair programming."
+title: Architecting a High-Performance Personal Platform with Astro 7, Tailwind
+  v4, and Gemini
+description: An architectural deep-dive into building an enterprise-grade
+  platform using Astro 7, Tailwind CSS v4, nested chronological indexing, and
+  Google DeepMind Gemini/Antigravity pair programming.
 pubDate: 2026-09-15
+lastUpdated: 2026-09-17
 tags:
-  [
-    "Cloud Architecture",
-    "AWS",
-    "Terraform",
-    "Serverless",
-    "Astro",
-    "Tailwind CSS",
-    "GitHub Actions",
-    "DevOps",
-    "TypeScript",
-  ]
+  - Cloud Architecture
+  - AWS
+  - Terraform
+  - Serverless
+  - Astro
+  - Tailwind CSS
+  - GitHub Actions
+  - DevOps
+  - TypeScript
 draft: false
 ---
-
 As a Cloud Architect, your digital presence should reflect the exact architectural principles you champion in enterprise environments: **performance, security, simplicity, automation, and maintainability**. Too many engineering portfolios suffer from framework bloat—shipping multi-megabyte client-side JavaScript bundles for what is fundamentally structured text, technical writing, and verified credentials.
 
 When architecting this platform, my objective was clear: engineer a blazingly fast, zero-FOUC (Flash of Unstyled Content) static platform with automated multi-cloud credential synchronization, modern CSS-first styling, instant client-side search, and resilient CI/CD pipelines, accelerated by Google DeepMind's Gemini and Antigravity agentic pair programming.
@@ -102,7 +103,7 @@ Articles are grouped dynamically by Year (`<h2>`) and Month (`<h3>`), featuring 
 - `<h1>Engineering Notes</h1>`
 - `<h2>2026</h2>`
 - `<h3>September</h3>`
-- <code>&lt;h4&gt;&lt;a href="/blog/YYYY/MM/slug"&gt;Article Title&lt;/a&gt;&lt;/h4&gt;</code>
+- `<h4><a href="/blog/YYYY/MM/slug">Article Title</a></h4>`
 
 ### Progressive Enhancement & Instant Search
 
@@ -222,3 +223,4 @@ A personal engineering platform should be a direct demonstration of technical ca
 - [Web Vitals: Largest Contentful Paint (LCP) Optimization](https://web.dev/articles/lcp)
 - [GitHub Actions Documentation: Workflow Syntax & Scheduled Triggers](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule)
 - [RFC 9116: A Format for Security Policies on Web Services](https://datatracker.ietf.org/doc/html/rfc9116)
+
