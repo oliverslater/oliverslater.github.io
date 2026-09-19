@@ -1,0 +1,7 @@
+---
+# cPanel Git Version Control deployment configuration
+# https://docs.cpanel.net/cpanel/git-version-control/guide-to-git-deployment/
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/
+    - /bin/cp -a * $DEPLOYPATH

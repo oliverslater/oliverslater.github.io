@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Oliver Slater | Engineering Notes &amp; Architecture Blog</title>
+    <description>Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.</description>
+    <link>https://www.oliver-slater.co.uk/blog/</link>
+    <atom:link href="https://www.oliver-slater.co.uk/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <language>en-gb</language>
+    <lastBuildDate>Tue, 15 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Architecting a High-Performance Personal Platform with Astro 7, Tailwind v4, and Gemini</title>
+      <link>https://www.oliver-slater.co.uk/blog/2026/09/architecting-a-modern-cloud-portfolio-with-astro-github-and-gemini</link>
+      <guid isPermaLink="true">https://www.oliver-slater.co.uk/blog/2026/09/architecting-a-modern-cloud-portfolio-with-astro-github-and-gemini</guid>
+      <pubDate>Tue, 15 Sep 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[An architectural deep-dive into building an enterprise-grade platform using Astro 7, Tailwind CSS v4, nested chronological indexing, and Google DeepMind Gemini/Antigravity pair programming.]]></description>
+      <dc:creator>Oliver Slater</dc:creator>
+      <category>Cloud Architecture</category>
+      <category>Platform Engineering</category>
+      <category>AWS</category>
+      <category>Terraform</category>
+      <category>Serverless</category>
+      <category>Astro</category>
+      <category>Tailwind CSS</category>
+      <category>GitHub Actions</category>
+      <category>DevOps</category>
+      <category>TypeScript</category>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,18 @@
+/* TEAM */
+  Architect & Author: Oliver Slater
+  Title: Senior Cloud Architect
+  Distinctions: AWS Golden Jacket Holder (11x AWS Certified), Azure Solutions Architect Expert
+  Contact: https://www.oliver-slater.co.uk/contact
+  GitHub: https://github.com/oliverslater
+  LinkedIn: https://linkedin.com/in/oliverslater
+  Location: United Kingdom
+
+/* SITE */
+  Standards: HTML5, CSS3, ES2024, WebP
+  Components: React 19 Islands
+  Software: Astro 7 Static Site Generation (SSG)
+  Styling: Tailwind CSS
+  Typography: Montserrat Variable
+  Hosting: GitHub Pages
+  CI/CD: GitHub Actions
+  Language: English

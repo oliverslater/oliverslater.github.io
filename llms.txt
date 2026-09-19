@@ -1,0 +1,41 @@
+# Oliver Slater | Cloud Architect & Enterprise Technologist
+
+> Senior Cloud Architect, AWS Golden Jacket holder (11x AWS Certified), and Azure Solutions Architect Expert specializing in large-scale cloud migrations, serverless platforms, infrastructure as code, and DevSecOps.
+
+This platform serves as Oliver Slater's professional hub, interactive curriculum vitae, and technical engineering blog. It is built with static compilation on Astro 7, React 19 islands, Tailwind CSS, and automated GitHub Actions CI/CD.
+
+## Documentation & Pages
+
+- [Home](https://www.oliver-slater.co.uk/): Professional summary, architecture capability pillars, technology marquee, and featured case studies.
+- [Curriculum Vitae](https://www.oliver-slater.co.uk/cv): Comprehensive career history, executive roles, verified credentials, and printable CV export.
+- [Technical Blog](https://www.oliver-slater.co.uk/blog): Architectural deep-dives and enterprise cloud engineering articles.
+- [Contact](https://www.oliver-slater.co.uk/contact): Direct contact channel with spam mitigation and professional inquiry handling.
+
+## Core Specializations
+
+- **Enterprise Cloud Architecture**: Multi-account AWS Landing Zones (AWS Control Tower, Transit Gateway, SCPs), large-scale cloud migrations (MGN, DMS, MAP), enterprise security, and compliance.
+- **Infrastructure as Code (IaC) & Automation**: Production-grade Terraform authoring (HashiCorp Certified Professional), AWS CDK, CloudFormation, and enterprise CI/CD migrations (GitLab to GitHub Actions).
+- **Serverless & Distributed Systems**: High-throughput data ingestion pipelines (AWS Lambda, Amazon S3, EventBridge, SQS/SNS) and optimized NoSQL data modeling (Amazon DynamoDB).
+- **Well-Architected & DevSecOps**: Comprehensive AWS Well-Architected Framework reviews, FinOps cloud cost optimization, and proactive governance (AWS Security Hub, Amazon GuardDuty, Amazon Inspector).
+
+## Credentials & Distinctions
+
+- **AWS Golden Jacket**: Holder of 11 active AWS Certifications across Solutions Architecture, Security, DevOps, SysOps, Developer, Networking, Database, and Machine Learning.
+- **Microsoft Azure Solutions Architect Expert**: Certified across Azure Administration (AZ-104) and Solutions Architecture (AZ-305).
+- **HashiCorp Certified**: Terraform Authoring & Operations Professional.
+
+## Site Architecture & Tech Stack
+
+- **Framework**: Astro 7 (Static Site Generation / SSG)
+- **Interactive Islands**: React 19 (LetterGlitch canvas animation, interactive skills accordion)
+- **Styling & Theming**: Tailwind CSS with zero-FOUC dual light/dark mode support (`prefers-color-scheme` and local persistence)
+- **Typography**: Montserrat Variable font family
+- **Hosting & CI/CD**: GitHub Pages with cryptographically signed commits and automated GitHub Actions workflows
+- **CMS Integration**: Pages CMS schema configured for Git-based content management
+
+## Contact & Links
+
+- **Website**: [https://www.oliver-slater.co.uk](https://www.oliver-slater.co.uk)
+- **LinkedIn**: [https://linkedin.com/in/oliverslater](https://linkedin.com/in/oliverslater)
+- **GitHub**: [https://github.com/oliverslater](https://github.com/oliverslater)
+- **Location**: United Kingdom
