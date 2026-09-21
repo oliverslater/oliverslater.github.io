@@ -95,11 +95,11 @@ export async function getAllCredentials(): Promise<CredentialItem[]> {
 export const getCredlyBadges = getAllCredentials;
 
 export function findOverrideMatch(
-  badge: CredentialItem,
+  badge: { id?: string; title: string },
   overrides: CertificationOverride[],
 ): CertificationOverride | undefined {
   const badgeTitle = badge.title.toLowerCase().trim();
-  const badgeId = badge.id.toLowerCase().trim();
+  const badgeId = (badge.id || "").toLowerCase().trim();
 
   return overrides.find((o) => {
     const oId = o.id?.toLowerCase().trim();

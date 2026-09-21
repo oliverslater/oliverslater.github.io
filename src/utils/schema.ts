@@ -1,4 +1,10 @@
-import { profileData } from "../data/siteData";
+import {
+  profileData,
+  educationData,
+  experienceData,
+  certificationOverrides,
+} from "../data/siteData";
+import { findOverrideMatch } from "./certifications";
 
 export const SEO_CONFIG = {
   defaultOgImage: "/assets/og-image.png",
@@ -37,6 +43,58 @@ export function getPersonSchema(siteUrlInput?: URL | string) {
   const siteUrl = getCanonicalSiteUrl(siteUrlInput);
   const personImage = new URL(SEO_CONFIG.headshotImage, siteUrl).toString();
 
+  // Dynamically extract active qualifications adhering to certification settings overrides
+  const activeCredentials = educationData.qualifications.filter((q) => {
+    const match = findOverrideMatch({ title: q.title }, certificationOverrides);
+    return match?.displayed !== false;
+  });
+  const credentialNames = activeCredentials.map((q) => q.title);
+
+  // Dynamically extract active roles from experience data
+  const activeRoles = (experienceData.roles || []).filter(
+    (r) => r.current === true || r.endDate?.toLowerCase() === "present",
+  );
+  const worksFor =
+    activeRoles.length > 0
+      ? activeRoles.length === 1
+        ? {
+            "@type": "Organization",
+            name: activeRoles[0].company,
+          }
+        : activeRoles.map((r) => ({
+            "@type": "Organization",
+            name: r.company,
+          }))
+      : undefined;
+  // Dynamically extract address details from profile data
+  const addressLocality =
+    profileData.addressLocality ||
+    profileData.location?.split(",")[0]?.trim() ||
+    profileData.location;
+
+  const addressCountry =
+    profileData.addressCountry ||
+    (profileData.location?.toLowerCase().includes("united kingdom") ||
+    profileData.location?.toLowerCase().includes("uk")
+      ? "GB"
+      : undefined);
+
+  const postalAddress =
+    addressLocality || addressCountry
+      ? {
+          "@type": "PostalAddress",
+          ...(addressLocality ? { addressLocality } : {}),
+          ...(addressCountry ? { addressCountry } : {}),
+        }
+      : undefined;
+
+  const homeLocation = profileData.location
+    ? {
+        "@type": "Place",
+        name: profileData.location,
+      }
+    : undefined;
+
   return {
     "@type": "Person",
     "@id": `${siteUrl}/#person`,
@@ -46,7 +104,22 @@ export function getPersonSchema(siteUrlInput?: URL | string) {
     image: personImage,
     url: `${siteUrl}/`,
     sameAs: getPersonSameAs(),
-    knowsAbout: profileData.coreCompetencies || [],
+    ...(postalAddress ? { address: postalAddress } : {}),
+    ...(homeLocation ? { homeLocation } : {}),
+    ...(worksFor ? { worksFor } : {}),
+    ...(profileData.awards && profileData.awards.length > 0
+      ? { award: profileData.awards }
+      : {}),
+    hasCredential: activeCredentials.map((q) => ({
+      "@type": "EducationalOccupationalCredential",
+      name: q.title,
+      credentialCategory: "Professional Certification",
+      recognizedBy: {
+        "@type": "Organization",
+        name: q.issuer,
+      },
+    })),
+    knowsAbout: [...credentialNames, ...(profileData.coreCompetencies || [])],
   };
 }
 
@@ -89,11 +162,41 @@ export function getProfilePageSchema(options: ProfilePageSchemaOptions) {
             options.description ||
             profileData.metaDescription ||
             profileData.bio,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: `${siteUrl}/blog?q={search_term_string}`,
+            },
+            "query-input": "required name=search_term_string",
+          },
         },
         mainEntity: {
           "@id": `${siteUrl}/#person`,
         },
       },
+      ...(normalizedPath !== "/"
+        ? [
+            {
+              "@type": "BreadcrumbList",
+              "@id": `${pageUrl}#breadcrumb`,
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: `${siteUrl}/`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: options.name,
+                  item: pageUrl,
+                },
+              ],
+            },
+          ]
+        : []),
       getPersonSchema(siteUrl),
     ],
   };
@@ -217,6 +320,14 @@ export function getBlogIndexSchema(options: BlogIndexSchemaOptions = {}) {
           "@id": `${siteUrl}/#website`,
           url: `${siteUrl}/`,
           name: profileData.name,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: `${siteUrl}/blog?q={search_term_string}`,
+            },
+            "query-input": "required name=search_term_string",
+          },
         },
         publisher: {
           "@id": `${siteUrl}/#person`,
@@ -228,6 +339,24 @@ export function getBlogIndexSchema(options: BlogIndexSchemaOptions = {}) {
           url: p.url,
           datePublished: new Date(p.date).toISOString(),
         })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${blogUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${siteUrl}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Blog",
+            item: blogUrl,
+          },
+        ],
       },
       getPersonSchema(siteUrl),
     ],
@@ -252,17 +381,43 @@ export function getContactPageSchema(options: ContactPageSchemaOptions = {}) {
         "@type": "ContactPage",
         "@id": `${contactUrl}#webpage`,
         url: contactUrl,
-        name: `Contact | ${profileData.name} – Cloud Architecture & Consulting`,
+        name: `Contact | ${profileData.name} – Cloud Architect`,
         description: `Get in touch with ${profileData.name} to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering.`,
         isPartOf: {
           "@type": "WebSite",
           "@id": `${siteUrl}/#website`,
           url: `${siteUrl}/`,
           name: profileData.name,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: `${siteUrl}/blog?q={search_term_string}`,
+            },
+            "query-input": "required name=search_term_string",
+          },
         },
         mainEntity: {
           "@id": `${siteUrl}/#person`,
         },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${contactUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${siteUrl}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Contact",
+            item: contactUrl,
+          },
+        ],
       },
       getPersonSchema(siteUrl),
     ],

@@ -5,7 +5,7 @@
   Contact: https://www.oliver-slater.co.uk/contact
   GitHub: https://github.com/oliverslater
   LinkedIn: https://linkedin.com/in/oliverslater
-  Location: United Kingdom
+  Location: Leeds, United Kingdom
 
 /* SITE */
   Standards: HTML5, CSS3, ES2024, WebP

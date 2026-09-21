@@ -86,6 +86,16 @@ content:
       - name: location
         label: Location
         type: string
+      - name: addressLocality
+        label: City / Locality (e.g. Leeds)
+        type: string
+      - name: addressCountry
+        label: Country Code (e.g. GB)
+        type: string
+      - name: awards
+        label: Honours & Awards
+        type: string
+        list: true
       - name: metaDescription
         label: Meta Description (SEO preview / meta tag)
         type: text

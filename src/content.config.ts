@@ -121,6 +121,9 @@ export interface ProfileData {
   email: string;
   showEmail?: boolean;
   location?: string;
+  addressLocality?: string;
+  addressCountry?: string;
+  awards?: string[];
   metaDescription?: string;
   bio: string;
   website?: string;
