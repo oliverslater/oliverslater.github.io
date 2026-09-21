@@ -50,7 +50,7 @@ const title =
     ? pageSeoData.home.title
     : inputTitle.includes(profileData.name)
       ? inputTitle
-      : `${inputTitle} | ${profileData.name} – Enterprise Cloud Architect`;
+      : `${inputTitle} | ${profileData.name} – ${profileData.title}`;
 
 const canonicalURL = new URL(
   Astro.url.pathname,

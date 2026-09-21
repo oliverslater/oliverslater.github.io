@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import { profileData } from "../data/siteData";
 
 interface Props {
   currentPath?: string;
@@ -36,7 +37,7 @@ const isActive = (href: string) => {
     <a
       href="/"
       class="group flex items-center gap-1.5 font-medium text-xs sm:text-sm tracking-tight text-[var(--white)] hover:text-neutral-900 dark:hover:text-white transition-colors mr-1 sm:mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] rounded-full px-1.5 py-0.5"
-      aria-label="Oliver Slater Home"
+      aria-label={`${profileData.name} Home`}
     >
       <span class="font-semibold">os</span>
     </a>

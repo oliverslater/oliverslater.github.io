@@ -48,6 +48,7 @@ const cvSchema = getProfilePageSchema({
         <button
           type="button"
           id="cv-print-btn"
+          data-print-title={`${profileData.name} - Curriculum Vitae`}
           class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors cursor-pointer"
         >
           <svg
@@ -525,7 +526,8 @@ const cvSchema = getProfilePageSchema({
       printBtn.addEventListener("click", () => {
         const originalTitle = document.title;
         try {
-          document.title = "Oliver Slater - Curriculum Vitae";
+          document.title =
+            printBtn.getAttribute("data-print-title") || originalTitle;
           if (typeof window.print === "function") {
             window.print();
           } else if (dialog) {

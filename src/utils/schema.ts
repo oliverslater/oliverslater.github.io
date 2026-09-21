@@ -2,6 +2,7 @@ import {
   profileData,
   educationData,
   experienceData,
+  pageSeoData,
   certificationOverrides,
 } from "../data/siteData";
 import { findOverrideMatch } from "./certifications";
@@ -312,9 +313,10 @@ export function getBlogIndexSchema(options: BlogIndexSchemaOptions = {}) {
         "@type": "Blog",
         "@id": `${blogUrl}#blog`,
         url: blogUrl,
-        name: `Engineering Notes & Architecture Blog | ${profileData.name}`,
-        description:
-          "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.",
+        name:
+          pageSeoData.blog.title ||
+          `Engineering Notes & Architecture Blog | ${profileData.name}`,
+        description: pageSeoData.blog.description,
         isPartOf: {
           "@type": "WebSite",
           "@id": `${siteUrl}/#website`,
@@ -381,8 +383,10 @@ export function getContactPageSchema(options: ContactPageSchemaOptions = {}) {
         "@type": "ContactPage",
         "@id": `${contactUrl}#webpage`,
         url: contactUrl,
-        name: `Contact | ${profileData.name} – Cloud Architect`,
-        description: `Get in touch with ${profileData.name} to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering.`,
+        name:
+          pageSeoData.contact.title ||
+          `Contact | ${profileData.name} – ${profileData.title}`,
+        description: pageSeoData.contact.description,
         isPartOf: {
           "@type": "WebSite",
           "@id": `${siteUrl}/#website`,

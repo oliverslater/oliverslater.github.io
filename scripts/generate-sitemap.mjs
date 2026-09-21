@@ -170,6 +170,66 @@ Sitemap: ${siteUrl}/sitemap.xml
 `;
   await writeFile(robotsPath, robotsTxt, "utf8");
   console.log(`Updated public/robots.txt with sitemap directive`);
+
+  // Synchronize public/site.webmanifest dynamically from profile data
+  const manifestPath = resolve(rootDir, "public/site.webmanifest");
+  const manifest = {
+    name: `${profile.name} | ${profile.title}`,
+    short_name: profile.name,
+    description: profile.metaDescription || profile.bio,
+    start_url: "/",
+    display: "standalone",
+    background_color: "#101010",
+    theme_color: "#a476ff",
+    icons: [
+      {
+        src: "/favicon.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        src: "/favicon.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
+  };
+  await writeFile(
+    manifestPath,
+    JSON.stringify(manifest, null, 2) + "\n",
+    "utf8",
+  );
+  console.log(`Synchronized public/site.webmanifest with profile data`);
+
+  // Synchronize public/humans.txt dynamically from profile data
+  const humansPath = resolve(rootDir, "public/humans.txt");
+  const extraAwards = (profile.awards || []).filter(
+    (a) => !profile.headline?.toLowerCase().includes(a.toLowerCase()),
+  );
+  const distinctions = [profile.headline, ...extraAwards]
+    .filter(Boolean)
+    .join(", ");
+  const humansTxt = `/* TEAM */
+  Architect & Author: ${profile.name}
+  Title: ${profile.title}
+  Distinctions: ${distinctions}
+  Contact: ${siteUrl}/contact
+  GitHub: ${profile.github}
+  LinkedIn: ${profile.linkedin}
+  Location: ${profile.location}
+
+/* SITE */
+  Standards: HTML5, CSS3, ES2024, WebP
+  Components: React 19 Islands
+  Software: Astro 7 Static Site Generation (SSG)
+  Styling: Tailwind CSS
+  Typography: Montserrat Variable
+  Hosting: GitHub Pages
+  CI/CD: GitHub Actions
+  Language: English
+`;
+  await writeFile(humansPath, humansTxt, "utf8");
+  console.log(`Synchronized public/humans.txt with profile data`);
 }
 
 generateSitemap().catch((err) => {

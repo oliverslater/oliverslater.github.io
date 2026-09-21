@@ -119,11 +119,12 @@ export const siteConfig = {
 };
 
 export const blogConfig = {
-  title: `Engineering Notes & Architecture Blog | ${profileData.name}`,
+  title:
+    pageSeoData.blog.title ||
+    `Engineering Notes & Architecture Blog | ${profileData.name}`,
   shortTitle: "Engineering Notes",
   feedTitle: `${profileData.name} | Engineering Notes & Architecture Blog`,
-  description:
-    "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.",
+  description: pageSeoData.blog.description,
   author: profileData.name,
   language: "en-gb",
   feedPath: "/blog/feed.xml",
