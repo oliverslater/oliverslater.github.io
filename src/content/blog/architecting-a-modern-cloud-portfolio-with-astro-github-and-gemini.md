@@ -1,9 +1,8 @@
 ---
 title: Architecting a High-Performance Personal Platform with Astro 7, Tailwind
   v4, and Gemini
-description: An architectural deep-dive into building an enterprise-grade
-  platform using Astro 7, Tailwind CSS v4, nested chronological indexing, and
-  Google DeepMind Gemini/Antigravity pair programming.
+seoTitle: "Astro 7 & Tailwind v4 Cloud Architecture"
+description: "Architectural deep-dive into building a cloud portfolio with Astro 7, Tailwind CSS v4, dynamic OG images, and Google DeepMind Gemini pair programming."
 pubDate: 2026-09-15
 lastUpdated: 2026-09-17
 categories:

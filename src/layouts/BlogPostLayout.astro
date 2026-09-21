@@ -14,6 +14,7 @@ import {
 interface Props {
   frontmatter: {
     title: string;
+    seoTitle?: string;
     description: string;
     pubDate: Date | string;
     lastUpdated?: Date | string;
@@ -92,10 +93,14 @@ const techArticleSchema = getTechArticleSchema({
   timeRequired,
   siteUrl,
 });
+const rawPageTitle = frontmatter.seoTitle || frontmatter.title;
+const pageTitle = rawPageTitle.includes(profileData.name)
+  ? rawPageTitle
+  : `${rawPageTitle} | ${profileData.name}`;
 ---
 
 <Layout
-  title={`${frontmatter.title} | ${profileData.name}`}
+  title={pageTitle}
   description={frontmatter.description}
   image={heroImage}
   type="article"

@@ -1,14 +1,14 @@
 {
   "home": {
     "title": "Oliver Slater | AWS & Azure Enterprise Cloud Architect",
-    "description": "Oliver Slater is an AWS Golden Jacket holder (11x AWS Certified), Microsoft Azure Solutions Architect Expert, and HashiCorp Terraform Professional specialising in enterprise multi-cloud architecture and platform engineering.",
+    "description": "Oliver Slater: AWS Golden Jacket (11x Certified), Azure Solutions Architect Expert, and Terraform Professional specialising in enterprise cloud architecture.",
     "category": "Enterprise Cloud Architecture",
     "tags": ["Multi-Cloud", "Platform Engineering", "DevSecOps"],
     "image": "/assets/oliver-slater.png"
   },
   "cv": {
-    "title": "Curriculum Vitae & Career History | Oliver Slater – AWS & Azure Cloud Architect",
-    "description": "Professional CV of Oliver Slater: AWS Golden Jacket holder (11x Certified), Azure Solutions Architect Expert, and HashiCorp Terraform Professional. Detailed work history and technical architecture expertise.",
+    "title": "Curriculum Vitae (CV) | Oliver Slater – Cloud Architect",
+    "description": "CV of Oliver Slater: AWS Golden Jacket (11x Certified), Azure Solutions Architect Expert, and Terraform Professional. View career history and credentials.",
     "category": "Curriculum Vitae",
     "tags": ["Career History", "Credentials", "Architecture"],
     "image": "/assets/oliver-slater.png"

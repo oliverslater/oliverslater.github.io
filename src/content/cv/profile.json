@@ -8,7 +8,7 @@
   "addressLocality": "Leeds",
   "addressCountry": "GB",
   "awards": ["AWS Golden Jacket"],
-  "metaDescription": "Oliver Slater is an AWS Golden Jacket holder (11x AWS Certified), Microsoft Azure Solutions Architect Expert, and HashiCorp Terraform Professional specialising in enterprise multi-cloud architecture, platform engineering, and serverless systems.",
+  "metaDescription": "Oliver Slater: AWS Golden Jacket (11x Certified), Azure Solutions Architect Expert, and Terraform Professional specialising in enterprise cloud architecture.",
   "bio": "Oliver Slater is an enterprise Cloud Architect, AWS Golden Jacket holder, and 11x AWS Certified specialist with deep expertise in platform engineering, serverless and event-driven architectures, and large-scale cloud transformations. Certified as an AWS Solutions Architect – Professional and Microsoft Azure Solutions Architect Expert (AZ-104, AZ-305), he provides cross-cloud capability to support hybrid and multi-cloud strategies across regulated, high-availability environments.\n\nWith advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, AWS CDK) and DevSecOps, Oliver has a proven track record of establishing architectural standards, defining cloud strategy, and leading cross-functional teams through complex migrations and modernisation programmes. He combines deep technical acumen with the ability to influence executive stakeholders, drive architectural governance, and align engineering solutions directly to business outcomes.",
   "website": "https://www.oliver-slater.co.uk",
   "github": "https://github.com/oliverslater",

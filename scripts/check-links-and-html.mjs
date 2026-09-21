@@ -32,6 +32,116 @@ console.log(
 let errorCount = 0;
 let linkCount = 0;
 
+// SERP Character pixel width map for standard Arial 20px (Google SERP Desktop Title)
+const CHAR_PIXEL_WIDTHS = {
+  " ": 5.56,
+  "!": 6.67,
+  '"': 7.1,
+  "#": 11.12,
+  $: 11.12,
+  "%": 17.8,
+  "&": 13.34,
+  "'": 3.88,
+  "(": 6.67,
+  ")": 6.67,
+  "*": 7.78,
+  "+": 11.68,
+  ",": 5.56,
+  "-": 6.67,
+  ".": 5.56,
+  "/": 5.56,
+  0: 11.12,
+  1: 11.12,
+  2: 11.12,
+  3: 11.12,
+  4: 11.12,
+  5: 11.12,
+  6: 11.12,
+  7: 11.12,
+  8: 11.12,
+  9: 11.12,
+  ":": 5.56,
+  ";": 5.56,
+  "<": 11.68,
+  "=": 11.68,
+  ">": 11.68,
+  "?": 11.12,
+  "@": 20.32,
+  A: 13.34,
+  B: 13.34,
+  C: 14.44,
+  D: 14.44,
+  E: 13.34,
+  F: 12.22,
+  G: 15.56,
+  H: 14.44,
+  I: 5.56,
+  J: 10.0,
+  K: 13.34,
+  L: 11.12,
+  M: 16.68,
+  N: 14.44,
+  O: 15.56,
+  P: 13.34,
+  Q: 15.56,
+  R: 14.44,
+  S: 13.34,
+  T: 12.22,
+  U: 14.44,
+  V: 13.34,
+  W: 18.9,
+  X: 13.34,
+  Y: 13.34,
+  Z: 12.22,
+  "[": 5.56,
+  "\\": 5.56,
+  "]": 5.56,
+  "^": 9.42,
+  _: 11.12,
+  "`": 6.67,
+  a: 11.12,
+  b: 11.12,
+  c: 10.0,
+  d: 11.12,
+  e: 11.12,
+  f: 5.56,
+  g: 11.12,
+  h: 11.12,
+  i: 4.44,
+  j: 4.44,
+  k: 10.0,
+  l: 4.44,
+  m: 16.68,
+  n: 11.12,
+  o: 11.12,
+  p: 11.12,
+  q: 11.12,
+  r: 6.67,
+  s: 10.0,
+  t: 5.56,
+  u: 11.12,
+  v: 10.0,
+  w: 14.44,
+  x: 10.0,
+  y: 10.0,
+  z: 10.0,
+  "{": 6.67,
+  "|": 5.18,
+  "}": 6.67,
+  "~": 11.68,
+  "–": 11.12,
+  "—": 18.9,
+  "·": 5.56,
+};
+
+function estimateTitlePixelWidth(str) {
+  let w = 0;
+  for (const ch of str) {
+    w += CHAR_PIXEL_WIDTHS[ch] || 11.12;
+  }
+  return Math.round(w);
+}
+
 for (const filePath of htmlFiles) {
   const relativePagePath = path.relative(distDir, filePath);
   const content = fs.readFileSync(filePath, "utf8");
@@ -62,7 +172,46 @@ for (const filePath of htmlFiles) {
     errorCount++;
   }
 
-  // 2. Link & Asset Extraction
+  // 2. SERP SEO Checks (for indexed public pages)
+  const isNoIndex =
+    /<meta[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(
+      content,
+    );
+  if (!isNoIndex) {
+    const titleMatch = content.match(/<title>([^<]+)<\/title>/i);
+    if (titleMatch) {
+      const cleanTitle = titleMatch[1]
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'");
+      const titleWidth = estimateTitlePixelWidth(cleanTitle);
+      if (titleWidth > 600) {
+        console.error(
+          `  ✗ [SERP SEO] <title> exceeds 600px desktop SERP limit (${titleWidth}px, ${cleanTitle.length} chars) in: ${relativePagePath}`,
+        );
+        errorCount++;
+      }
+    }
+
+    const descMatch = content.match(
+      /<meta[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i,
+    );
+    if (descMatch) {
+      const cleanDesc = descMatch[1]
+        .replace(/&amp;/g, "&")
+        .replace(/&quot;/g, '"');
+      if (cleanDesc.length > 158) {
+        console.error(
+          `  ✗ [SERP SEO] <meta name="description"> exceeds 158 chars (${cleanDesc.length} chars) in: ${relativePagePath}`,
+        );
+        errorCount++;
+      }
+    }
+  }
+
+  // 3. Link & Asset Extraction
   // Match href="..." and src="..."
   const hrefMatches = content.matchAll(/href=["']([^"']+)["']/g);
   const srcMatches = content.matchAll(/src=["']([^"']+)["']/g);
