@@ -3,19 +3,22 @@
     "title": "Oliver Slater | AWS & Azure Enterprise Cloud Architect",
     "description": "Oliver Slater is an AWS Golden Jacket holder (11x AWS Certified), Microsoft Azure Solutions Architect Expert, and HashiCorp Terraform Professional specialising in enterprise multi-cloud architecture and platform engineering.",
     "category": "Enterprise Cloud Architecture",
-    "tags": ["Multi-Cloud", "Platform Engineering", "DevSecOps"]
+    "tags": ["Multi-Cloud", "Platform Engineering", "DevSecOps"],
+    "image": "/assets/oliver-slater.png"
   },
   "cv": {
     "title": "Curriculum Vitae & Career History | Oliver Slater – AWS & Azure Cloud Architect",
     "description": "Professional CV of Oliver Slater: AWS Golden Jacket holder (11x Certified), Azure Solutions Architect Expert, and HashiCorp Terraform Professional. Detailed work history and technical architecture expertise.",
     "category": "Curriculum Vitae",
-    "tags": ["Career History", "Credentials", "Architecture"]
+    "tags": ["Career History", "Credentials", "Architecture"],
+    "image": "/assets/oliver-slater.png"
   },
   "contact": {
     "title": "Contact | Oliver Slater – Cloud Architect",
     "description": "Get in touch with Oliver Slater to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering.",
     "category": "Professional Advisory",
-    "tags": ["Cloud Strategy", "Advisory", "Consulting"]
+    "tags": ["Cloud Strategy", "Advisory", "Consulting"],
+    "image": "/assets/oliver-slater.png"
   },
   "blog": {
     "title": "Engineering Notes & Architecture Blog | Oliver Slater",

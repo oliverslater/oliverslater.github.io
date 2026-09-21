@@ -107,6 +107,7 @@ export interface PageSeoItem {
   description: string;
   category?: string;
   tags?: string[];
+  image?: string;
 }
 
 export interface PageSeoData {

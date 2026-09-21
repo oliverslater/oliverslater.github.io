@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import sharp from "sharp";
@@ -6,6 +8,7 @@ import {
   pageSeoData,
   profileData,
 } from "../../data/siteData";
+import type { PageSeoItem } from "../../content.config";
 import { isPostPublished } from "../../utils/blog";
 
 function escapeXml(unsafe: string): string {
@@ -64,6 +67,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
           deliverablesData.pillars[0]?.category ||
           profileData.title,
         tags: tags.slice(0, 3),
+        image: post.data.heroImage,
         date: pubDate.toLocaleDateString("en-GB", {
           day: "numeric",
           month: "short",
@@ -76,7 +80,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const staticPages = (
     Object.keys(pageSeoData) as Array<keyof typeof pageSeoData>
   ).map((slug) => {
-    const page = pageSeoData[slug];
+    const page = pageSeoData[slug] as PageSeoItem;
     const fallbackCategory =
       slug === "home"
         ? deliverablesData.pillars[0]?.category || profileData.title
@@ -92,6 +96,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       description: page.description,
       category: page.category || fallbackCategory,
       tags: page.tags || [],
+      image: page.image || (slug !== "blog" ? profileData.avatar : undefined),
     };
   });
 
@@ -102,6 +107,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       description: page.description,
       category: page.category,
       tags: page.tags,
+      image: page.image,
       date: profileData.name,
     },
   }));
@@ -115,28 +121,60 @@ export const GET: APIRoute = async ({ props }) => {
     description = "",
     category = deliverablesData.pillars[0]?.category || profileData.title,
     tags = [],
+    image,
   } = props as {
     title: string;
     description?: string;
     category?: string;
     tags?: string[];
+    image?: string;
     date?: string;
   };
 
-  const titleLines = wrapText(title, 32).slice(0, 3);
-  const descLines = wrapText(description, 58).slice(0, 2);
+  const publicDir = path.resolve(process.cwd(), "public");
+  let base64Image = "";
+  let hasImage = false;
+
+  if (image) {
+    const cleanPath = image.replace(/^\//, "");
+    const fullPath = path.resolve(publicDir, cleanPath);
+    if (fullPath.startsWith(publicDir) && fs.existsSync(fullPath)) {
+      try {
+        const fileBuffer = fs.readFileSync(fullPath);
+        const ext = path.extname(fullPath).toLowerCase().replace(".", "");
+        const mime =
+          ext === "svg"
+            ? "image/svg+xml"
+            : ext === "webp"
+              ? "image/webp"
+              : ext === "jpg" || ext === "jpeg"
+                ? "image/jpeg"
+                : "image/png";
+        base64Image = `data:${mime};base64,${fileBuffer.toString("base64")}`;
+        hasImage = true;
+      } catch {
+        hasImage = false;
+      }
+    }
+  }
+
+  const maxTitleChars = hasImage ? 23 : 32;
+  const maxDescChars = hasImage ? 42 : 58;
+
+  const titleLines = wrapText(title, maxTitleChars).slice(0, 3);
+  const descLines = wrapText(description, maxDescChars).slice(0, 2);
 
   const titleTspans = titleLines
     .map(
       (line, i) =>
-        `<tspan x="90" dy="${i === 0 ? 0 : 58}">${escapeXml(line)}</tspan>`,
+        `<tspan x="90" dy="${i === 0 ? 0 : 56}">${escapeXml(line)}</tspan>`,
     )
     .join("");
 
   const descTspans = descLines
     .map(
       (line, i) =>
-        `<tspan x="90" dy="${i === 0 ? 0 : 34}">${escapeXml(line)}</tspan>`,
+        `<tspan x="90" dy="${i === 0 ? 0 : 32}">${escapeXml(line)}</tspan>`,
     )
     .join("");
 
@@ -165,6 +203,13 @@ export const GET: APIRoute = async ({ props }) => {
       <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.12" />
       <stop offset="100%" stop-color="#22d3ee" stop-opacity="0" />
     </radialGradient>
+    <clipPath id="avatarClip">
+      <rect x="800" y="150" width="240" height="240" rx="36" />
+    </clipPath>
+    <linearGradient id="avatarBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a476ff" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.4" />
+    </linearGradient>
   </defs>
 
   <!-- Base Background -->
@@ -190,16 +235,27 @@ export const GET: APIRoute = async ({ props }) => {
   </g>
 
   <!-- Main Article / Page Title -->
-  <text x="90" y="210" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="700" fill="#ffffff" letter-spacing="-0.8">
+  <text x="90" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="700" fill="#ffffff" letter-spacing="-0.8">
     ${titleTspans}
   </text>
 
   <!-- Description / Subtitle -->
   ${
     descLines.length > 0
-      ? `<text x="90" y="${210 + titleLines.length * 58 + 22}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="400" fill="#9ca3af" letter-spacing="-0.2">
+      ? `<text x="90" y="${200 + titleLines.length * 56 + 18}" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="400" fill="#9ca3af" letter-spacing="-0.2">
     ${descTspans}
   </text>`
+      : ""
+  }
+
+  ${
+    hasImage
+      ? `
+  <!-- Side Image Container (Squircle framed with gradient border) -->
+  <g>
+    <rect x="796" y="146" width="248" height="248" rx="40" fill="none" stroke="url(#avatarBorder)" stroke-width="2.5" />
+    <image href="${base64Image}" x="800" y="150" width="240" height="240" preserveAspectRatio="xMidYMid slice" clip-path="url(#avatarClip)" />
+  </g>`
       : ""
   }
 

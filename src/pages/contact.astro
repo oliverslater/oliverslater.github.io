@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ContactForm from "../components/ContactForm.astro";
+import Headshot from "../components/Headshot.astro";
 import { pageSeoData, profileData } from "../data/siteData";
 import { getContactDetails } from "../utils/profile";
 import { getContactPageSchema } from "../utils/schema";
@@ -19,18 +20,24 @@ const contactSchema = getContactPageSchema({
   <div class="max-w-3xl mx-auto">
     <!-- Header -->
     <header class="mb-10 pb-8 border-b border-[#ffffff10]">
-      <p class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
-        Get in Touch
-      </p>
-      <h1 class="text-4xl sm:text-5xl font-medium tracking-tight text-[var(--white)] mb-3">
-        Contact
-      </h1>
-      <p class="text-base text-[var(--white-icon)] leading-relaxed max-w-xl">
-        While I'm not currently taking on consulting engagements, I'm always
-        happy to share advice, answer architectural questions, or hear
-        interesting engineering stories and tech news. Send a message below or
-        connect via LinkedIn.
-      </p>
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-6">
+        <div>
+          <p class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
+            Get in Touch
+          </p>
+          <h1 class="text-4xl sm:text-5xl font-medium tracking-tight text-[var(--white)] mb-3">
+            Contact
+          </h1>
+          <p class="text-base text-[var(--white-icon)] leading-relaxed max-w-xl">
+            While I'm not currently taking on consulting engagements, I'm always
+            happy to share advice, answer architectural questions, or hear
+            interesting engineering stories and tech news. Send a message below
+            or connect via LinkedIn.
+          </p>
+        </div>
+
+        <Headshot size="md" />
+      </div>
 
       <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
         {hasDirectEmail ? (
