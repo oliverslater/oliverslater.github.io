@@ -145,6 +145,17 @@ content:
             label: Meta Description
             type: text
             required: true
+          - name: category
+            label: Category / Pillar
+            type: string
+          - name: tags
+            label: Tags / Keywords
+            type: string
+            list: true
+          - name: image
+            label: Social Preview Image / Headshot Override
+            type: image
+            description: "Optional image embedded in the generated Open Graph social card. Leave empty to use profile avatar or full-width layout."
       - name: cv
         label: CV Page SERP
         type: object
@@ -157,6 +168,17 @@ content:
             label: Meta Description
             type: text
             required: true
+          - name: category
+            label: Category / Pillar
+            type: string
+          - name: tags
+            label: Tags / Keywords
+            type: string
+            list: true
+          - name: image
+            label: Social Preview Image / Headshot Override
+            type: image
+            description: "Optional image embedded in the generated Open Graph social card. Leave empty to use profile avatar or full-width layout."
       - name: contact
         label: Contact Page SERP
         type: object
@@ -169,6 +191,17 @@ content:
             label: Meta Description
             type: text
             required: true
+          - name: category
+            label: Category / Pillar
+            type: string
+          - name: tags
+            label: Tags / Keywords
+            type: string
+            list: true
+          - name: image
+            label: Social Preview Image / Headshot Override
+            type: image
+            description: "Optional image embedded in the generated Open Graph social card. Leave empty to use profile avatar or full-width layout."
       - name: blog
         label: Blog Index SERP
         type: object
@@ -181,6 +214,17 @@ content:
             label: Meta Description
             type: text
             required: true
+          - name: category
+            label: Category / Pillar
+            type: string
+          - name: tags
+            label: Tags / Keywords
+            type: string
+            list: true
+          - name: image
+            label: Social Preview Image / Hero Override
+            type: image
+            description: "Optional image embedded in the generated Open Graph social card. Leave empty for full-width layout."
 
   - name: experience
     label: CV Experience

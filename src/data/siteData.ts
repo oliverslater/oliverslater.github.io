@@ -1,4 +1,4 @@
-import type { FeaturedCredentialItem } from "../content.config";
+import type { FeaturedCredentialItem, PageSeoData } from "../content.config";
 import certificationSettingsData from "../content/cv/certification-settings.json";
 import cvVersionData from "../content/cv/cv-version.json";
 import deliverablesData from "../content/cv/deliverables.json";
@@ -7,9 +7,11 @@ import experienceData from "../content/cv/experience.json";
 import featuredCredentialsData from "../content/cv/featured-credentials.json";
 import manualCertificationsData from "../content/cv/manual-certifications.json";
 import profileData from "../content/cv/profile.json";
-import pageSeoData from "../content/page-seo.json";
+import pageSeoDataRaw from "../content/page-seo.json";
 import skillsData from "../content/cv/skills.json";
 import technologiesData from "../content/technologies.json";
+
+export const pageSeoData: PageSeoData = pageSeoDataRaw;
 
 export {
   certificationSettingsData,
@@ -19,7 +21,6 @@ export {
   experienceData,
   featuredCredentialsData,
   manualCertificationsData,
-  pageSeoData,
   profileData,
   skillsData,
   technologiesData,

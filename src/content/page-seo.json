@@ -24,6 +24,7 @@
     "title": "Engineering Notes & Architecture Blog | Oliver Slater",
     "description": "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.",
     "category": "Technical Blog",
-    "tags": ["Cloud Architecture", "Serverless", "DevOps"]
+    "tags": ["Cloud Architecture", "Serverless", "DevOps"],
+    "image": ""
   }
 }
