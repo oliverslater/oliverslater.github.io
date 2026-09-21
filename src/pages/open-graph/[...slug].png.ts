@@ -57,6 +57,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
       post.data.categories || (post.data.category ? [post.data.category] : []);
     const tags: string[] = post.data.tags || [];
 
+    let postImage: string | undefined = undefined;
+    const rawHeroImage = post.data.heroImage?.trim();
+
+    if (
+      rawHeroImage &&
+      ["none", "null", "false", "no"].includes(rawHeroImage.toLowerCase())
+    ) {
+      postImage = undefined;
+    } else if (rawHeroImage) {
+      postImage = rawHeroImage;
+    } else if (post.body) {
+      postImage =
+        post.body.match(/!\[.*?\]\(([^)\s]+)\)/)?.[1] ||
+        post.body.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1];
+    }
+
     return {
       params: { slug: `blog/${year}/${month}/${post.id}` },
       props: {
@@ -67,12 +83,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
           deliverablesData.pillars[0]?.category ||
           profileData.title,
         tags: tags.slice(0, 3),
-        image:
-          post.data.heroImage ||
-          (post.body
-            ? post.body.match(/!\[.*?\]\(([^)\s]+)\)/)?.[1] ||
-              post.body.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1]
-            : undefined),
+        image: postImage,
         date: pubDate.toLocaleDateString("en-GB", {
           day: "numeric",
           month: "short",
@@ -95,13 +106,36 @@ export const getStaticPaths: GetStaticPaths = async () => {
             ? "Technical Blog"
             : "Professional Advisory";
 
+    let resolvedImage: string | undefined = undefined;
+    const rawImage = page.image?.trim();
+
+    if (
+      rawImage &&
+      ["none", "null", "false", "no"].includes(rawImage.toLowerCase())
+    ) {
+      resolvedImage = undefined;
+    } else if (
+      rawImage &&
+      ["avatar", "headshot"].includes(rawImage.toLowerCase())
+    ) {
+      resolvedImage = profileData.avatar;
+    } else if (rawImage) {
+      resolvedImage = rawImage;
+    } else if (["home", "cv", "contact"].includes(slug)) {
+      // Default identity routes to avatar when unspecified
+      resolvedImage = profileData.avatar;
+    } else {
+      // All other current and future pages default to clean full-width layout
+      resolvedImage = undefined;
+    }
+
     return {
       slug,
       title: page.title,
       description: page.description,
       category: page.category || fallbackCategory,
       tags: page.tags || [],
-      image: page.image || (slug !== "blog" ? profileData.avatar : undefined),
+      image: resolvedImage,
     };
   });
 

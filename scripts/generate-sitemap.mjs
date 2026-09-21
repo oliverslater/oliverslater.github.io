@@ -77,8 +77,13 @@ async function getPublishedBlogPosts() {
             const description = descMatch ? descMatch[1].trim() : "";
             let heroImage = heroMatch ? heroMatch[1].trim() : "";
 
-            // If no heroImage in frontmatter, look for first inline diagram or image in body
-            if (!heroImage) {
+            // If heroImage is set to 'none', suppress images; otherwise look for inline diagram if missing
+            if (
+              heroImage &&
+              ["none", "null", "false", "no"].includes(heroImage.toLowerCase())
+            ) {
+              heroImage = "";
+            } else if (!heroImage) {
               const body = content.replace(/^---[\s\S]*?---/, "");
               const mdImgMatch = body.match(/!\[.*?\]\(([^)\s]+)\)/);
               const htmlImgMatch = body.match(/<img[^>]+src=["']([^"']+)["']/i);

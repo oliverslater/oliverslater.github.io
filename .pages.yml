@@ -31,6 +31,7 @@ content:
       - name: heroImage
         label: Hero Image
         type: image
+        description: "Optional. Set an image path for article header, OG social card, and sitemap. Set to 'none' or leave empty for full-width layout."
       - name: categories
         label: Categories
         type: string
@@ -155,7 +156,7 @@ content:
           - name: image
             label: Social Preview Image / Headshot Override
             type: image
-            description: "Optional image embedded in the generated Open Graph social card. Leave empty to use profile avatar or full-width layout."
+            description: "Optional. Set to 'none' for full-width text layout, 'avatar' for profile headshot, or select a custom image path. Leave empty for default."
       - name: cv
         label: CV Page SERP
         type: object
@@ -178,7 +179,7 @@ content:
           - name: image
             label: Social Preview Image / Headshot Override
             type: image
-            description: "Optional image embedded in the generated Open Graph social card. Leave empty to use profile avatar or full-width layout."
+            description: "Optional. Set to 'none' for full-width text layout, 'avatar' for profile headshot, or select a custom image path. Leave empty for default."
       - name: contact
         label: Contact Page SERP
         type: object
@@ -201,7 +202,7 @@ content:
           - name: image
             label: Social Preview Image / Headshot Override
             type: image
-            description: "Optional image embedded in the generated Open Graph social card. Leave empty to use profile avatar or full-width layout."
+            description: "Optional. Set to 'none' for full-width text layout, 'avatar' for profile headshot, or select a custom image path. Leave empty for default."
       - name: blog
         label: Blog Index SERP
         type: object
@@ -224,7 +225,7 @@ content:
           - name: image
             label: Social Preview Image / Hero Override
             type: image
-            description: "Optional image embedded in the generated Open Graph social card. Leave empty for full-width layout."
+            description: "Optional. Set to a custom image path or 'avatar'. Leave empty or set to 'none' for full-width text layout."
 
   - name: experience
     label: CV Experience

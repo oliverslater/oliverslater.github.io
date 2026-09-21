@@ -68,10 +68,15 @@ const timeRequired = readingTimeMinutes
   : undefined;
 
 // Resolve PageCMS heroImage or fallback to dynamic Open Graph image
+const rawHeroImage = frontmatter.heroImage?.trim();
+const hasExplicitHeroImage =
+  Boolean(rawHeroImage) &&
+  !["none", "null", "false", "no"].includes(rawHeroImage!.toLowerCase());
+
 const dynamicOgImage = post
   ? `/open-graph/blog/${new Date(frontmatter.pubDate).getFullYear()}/${String(new Date(frontmatter.pubDate).getMonth() + 1).padStart(2, "0")}/${post.id}.png`
   : SEO_CONFIG.defaultOgImage;
-const heroImage = frontmatter.heroImage || dynamicOgImage;
+const heroImage = hasExplicitHeroImage ? rawHeroImage! : dynamicOgImage;
 const resolvedHeroImage = new URL(heroImage, canonicalURL).toString();
 
 const techArticleSchema = getTechArticleSchema({
@@ -198,10 +203,10 @@ const techArticleSchema = getTechArticleSchema({
           </div>
         )}
 
-        {frontmatter.heroImage && (
+        {hasExplicitHeroImage && (
           <div class="mt-8 rounded-xl overflow-hidden border border-[#ffffff10]">
             <img
-              src={frontmatter.heroImage}
+              src={rawHeroImage}
               alt={frontmatter.title}
               class="w-full h-auto object-cover max-h-[480px]"
               loading="lazy"
