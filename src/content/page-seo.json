@@ -1,18 +1,26 @@
 {
   "home": {
     "title": "Oliver Slater | AWS & Azure Enterprise Cloud Architect",
-    "description": "Oliver Slater is an AWS Golden Jacket holder (11x AWS Certified), Microsoft Azure Solutions Architect Expert, and HashiCorp Terraform Professional specialising in enterprise multi-cloud architecture and platform engineering."
+    "description": "Oliver Slater is an AWS Golden Jacket holder (11x AWS Certified), Microsoft Azure Solutions Architect Expert, and HashiCorp Terraform Professional specialising in enterprise multi-cloud architecture and platform engineering.",
+    "category": "Enterprise Cloud Architecture",
+    "tags": ["Multi-Cloud", "Platform Engineering", "DevSecOps"]
   },
   "cv": {
     "title": "Curriculum Vitae & Career History | Oliver Slater – AWS & Azure Cloud Architect",
-    "description": "Professional CV of Oliver Slater: AWS Golden Jacket holder (11x Certified), Azure Solutions Architect Expert, and HashiCorp Terraform Professional. Detailed work history and technical architecture expertise."
+    "description": "Professional CV of Oliver Slater: AWS Golden Jacket holder (11x Certified), Azure Solutions Architect Expert, and HashiCorp Terraform Professional. Detailed work history and technical architecture expertise.",
+    "category": "Curriculum Vitae",
+    "tags": ["Career History", "Credentials", "Architecture"]
   },
   "contact": {
     "title": "Contact | Oliver Slater – Cloud Architect",
-    "description": "Get in touch with Oliver Slater to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering."
+    "description": "Get in touch with Oliver Slater to discuss cloud architecture, ask technical questions, or exchange insights on platform engineering.",
+    "category": "Professional Advisory",
+    "tags": ["Cloud Strategy", "Advisory", "Consulting"]
   },
   "blog": {
     "title": "Engineering Notes & Architecture Blog | Oliver Slater",
-    "description": "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability."
+    "description": "Articles on cloud architecture, serverless infrastructure, Infrastructure as Code, and platform reliability.",
+    "category": "Technical Blog",
+    "tags": ["Cloud Architecture", "Serverless", "DevOps"]
   }
 }

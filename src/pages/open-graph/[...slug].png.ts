@@ -1,8 +1,11 @@
 import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import sharp from "sharp";
-import profileData from "../../content/cv/profile.json";
-import pageSeoData from "../../content/page-seo.json";
+import {
+  deliverablesData,
+  pageSeoData,
+  profileData,
+} from "../../data/siteData";
 import { isPostPublished } from "../../utils/blog";
 
 function escapeXml(unsafe: string): string {
@@ -56,7 +59,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
       props: {
         title: post.data.title,
         description: post.data.description,
-        category: categories[0] || "Architecture Note",
+        category:
+          categories[0] ||
+          deliverablesData.pillars[0]?.category ||
+          profileData.title,
         tags: tags.slice(0, 3),
         date: pubDate.toLocaleDateString("en-GB", {
           day: "numeric",
@@ -67,36 +73,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   });
 
-  const staticPages = [
-    {
-      slug: "home",
-      title: pageSeoData.home.title,
-      description: pageSeoData.home.description,
-      category: "Enterprise Cloud Architect",
-      tags: ["AWS Golden Jacket", "Azure Architect", "Terraform Pro"],
-    },
-    {
-      slug: "cv",
-      title: pageSeoData.cv.title,
-      description: pageSeoData.cv.description,
-      category: "Curriculum Vitae",
-      tags: ["11x AWS Certified", "Azure Expert", "Terraform Pro"],
-    },
-    {
-      slug: "blog",
-      title: pageSeoData.blog.title,
-      description: pageSeoData.blog.description,
-      category: "Technical Blog",
-      tags: ["Cloud Architecture", "Serverless", "DevOps"],
-    },
-    {
-      slug: "contact",
-      title: pageSeoData.contact.title,
-      description: pageSeoData.contact.description,
-      category: "Professional Advisory",
-      tags: ["Consulting", "Architecture Reviews", "Cloud Strategy"],
-    },
-  ];
+  const staticPages = (
+    Object.keys(pageSeoData) as Array<keyof typeof pageSeoData>
+  ).map((slug) => {
+    const page = pageSeoData[slug];
+    const fallbackCategory =
+      slug === "home"
+        ? deliverablesData.pillars[0]?.category || profileData.title
+        : slug === "cv"
+          ? "Curriculum Vitae"
+          : slug === "blog"
+            ? "Technical Blog"
+            : "Professional Advisory";
+
+    return {
+      slug,
+      title: page.title,
+      description: page.description,
+      category: page.category || fallbackCategory,
+      tags: page.tags || [],
+    };
+  });
 
   const pagePaths = staticPages.map((page) => ({
     params: { slug: page.slug },
@@ -105,7 +102,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       description: page.description,
       category: page.category,
       tags: page.tags,
-      date: "Oliver Slater",
+      date: profileData.name,
     },
   }));
 
@@ -116,7 +113,7 @@ export const GET: APIRoute = async ({ props }) => {
   const {
     title,
     description = "",
-    category = "Cloud Architecture",
+    category = deliverablesData.pillars[0]?.category || profileData.title,
     tags = [],
   } = props as {
     title: string;
@@ -145,6 +142,12 @@ export const GET: APIRoute = async ({ props }) => {
 
   const tagsFormatted = tags.map((t) => `#${escapeXml(t)}`).join("   ");
   const badgeWidth = Math.max(140, category.length * 10 + 36);
+  const siteDomain = profileData.website
+    ? new URL(profileData.website).hostname
+    : "";
+  const authorityCredentials =
+    profileData.headline ||
+    [...(profileData.awards || []), profileData.title].join(" · ");
 
   const svg = `<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -200,19 +203,28 @@ export const GET: APIRoute = async ({ props }) => {
       : ""
   }
 
+  <!-- Tags Row (above divider) -->
+  ${
+    tagsFormatted
+      ? `<text x="90" y="495" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#818cf8">
+    ${tagsFormatted}
+  </text>`
+      : ""
+  }
+
   <!-- Bottom Authority Bar -->
   <g transform="translate(90, 525)">
     <!-- Thin divider -->
     <line x1="0" y1="0" x2="1020" y2="0" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
 
-    <!-- Authority credentials -->
+    <!-- Authority credentials (dynamic from profileData.headline) -->
     <text x="0" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#a476ff">
-      AWS Golden Jacket · Azure Solutions Architect Expert · Terraform Pro
+      ${escapeXml(authorityCredentials)}
     </text>
 
-    <!-- Site domain & tags (Right-aligned) -->
+    <!-- Site domain (Right-aligned from profileData.website) -->
     <text x="1020" y="32" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500" fill="#71717a">
-      ${tagsFormatted ? `${tagsFormatted}   ·   ` : ""}www.oliver-slater.co.uk
+      ${escapeXml(siteDomain)}
     </text>
   </g>
 </svg>`;

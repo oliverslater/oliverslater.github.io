@@ -58,10 +58,11 @@ const canonicalURL = new URL(
 );
 
 const currentRouteSlug = Astro.url.pathname.replace(/^\/|\/$/g, "");
+const staticOgPages = Object.keys(pageSeoData).filter((k) => k !== "home");
 const dynamicPageOg =
   currentRouteSlug === ""
     ? "/open-graph/home.png"
-    : ["cv", "blog", "contact"].includes(currentRouteSlug)
+    : staticOgPages.includes(currentRouteSlug)
       ? `/open-graph/${currentRouteSlug}.png`
       : SEO_CONFIG.defaultOgImage;
 

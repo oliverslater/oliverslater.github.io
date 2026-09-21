@@ -105,6 +105,8 @@ export const collections = {
 export interface PageSeoItem {
   title: string;
   description: string;
+  category?: string;
+  tags?: string[];
 }
 
 export interface PageSeoData {
