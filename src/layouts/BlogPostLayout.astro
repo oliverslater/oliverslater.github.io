@@ -197,6 +197,18 @@ const techArticleSchema = getTechArticleSchema({
             ))}
           </div>
         )}
+
+        {frontmatter.heroImage && (
+          <div class="mt-8 rounded-xl overflow-hidden border border-[#ffffff10]">
+            <img
+              src={frontmatter.heroImage}
+              alt={frontmatter.title}
+              class="w-full h-auto object-cover max-h-[480px]"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        )}
       </header>
 
       <!-- Mobile / Tablet Collapsible Table of Contents -->

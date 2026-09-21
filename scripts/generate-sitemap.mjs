@@ -75,7 +75,19 @@ async function getPublishedBlogPosts() {
 
             const title = titleMatch ? titleMatch[1].trim() : slug;
             const description = descMatch ? descMatch[1].trim() : "";
-            const heroImage = heroMatch ? heroMatch[1].trim() : "";
+            let heroImage = heroMatch ? heroMatch[1].trim() : "";
+
+            // If no heroImage in frontmatter, look for first inline diagram or image in body
+            if (!heroImage) {
+              const body = content.replace(/^---[\s\S]*?---/, "");
+              const mdImgMatch = body.match(/!\[.*?\]\(([^)\s]+)\)/);
+              const htmlImgMatch = body.match(/<img[^>]+src=["']([^"']+)["']/i);
+              if (mdImgMatch) {
+                heroImage = mdImgMatch[1].trim();
+              } else if (htmlImgMatch) {
+                heroImage = htmlImgMatch[1].trim();
+              }
+            }
 
             posts.push({ path, lastmod, title, description, heroImage });
           }
@@ -180,20 +192,18 @@ async function generateSitemap() {
   </url>`,
     ),
     ...blogPosts.map((post) => {
-      const imgUrl = post.heroImage
-        ? post.heroImage.startsWith("http")
+      let imageXml = "";
+      if (post.heroImage) {
+        const imgUrl = post.heroImage.startsWith("http")
           ? post.heroImage
-          : `${siteUrl}${post.heroImage.startsWith("/") ? "" : "/"}${post.heroImage}`
-        : `${siteUrl}/assets/oliver-slater-512.png`;
+          : `${siteUrl}${post.heroImage.startsWith("/") ? "" : "/"}${post.heroImage}`;
+        imageXml = `\n    <image:image>\n      <image:loc>${imgUrl}</image:loc>\n      <image:title>${escapeXml(post.title)}</image:title>\n    </image:image>`;
+      }
       return `  <url>
     <loc>${siteUrl}/blog/${post.path}</loc>
     <lastmod>${post.lastmod}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>${imgUrl}</image:loc>
-      <image:title>${escapeXml(post.title)}</image:title>
-    </image:image>
+    <priority>0.7</priority>${imageXml}
   </url>`;
     }),
   ];

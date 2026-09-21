@@ -33,9 +33,5 @@
     <lastmod>2026-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://www.oliver-slater.co.uk/assets/oliver-slater-512.png</image:loc>
-      <image:title>Architecting a High-Performance Personal Platform with Astro 7, Tailwind</image:title>
-    </image:image>
   </url>
 </urlset>

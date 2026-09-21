@@ -67,7 +67,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
           deliverablesData.pillars[0]?.category ||
           profileData.title,
         tags: tags.slice(0, 3),
-        image: post.data.heroImage,
+        image:
+          post.data.heroImage ||
+          (post.body
+            ? post.body.match(/!\[.*?\]\(([^)\s]+)\)/)?.[1] ||
+              post.body.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1]
+            : undefined),
         date: pubDate.toLocaleDateString("en-GB", {
           day: "numeric",
           month: "short",
