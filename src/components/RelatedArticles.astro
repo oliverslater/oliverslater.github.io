@@ -1,0 +1,114 @@
+---
+import { getCollection } from "astro:content";
+import { isPostPublished, getBlogUrl } from "../utils/blog";
+import { formatDate } from "../utils/date";
+
+interface Props {
+  currentId: string;
+  categories?: string[];
+  tags?: string[];
+}
+
+const { currentId, categories = [], tags = [] } = Astro.props;
+
+const allPosts = await getCollection("blog", (post) => isPostPublished(post));
+const candidatePosts = allPosts.filter((p) => p.id !== currentId);
+
+const currentCatSet = new Set(categories.map((c) => c.toLowerCase()));
+const currentTagSet = new Set(tags.map((t) => t.toLowerCase()));
+
+// Score candidates by topical relevance
+const scoredPosts = candidatePosts.map((post) => {
+  let score = 0;
+  const postCategories: string[] =
+    post.data.categories || (post.data.category ? [post.data.category] : []);
+  const postTags: string[] = post.data.tags || [];
+
+  for (const cat of postCategories) {
+    if (currentCatSet.has(cat.toLowerCase())) score += 3;
+  }
+  for (const tag of postTags) {
+    if (currentTagSet.has(tag.toLowerCase())) score += 2;
+  }
+
+  // Micro-score based on timestamp for deterministic tie-breaking (newer posts preferred)
+  const timeScore = new Date(post.data.pubDate).getTime() / 1e13;
+
+  return { post, score: score + timeScore };
+});
+
+scoredPosts.sort((a, b) => b.score - a.score);
+const relatedPosts = scoredPosts.slice(0, 2).map((sp) => sp.post);
+---
+
+{relatedPosts.length > 0 && (
+  <section
+    class="mt-16 pt-10 border-t border-[#ffffff10]"
+    aria-labelledby="related-articles-heading"
+  >
+    <div class="flex items-center justify-between gap-4 mb-6">
+      <h2
+        id="related-articles-heading"
+        class="text-xl font-semibold text-[var(--white)] tracking-tight"
+      >
+        Related Articles
+      </h2>
+      <a
+        href="/blog"
+        class="text-xs font-mono text-[var(--sec)] hover:underline flex items-center gap-1 transition-colors"
+      >
+        <span>All Posts</span>
+        <span>&rarr;</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {relatedPosts.map((post) => {
+        const postUrl = getBlogUrl(post);
+        const postBody = post.body || "";
+        const wordCount = postBody
+          ? postBody.trim().split(/\s+/).filter(Boolean).length
+          : 0;
+        const readTime = wordCount
+          ? Math.max(1, Math.ceil(wordCount / 200))
+          : 5;
+        const firstCategory = post.data.categories?.[0] || post.data.category;
+
+        return (
+          <a
+            href={postUrl}
+            class="group p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 text-xs font-mono text-[var(--white-icon)] mb-2.5">
+                {firstCategory && (
+                  <span class="px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider bg-purple-100 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+                    {firstCategory}
+                  </span>
+                )}
+                <span>{readTime} min read</span>
+              </div>
+
+              <h3 class="text-base font-semibold text-[var(--white)] group-hover:text-[var(--sec)] transition-colors line-clamp-2 mb-2 leading-snug">
+                {post.data.title}
+              </h3>
+
+              <p class="text-xs text-[var(--white-icon)] line-clamp-2 leading-relaxed mb-4">
+                {post.data.description}
+              </p>
+            </div>
+
+            <div class="flex items-center justify-between text-xs font-mono text-[var(--white-icon)] pt-3 border-t border-neutral-100 dark:border-[var(--white-icon-tr)]">
+              <time datetime={new Date(post.data.pubDate).toISOString()}>
+                {formatDate(post.data.pubDate)}
+              </time>
+              <span class="text-[var(--sec)] group-hover:translate-x-0.5 transition-transform">
+                Read Article &rarr;
+              </span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}

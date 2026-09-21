@@ -46,16 +46,15 @@ const homeSchema = getProfilePageSchema({
             <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"></span>
             {profileData.headline}
           </div>
-
-          <p class="text-base sm:text-lg text-[var(--white-icon)] shiny-white">
-            Hi, I'm {profileData.name}
-          </p>
         </div>
 
         <Headshot size="lg" />
       </div>
       <div class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 gap-4">
         <h1 class="text-5xl sm:text-6xl md:text-7xl font-medium text-pretty leading-none text-[var(--white)] tracking-tight">
+          <span class="block text-xl sm:text-2xl md:text-3xl text-[var(--white-icon)] font-normal tracking-normal mb-3 shiny-white">
+            Hi, I'm {profileData.name}
+          </span>
           {titleFirst} {titleRest && <br />} {titleRest}
         </h1>
         <p class="text-base sm:text-xl text-[var(--white-icon)] leading-relaxed max-w-xl">

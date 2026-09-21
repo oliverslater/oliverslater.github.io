@@ -2,6 +2,7 @@
 import Layout from "./Layout.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import ReadingProgressBar from "../components/ReadingProgressBar.astro";
+import RelatedArticles from "../components/RelatedArticles.astro";
 import { profileData } from "../data/siteData";
 import { formatDate } from "../utils/date";
 import {
@@ -30,7 +31,7 @@ interface Props {
   post?: any;
 }
 
-const { frontmatter, headings = [] } = Astro.props;
+const { frontmatter, headings = [], post } = Astro.props;
 
 const postCategories =
   frontmatter.categories && frontmatter.categories.length > 0
@@ -55,9 +56,22 @@ const formattedUpdatedDate = effectiveUpdatedDate
 const siteUrl = getCanonicalSiteUrl(Astro.site);
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
-// Resolve PageCMS heroImage (e.g. /assets/hero.png) to absolute URL
-const heroImage =
-  frontmatter.heroImage || profileData.avatar || SEO_CONFIG.defaultOgImage;
+const postBody = post?.body || "";
+const wordCount = postBody
+  ? postBody.trim().split(/\s+/).filter(Boolean).length
+  : undefined;
+const readingTimeMinutes = wordCount
+  ? Math.max(1, Math.ceil(wordCount / 200))
+  : undefined;
+const timeRequired = readingTimeMinutes
+  ? `PT${readingTimeMinutes}M`
+  : undefined;
+
+// Resolve PageCMS heroImage or fallback to dynamic Open Graph image
+const dynamicOgImage = post
+  ? `/open-graph/blog/${new Date(frontmatter.pubDate).getFullYear()}/${String(new Date(frontmatter.pubDate).getMonth() + 1).padStart(2, "0")}/${post.id}.png`
+  : SEO_CONFIG.defaultOgImage;
+const heroImage = frontmatter.heroImage || dynamicOgImage;
 const resolvedHeroImage = new URL(heroImage, canonicalURL).toString();
 
 const techArticleSchema = getTechArticleSchema({
@@ -69,6 +83,8 @@ const techArticleSchema = getTechArticleSchema({
   updatedDate: effectiveUpdatedDate,
   categories: postCategories,
   tags: postTags,
+  wordCount,
+  timeRequired,
   siteUrl,
 });
 ---
@@ -123,6 +139,19 @@ const techArticleSchema = getTechArticleSchema({
           <time datetime={new Date(frontmatter.pubDate).toISOString()}>
             {formattedDate}
           </time>
+          {readingTimeMinutes && (
+            <>
+              <span
+                class="text-neutral-400 dark:text-neutral-600"
+                aria-hidden="true"
+              >
+                ·
+              </span>
+              <span class="text-[var(--white-icon)]">
+                {readingTimeMinutes} min read
+              </span>
+            </>
+          )}
           {formattedUpdatedDate && (
             <>
               <span
@@ -141,11 +170,17 @@ const techArticleSchema = getTechArticleSchema({
           )}
         </div>
 
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[var(--white)] mb-4 leading-tight">
+        <h1
+          id="article-title"
+          class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-[var(--white)] mb-4 leading-tight"
+        >
           {frontmatter.title}
         </h1>
 
-        <p class="text-lg text-[var(--white-icon)] leading-relaxed mb-6">
+        <p
+          id="article-description"
+          class="text-lg text-[var(--white-icon)] leading-relaxed mb-6"
+        >
           {frontmatter.description}
         </p>
 
@@ -171,6 +206,13 @@ const techArticleSchema = getTechArticleSchema({
       <div class="prose dark:prose-invert max-w-none prose-headings:font-medium prose-headings:text-[var(--white)] prose-p:text-[var(--white-icon)] prose-p:leading-relaxed prose-strong:text-[var(--white)] prose-a:text-[var(--sec)] prose-a:underline-offset-4 prose-code:text-[var(--sec)] prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-neutral-900 dark:prose-pre:bg-[#141414] prose-pre:text-neutral-100 prose-pre:border prose-pre:border-neutral-800 dark:prose-pre:border-[#ffffff10] prose-li:text-[var(--white-icon)] prose-hr:border-neutral-200 dark:prose-hr:border-[#ffffff10]">
         <slot />
       </div>
+
+      <!-- Related Articles Topic Cluster -->
+      <RelatedArticles
+        currentId={post?.id || ""}
+        categories={postCategories}
+        tags={postTags}
+      />
 
       <!-- Article Footer -->
       <footer class="mt-14 pt-8 border-t border-[#ffffff10] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">

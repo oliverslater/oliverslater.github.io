@@ -25,7 +25,7 @@ const {
   description = pageSeoData.home.description ||
     profileData.metaDescription ||
     profileData.bio,
-  image = SEO_CONFIG.defaultOgImage,
+  image: inputImage,
   noindex = false,
   type = "website",
   publishedTime,
@@ -56,6 +56,16 @@ const canonicalURL = new URL(
   Astro.url.pathname,
   Astro.site || profileData.website,
 );
+
+const currentRouteSlug = Astro.url.pathname.replace(/^\/|\/$/g, "");
+const dynamicPageOg =
+  currentRouteSlug === ""
+    ? "/open-graph/home.png"
+    : ["cv", "blog", "contact"].includes(currentRouteSlug)
+      ? `/open-graph/${currentRouteSlug}.png`
+      : SEO_CONFIG.defaultOgImage;
+
+const image = inputImage || dynamicPageOg;
 const imageURL = new URL(image, canonicalURL);
 ---
 

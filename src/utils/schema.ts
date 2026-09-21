@@ -3,6 +3,7 @@ import {
   educationData,
   experienceData,
   pageSeoData,
+  skillsData,
   certificationOverrides,
 } from "../data/siteData";
 import { findOverrideMatch } from "./certifications";
@@ -120,7 +121,13 @@ export function getPersonSchema(siteUrlInput?: URL | string) {
         name: q.issuer,
       },
     })),
-    knowsAbout: [...credentialNames, ...(profileData.coreCompetencies || [])],
+    knowsAbout: Array.from(
+      new Set([
+        ...credentialNames,
+        ...(profileData.coreCompetencies || []),
+        ...(skillsData.categories || []).flatMap((cat) => cat.skills || []),
+      ]),
+    ),
   };
 }
 
@@ -213,6 +220,8 @@ export interface TechArticleSchemaOptions {
   categories?: string[];
   tags?: string[];
   siteUrl?: URL | string;
+  wordCount?: number;
+  timeRequired?: string;
 }
 
 /**
@@ -241,6 +250,13 @@ export function getTechArticleSchema(options: TechArticleSchemaOptions) {
         dateModified: options.updatedDate
           ? new Date(options.updatedDate).toISOString()
           : new Date(options.pubDate).toISOString(),
+        ...(options.wordCount ? { wordCount: options.wordCount } : {}),
+        ...(options.timeRequired ? { timeRequired: options.timeRequired } : {}),
+        isAccessibleForFree: true,
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["#article-title", "#article-description"],
+        },
         author: {
           "@type": "Person",
           "@id": `${siteUrl}/#person`,

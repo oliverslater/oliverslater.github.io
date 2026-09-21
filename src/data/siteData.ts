@@ -102,7 +102,11 @@ export const featuredCredentials = (
     bgClass: item.bgClass || defaults.bgClass,
     iconColor: item.iconColor || defaults.iconColor,
     svgPath: item.svgPath || defaults.svgPath,
-    url: item.url || credentialSources.credlyBadgesUrl,
+    url:
+      item.url ||
+      (providerKey === "azure"
+        ? credentialSources.microsoftLearnTranscriptUrl
+        : credentialSources.credlyBadgesUrl),
   };
 });
 

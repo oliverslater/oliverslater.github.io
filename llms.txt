@@ -10,6 +10,7 @@ This platform serves as Oliver Slater's professional hub, interactive curriculum
 - [Curriculum Vitae](https://www.oliver-slater.co.uk/cv): Comprehensive career history, executive roles, verified credentials, and printable CV export.
 - [Technical Blog](https://www.oliver-slater.co.uk/blog): Architectural deep-dives and enterprise cloud engineering articles.
 - [Contact](https://www.oliver-slater.co.uk/contact): Direct contact channel with spam mitigation and professional inquiry handling.
+- [Full Context Feed](https://www.oliver-slater.co.uk/llms-full.txt): Comprehensive single-document plain-text feed containing complete career history, active certifications, architectural deliverables, and full technical articles for LLM ingestion.
 
 ## Core Specializations
 

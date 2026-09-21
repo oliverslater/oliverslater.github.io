@@ -1,0 +1,255 @@
+# Oliver Slater | Cloud Architect & Enterprise Technologist (Full Context)
+
+> Senior Cloud Architect, AWS Golden Jacket holder (11x AWS Certified), Azure Solutions Architect Expert, and HashiCorp Certified Terraform Professional specializing in large-scale cloud migrations, serverless platforms, infrastructure as code, and DevSecOps.
+
+This document serves as the comprehensive, uncompressed LLM context feed for Oliver Slater's professional profile, verified credentials, complete career history, architectural deliverables, and published technical articles.
+
+## Contact & Authoritative Profiles
+
+- **Website**: [https://www.oliver-slater.co.uk](https://www.oliver-slater.co.uk)
+- **LinkedIn**: [https://linkedin.com/in/oliverslater](https://linkedin.com/in/oliverslater)
+- **GitHub**: [https://github.com/oliverslater](https://github.com/oliverslater)
+- **Credly Badges**: [https://www.credly.com/users/oliver-slater](https://www.credly.com/users/oliver-slater)
+- **Microsoft Learn Transcript**: [https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq](https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq)
+- **Location**: Leeds, United Kingdom
+
+---
+
+## Executive Professional Summary
+
+Oliver Slater is an enterprise Cloud Architect, AWS Golden Jacket holder, and 11x AWS Certified specialist with deep expertise in platform engineering, serverless and event-driven architectures, and large-scale cloud transformations. Certified as an AWS Solutions Architect – Professional and Microsoft Azure Solutions Architect Expert (AZ-104, AZ-305), he provides cross-cloud capability to support hybrid and multi-cloud strategies across regulated, high-availability environments.
+
+With advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, AWS CDK) and DevSecOps, Oliver has a proven track record of establishing architectural standards, defining cloud strategy, and leading cross-functional teams through complex migrations and modernisation programmes. He combines deep technical acumen with the ability to influence executive stakeholders, drive architectural governance, and align engineering solutions directly to business outcomes.
+
+### Core Competencies
+
+- AWS Golden Jacket Holder & 11x AWS Certified
+- Microsoft Certified: Azure Solutions Architect Expert (AZ-104, AZ-305)
+- HashiCorp Certified: Terraform Authoring & Operations Professional
+- Enterprise Cloud Architecture & Multi-Cloud Strategy (AWS & Azure)
+- Infrastructure as Code (Terraform, CloudFormation, AWS CDK)
+- Serverless & Event-Driven Systems (DynamoDB, Lambda, S3, SQS/SNS)
+- Large-Scale Cloud Migrations (AWS MGN, DMS, Well-Architected Framework)
+- DevSecOps, Platform Engineering & CI/CD (GitHub Actions, GitLab, Security Hub)
+- FinOps & Cloud Cost Optimisation
+- Regulated Public Sector & Healthcare Cloud Architecture
+
+---
+
+## Verified Qualifications & Credentials
+
+- **AWS Certification SME - Professional** (Amazon Web Services) — Level: SME / Professional | Validity: May 2025 – Dec 2027
+- **AWS Certified DevOps Engineer – Professional** (Amazon Web Services) — Level: Professional | Validity: Jan 2022 – Jan 2028
+- **AWS Certified Solutions Architect – Professional** (Amazon Web Services) — Level: Professional | Validity: Dec 2019 – Nov 2026
+- **AWS Certified Advanced Networking – Specialty** (Amazon Web Services) — Level: Specialty | Validity: Aug 2022 – Aug 2028
+- **AWS Certified Security – Specialty** (Amazon Web Services) — Level: Specialty | Validity: Apr 2021 – Jun 2027
+- **AWS Certified Data Engineer – Associate** (Amazon Web Services) — Level: Associate | Validity: Jul 2024 – Jul 2027
+- **AWS Certified Machine Learning Engineer – Associate** (Amazon Web Services) — Level: Associate | Validity: Oct 2024 – Oct 2027
+- **AWS Certified Developer – Associate** (Amazon Web Services) — Level: Associate | Validity: Feb 2023 – Jan 2028
+- **AWS Certified SysOps Administrator – Associate** (Amazon Web Services) — Level: Associate | Validity: Feb 2019 – Jan 2028
+- **AWS Certified Solutions Architect – Associate** (Amazon Web Services) — Level: Associate | Validity: Nov 2018 – Nov 2026
+- **AWS Certified AI Practitioner** (Amazon Web Services) — Level: Practitioner | Validity: Sep 2024 – Oct 2027
+- **AWS Certified Cloud Practitioner** (Amazon Web Services) — Level: Practitioner | Validity: Jan 2023 – Jan 2028
+- **HashiCorp Certified: Terraform Authoring and Operations Professional** (HashiCorp) — Level: Professional | Validity: Apr 2025 – Apr 2027
+- **HashiCorp Certified: Terraform Associate (003)** (HashiCorp) — Level: Associate | Validity: Nov 2023 – Apr 2027
+- **Microsoft Certified: Azure Solutions Architect Expert** (Microsoft Azure) — Level: Expert | Validity: Jan 2025 – Jan 2027
+- **Microsoft Certified: Azure Administrator Associate** (Microsoft Azure) — Level: Associate | Validity: Oct 2024 – Oct 2027
+- **Microsoft Certified: Azure AI Fundamentals** (Microsoft Azure) — Level: Fundamentals | Validity: Dec 2024
+- **Microsoft Certified: Azure Fundamentals** (Microsoft Azure) — Level: Fundamentals | Validity: Jul 2024
+- **Microsoft Certified Professional** (Microsoft) — Level: Professional | Validity: Apr 2012
+
+---
+
+## Architecture Capability Pillars & Deliverables
+
+### Enterprise Cloud Architecture
+
+- AWS Golden Jacket Holder with 11 AWS Certifications
+- Microsoft Azure Solutions Architect Expert (AZ-104, AZ-305)
+- Enterprise Landing Zones, Multi-Account & Networking
+- Large-Scale Cloud Migration Strategy (MGN, DMS, MAP)
+
+### Infrastructure as Code & CI/CD
+
+- HashiCorp Certified Terraform Authoring & Operations Professional
+- AWS CloudFormation and AWS CDK Production Frameworks
+- Enterprise Pipeline Migrations (GitLab to GitHub Actions)
+- Automated Testing, Deployment Gating & Module Reusability
+
+### Cloud Modernisation & Containerisation
+
+- Public Sector & Healthcare Platform Modernisation
+- Containerisation & Orchestration with Docker and Amazon ECS
+- Greenfield & Brownfield Architecture Delivery
+- High-Availability, Regulated Cloud Environment Design
+
+### Serverless & High-Volume Data
+
+- Architect of Serverless Healthcare Ingestion on Lambda & S3
+- DynamoDB Data Architect: Single-Table & NoSQL Optimization
+- Event-Driven Message Bus Designs (SQS, SNS, EventBridge)
+- High-Availability Low-Latency UK Healthcare Platforms
+
+### DevSecOps & Well-Architected
+
+- AWS Well-Architected Framework Reviews across all 5 Pillars
+- Continuous Cloud Cost Optimisation, Right-Sizing & Lifecycle Policies
+- Healthcare Platform Security: Inspector, GuardDuty, Security Hub
+- Technical Mentorship & Practice-Wide Certification Coaching
+
+---
+
+## Technical Capabilities & Tooling Matrix
+
+### Cloud Platforms & Multi-Cloud
+
+Amazon Web Services (AWS - 11x Certified) · AWS Golden Jacket Holder · Microsoft Azure (Solutions Architect Expert) · Multi-Account Architecture · Hybrid Cloud Strategy
+
+### Infrastructure as Code (IaC) & Automation
+
+Terraform (Authoring & Operations Professional) · AWS CloudFormation · AWS CDK · Module Reusability & DRY Principles · Environment Consistency
+
+### Serverless, Data & Event-Driven Architecture
+
+AWS Lambda · Amazon DynamoDB (NoSQL Data Architecture) · Amazon S3 · Amazon SQS · Amazon SNS · Event-Driven Design · High-Volume Data Ingestion
+
+### Cloud Migration & Modernisation
+
+Containerisation (Docker, Amazon ECS, AWS Fargate) · Greenfield & Brownfield Architecture · AWS Application Migration Service (MGN) · AWS Database Migration Service (DMS) · AWS Well-Architected Framework Reviews · Rehost / Replatform / Refactor Strategies · AWS Migration Acceleration Program (MAP) · Cost Optimisation & Right-Sizing
+
+### DevSecOps, CI/CD & Reliability
+
+GitHub Actions · GitLab CI/CD · DevSecOps Pipeline Governance · Automated Deployment Gating · Amazon Inspector · AWS GuardDuty · AWS Security Hub · UK Healthcare Data Governance
+
+### Databases & Enterprise Platforms
+
+Amazon Aurora · Amazon RDS · SAP Commerce Cloud (SAP Hybris) · Linux & OSS · Distributed Caching
+
+### Architecture Strategy & Technical Leadership
+
+Enterprise Architecture Governance · Technical Mentorship & Certification Coaching · Pre-Sales & Commercial Solution Design · Executive Stakeholder Alignment · C-Suite & Technical Advisory
+
+---
+
+## Complete Professional Career History
+
+### Technical Architect — IBM Consulting FutureNow
+**Duration:** Jul 2026 – Present (Remote)
+
+Architecting and delivering mission-critical containerisation, modernisation, and platform engineering solutions across greenfield and brownfield public sector healthcare environments.
+
+**Key Achievements & Impact:**
+- Delivered technical architecture and modernization initiatives across both greenfield builds and complex brownfield transformations within public sector healthcare, ensuring zero disruption to live patient-critical services.
+- Architected scalable, resilient containerised platforms leveraging Amazon Elastic Container Service (Amazon ECS), AWS Fargate, and Docker, driving standardisation across microservices architectures and runtime environments.
+- Designed end-to-end container workflows and image build pipelines, embedding automated vulnerability scanning, immutable tagging, and secure distribution via Amazon Elastic Container Registry (ECR).
+- Engineered robust container networking and service discovery architectures utilizing AWS Cloud Map and Application Load Balancers (ALB) to deliver high-availability, low-latency inter-service communication.
+- Spearheaded legacy application modernisation, migrating monolithic workloads to modular, container-based architectures, significantly reducing infrastructure footprint and improving operational maintainability.
+- Authored modular Infrastructure as Code (IaC) with Terraform to provision container execution environments, cluster auto-scaling policies, and shared platform primitives across isolated deployment stages.
+- Championed platform governance and security compliance within regulated healthcare frameworks, enforcing principle of least privilege IAM roles for tasks, secret management via AWS Secrets Manager, and end-to-end encryption in transit and at rest.
+- Collaborated with clinical and public sector stakeholders to align architectural roadmaps with digital health standards, public sector healthcare clinical safety compliance, and government service design standards.
+
+**Technologies:** Amazon ECS, AWS Fargate, Docker, Containerisation, Modernisation, Terraform, AWS Cloud Map, Amazon ECR, GitHub Actions, Healthcare Architecture
+
+---
+
+### AWS Cloud Architect — Nordcloud, an IBM Company
+**Duration:** Jun 2024 – Jun 2026 (Remote)
+
+Architecting and delivering enterprise-scale, serverless cloud solutions, platform engineering, and modern CI/CD automation for regulated UK healthcare systems.
+
+**Key Achievements & Impact:**
+- Architected and delivered scalable, serverless AWS solutions to support high-volume healthcare data ingestion and analytics workloads, leveraging services including Amazon DynamoDB, AWS Lambda and Amazon S3 to ensure high availability and low-latency processing for critical UK healthcare systems.
+- Acted as Data Architect for serverless platforms, improving NoSQL data models in Amazon DynamoDB, optimising query performance, data access patterns, and cost efficiency for large-scale, event-driven applications.
+- Led the end-to-end migration of complex enterprise CI/CD pipelines from GitLab to GitHub, redesigning workflows using GitHub Actions to improve deployment consistency, reduce build times, and enhance developer experience.
+- Directed a cross-functional DevOps team responsible for platform reliability, security, and continuous delivery, embedding best practices across infrastructure management, incident response, and automated deployment strategies.
+- Designed and implemented Infrastructure as Code (IaC) solutions using Terraform, standardising cloud provisioning, improving environment consistency, and enabling repeatable, auditable deployments across multiple environments.
+- Led initiative to improve IaC module reusability and collaboration across multiple teams and projects, ensuring DRY (Don't Repeat Yourself) and alignment with best practices.
+- Enhanced CI/CD maturity by introducing automated testing, deployment gating, and workflow optimisation through GitHub Actions, increasing release frequency while reducing risk in production environments.
+- Conducted AWS Well-Architected Framework reviews, identifying risks across security, reliability, performance efficiency, cost optimisation, and operational excellence pillars, and delivered actionable remediation roadmaps to senior stakeholders.
+- Drove cloud cost optimisation initiatives, analysing usage patterns and implementing right-sizing, storage lifecycle policies, and serverless optimisation strategies, resulting in measurable cost reductions across the platform.
+- Ensured platform security and compliance within a healthcare context, leveraging services such as Amazon Inspector, GuardDuty and Security Hub and aligning solutions with organisational and UK data governance requirements, including secure handling of sensitive patient data and adherence to least privilege access principles.
+- Provided technical leadership and mentorship to engineers and architects, supporting AWS certification pathways and upskilling teams in serverless architecture, Terraform, and cloud-native best practices.
+- Acted as a key technical stakeholder interface, translating complex architectural concepts into clear recommendations for both technical and non-technical audiences, including senior leadership.
+
+**Technologies:** AWS Lambda, Amazon DynamoDB, Amazon S3, Terraform, GitHub Actions, GitLab, Amazon Inspector, AWS GuardDuty, AWS Security Hub, AWS Well-Architected
+
+---
+
+### Cloud Architect — Cloudreach, an Eviden business
+**Duration:** Jan 2022 – Jun 2024 (Remote)
+
+Led concurrent enterprise AWS cloud transformation programmes, landing zone architectures, large-scale migrations, and practice capability growth.
+
+**Key Achievements & Impact:**
+- Led multiple concurrent AWS transformation programmes, providing architectural oversight and technical leadership across cross-functional teams of Cloud Architects and DevOps Engineers, delivering complex cloud solutions for enterprise customers.
+- Defined and governed cloud architecture strategy across customer engagements, ensuring alignment with AWS best practices, organisational objectives, and long-term scalability, security, and cost optimisation goals.
+- Directed the design and implementation of AWS platforms across both greenfield and brownfield environments, establishing robust, scalable, and secure cloud foundations tailored to diverse customer requirements.
+- Designed and led the implementation of enterprise-grade AWS Landing Zones, incorporating multi-account strategies, identity and access management, networking, and security baselines aligned to the AWS Well-Architected Framework and industry best practices.
+- Conducted detailed workload assessments across on-premises and existing cloud environments, shaping migration strategies including rehost, replatform, and refactor approaches, and enabling effective right-sizing and optimisation.
+- Owned end-to-end cloud migration strategies, leading large-scale infrastructure and database migrations using AWS Application Migration Service (MGN) and AWS Database Migration Service (DMS), ensuring minimal downtime and risk during transition.
+- Established and standardised Infrastructure as Code and CI/CD practices across engagements, leveraging Terraform, CloudFormation, and AWS CDK to enable automated, repeatable, and auditable cloud deployments.
+- Embedded DevSecOps principles across delivery teams, introducing automated security controls, compliance checks, and pipeline governance to improve security posture and reduce deployment risk.
+- Acted as a key contributor to pre-sales and business development activities, shaping cloud solutions, producing high-quality proposals, and delivering technical presentations to customers and senior stakeholders to secure new business opportunities.
+- Collaborated closely with AWS and internal partner development teams to define and execute strategies aligned to AWS Partner Programs, including the AWS Migration Acceleration Program (MAP), driving customer adoption and unlocking funding opportunities.
+- Served as a trusted advisor to customers, influencing architectural decisions and guiding cloud adoption journeys from initial strategy through to implementation and optimisation.
+- Mentored and developed engineers and architects across the practice, contributing to capability growth, certification achievement, and the establishment of cloud architecture best practices within the organisation.
+
+**Technologies:** AWS Landing Zones, AWS MGN, AWS DMS, Terraform, AWS CloudFormation, AWS CDK, DevSecOps, AWS MAP, Multi-Account Architecture
+
+---
+
+### Technical Architect — Piksel Ltd
+**Duration:** Jul 2017 – Jan 2022 (York, UK)
+
+Architected, implemented, and operated high-traffic AWS infrastructure and SAP Hybris eCommerce platforms for major UK retail enterprises. (Also held: Technical Lead, Senior Engineer).
+
+**Key Achievements & Impact:**
+- Led technical discovery engagements for a major UK retail client, working across engineering, support, and product teams to define cloud adoption strategies and shape scalable AWS-based solutions for a high-traffic eCommerce platform.
+- Architected, implemented, and operated AWS infrastructure within a managed service environment, supporting a large-scale SAP Hybris (now SAP Commerce Cloud) platform with stringent availability, performance, and scalability requirements.
+- Designed and optimised a highly available eCommerce architecture leveraging Amazon EC2 Auto Scaling, Amazon RDS, Amazon S3, and distributed caching layers, ensuring resilience during peak retail demand periods.
+- Led the database modernisation strategy, migrating from Amazon RDS to Amazon Aurora, improving performance, scalability, and operational efficiency while reducing database management overhead.
+- Delivered end-to-end migrations from on-premises environments to AWS, covering both application and data layers, and enabling increased agility and operational resilience for customer platforms.
+- Introduced and matured Infrastructure as Code practices using AWS CloudFormation and Terraform, enabling consistent, repeatable infrastructure deployments and reducing manual configuration effort.
+- Drove automation initiatives across infrastructure provisioning, security controls, and operational processes, improving service reliability and reducing time spent on repetitive operational tasks.
+- Applied deep technical expertise across AWS services including Amazon EC2, AWS Lambda, Amazon SQS, Amazon SNS, and Amazon RDS to design event-driven and scalable application components.
+- Collaborated with distributed engineering teams to develop reusable solution accelerators, frameworks, and proof-of-concepts, improving delivery speed and standardisation across customer engagements.
+- Contributed to pre-sales and commercial activities, including pricing, solution design, and customer presentations, supporting the acquisition and expansion of customer engagements.
+- Acted as a key technical escalation point within the managed service, supporting complex incident resolution and continuous improvement of platform stability and performance.
+
+**Technologies:** Amazon EC2 Auto Scaling, Amazon Aurora, Amazon RDS, AWS Lambda, Amazon SQS/SNS, SAP Hybris (SAP Commerce Cloud), Terraform, CloudFormation
+
+---
+
+### Smart M2M IT Systems Support Engineer — Arqiva
+**Duration:** Jun 2016 – Jul 2017 (Huddersfield, UK)
+
+Provided shift-based NOC technical support and incident response for the UK Smart Metering Network with a specialisation in Linux and Open Source Software (OSS).
+
+**Key Achievements & Impact:**
+- Responsible for working as a member of a shift-based NOC, providing technical support and incident response for the UK Smart Metering Network with a specialisation in Linux and OSS.
+- Monitored mission-critical network systems, triaged telemetry anomalies, and maintained high availability across distributed IoT/M2M infrastructure.
+
+**Technologies:** Linux, Open Source Software (OSS), NOC Operations, M2M Systems, Network Monitoring
+
+---
+
+### Senior Technical Account Manager — Host Europe Group
+**Duration:** Feb 2011 – Jun 2016 (Leeds, UK)
+
+Delivered pre-sales technical expertise, architectural design, and implementation of complex web and application hosting solutions for enterprise clients. (Also held: Technical Account Manager, Managed Hosting Support Technician, Dedicated Hosting Support Engineer, VPS Hosting Support Technician).
+
+**Key Achievements & Impact:**
+- Primarily responsible for providing pre-sales technical expertise, design and implementation of complex web and application hosting solutions for both new and existing enterprise level clients.
+- Designed and supported managed hosting architectures, high-availability dedicated clusters, virtual private servers (VPS), and enterprise storage systems.
+- Progressed through technical support tiers: VPS Hosting Support Technician, Dedicated Hosting Support Engineer, Managed Hosting Support Technician, and Technical Account Manager.
+
+**Technologies:** Web Hosting Architecture, Dedicated Servers, VPS Infrastructure, Enterprise Storage, Linux/Windows Server, Pre-Sales Engineering
+
+---
+
+## Technical Articles & Architecture Publications
+
+### [Architecting a High-Performance Personal Platform with Astro 7, Tailwind](https://www.oliver-slater.co.uk/blog/2026/09/architecting-a-modern-cloud-portfolio-with-astro-github-and-gemini/)
+**Published:** 2026-09-17
+
+An architectural deep-dive into building an enterprise-grade

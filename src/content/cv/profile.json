@@ -8,20 +8,24 @@
   "addressLocality": "Leeds",
   "addressCountry": "GB",
   "awards": ["AWS Golden Jacket"],
-  "metaDescription": "Oliver Slater is an AWS Golden Jacket holder and 11x AWS Certified Cloud Architect specialising in enterprise cloud architecture and platform engineering.",
+  "metaDescription": "Oliver Slater is an AWS Golden Jacket holder (11x AWS Certified), Microsoft Azure Solutions Architect Expert, and HashiCorp Terraform Professional specialising in enterprise multi-cloud architecture, platform engineering, and serverless systems.",
   "bio": "Oliver Slater is an enterprise Cloud Architect, AWS Golden Jacket holder, and 11x AWS Certified specialist with deep expertise in platform engineering, serverless and event-driven architectures, and large-scale cloud transformations. Certified as an AWS Solutions Architect – Professional and Microsoft Azure Solutions Architect Expert (AZ-104, AZ-305), he provides cross-cloud capability to support hybrid and multi-cloud strategies across regulated, high-availability environments.\n\nWith advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, AWS CDK) and DevSecOps, Oliver has a proven track record of establishing architectural standards, defining cloud strategy, and leading cross-functional teams through complex migrations and modernisation programmes. He combines deep technical acumen with the ability to influence executive stakeholders, drive architectural governance, and align engineering solutions directly to business outcomes.",
   "website": "https://www.oliver-slater.co.uk",
   "github": "https://github.com/oliverslater",
   "linkedin": "https://linkedin.com/in/oliverslater",
-  "headline": "AWS Golden Jacket Holder · 11x AWS Certified",
+  "headline": "AWS Golden Jacket Holder · 11x AWS Certified · Azure Solutions Architect Expert",
   "credly": "https://www.credly.com/users/oliver-slater",
   "mslearn": "https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq",
   "coreCompetencies": [
     "AWS Golden Jacket Holder & 11x AWS Certified",
+    "Microsoft Certified: Azure Solutions Architect Expert (AZ-104, AZ-305)",
+    "HashiCorp Certified: Terraform Authoring & Operations Professional",
     "Enterprise Cloud Architecture & Multi-Cloud Strategy (AWS & Azure)",
     "Infrastructure as Code (Terraform, CloudFormation, AWS CDK)",
     "Serverless & Event-Driven Systems (DynamoDB, Lambda, S3, SQS/SNS)",
     "Large-Scale Cloud Migrations (AWS MGN, DMS, Well-Architected Framework)",
-    "DevSecOps, Platform Engineering & CI/CD (GitHub Actions, GitLab, Security Hub)"
+    "DevSecOps, Platform Engineering & CI/CD (GitHub Actions, GitLab, Security Hub)",
+    "FinOps & Cloud Cost Optimisation",
+    "Regulated Public Sector & Healthcare Cloud Architecture"
   ]
 }
