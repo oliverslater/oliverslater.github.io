@@ -97,43 +97,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
     Object.keys(pageSeoData) as Array<keyof typeof pageSeoData>
   ).map((slug) => {
     const page = pageSeoData[slug] as PageSeoItem;
-    const fallbackCategory =
-      slug === "home"
-        ? deliverablesData.pillars[0]?.category || profileData.title
-        : slug === "cv"
-          ? "Curriculum Vitae"
-          : slug === "blog"
-            ? "Technical Blog"
-            : "Professional Advisory";
-
-    let resolvedImage: string | undefined = undefined;
     const rawImage = page.image?.trim();
 
-    if (
+    const resolvedImage =
       rawImage &&
-      ["none", "null", "false", "no"].includes(rawImage.toLowerCase())
-    ) {
-      resolvedImage = undefined;
-    } else if (
-      rawImage &&
-      ["avatar", "headshot"].includes(rawImage.toLowerCase())
-    ) {
-      resolvedImage = profileData.avatar;
-    } else if (rawImage) {
-      resolvedImage = rawImage;
-    } else if (["home", "cv", "contact"].includes(slug)) {
-      // Default identity routes to avatar when unspecified
-      resolvedImage = profileData.avatar;
-    } else {
-      // All other current and future pages default to clean full-width layout
-      resolvedImage = undefined;
-    }
+      !["none", "null", "false", "no"].includes(rawImage.toLowerCase())
+        ? rawImage.toLowerCase() === "avatar" ||
+          rawImage.toLowerCase() === "headshot"
+          ? profileData.avatar
+          : rawImage
+        : undefined;
 
     return {
       slug,
       title: page.title,
       description: page.description,
-      category: page.category || fallbackCategory,
+      category:
+        page.category ||
+        deliverablesData.pillars[0]?.category ||
+        profileData.title,
       tags: page.tags || [],
       image: resolvedImage,
     };

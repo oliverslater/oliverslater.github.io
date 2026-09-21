@@ -154,9 +154,9 @@ content:
             type: string
             list: true
           - name: image
-            label: Social Preview Image / Headshot Override
+            label: Social Preview Image / Visual
             type: image
-            description: "Optional. Set to 'none' for full-width text layout, 'avatar' for profile headshot, or select a custom image path. Leave empty for default."
+            description: "Optional. Set an image path or 'avatar' for the squircle visual. Leave empty or set to 'none' for full-width text layout."
       - name: cv
         label: CV Page SERP
         type: object
@@ -177,9 +177,9 @@ content:
             type: string
             list: true
           - name: image
-            label: Social Preview Image / Headshot Override
+            label: Social Preview Image / Visual
             type: image
-            description: "Optional. Set to 'none' for full-width text layout, 'avatar' for profile headshot, or select a custom image path. Leave empty for default."
+            description: "Optional. Set an image path or 'avatar' for the squircle visual. Leave empty or set to 'none' for full-width text layout."
       - name: contact
         label: Contact Page SERP
         type: object
@@ -200,9 +200,9 @@ content:
             type: string
             list: true
           - name: image
-            label: Social Preview Image / Headshot Override
+            label: Social Preview Image / Visual
             type: image
-            description: "Optional. Set to 'none' for full-width text layout, 'avatar' for profile headshot, or select a custom image path. Leave empty for default."
+            description: "Optional. Set an image path or 'avatar' for the squircle visual. Leave empty or set to 'none' for full-width text layout."
       - name: blog
         label: Blog Index SERP
         type: object
@@ -223,9 +223,9 @@ content:
             type: string
             list: true
           - name: image
-            label: Social Preview Image / Hero Override
+            label: Social Preview Image / Visual
             type: image
-            description: "Optional. Set to a custom image path or 'avatar'. Leave empty or set to 'none' for full-width text layout."
+            description: "Optional. Set an image path or 'avatar' for the squircle visual. Leave empty or set to 'none' for full-width text layout."
 
   - name: experience
     label: CV Experience
