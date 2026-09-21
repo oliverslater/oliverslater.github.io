@@ -229,6 +229,10 @@ ${urls.join("\n")}
 Allow: /
 
 Sitemap: ${siteUrl}/sitemap.xml
+
+# LLM & AI Context Feeds (https://llmstxt.org/)
+# Markdown Context: ${siteUrl}/llms.txt
+# Full Plain-Text Context: ${siteUrl}/llms-full.txt
 `;
   await writeFile(robotsPath, robotsTxt, "utf8");
   console.log(`Updated public/robots.txt with sitemap directive`);

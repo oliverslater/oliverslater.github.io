@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.oliver-slater.co.uk/sitemap.xml
+
+# LLM & AI Context Feeds (https://llmstxt.org/)
+# Markdown Context: https://www.oliver-slater.co.uk/llms.txt
+# Full Plain-Text Context: https://www.oliver-slater.co.uk/llms-full.txt
