@@ -23,7 +23,7 @@ The active validation system uses **Husky + lint-staged + Node.js validation scr
 
 ### What Runs on GitHub Actions CI (Remote):
 
-In `.github/workflows/deploy-github-pages.yml`, the workflow runs:
+In `.github/workflows/deploy.yml`, the workflow runs:
 
 ```bash
 npm run validate
@@ -99,7 +99,7 @@ repos:
 pre-commit install
 ```
 
-### 4. Update GitHub Actions (`deploy-github-pages.yml`):
+### 4. Update GitHub Actions (`deploy.yml`):
 
 Replace `npm run validate` with:
 
