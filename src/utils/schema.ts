@@ -153,6 +153,11 @@ export function getProfilePageSchema(options: ProfilePageSchemaOptions) {
   const pageId =
     normalizedPath === "/" ? `${siteUrl}/#webpage` : `${pageUrl}#webpage`;
 
+  const headshotImageUrl = new URL(
+    SEO_CONFIG.headshotImage,
+    siteUrl,
+  ).toString();
+
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -161,6 +166,14 @@ export function getProfilePageSchema(options: ProfilePageSchemaOptions) {
         "@id": pageId,
         url: pageUrl,
         name: options.name,
+        image: headshotImageUrl,
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          "@id": `${pageUrl}#primaryimage`,
+          url: headshotImageUrl,
+          contentUrl: headshotImageUrl,
+          caption: `${profileData.name} - ${profileData.title}`,
+        },
         isPartOf: {
           "@type": "WebSite",
           "@id": `${siteUrl}/#website`,
