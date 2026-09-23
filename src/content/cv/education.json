@@ -31,6 +31,18 @@
       "validity": "Apr 2021 – Jun 2027"
     },
     {
+      "title": "Certified Partner Specialist Gemini Enterprise Agent Development",
+      "issuer": "Google Cloud",
+      "level": "Partner Specialist",
+      "validity": "Sep 2026 – Mar 2027"
+    },
+    {
+      "title": "Certified Partner Specialist Gemini Enterprise Deployment",
+      "issuer": "Google Cloud",
+      "level": "Partner Specialist",
+      "validity": "Sep 2026 – Mar 2027"
+    },
+    {
       "title": "AWS Certified Data Engineer – Associate",
       "issuer": "Amazon Web Services",
       "level": "Associate",
@@ -113,6 +125,42 @@
       "issuer": "Microsoft",
       "level": "Professional",
       "validity": "Apr 2012"
+    },
+    {
+      "title": "Accelerate Development with Antigravity",
+      "issuer": "Google Cloud",
+      "level": "Skill Badge",
+      "validity": "Sep 2026"
+    },
+    {
+      "title": "Add Agents to Gemini Enterprise",
+      "issuer": "Google Cloud",
+      "level": "Skill Badge",
+      "validity": "Sep 2026"
+    },
+    {
+      "title": "Deploy an Agent with Agent Development Kit (ADK)",
+      "issuer": "Google Cloud",
+      "level": "Skill Badge",
+      "validity": "Sep 2026"
+    },
+    {
+      "title": "Deploy Gemini Enterprise with Workspace Data Sources and Model Armor",
+      "issuer": "Google Cloud",
+      "level": "Skill Badge",
+      "validity": "Sep 2026"
+    },
+    {
+      "title": "Evaluate and Improve Agent Development Kit Agents",
+      "issuer": "Google Cloud",
+      "level": "Skill Badge",
+      "validity": "Sep 2026"
+    },
+    {
+      "title": "Govern Agent Access with Gemini Enterprise Agent Platform",
+      "issuer": "Google Cloud",
+      "level": "Skill Badge",
+      "validity": "Sep 2026"
     },
     {
       "title": "Microsoft Specialist: Windows 7, Configuring",

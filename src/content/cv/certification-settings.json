@@ -80,28 +80,201 @@
   "overrides": [
     {
       "title": "AWS Certified Solutions Architect – Professional",
-      "priority": 25,
+      "priority": 30,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified DevOps Engineer – Professional",
+      "priority": 29,
       "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
     },
     {
       "title": "Azure Solutions Architect Expert",
+      "priority": 28,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "HashiCorp Certified: Terraform Authoring and Operations Advanced",
+      "issuer": "HashiCorp",
+      "priority": 27,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certification SME - Professional",
+      "priority": 26
+    },
+    {
+      "title": "Certified Partner Specialist Gemini Enterprise Agent Development",
+      "issuer": "Google Cloud",
+      "priority": 24,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Certified Partner Specialist Gemini Enterprise Deployment",
+      "issuer": "Google Cloud",
+      "priority": 23,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Security – Specialty",
+      "priority": 22,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Advanced Networking – Specialty",
+      "priority": 21,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Machine Learning – Specialty",
       "priority": 20,
       "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
     },
     {
-      "title": "HashiCorp Certified: Terraform Authoring and Operations Professional",
+      "title": "AWS Certified: SAP on AWS – Specialty",
+      "priority": 19,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Data Analytics – Specialty",
       "priority": 18,
       "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
     },
     {
-      "title": "HashiCorp Certified: Terraform Associate",
-      "priority": 16,
+      "title": "AWS Certified Database – Specialty",
+      "priority": 18,
       "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Terraform: HashiCorp Implementation Partner",
+      "issuer": "HashiCorp",
+      "priority": 17,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Microsoft Certified: Azure Administrator Associate",
+      "priority": 15
+    },
+    {
+      "title": "AWS Certified Solutions Architect – Associate",
+      "priority": 14,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified SysOps Administrator – Associate",
+      "priority": 13,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Developer – Associate",
+      "priority": 12,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Data Engineer – Associate",
+      "priority": 11,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Machine Learning Engineer - Associate Early Adopter",
+      "priority": 10,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Machine Learning Engineer – Associate",
+      "priority": 10,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "HashiCorp Certified: Terraform Associate",
+      "issuer": "HashiCorp",
+      "priority": 9,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified AI Practitioner Early Adopter",
+      "priority": 8,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified AI Practitioner",
+      "priority": 8,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Certified Cloud Practitioner",
+      "priority": 7,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Microsoft Certified: Azure AI Fundamentals",
+      "priority": 7
+    },
+    {
+      "title": "Microsoft Certified: Azure Fundamentals",
+      "priority": 6
+    },
+    {
+      "title": "Well-Architected Proficient",
+      "priority": 5
+    },
+    {
+      "title": "CompTIA A+ Certification",
+      "priority": 5
+    },
+    {
+      "title": "Microsoft Certified Professional",
+      "priority": 5
+    },
+    {
+      "title": "Accelerate Development with Antigravity",
+      "issuer": "Google Cloud",
+      "priority": 4,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Deploy an Agent with Agent Development Kit",
+      "issuer": "Google Cloud",
+      "priority": 4,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Add Agents to Gemini Enterprise",
+      "issuer": "Google Cloud",
+      "priority": 4,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Deploy Gemini Enterprise with Workspace Data Sources and Model Armor",
+      "issuer": "Google Cloud",
+      "priority": 4,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Evaluate and Improve Agent Development Kit Agents",
+      "issuer": "Google Cloud",
+      "priority": 4,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "Govern Agent Access with Gemini Enterprise Agent Platform",
+      "issuer": "Google Cloud",
+      "priority": 4,
+      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+    },
+    {
+      "title": "AWS Knowledge:",
+      "priority": 2
     },
     {
       "title": "AWS Partner: Generative AI Essentials",
       "displayed": true,
-      "includeInCount": false
+      "includeInCount": false,
+      "priority": 1
+    },
+    {
+      "title": "AWS Partner:",
+      "priority": 1
     },
     {
       "title": "Microsoft Specialist: Windows 7, Enterprise Desktop Support Technician",

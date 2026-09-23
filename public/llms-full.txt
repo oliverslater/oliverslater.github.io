@@ -43,6 +43,8 @@ With advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, 
 - **AWS Certified Solutions Architect – Professional** (Amazon Web Services) — Level: Professional | Validity: Dec 2019 – Nov 2026
 - **AWS Certified Advanced Networking – Specialty** (Amazon Web Services) — Level: Specialty | Validity: Aug 2022 – Aug 2028
 - **AWS Certified Security – Specialty** (Amazon Web Services) — Level: Specialty | Validity: Apr 2021 – Jun 2027
+- **Certified Partner Specialist Gemini Enterprise Agent Development** (Google Cloud) — Level: Partner Specialist | Validity: Sep 2026 – Mar 2027
+- **Certified Partner Specialist Gemini Enterprise Deployment** (Google Cloud) — Level: Partner Specialist | Validity: Sep 2026 – Mar 2027
 - **AWS Certified Data Engineer – Associate** (Amazon Web Services) — Level: Associate | Validity: Jul 2024 – Jul 2027
 - **AWS Certified Machine Learning Engineer – Associate** (Amazon Web Services) — Level: Associate | Validity: Oct 2024 – Oct 2027
 - **AWS Certified Developer – Associate** (Amazon Web Services) — Level: Associate | Validity: Feb 2023 – Jan 2028
@@ -57,6 +59,12 @@ With advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, 
 - **Microsoft Certified: Azure AI Fundamentals** (Microsoft Azure) — Level: Fundamentals | Validity: Dec 2024
 - **Microsoft Certified: Azure Fundamentals** (Microsoft Azure) — Level: Fundamentals | Validity: Jul 2024
 - **Microsoft Certified Professional** (Microsoft) — Level: Professional | Validity: Apr 2012
+- **Accelerate Development with Antigravity** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
+- **Add Agents to Gemini Enterprise** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
+- **Deploy an Agent with Agent Development Kit (ADK)** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
+- **Deploy Gemini Enterprise with Workspace Data Sources and Model Armor** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
+- **Evaluate and Improve Agent Development Kit Agents** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
+- **Govern Agent Access with Gemini Enterprise Agent Platform** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
 
 ---
 
