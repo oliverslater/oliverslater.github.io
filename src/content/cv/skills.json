@@ -6,8 +6,20 @@
         "Amazon Web Services (AWS - 11x Certified)",
         "AWS Golden Jacket Holder",
         "Microsoft Azure (Solutions Architect Expert)",
+        "Google Cloud & Gemini Enterprise (Partner Specialist)",
         "Multi-Account Architecture",
         "Hybrid Cloud Strategy"
+      ]
+    },
+    {
+      "category": "Enterprise AI & Autonomous Agents",
+      "skills": [
+        "Google Gemini Enterprise (Agent Development & Deployment)",
+        "Agent Development Kit (ADK)",
+        "Gemini Enterprise Agent Platform Governance",
+        "Workspace Data Grounding & Model Armor",
+        "AWS Certified AI Practitioner & ML Engineer",
+        "Autonomous Agent Workflows & Tool Use"
       ]
     },
     {

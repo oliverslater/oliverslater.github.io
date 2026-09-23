@@ -12,6 +12,11 @@
       "logo": "/svg/azure.svg"
     },
     {
+      "name": "Google Gemini",
+      "tag": "Partner Specialist",
+      "logo": "/svg/gemini.svg"
+    },
+    {
       "name": "Python",
       "tag": "Automation & Scripting",
       "logo": "/svg/python.svg"

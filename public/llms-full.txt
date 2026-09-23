@@ -38,33 +38,54 @@ With advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, 
 
 ## Verified Qualifications & Credentials
 
-- **AWS Certification SME - Professional** (Amazon Web Services) — Level: SME / Professional | Validity: May 2025 – Dec 2027
-- **AWS Certified DevOps Engineer – Professional** (Amazon Web Services) — Level: Professional | Validity: Jan 2022 – Jan 2028
-- **AWS Certified Solutions Architect – Professional** (Amazon Web Services) — Level: Professional | Validity: Dec 2019 – Nov 2026
-- **AWS Certified Advanced Networking – Specialty** (Amazon Web Services) — Level: Specialty | Validity: Aug 2022 – Aug 2028
-- **AWS Certified Security – Specialty** (Amazon Web Services) — Level: Specialty | Validity: Apr 2021 – Jun 2027
-- **Certified Partner Specialist Gemini Enterprise Agent Development** (Google Cloud) — Level: Partner Specialist | Validity: Sep 2026 – Mar 2027
-- **Certified Partner Specialist Gemini Enterprise Deployment** (Google Cloud) — Level: Partner Specialist | Validity: Sep 2026 – Mar 2027
-- **AWS Certified Data Engineer – Associate** (Amazon Web Services) — Level: Associate | Validity: Jul 2024 – Jul 2027
-- **AWS Certified Machine Learning Engineer – Associate** (Amazon Web Services) — Level: Associate | Validity: Oct 2024 – Oct 2027
-- **AWS Certified Developer – Associate** (Amazon Web Services) — Level: Associate | Validity: Feb 2023 – Jan 2028
-- **AWS Certified SysOps Administrator – Associate** (Amazon Web Services) — Level: Associate | Validity: Feb 2019 – Jan 2028
-- **AWS Certified Solutions Architect – Associate** (Amazon Web Services) — Level: Associate | Validity: Nov 2018 – Nov 2026
-- **AWS Certified AI Practitioner** (Amazon Web Services) — Level: Practitioner | Validity: Sep 2024 – Oct 2027
-- **AWS Certified Cloud Practitioner** (Amazon Web Services) — Level: Practitioner | Validity: Jan 2023 – Jan 2028
-- **HashiCorp Certified: Terraform Authoring and Operations Professional** (HashiCorp) — Level: Professional | Validity: Apr 2025 – Apr 2027
-- **HashiCorp Certified: Terraform Associate (003)** (HashiCorp) — Level: Associate | Validity: Nov 2023 – Apr 2027
-- **Microsoft Certified: Azure Solutions Architect Expert** (Microsoft Azure) — Level: Expert | Validity: Jan 2025 – Jan 2027
-- **Microsoft Certified: Azure Administrator Associate** (Microsoft Azure) — Level: Associate | Validity: Oct 2024 – Oct 2027
-- **Microsoft Certified: Azure AI Fundamentals** (Microsoft Azure) — Level: Fundamentals | Validity: Dec 2024
-- **Microsoft Certified: Azure Fundamentals** (Microsoft Azure) — Level: Fundamentals | Validity: Jul 2024
-- **Microsoft Certified Professional** (Microsoft) — Level: Professional | Validity: Apr 2012
-- **Accelerate Development with Antigravity** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
-- **Add Agents to Gemini Enterprise** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
-- **Deploy an Agent with Agent Development Kit (ADK)** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
-- **Deploy Gemini Enterprise with Workspace Data Sources and Model Armor** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
-- **Evaluate and Improve Agent Development Kit Agents** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
-- **Govern Agent Access with Gemini Enterprise Agent Platform** (Google Cloud) — Level: Skill Badge | Validity: Sep 2026
+- **AWS Certified Solutions Architect – Professional** (AWS) — Issued: Dec 2019 · Active (Exp: Nov 2026) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified DevOps Engineer – Professional** (AWS) — Issued: Jan 2022 · Active (Exp: Jan 2028) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Microsoft Certified: Azure Solutions Architect Expert** (Microsoft) — Issued: Jan 2025 · Active (Exp: Jan 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **HashiCorp Certified: Terraform Authoring and Operations Advanced** (HashiCorp) — Issued: Apr 2025 · Active (Exp: Apr 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Certified Partner Specialist Gemini Enterprise Agent Development** (Google Cloud) — Issued: Sept 2026 · Active (Exp: Mar 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Certified Partner Specialist Gemini Enterprise Deployment** (Google Cloud) — Issued: Sept 2026 · Active (Exp: Mar 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified Security – Specialty** (AWS) — Issued: Jun 2024 · Active (Exp: Jun 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified Advanced Networking – Specialty** (AWS) — Issued: Aug 2022 · Active (Exp: Aug 2028) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Microsoft Certified: Azure Administrator Associate** (Microsoft) — Issued: Oct 2024 · Active (Exp: Oct 2027) | [Verify Credential](https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq)
+- **AWS Certified Solutions Architect – Associate** (AWS) — Issued: Nov 2018 · Active (Exp: Nov 2026) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified SysOps Administrator – Associate** (AWS) — Issued: Feb 2019 · Active (Exp: Jan 2028) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified Developer – Associate** (AWS) — Issued: Feb 2023 · Active (Exp: Jan 2028) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified Data Engineer – Associate** (AWS) — Issued: Jul 2024 · Active (Exp: Jul 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified Machine Learning Engineer - Associate Early Adopter** (AWS) — Issued: Oct 2024 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified Machine Learning Engineer – Associate** (AWS) — Issued: Oct 2024 · Active (Exp: Oct 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **HashiCorp Certified: Terraform Associate (003)** (HashiCorp) — Issued: Nov 2023 · Active (Exp: Apr 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified AI Practitioner** (AWS) — Issued: Sept 2024 · Active (Exp: Oct 2027) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Certified AI Practitioner Early Adopter** (AWS) — Issued: Sept 2024 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Microsoft Certified: Azure AI Fundamentals** (Microsoft) — Issued: Dec 2024 · Active (No Expiry) | [Verify Credential](https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq)
+- **AWS Certified Cloud Practitioner** (AWS) — Issued: Jan 2023 · Active (Exp: Jan 2028) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Microsoft Certified: Azure Fundamentals** (Microsoft) — Issued: Jul 2024 · Active (No Expiry) | [Verify Credential](https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq)
+- **Well-Architected Proficient** (AWS) — Issued: Jul 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/de07f58b-278f-4282-b39f-89b620f4076d/public_url)
+- **Microsoft Certified Professional** (Microsoft) — Issued: Apr 2012 · Active (No Expiry) | [Verify Credential](https://learn.microsoft.com/en-gb/users/oliverslater/transcript/d5on2cqnl3lgknq)
+- **CompTIA A+ Certification** (CompTIA) — Issued: Nov 2010 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/5f1d5651-9cb7-4d83-a471-4221c5bd0dc1/public_url)
+- **Accelerate Development with Antigravity** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Add Agents to Gemini Enterprise** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Deploy an Agent with Agent Development Kit (ADK)** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Deploy Gemini Enterprise with Workspace Data Sources and Model Armor** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Evaluate and Improve Agent Development Kit Agents** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **Govern Agent Access with Gemini Enterprise Agent Platform** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
+- **AWS Knowledge: Networking Core - Training Badge** (AWS) — Issued: Oct 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/9ca055a3-f8e1-4f08-8fd1-3251212dea2b/public_url)
+- **AWS Knowledge: Storage Core** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/a4b87412-d2ec-4e3f-bc3a-bdb3f21cbef2/public_url)
+- **AWS Knowledge: Storage Technologist** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/e2a569dc-914e-4329-8f19-7b4ebe37bf73/public_url)
+- **AWS Knowledge: AWS for Games: Cloud Game Development - Training Badge** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/6dcd2a44-77fe-4d7b-bddd-b09b56f9c7f3/public_url)
+- **AWS Knowledge: File Storage - Training Badge** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/04a09641-eff4-410d-ac36-04808e5257f5/public_url)
+- **AWS Knowledge: Serverless - Training Badge** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/f22dca8e-0ec9-46ff-a085-474cfebbecc4/public_url)
+- **AWS Knowledge: Architecting (Retired)** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/271b3be4-3c3e-4eda-b34a-41d056e6680d/public_url)
+- **AWS Knowledge: Block Storage - Training Badge** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/7b4e4937-b8fe-4f2d-88ca-3da7f787e4ae/public_url)
+- **AWS Knowledge: Data Migration - Training Badge** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/50ebd6f6-f05d-47e7-b1ca-bae24ab8d8f0/public_url)
+- **AWS Knowledge: Data Protection & Disaster Recovery - Training Badge** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/a27f5262-9c37-4bf8-8a41-802540674790/public_url)
+- **AWS Knowledge: Object Storage - Training Badge** (AWS) — Issued: Jun 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/c4fbbc9b-ee35-41e1-860c-7f031400eb56/public_url)
+- **AWS Partner: Migration Acceleration Program Authorized** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/8a92414a-8803-4aff-a0ab-f775b5a308e5/public_url)
+- **AWS Partner: Migration Sales Essentials** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/dabb0248-41f2-4a7b-9cc5-51f8725f3b49/public_url)
+- **AWS Partner: Sales Accredited - Training Badge** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/bfe1f1b4-a05e-4dc1-9166-787a50b6a70b/public_url)
+- **AWS Partner: Accreditation (Business)** (AWS) — Issued: May 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/87046739-3c13-4fec-93aa-4e01a1331b77/public_url)
+- **AWS Partner: Cloud Economics Essentials - Training Badge** (AWS) — Issued: May 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/5b925f94-de4a-413b-8d61-6e2e5c2636d9/public_url)
+- **AWS Partner: SAP on AWS (Technical)** (AWS) — Issued: May 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/fdda074d-7933-4556-ae4d-6bf2f75416b2/public_url)
+- **AWS Partner: Technical Accredited - Training Badge** (AWS) — Issued: Jan 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/84c7919a-1ea4-4636-906d-c90559429f19/public_url)
 
 ---
 
@@ -111,7 +132,11 @@ With advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, 
 
 ### Cloud Platforms & Multi-Cloud
 
-Amazon Web Services (AWS - 11x Certified) · AWS Golden Jacket Holder · Microsoft Azure (Solutions Architect Expert) · Multi-Account Architecture · Hybrid Cloud Strategy
+Amazon Web Services (AWS - 11x Certified) · AWS Golden Jacket Holder · Microsoft Azure (Solutions Architect Expert) · Google Cloud & Gemini Enterprise (Partner Specialist) · Multi-Account Architecture · Hybrid Cloud Strategy
+
+### Enterprise AI & Autonomous Agents
+
+Google Gemini Enterprise (Agent Development & Deployment) · Agent Development Kit (ADK) · Gemini Enterprise Agent Platform Governance · Workspace Data Grounding & Model Armor · AWS Certified AI Practitioner & ML Engineer · Autonomous Agent Workflows & Tool Use
 
 ### Infrastructure as Code (IaC) & Automation
 

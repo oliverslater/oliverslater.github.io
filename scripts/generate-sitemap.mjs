@@ -1,5 +1,5 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
@@ -329,18 +329,139 @@ async function generateLlmsFullTxt(siteUrl, profile, blogPosts) {
   const skills = JSON.parse(skillsRaw);
   const certSettings = JSON.parse(certSettingsRaw);
 
-  const hiddenOverrides = new Set(
-    (certSettings.overrides || [])
-      .filter((o) => o.displayed === false)
-      .map((o) => (o.title || "").toLowerCase().trim()),
-  );
+  // Helper date & credential utilities for dynamic LLM feed generation
+  function formatCertDate(dateStr) {
+    if (!dateStr) return "";
+    try {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString("en-GB", {
+          month: "short",
+          year: "numeric",
+        });
+      }
+    } catch {}
+    return dateStr;
+  }
 
-  const activeQualifications = (education.qualifications || []).filter((q) => {
-    const titleLower = q.title.toLowerCase().trim();
-    for (const hidden of hiddenOverrides) {
-      if (titleLower.includes(hidden)) return false;
+  function isCertExpired(rawExpiresDate, formattedExpiresDate) {
+    if (!rawExpiresDate && !formattedExpiresDate) return false;
+    const target = rawExpiresDate || formattedExpiresDate;
+    if (!target) return false;
+    try {
+      const clean =
+        target
+          .split(/[–—]|\s+-\s+/)
+          .pop()
+          ?.trim() || target;
+      const expTime = new Date(clean).getTime();
+      if (isNaN(expTime)) return false;
+      return expTime < Date.now();
+    } catch {
+      return false;
     }
-    return true;
+  }
+
+  function parseCertTime(str) {
+    if (!str) return 0;
+    try {
+      const clean = str.split(/[–—]|\s+-\s+/)[0].trim();
+      const t = new Date(clean).getTime();
+      return isNaN(t) ? 0 : t;
+    } catch {
+      return 0;
+    }
+  }
+
+  function findCertOverrideMatch(title, overrides) {
+    const badgeTitle = (title || "").toLowerCase().trim();
+    return overrides.find((o) => {
+      const oTitle = (o.title || "").toLowerCase().trim();
+      return oTitle && (badgeTitle === oTitle || badgeTitle.includes(oTitle));
+    });
+  }
+
+  // Resolve credentials dynamically from Credly & Microsoft Learn cache, or fallback to education.json
+  const cacheDir = resolve(rootDir, "node_modules/.cache/credentials");
+  const credlyCache = resolve(cacheDir, "credly.json");
+  const overrides = certSettings.overrides || [];
+
+  let rawCredentials = [];
+  if (existsSync(cacheDir)) {
+    try {
+      const cacheFiles = readdirSync(cacheDir);
+      const msFile = cacheFiles.find((f) => f.startsWith("mslearn-"));
+      if (msFile) {
+        const msCerts = JSON.parse(
+          readFileSync(resolve(cacheDir, msFile), "utf8"),
+        );
+        rawCredentials.push(...msCerts);
+      }
+      if (existsSync(credlyCache)) {
+        const credlyCerts = JSON.parse(readFileSync(credlyCache, "utf8"));
+        rawCredentials.push(...credlyCerts);
+      }
+    } catch {}
+  }
+
+  // Fallback to local education.json if no cache files found
+  if (rawCredentials.length === 0) {
+    rawCredentials = (education.qualifications || []).map((q) => ({
+      title: q.title,
+      issuer: q.issuer,
+      issueDate: q.validity?.includes("–")
+        ? q.validity.split("–")[0]?.trim()
+        : q.validity,
+      expiresDate: q.validity?.includes("–")
+        ? q.validity.split("–")[1]?.trim()
+        : undefined,
+      rawExpiresDate: q.validity?.includes("–")
+        ? q.validity.split("–")[1]?.trim()
+        : undefined,
+      verifyUrl: q.issuer?.toLowerCase().includes("microsoft")
+        ? profile.mslearn
+        : profile.credly,
+      priority: 0,
+      displayed: true,
+    }));
+  }
+
+  // Apply overrides, seniority priority rankings, and active status filters
+  const processedCredentials = rawCredentials
+    .map((cert) => {
+      const match = findCertOverrideMatch(cert.title, overrides);
+      const item = { ...cert };
+      if (match) {
+        if (match.displayTitle) item.title = match.displayTitle;
+        if (match.issuer) item.issuer = match.issuer;
+        if (match.priority !== undefined) item.priority = match.priority;
+        if (match.displayed !== undefined) item.displayed = match.displayed;
+        if (match.verifyUrl) item.verifyUrl = match.verifyUrl;
+      }
+      const expired = isCertExpired(item.rawExpiresDate, item.expiresDate);
+      const isVisible =
+        match?.displayed === true || (match?.displayed !== false && !expired);
+      return { item, isVisible };
+    })
+    .filter(({ isVisible }) => isVisible)
+    .map(({ item }) => item);
+
+  processedCredentials.sort((a, b) => {
+    if (a.priority !== b.priority) return b.priority - a.priority;
+    const timeA = parseCertTime(a.rawDate || a.issueDate);
+    const timeB = parseCertTime(b.rawDate || b.issueDate);
+    if (timeA !== timeB) return timeB - timeA;
+    return a.title.localeCompare(b.title);
+  });
+
+  const credentialLines = processedCredentials.map((c) => {
+    const issuedStr = formatCertDate(c.issueDate);
+    const expStr = formatCertDate(c.expiresDate);
+    const validityStr = expStr
+      ? `Active (Exp: ${expStr})`
+      : "Active (No Expiry)";
+    const linkStr = c.verifyUrl ? ` | [Verify Credential](${c.verifyUrl})` : "";
+    return `- **${c.title}** (${c.issuer}) — Issued: ${issuedStr} · ${validityStr}${linkStr}`;
   });
 
   const lines = [
@@ -373,10 +494,7 @@ async function generateLlmsFullTxt(siteUrl, profile, blogPosts) {
     "",
     "## Verified Qualifications & Credentials",
     "",
-    ...activeQualifications.map(
-      (q) =>
-        `- **${q.title}** (${q.issuer}) — Level: ${q.level || "Professional"} | Validity: ${q.validity || "Active"}`,
-    ),
+    ...credentialLines,
     "",
     "---",
     "",

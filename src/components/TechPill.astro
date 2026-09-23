@@ -11,6 +11,7 @@ const { name, class: className = "" } = Astro.props;
 const norm = name.toLowerCase().trim();
 
 function getIconType(n: string): string {
+  if (n.includes("gemini")) return "gemini";
   if (n.includes("lambda")) return "lambda";
   if (n.includes("s3") || n.includes("storage")) return "s3";
   if (n.includes("dynamodb") || n.includes("nosql")) return "dynamodb";
@@ -50,6 +51,19 @@ const iconType = getIconType(norm);
   ]}
 >
   {/* Inline Clean SVGs */}
+  {iconType === "gemini" && (
+    <svg
+      class="w-3.5 h-3.5 text-[#9B51E0] shrink-0 print:hidden"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      width="14"
+      height="14"
+      aria-hidden="true"
+    >
+      <path d="M12 24C12 17.373 6.627 12 0 12c6.627 0 12-5.373 12-12 0 6.627 5.373 12 12 12-6.627 0-12 5.373-12 12z" />
+    </svg>
+  )}
+
   {iconType === "aws" && (
     <svg
       class="w-3.5 h-3.5 text-[#FF9900] shrink-0 print:hidden"
