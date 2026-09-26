@@ -14,11 +14,14 @@
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "check:hygiene": "node scripts/check-file-hygiene.mjs",
     "check:links": "node scripts/check-links-and-html.mjs",
+    "check:sync": "node scripts/check-sync.mjs",
     "lint:md": "markdownlint \"src/content/**/*.md\"",
+    "lint:spelling": "cspell \"src/**/*.{md,astro,ts,tsx,json}\" \"README.md\" \"llms.txt\"",
     "compress": "node scripts/compress-assets.mjs",
     "validate:yaml": "node scripts/validate-yaml.mjs",
     "validate:json": "node scripts/validate-json.mjs",
-    "validate": "npm run validate:yaml && npm run validate:json && npm run lint:md && npm run check:hygiene && npm run check",
+    "validate:blog": "node scripts/validate-blog.mjs",
+    "validate": "npm run validate:yaml && npm run validate:json && npm run validate:blog && npm run lint:md && npm run lint:spelling && npm run check:sync && npm run check:hygiene && npm run check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "sitemap": "node scripts/generate-sitemap.mjs",
@@ -30,6 +33,8 @@
   "lint-staged": {
     "*.{yml,yaml}": "node scripts/validate-yaml.mjs",
     "*.json": "node scripts/validate-json.mjs",
+    "*.md": ["node scripts/validate-blog.mjs", "markdownlint"],
+    "*.{astro,ts,tsx,js,mjs,md,json}": ["cspell --no-must-find-files"],
     "*": "node scripts/check-file-hygiene.mjs",
     "*.{astro,ts,tsx,js,mjs,md,css}": "prettier --write"
   },
@@ -53,7 +58,9 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@cspell/dict-en-gb": "^5.0.34",
     "@types/node": "^26.5.1",
+    "cspell": "^10.3.4",
     "husky": "^9.1.7",
     "lint-staged": "^17.5.1",
     "markdownlint-cli": "^0.49.1",
