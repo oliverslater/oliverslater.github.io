@@ -6,7 +6,7 @@ import { fetchCredentialJson } from "./credentialApi";
 
 /**
  * Dynamically fetches Oliver Slater's verified credentials from Credly public API
- * Caches results locally to optimize build and dev times.
+ * Caches results locally to optimise build and dev times.
  */
 export async function fetchCredlyBadges(): Promise<CredentialItem[]> {
   const cacheKey = "credly";

@@ -22,7 +22,7 @@ draft: false
 
 As a Cloud Architect, your digital presence should reflect the exact architectural principles you champion in enterprise environments: **performance, security, simplicity, automation, and maintainability**. Too many engineering portfolios suffer from framework bloat—shipping multi-megabyte client-side JavaScript bundles for what is fundamentally structured text, technical writing, and verified credentials.
 
-When architecting this platform, my objective was clear: engineer a blazingly fast, zero-FOUC (Flash of Unstyled Content) static platform with automated multi-cloud credential synchronization, modern CSS-first styling, instant client-side search, and resilient CI/CD pipelines, accelerated by Google DeepMind's Gemini and Antigravity agentic pair programming.
+When architecting this platform, my objective was clear: engineer a blazingly fast, zero-FOUC (Flash of Unstyled Content) static platform with automated multi-cloud credential synchronisation, modern CSS-first styling, instant client-side search, and resilient CI/CD pipelines, accelerated by Google DeepMind's Gemini and Antigravity agentic pair programming.
 
 Here is an architectural breakdown of how this platform was designed, engineered, and continuously evolved.
 
@@ -113,7 +113,7 @@ Using vanilla JavaScript progressive enhancement, the blog page provides real-ti
 
 ### Declarative Accessible UI States
 
-Rather than imperatively mutating long class strings in JavaScript, filter buttons utilize Tailwind v4's native `aria-pressed:` modifiers (`aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black...`). The client script simply updates the `aria-pressed` attribute, keeping CSS and JS perfectly in sync:
+Rather than imperatively mutating long class strings in JavaScript, filter buttons utilise Tailwind v4's native `aria-pressed:` modifiers (`aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black...`). The client script simply updates the `aria-pressed` attribute, keeping CSS and JS perfectly in sync:
 
 ```typescript
 function updateTagButtonsUI() {

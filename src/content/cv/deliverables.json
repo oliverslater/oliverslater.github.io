@@ -35,7 +35,7 @@
       "icon": "zap",
       "items": [
         "Architect of Serverless Healthcare Ingestion on Lambda & S3",
-        "DynamoDB Data Architect: Single-Table & NoSQL Optimization",
+        "DynamoDB Data Architect: Single-Table & NoSQL Optimisation",
         "Event-Driven Message Bus Designs (SQS, SNS, EventBridge)",
         "High-Availability Low-Latency UK Healthcare Platforms"
       ]

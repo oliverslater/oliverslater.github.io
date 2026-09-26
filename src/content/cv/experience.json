@@ -10,7 +10,7 @@
       "current": true,
       "description": "Architecting and delivering mission-critical containerisation, modernisation, and platform engineering solutions across greenfield and brownfield public sector healthcare environments.",
       "highlights": [
-        "Delivered technical architecture and modernization initiatives across both greenfield builds and complex brownfield transformations within public sector healthcare, ensuring zero disruption to live patient-critical services.",
+        "Delivered technical architecture and modernisation initiatives across both greenfield builds and complex brownfield transformations within public sector healthcare, ensuring zero disruption to live patient-critical services.",
         "Architected scalable, resilient containerised platforms leveraging Amazon Elastic Container Service (Amazon ECS), AWS Fargate, and Docker, driving standardisation across microservices architectures and runtime environments.",
         "Designed end-to-end container workflows and image build pipelines, embedding automated vulnerability scanning, immutable tagging, and secure distribution via Amazon Elastic Container Registry (ECR).",
         "Engineered robust container networking and service discovery architectures utilizing AWS Cloud Map and Application Load Balancers (ALB) to deliver high-availability, low-latency inter-service communication.",

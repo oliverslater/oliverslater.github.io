@@ -1,6 +1,6 @@
 # Oliver Slater — Virtual CV & Engineering Blog
 
-A high-performance personal portfolio, scannable virtual CV, and technical engineering blog built with **Astro 7**, **Tailwind CSS v4**, and **Pages CMS**. Designed with the **DarkMinimal** aesthetic: strict monochrome hierarchy, zero layout shift, system-native dark/light mode with zero flash of unstyled content (Zero FOUC), dynamic multi-provider credential synchronization, and static export for GitHub Pages.
+A high-performance personal portfolio, scannable virtual CV, and technical engineering blog built with **Astro 7**, **Tailwind CSS v4**, and **Pages CMS**. Designed with the **DarkMinimal** aesthetic: strict monochrome hierarchy, zero layout shift, system-native dark/light mode with zero flash of unstyled content (Zero FOUC), dynamic multi-provider credential synchronisation, and static export for GitHub Pages.
 
 ---
 
@@ -96,7 +96,7 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 │   │   │   ├── featured-credentials.json # Highlighted executive credentials for homepage & CV
 │   │   │   ├── manual-certifications.json # Credentials not available via public API
 │   │   │   ├── certification-settings.json # Overrides, priority, order, and issuer mappings
-│   │   │   ├── cv-version.json  # Build-synchronized CV date and version stamp
+│   │   │   ├── cv-version.json  # Build-synchronised CV date and version stamp
 │   │   │   └── CERTIFICATIONS_GUIDE.md # In-depth guide for credentials configuration
 │   │   ├── page-seo.json        # Central declarative SERP & Open Graph metadata
 │   │   └── technologies.json    # Technology logos and category tags
@@ -107,7 +107,7 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 │   │   └── BlogPostLayout.astro # DarkMinimal prose typography container
 │   ├── pages/
 │   │   ├── 404.astro            # DarkMinimal 404 error page
-│   │   ├── index.astro          # Hero, specialization pillars, highlights, recent articles
+│   │   ├── index.astro          # Hero, specialisation pillars, highlights, recent articles
 │   │   ├── cv.astro             # Scannable full CV with live credentials & print export
 │   │   ├── contact.astro        # Dedicated contact page & inquiries channel
 │   │   ├── thank-you.astro      # Form submission confirmation with auto-redirect
@@ -236,8 +236,8 @@ For example: `/blog/2026/09/architecting-a-modern-cloud-portfolio-with-astro-git
 ### Instant Client-Side Search & Topic Filtering
 
 - **Instant Search:** Interactive client-side filtering searches article titles and descriptions in real time.
-- **Topic Filtering:** Clickable topic tags isolate articles by specialization.
-- **Deep-Linkable URL Parameters:** Search query and tag filters are synchronized to URL query parameters (e.g., `/blog?tag=Cloud+Architecture&q=Astro`), allowing filtered views to be bookmarked and shared.
+- **Topic Filtering:** Clickable topic tags isolate articles by specialisation.
+- **Deep-Linkable URL Parameters:** Search query and tag filters are synchronised to URL query parameters (e.g., `/blog?tag=Cloud+Architecture&q=Astro`), allowing filtered views to be bookmarked and shared.
 - **Chronological Hierarchy:** Articles are grouped by Year (`<h2>`) and Month (`<h3>`).
 
 ### Syndication & Reader Enhancements
@@ -301,7 +301,7 @@ This repository contains a ready-to-use `.pages.yml` file.
 
 ## 🏅 Credentials & Certifications Engine
 
-The `/cv` page dynamically synchronizes and renders verified certifications from:
+The `/cv` page dynamically synchronises and renders verified certifications from:
 
 - **Credly API**: Verified credentials fetched at build time.
 - **Microsoft Learn API**: Active certifications pulled dynamically from your public transcript share ID.
@@ -310,13 +310,13 @@ The `/cv` page dynamically synchronizes and renders verified certifications from
 
 ### Granular Controls & Toggles
 
-In `src/content/cv/certification-settings.json`, you can customize any certification:
+In `src/content/cv/certification-settings.json`, you can customise any certification:
 
 - **`displayed: false`**: Hides the card from the CV grid.
 - **`includeInCount: false`**: Excludes the credential from the headline counter badge.
 - **`priority: 10`**: Floats the credential to the top of the page (higher number = displayed first).
 - **`order: 1`**: Friendly ranking alias (1st place, 2nd place).
-- **`issuerMappings`**: Normalizes issuer names (e.g., mapping "Amazon Web Services" to "AWS").
+- **`issuerMappings`**: Normalises issuer names (e.g., mapping "Amazon Web Services" to "AWS").
 - **Expiration Filtering**: Expired certifications are automatically filtered out unless explicitly retained.
 
 > 📖 **Full Documentation & Copy-Pasteable Examples:** See [src/content/cv/CERTIFICATIONS_GUIDE.md](src/content/cv/CERTIFICATIONS_GUIDE.md).
@@ -367,7 +367,7 @@ The `/cv` page provides dual export capabilities for recruiters and engineering 
 
 ### 1. In-Browser Print & Save as PDF
 
-Clicking the **Print / PDF** action on `/cv` triggers customized `@media print` stylesheets:
+Clicking the **Print / PDF** action on `/cv` triggers customised `@media print` stylesheets:
 
 - Hides navigation headers, footers, and interactive action buttons (`no-print`).
 - Enforces crisp, high-contrast monochrome printing on white paper.

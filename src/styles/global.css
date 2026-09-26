@@ -160,7 +160,7 @@ html:not(.dark) .shiny-white {
   background: var(--sec);
 }
 
-/* Print optimizations for CV and PDF export */
+/* Print optimisations for CV and PDF export */
 @media print {
   @page {
     size: A4;

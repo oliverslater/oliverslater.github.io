@@ -1,6 +1,6 @@
 # Credentials & Certifications Management Guide
 
-This website automatically synchronizes, normalizes, and renders Oliver Slater's verified credentials from multiple authoritative sources into a single unified DarkMinimal layout.
+This website automatically synchronises, normalises, and renders Oliver Slater's verified credentials from multiple authoritative sources into a single unified DarkMinimal layout.
 
 ---
 
@@ -29,7 +29,7 @@ The build pipeline in [`src/utils/certifications.ts`](file:///Users/oliverslater
 
 ## 2. Managing Overrides (`certification-settings.json`)
 
-To customize how ANY certification is displayed (regardless of whether it came from Credly, Microsoft Learn, or manual entries), add an override entry to `src/content/cv/certification-settings.json`:
+To customise how ANY certification is displayed (regardless of whether it came from Credly, Microsoft Learn, or manual entries), add an override entry to `src/content/cv/certification-settings.json`:
 
 ### Available Override Attributes
 
@@ -44,7 +44,7 @@ To customize how ANY certification is displayed (regardless of whether it came f
 | `expiresDate`    | `string`  | _(synced date)_    | Overrides expiry date (e.g. `"Jan 2028"` or `"Never"`). Also accepts aliases `expiryDate` or `expires`. If set to a future date or `"Never"`, an expired badge will automatically become active. |
 | `verifyUrl`      | `string`  | _(synced url)_     | Overrides verification URL (e.g. custom transcript or certmetrics link). Also accepts aliases `verificationUrl` or `url`.                                                                        |
 | `imageUrl`       | `string`  | _(synced url)_     | Overrides badge image URL or SVG icon path. Also accepts `badgeUrl` or `badgeImageUrl`.                                                                                                          |
-| `issuer`         | `string`  | _(synced issuer)_  | Overrides issuer organization (e.g. `"AWS"`, `"Microsoft"`, `"HashiCorp"`).                                                                                                                      |
+| `issuer`         | `string`  | _(synced issuer)_  | Overrides issuer organisation (e.g. `"AWS"`, `"Microsoft"`, `"HashiCorp"`).                                                                                                                      |
 | `issueDate`      | `string`  | _(synced date)_    | Overrides issue date (e.g. `"Jan 2025"`). Also accepts `issuedDate` or `issued`.                                                                                                                 |
 
 ### Copy-Pasteable Override Examples

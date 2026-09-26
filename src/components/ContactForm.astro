@@ -316,7 +316,7 @@ const thankYouUrl = new URL("/thank-you", profileData.website).toString();
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Honeypot spam defense check
+      // Honeypot spam defence check
       const botCheck = form.elements.namedItem(
         "botcheck",
       ) as HTMLInputElement | null;

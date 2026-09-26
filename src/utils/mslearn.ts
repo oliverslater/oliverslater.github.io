@@ -11,7 +11,7 @@ export const MS_LEARN_API_URL = `https://learn.microsoft.com/api/profiles/transc
 
 /**
  * Dynamically fetches Oliver Slater's verified credentials from Microsoft Learn transcript API
- * Caches results locally to optimize build and dev times.
+ * Caches results locally to optimise build and dev times.
  */
 export async function fetchMicrosoftLearnBadges(): Promise<CredentialItem[]> {
   const cacheKey = `mslearn-${MS_LEARN_SHARE_ID}`;
