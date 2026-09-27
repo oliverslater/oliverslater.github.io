@@ -145,7 +145,7 @@ async function renderMermaidDiagrams() {
 
   mermaidInstance.initialize({
     startOnLoad: false,
-    securityLevel: "loose",
+    securityLevel: "strict",
     ...options,
   });
 
