@@ -205,7 +205,7 @@ export function applyOverrides(
  * 2. Issue date descending (most recent first)
  * 3. Title alphabetical
  */
-function sortCredentials(a: CredentialItem, b: CredentialItem): number {
+export function sortCredentials(a: CredentialItem, b: CredentialItem): number {
   if (a.priority !== b.priority) {
     return b.priority - a.priority;
   }
