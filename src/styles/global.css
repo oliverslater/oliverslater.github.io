@@ -147,6 +147,19 @@
   @apply px-2 py-0.5 rounded text-[11px] font-mono bg-neutral-100 dark:bg-[var(--hover-bg-subtle)] text-neutral-600 dark:text-[var(--white-icon)] border border-neutral-200/80 dark:border-[var(--border-subtle)];
 }
 
+/* CV page repeated patterns */
+@utility cv-action-btn {
+  @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors;
+}
+
+@utility cv-card {
+  @apply rounded-2xl print:rounded-none border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-none bg-white dark:bg-[var(--card-bg)] print:bg-transparent shadow-sm print:shadow-none;
+}
+
+@utility cv-section-label {
+  @apply font-mono text-xs font-semibold text-[var(--sec)] uppercase tracking-wider;
+}
+
 /* Gothsec DarkMinimal shimmer animations */
 .shiny-sec {
   background: linear-gradient(135deg, #a476ff 25%, #eee5ff 50%, #a476ff 75%);
