@@ -77,7 +77,9 @@ const homeSchema = getProfilePageSchema({
         class="flex items-center gap-2 px-5 py-3 rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] text-sm font-medium text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition duration-300"
       >
         <span>View CV</span>
-        <span class="text-[var(--sec)]">&rarr;</span>
+        <span class="text-[var(--sec)]" aria-hidden="true">
+          &rarr;
+        </span>
       </a>
 
       <a
@@ -134,7 +136,7 @@ const homeSchema = getProfilePageSchema({
         class="text-xs font-mono text-[var(--sec)] hover:underline flex items-center gap-1.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] rounded px-1"
       >
         <span>View Credly Profile</span>
-        <span>&nearr;</span>
+        <span aria-hidden="true">&nearr;</span>
       </a>
     </div>
 
@@ -182,7 +184,9 @@ const homeSchema = getProfilePageSchema({
             {cred.description}
           </p>
           <div class="text-[11px] font-mono text-[var(--sec)] flex items-center gap-1">
-            <span>Verify Credly &nearr;</span>
+            <span>
+              Verify Credly <span aria-hidden="true">&nearr;</span>
+            </span>
           </div>
         </a>
       ))}
@@ -206,7 +210,9 @@ const homeSchema = getProfilePageSchema({
         class="text-xs font-mono text-[var(--white-icon)] hover:text-[var(--white)] flex items-center gap-1.5 transition-colors"
       >
         <span>View Full CV</span>
-        <span class="text-[var(--sec)]">&rarr;</span>
+        <span class="text-[var(--sec)]" aria-hidden="true">
+          &rarr;
+        </span>
       </a>
     </div>
 
@@ -263,7 +269,9 @@ const homeSchema = getProfilePageSchema({
           class="text-xs font-mono text-[var(--white-icon)] hover:text-[var(--white)] flex items-center gap-1.5 transition-colors"
         >
           <span>All Articles</span>
-          <span class="text-[var(--sec)]">&rarr;</span>
+          <span class="text-[var(--sec)]" aria-hidden="true">
+            &rarr;
+          </span>
         </a>
       </div>
 
@@ -292,7 +300,9 @@ const homeSchema = getProfilePageSchema({
 
             <div class="mt-4 pt-3 flex items-center justify-between border-t border-[var(--white-icon-tr)] text-xs font-mono text-[var(--white-icon)]">
               <span>Read article</span>
-              <span class="text-[var(--sec)]">&rarr;</span>
+              <span class="text-[var(--sec)]" aria-hidden="true">
+                &rarr;
+              </span>
             </div>
           </a>
         ))}
@@ -323,7 +333,7 @@ const homeSchema = getProfilePageSchema({
             class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[var(--sec)] text-white dark:text-black font-semibold text-sm hover:opacity-90 shadow-md transition duration-300"
           >
             <span>Get in Touch</span>
-            <span>&rarr;</span>
+            <span aria-hidden="true">&rarr;</span>
           </a>
           <a
             href="/cv"
