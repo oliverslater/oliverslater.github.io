@@ -96,12 +96,12 @@ const homeSchema = getProfilePageSchema({
   <section class="py-14 border-b border-[var(--border-subtle)]">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div>
-        <SkillsList client:load pillars={deliverablesData.pillars} />
+        <SkillsList client:visible pillars={deliverablesData.pillars} />
       </div>
 
       <div class="w-full h-[320px] sm:h-[380px] flex items-center justify-center">
         <LetterGlitch
-          client:load
+          client:visible
           glitchColors={["#5e4491", "#a476ff", "#241a38"]}
           glitchSpeed={33}
           centerVignette={false}
