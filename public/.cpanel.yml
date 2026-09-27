@@ -4,4 +4,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=$HOME/public_html/
-    - /bin/cp -a * $DEPLOYPATH
+    - /bin/rsync -a --delete --exclude='.cpanel.yml' --exclude='.git' ./ $DEPLOYPATH
