@@ -37,18 +37,16 @@ Modern client-side single-page applications (SPAs) often introduce needless comp
 - **Tailwind CSS v4 Migration via `@tailwindcss/vite`:** Migrated from legacy Tailwind v3 and `@astrojs/tailwind` to native `@tailwindcss/vite`. This replaces complex JS config files with a CSS-first `@theme` block in `src/styles/global.css`, reducing static entrypoint build times by 50% (from ~660ms down to ~340ms).
 - **Inline Stylesheet Strategy:** By setting `build: { inlineStylesheets: 'always' }` in `astro.config.mjs`, render-blocking stylesheet network roundtrips are eliminated, driving First Contentful Paint (FCP) down to 0.4s and Largest Contentful Paint (LCP) down to 0.5s.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│                   Astro 7 Build Pipeline                    │
-│                                                             │
-│  ┌────────────────┐    ┌─────────────────┐    ┌──────────┐  │
-│  │ Content Data   │ +  │ React Islands   │ -> │ Static   │  │
-│  │ (Markdown/JSON)│    │ (Selective Hyd) │    │ HTML/CSS │  │
-│  └────────────────┘    └─────────────────┘    └──────────┘  │
-└──────────────────────────────┬──────────────────────────────┘
-                               │ Vite + Tailwind CSS v4
-                               ▼
-                    GitHub Pages Global CDN
+```mermaid
+flowchart TD
+    subgraph BuildEngine["Astro 7 Build Pipeline"]
+        Data["Content Data (Markdown / JSON)"]
+        Islands["React Islands (Hydrated)"]
+        Data & Islands --> Vite["Vite + Tailwind CSS v4 Engine"]
+        Vite --> HTML["Static HTML & Inlined CSS"]
+    end
+
+    BuildEngine --> CDN["GitHub Pages Global CDN"]
 ```
 
 ### Vite & Tailwind CSS v4 Configuration
@@ -176,24 +174,25 @@ This platform serves as a production testbed for state-of-the-art AI pair progra
 
 As an AWS Golden Jacket holder with 11x AWS certifications and Azure credentials, maintaining verified resume details manually is prone to drift. A custom TypeScript engine syncs credentials directly from public APIs during static build:
 
-```text
-  Credly Public API        Microsoft Learn Transcript
-       │                               │
-       ▼                               ▼
-  ┌─────────┐                     ┌─────────┐
-  │ credly  │                     │ mslearn │
-  └────┬────┘                     └────┬────┘
-       │                               │
-       └───────────────┬───────────────┘
-                       ▼
-         ┌───────────────────────────┐
-         │     certifications.ts     │
-         │  • Merge multi-cloud data │
-         │  • Auto-filter expired    │
-         │  • Apply custom overrides │
-         └─────────────┬─────────────┘
-                       ▼
-          Verified Credential Grid
+```mermaid
+flowchart TD
+    subgraph Sources["Public API Sources"]
+        Credly["Credly API"]
+        MSLearn["MS Learn API"]
+    end
+
+    subgraph Adapters["TypeScript Adapters"]
+        Credly --> CredlyMod["credly.ts"]
+        MSLearn --> MSLearnMod["mslearn.ts"]
+    end
+
+    subgraph Pipeline["certifications.ts Processing Pipeline"]
+        CredlyMod & MSLearnMod --> Merge["Merge Multi-Cloud Data"]
+        Merge --> Filter["Auto-Filter Expired"]
+        Filter --> Override["Apply Priority Overrides"]
+    end
+
+    Pipeline --> Grid["Verified Credential Grid"]
 ```
 
 - **Automatic Expiration Pruning:** Filters retired or expired credentials dynamically based on build timestamps.
