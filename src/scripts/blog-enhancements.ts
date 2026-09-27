@@ -97,17 +97,20 @@ function getMermaidThemeOptions(isDark: boolean) {
   const bgColor =
     styles.getPropertyValue("--component-bg").trim() ||
     (isDark ? "#141414" : "#ffffff");
-  const containerColor =
-    styles.getPropertyValue("--container").trim() ||
-    (isDark ? "#1a1a1a" : "#f0f0f2");
   const borderTr =
+    styles.getPropertyValue("--border-subtle").trim() ||
     styles.getPropertyValue("--white-icon-tr").trim() ||
-    (isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)");
+    (isDark ? "rgb(255 255 255 / 10%)" : "rgb(0 0 0 / 8%)");
   const fontFamily =
     styles.getPropertyValue("--font-sans").trim() ||
     '"Montserrat Variable", Montserrat, -apple-system, sans-serif';
 
-  const nodeBkg = isDark ? "#221c35" : "#f3e8ff";
+  const nodeBkg =
+    styles.getPropertyValue("--diagram-node-bg").trim() ||
+    (isDark ? "#221c35" : "#ffffff");
+  const clusterBkgColor =
+    styles.getPropertyValue("--diagram-cluster-bg").trim() ||
+    (isDark ? "#1a1a1a" : "#f9fafb");
 
   return {
     theme: "base",
@@ -121,10 +124,10 @@ function getMermaidThemeOptions(isDark: boolean) {
       primaryTextColor: textColor,
       primaryBorderColor: secColor,
       lineColor: secColor,
-      secondaryColor: containerColor,
+      secondaryColor: nodeBkg,
       tertiaryColor: bgColor,
       nodeBorder: secColor,
-      clusterBkg: containerColor,
+      clusterBkg: clusterBkgColor,
       clusterBorder: borderTr,
       titleColor: textColor,
       edgeLabelBackground: bgColor,
@@ -169,6 +172,29 @@ async function renderMermaidDiagrams() {
 
   // Attach interactive pan-zoom lightbox triggers to rendered diagrams
   attachDiagramLightboxTriggers();
+
+  // If lightbox is currently open, seamlessly sync active diagram with updated theme SVG
+  const dialog = document.getElementById(
+    "diagram-lightbox",
+  ) as HTMLDialogElement | null;
+  const stage = document.getElementById("lightbox-stage");
+  if (dialog?.open && activeLightboxContainer && stage) {
+    const updatedSvg = activeLightboxContainer.querySelector("svg");
+    if (updatedSvg?.id) {
+      const origId = updatedSvg.id;
+      const lightboxId = `lightbox-${origId}`;
+      stage.innerHTML = updatedSvg.outerHTML.replaceAll(origId, lightboxId);
+      const clonedSvg = stage.querySelector("svg");
+      if (clonedSvg) {
+        clonedSvg.style.maxWidth = "90vw";
+        clonedSvg.style.maxHeight = "72vh";
+        clonedSvg.style.width = "auto";
+        clonedSvg.style.height = "auto";
+        clonedSvg.style.display = "block";
+        clonedSvg.style.margin = "auto";
+      }
+    }
+  }
 }
 
 export async function setupMermaidDiagrams() {
@@ -626,6 +652,8 @@ function resetLightboxView(
   updateLightboxTransform(stage, zoomLevelEl);
 }
 
+let activeLightboxContainer: HTMLElement | null = null;
+
 function openDiagramLightbox(container: HTMLElement, svgElement: SVGElement) {
   const dialog = document.getElementById(
     "diagram-lightbox",
@@ -635,6 +663,8 @@ function openDiagramLightbox(container: HTMLElement, svgElement: SVGElement) {
   const titleEl = document.getElementById("lightbox-title");
 
   if (!dialog || !stage) return;
+
+  activeLightboxContainer = container;
 
   // Derive contextual heading title if available
   const prevEl = container.previousElementSibling;
@@ -646,16 +676,29 @@ function openDiagramLightbox(container: HTMLElement, svgElement: SVGElement) {
     titleEl.textContent = `· ${diagramTitle}`;
   }
 
-  // Clone SVG into interactive stage
-  const clone = svgElement.cloneNode(true) as SVGElement;
-  clone.style.maxWidth = "100%";
-  clone.style.maxHeight = "100%";
-  clone.style.width = "auto";
-  clone.style.height = "auto";
-  clone.removeAttribute("id");
+  // Clone SVG with rewritten scoped ID so all internal Mermaid styles (<style>#id ...</style>) match perfectly
+  const origId = svgElement.id;
+  if (origId) {
+    const lightboxId = `lightbox-${origId}`;
+    const clonedHtml = svgElement.outerHTML.replaceAll(origId, lightboxId);
+    stage.innerHTML = clonedHtml;
+  } else {
+    const clone = svgElement.cloneNode(true) as SVGElement;
+    stage.innerHTML = "";
+    stage.appendChild(clone);
+  }
 
-  stage.innerHTML = "";
-  stage.appendChild(clone);
+  const clonedSvg = stage.querySelector("svg");
+  if (clonedSvg) {
+    // Preserve intrinsic aspect ratio and viewBox while allowing responsive scaling
+    clonedSvg.style.maxWidth = "90vw";
+    clonedSvg.style.maxHeight = "72vh";
+    clonedSvg.style.width = "auto";
+    clonedSvg.style.height = "auto";
+    clonedSvg.style.display = "block";
+    clonedSvg.style.margin = "auto";
+  }
+
   resetLightboxView(stage, zoomLevelEl);
   dialog.showModal();
 }
@@ -669,7 +712,8 @@ export function attachDiagramLightboxTriggers() {
   const containers =
     document.querySelectorAll<HTMLElement>(".mermaid-container");
   containers.forEach((container) => {
-    if (container.dataset.lightboxAttached === "true") return;
+    // Skip if button already present in this container
+    if (container.querySelector(".expand-diagram-btn")) return;
 
     const svg = container.querySelector("svg");
     if (!svg) return;
@@ -686,11 +730,11 @@ export function attachDiagramLightboxTriggers() {
 
     expandBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      openDiagramLightbox(container, svg);
+      const currentSvg = container.querySelector("svg") || svg;
+      openDiagramLightbox(container, currentSvg);
     });
 
     container.appendChild(expandBtn);
-    container.dataset.lightboxAttached = "true";
   });
 }
 
@@ -817,6 +861,7 @@ export function setupDiagramLightbox() {
   dialog.addEventListener("close", () => {
     resetLightboxView(stage, zoomLevelEl);
     stage.innerHTML = "";
+    activeLightboxContainer = null;
   });
 
   lightboxListenersInitialized = true;

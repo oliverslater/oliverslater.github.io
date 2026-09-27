@@ -9,13 +9,13 @@ import { profileData } from "../data/siteData";
   noindex={true}
 >
   <div class="max-w-xl mx-auto py-12 sm:py-20 text-center">
-    <div class="p-8 sm:p-12 rounded-3xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-xl dark:shadow-2xl backdrop-blur-sm relative overflow-hidden">
+    <div class="p-8 sm:p-12 rounded-3xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] shadow-xl dark:shadow-2xl backdrop-blur-sm relative overflow-hidden">
       <!-- Ambient Glow effects -->
-      <div class="absolute -top-24 -left-24 w-48 h-48 bg-[#A9FF5B]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-[#a9ff5b]/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-[var(--sec)]/10 rounded-full blur-3xl pointer-events-none"></div>
 
       <!-- Success Icon -->
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#A9FF5B]/10 border border-[#A9FF5B]/30 text-[#A9FF5B] mb-6 shadow-inner">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[#a9ff5b]/10 border border-[#a9ff5b]/30 text-[#a9ff5b] mb-6 shadow-inner">
         <svg
           class="w-8 h-8"
           fill="none"
@@ -29,8 +29,8 @@ import { profileData } from "../data/siteData";
         </svg>
       </div>
 
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-50 dark:bg-[#ffffff08] border border-emerald-200/60 dark:border-[#ffffff10] text-[#16a34a] dark:text-[#A9FF5B] mb-4">
-        <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"></span>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-emerald-50 dark:bg-[var(--hover-bg-subtle)] border border-emerald-200/60 dark:border-[var(--border-subtle)] text-[var(--status-online)] mb-4">
+        <span class="w-2 h-2 rounded-full bg-[var(--status-online)] animate-pulse"></span>
         Message Received
       </div>
 
@@ -44,7 +44,7 @@ import { profileData } from "../data/siteData";
       </p>
 
       <!-- Countdown Banner -->
-      <div class="p-4 rounded-2xl bg-neutral-100 dark:bg-[#ffffff05] border border-neutral-200/80 dark:border-[#ffffff10] text-xs font-mono text-[var(--white-icon)] mb-8 flex items-center justify-center gap-2">
+      <div class="p-4 rounded-2xl bg-neutral-100 dark:bg-[var(--hover-bg-subtle)] border border-neutral-200/80 dark:border-[var(--border-subtle)] text-xs font-mono text-[var(--white-icon)] mb-8 flex items-center justify-center gap-2">
         <svg
           class="w-4 h-4 text-[var(--sec)] animate-spin"
           xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ import { profileData } from "../data/siteData";
         </a>
         <a
           href="/"
-          class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-neutral-100 dark:bg-[#ffffff05] text-[var(--white)] hover:bg-neutral-200/60 dark:hover:bg-[#ffffff10] transition-colors"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-neutral-100 dark:bg-[var(--hover-bg-subtle)] text-[var(--white)] hover:bg-neutral-200/60 dark:hover:bg-[var(--hover-bg)] transition-colors"
         >
           Home Page
         </a>

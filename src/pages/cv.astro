@@ -36,7 +36,7 @@ const cvSchema = getProfilePageSchema({
 <Layout {...pageSeoData.cv} schema={cvSchema}>
   <div class="max-w-4xl mx-auto">
     <!-- Top Action Bar (Print & Direct PDF Download) -->
-    <div class="no-print flex flex-wrap items-center justify-between gap-3 pb-6 mb-8 border-b border-[#ffffff10]">
+    <div class="no-print flex flex-wrap items-center justify-between gap-3 pb-6 mb-8 border-b border-[var(--border-subtle)]">
       <a
         href="/"
         class="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
@@ -49,7 +49,7 @@ const cvSchema = getProfilePageSchema({
           type="button"
           id="cv-print-btn"
           data-print-title={`${profileData.name} - Curriculum Vitae`}
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors cursor-pointer"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors cursor-pointer"
         >
           <svg
             class="w-3.5 h-3.5 text-[var(--sec)]"
@@ -74,7 +74,7 @@ const cvSchema = getProfilePageSchema({
         <a
           href={cvPdfPath}
           download={cvPdfFilename}
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-mono border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition-colors"
           aria-label={`Download ${profileData.name} CV as PDF directly`}
         >
           <svg
@@ -109,7 +109,7 @@ const cvSchema = getProfilePageSchema({
     <!-- Fallback Print Dialog -->
     <dialog
       id="print-fallback-dialog"
-      class="backdrop:bg-black/60 p-6 rounded-2xl bg-white dark:bg-[#18181b] text-[var(--white)] border border-neutral-200 dark:border-[var(--white-icon-tr)] shadow-2xl max-w-sm mx-auto my-auto"
+      class="backdrop:bg-black/60 p-6 rounded-2xl bg-white dark:bg-[var(--component-bg)] text-[var(--white)] border border-neutral-200 dark:border-[var(--white-icon-tr)] shadow-2xl max-w-sm mx-auto my-auto"
     >
       <h3 class="text-base font-semibold mb-2">Print to PDF</h3>
       <p class="text-xs text-[var(--white-icon)] leading-relaxed mb-4">
@@ -133,11 +133,11 @@ const cvSchema = getProfilePageSchema({
     </dialog>
 
     <!-- CV Header -->
-    <header class="mb-14 pb-8 print:mb-4 print:pb-3 border-b border-[#ffffff10] print:border-neutral-300">
+    <header class="mb-14 pb-8 print:mb-4 print:pb-3 border-b border-[var(--border-subtle)] print:border-neutral-300">
       <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-6">
         <div class="space-y-2 print:space-y-0.5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#1414149c] print:!bg-transparent border border-purple-200/60 dark:border-[var(--white-icon-tr)] print:border-none text-[var(--sec)] print:!text-neutral-700 mb-2 print:mb-0.5 shadow-sm print:shadow-none print:p-0 font-medium">
-            <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] print:hidden"></span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-purple-50 dark:bg-[var(--card-bg)] print:!bg-transparent border border-purple-200/60 dark:border-[var(--white-icon-tr)] print:border-none text-[var(--sec)] print:!text-neutral-700 mb-2 print:mb-0.5 shadow-sm print:shadow-none print:p-0 font-medium">
+            <span class="w-2 h-2 rounded-full bg-[var(--status-online)] print:hidden"></span>
             {profileData.headline}
           </div>
           <h1 class="text-4xl sm:text-5xl print:text-2xl font-medium tracking-tight text-[var(--white)] print:!text-black">
@@ -233,7 +233,7 @@ const cvSchema = getProfilePageSchema({
 
     <!-- Executive Summary -->
     <CVSection title="Professional Summary">
-      <div class="p-6 print:p-0 rounded-2xl print:rounded-none border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-none bg-white dark:bg-[#1414149c] print:!bg-transparent shadow-sm print:shadow-none leading-relaxed text-sm print:text-[10.5px] print:leading-relaxed text-[var(--white-icon)] print:!text-neutral-800 whitespace-pre-line print-break-inside-avoid">
+      <div class="p-6 print:p-0 rounded-2xl print:rounded-none border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-none bg-white dark:bg-[var(--card-bg)] print:!bg-transparent shadow-sm print:shadow-none leading-relaxed text-sm print:text-[10.5px] print:leading-relaxed text-[var(--white-icon)] print:!text-neutral-800 whitespace-pre-line print-break-inside-avoid">
         {profileData.bio}
       </div>
     </CVSection>
@@ -243,7 +243,7 @@ const cvSchema = getProfilePageSchema({
       title="Work Experience"
       badge={`${totalExperienceYears}+ years experience`}
     >
-      <div class="relative border-l border-neutral-300 dark:border-[#ffffff15] print:border-l-0 ml-12 sm:ml-16 print:ml-0 space-y-12 print:space-y-4 pl-6 sm:pl-8 print:pl-0">
+      <div class="relative border-l border-neutral-300 dark:border-[var(--border-default)] print:border-l-0 ml-12 sm:ml-16 print:ml-0 space-y-12 print:space-y-4 pl-6 sm:pl-8 print:pl-0">
         {experienceData.roles.map((role) => {
           const startYear = role.startDate.split(" ")[1] || role.startDate;
           return (
@@ -256,7 +256,7 @@ const cvSchema = getProfilePageSchema({
                 </span>
               </div>
 
-              <div class="p-6 print:p-0 rounded-2xl print:rounded-none border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-none bg-white dark:bg-[#1414149c] print:!bg-transparent hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm print:shadow-none transition-colors">
+              <div class="p-6 print:p-0 rounded-2xl print:rounded-none border border-neutral-200/80 dark:border-[var(--white-icon-tr)] print:border-none bg-white dark:bg-[var(--card-bg)] print:!bg-transparent hover:border-neutral-300 dark:hover:border-[var(--border-strong)] shadow-sm print:shadow-none transition-colors">
                 <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2 print:mb-0.5">
                   <div>
                     <h3 class="text-lg print:text-[12.5px] font-semibold text-[var(--white)] print:!text-black">
@@ -280,7 +280,7 @@ const cvSchema = getProfilePageSchema({
                     <span
                       class={
                         role.current
-                          ? "text-[#16a34a] dark:text-[#A9FF5B] print:!text-black font-semibold"
+                          ? "text-[var(--status-online)] print:!text-black font-semibold"
                           : ""
                       }
                     >
@@ -335,7 +335,7 @@ const cvSchema = getProfilePageSchema({
     <CVSection title="Technical Capabilities & Tooling">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 print:gap-x-8 print:gap-y-4">
         {skillsData.categories.map((category) => (
-          <div class="p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm hover:border-neutral-300 dark:hover:border-[#ffffff20] transition-colors print:p-0 print:border-none print:shadow-none print:bg-transparent print-break-inside-avoid">
+          <div class="p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] shadow-sm hover:border-neutral-300 dark:hover:border-[var(--border-strong)] transition-colors print:p-0 print:border-none print:shadow-none print:bg-transparent print-break-inside-avoid">
             <h3 class="font-mono text-xs font-semibold text-[var(--sec)] uppercase tracking-wider mb-3 print:text-[11px] print:!text-neutral-900 print:mb-1.5">
               {category.category}
             </h3>
@@ -410,7 +410,7 @@ const cvSchema = getProfilePageSchema({
             cert.expiresDate,
           );
           return (
-            <div class="relative group/card p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] flex items-start gap-3.5 hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-colors print-break-inside-avoid">
+            <div class="relative group/card p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] flex items-start gap-3.5 hover:border-neutral-300 dark:hover:border-[var(--border-strong)] shadow-sm transition-colors print-break-inside-avoid">
               <!-- Micro-tooltip indicating credential details on hover/focus -->
               <div
                 role="tooltip"
@@ -430,13 +430,13 @@ const cvSchema = getProfilePageSchema({
                   height="48"
                 />
               ) : (
-                <div class="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-[#ffffff08] flex items-center justify-center text-[var(--sec)] flex-shrink-0 text-sm">
+                <div class="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-[var(--hover-bg-subtle)] flex items-center justify-center text-[var(--sec)] flex-shrink-0 text-sm">
                   ⚡
                 </div>
               )}
               <div class="flex-grow min-w-0">
                 <div class="flex items-center justify-between gap-1 mb-1">
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider bg-purple-50 dark:bg-[var(--hover-bg-subtle)] text-[var(--sec)] border border-purple-200/60 dark:border-[var(--border-subtle)]">
                     {cert.issuer}
                   </span>
                   <span class="text-[11px] font-mono text-neutral-500 whitespace-nowrap">
@@ -453,7 +453,7 @@ const cvSchema = getProfilePageSchema({
                     </span>
                   ) : (
                     <div class="flex items-center flex-wrap gap-x-1.5 gap-y-0.5 text-[11px]">
-                      <span class="text-[#16a34a] dark:text-[#A9FF5B] font-medium">
+                      <span class="text-[var(--status-online)] font-medium">
                         Active
                       </span>
                       {cert.expiresDate && (
@@ -508,7 +508,7 @@ const cvSchema = getProfilePageSchema({
     </CVSection>
 
     <!-- References Notice -->
-    <div class="text-center py-8 print:py-2.5 border-t border-[#ffffff10] print:border-neutral-200 font-mono text-xs print:text-[9.5px] text-[var(--white-icon)] print:!text-neutral-500 print-break-inside-avoid">
+    <div class="text-center py-8 print:py-2.5 border-t border-[var(--border-subtle)] print:border-neutral-200 font-mono text-xs print:text-[9.5px] text-[var(--white-icon)] print:!text-neutral-500 print-break-inside-avoid">
       References available on request
     </div>
   </div>

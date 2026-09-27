@@ -43,7 +43,7 @@ const relatedPosts = scoredPosts.slice(0, 2).map((sp) => sp.post);
 
 {relatedPosts.length > 0 && (
   <section
-    class="mt-16 pt-10 border-t border-[#ffffff10]"
+    class="mt-16 pt-10 border-t border-[var(--border-subtle)]"
     aria-labelledby="related-articles-heading"
   >
     <div class="flex items-center justify-between gap-4 mb-6">
@@ -77,12 +77,12 @@ const relatedPosts = scoredPosts.slice(0, 2).map((sp) => sp.post);
         return (
           <a
             href={postUrl}
-            class="group p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between"
+            class="group p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] hover:border-neutral-300 dark:hover:border-[var(--border-strong)] shadow-sm transition-all duration-300 flex flex-col justify-between"
           >
             <div>
               <div class="flex items-center justify-between gap-2 text-xs font-mono text-[var(--white-icon)] mb-2.5">
                 {firstCategory && (
-                  <span class="px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider bg-purple-100 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10]">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wider bg-purple-100 dark:bg-[var(--hover-bg-subtle)] text-[var(--sec)] border border-purple-200/60 dark:border-[var(--border-subtle)]">
                     {firstCategory}
                   </span>
                 )}

@@ -23,7 +23,7 @@ const filteredHeadings = headings.filter(
     {/* Mobile / Tablet Collapsible Table of Contents */}
     {(mode === "all" || mode === "mobile") && (
       <nav
-        class="lg:hidden mb-8 p-4 rounded-xl border border-neutral-200/80 dark:border-[#ffffff10] bg-neutral-50/70 dark:bg-[#1414149c] backdrop-blur-xs"
+        class="lg:hidden mb-8 p-4 rounded-xl border border-neutral-200/80 dark:border-[var(--border-subtle)] bg-neutral-50/70 dark:bg-[var(--card-bg)] backdrop-blur-xs"
         aria-label="Table of contents"
       >
         <details class="toc-mobile group">
@@ -60,7 +60,7 @@ const filteredHeadings = headings.filter(
               />
             </svg>
           </summary>
-          <div class="mt-3 pt-3 border-t border-neutral-200/60 dark:border-[#ffffff10] space-y-1">
+          <div class="mt-3 pt-3 border-t border-neutral-200/60 dark:border-[var(--border-subtle)] space-y-1">
             {filteredHeadings.map((heading) => (
               <a
                 href={`#${heading.slug}`}
@@ -86,7 +86,7 @@ const filteredHeadings = headings.filter(
         aria-label="Table of contents"
       >
         <div class="sticky top-28 toc-sidebar pr-2">
-          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[#ffffff10] bg-white dark:bg-[#1414149c] shadow-xs">
+          <div class="p-4 rounded-2xl border border-neutral-200/80 dark:border-[var(--border-subtle)] bg-white dark:bg-[var(--card-bg)] shadow-xs">
             <p class="font-mono text-[11px] font-semibold tracking-wider uppercase text-[var(--sec)] mb-3 flex items-center gap-1.5">
               <svg
                 class="w-3.5 h-3.5"

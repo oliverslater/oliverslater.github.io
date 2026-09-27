@@ -42,8 +42,8 @@ const homeSchema = getProfilePageSchema({
     <div class="space-y-6">
       <div class="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-5 sm:gap-8">
         <div class="space-y-3">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-neutral-100 dark:bg-[#1414149c] border border-neutral-200/80 dark:border-[var(--white-icon-tr)] text-[var(--white-icon)] shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"></span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-neutral-100 dark:bg-[var(--card-bg)] border border-neutral-200/80 dark:border-[var(--white-icon-tr)] text-[var(--white-icon)] shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[var(--status-online)] animate-pulse"></span>
             {profileData.headline}
           </div>
         </div>
@@ -74,7 +74,7 @@ const homeSchema = getProfilePageSchema({
 
       <a
         href="/cv"
-        class="flex items-center gap-2 px-5 py-3 rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-sm font-medium text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition duration-300"
+        class="flex items-center gap-2 px-5 py-3 rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] text-sm font-medium text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition duration-300"
       >
         <span>View CV</span>
         <span class="text-[var(--sec)]">&rarr;</span>
@@ -93,7 +93,7 @@ const homeSchema = getProfilePageSchema({
   <LogoWall />
 
   <!-- Architecture Pillars & Interactive Canvas -->
-  <section class="py-14 border-b border-[#ffffff10]">
+  <section class="py-14 border-b border-[var(--border-subtle)]">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div>
         <SkillsList client:load pillars={deliverablesData.pillars} />
@@ -102,7 +102,7 @@ const homeSchema = getProfilePageSchema({
       <div class="w-full h-[320px] sm:h-[380px] flex items-center justify-center">
         <LetterGlitch
           client:load
-          glitchColors={["#5e4491", "#A476FF", "#241a38"]}
+          glitchColors={["#5e4491", "#a476ff", "#241a38"]}
           glitchSpeed={33}
           centerVignette={false}
           outerVignette={true}
@@ -113,7 +113,10 @@ const homeSchema = getProfilePageSchema({
   </section>
 
   <!-- Verified Credentials & Authority Signals -->
-  <section class="py-14 border-b border-[#ffffff10]" id="credentials">
+  <section
+    class="py-14 border-b border-[var(--border-subtle)]"
+    id="credentials"
+  >
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-8">
       <div>
         <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
@@ -141,7 +144,7 @@ const homeSchema = getProfilePageSchema({
           href={cred.url || credentialSources.credlyBadgesUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+          class="p-5 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] hover:border-neutral-300 dark:hover:border-[var(--border-strong)] shadow-sm transition-all duration-300 flex flex-col justify-between group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
         >
           <div class="flex items-start gap-3.5 mb-3">
             <div
@@ -187,7 +190,7 @@ const homeSchema = getProfilePageSchema({
   </section>
 
   <!-- Work Experience / Highlights -->
-  <section class="py-14 border-b border-[#ffffff10]" id="work">
+  <section class="py-14 border-b border-[var(--border-subtle)]" id="work">
     <div class="flex items-center justify-between mb-8">
       <div>
         <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
@@ -209,7 +212,7 @@ const homeSchema = getProfilePageSchema({
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {featuredRoles.map((role) => (
-        <div class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between">
+        <div class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] hover:border-neutral-300 dark:hover:border-[var(--border-strong)] shadow-sm transition-all duration-300 flex flex-col justify-between">
           <div>
             <div class="flex items-baseline justify-between gap-2 mb-2">
               <span class="text-xs font-mono text-[var(--sec)]">
@@ -244,7 +247,7 @@ const homeSchema = getProfilePageSchema({
 
   <!-- Engineering Notes / Blog -->
   {recentPosts.length > 0 && (
-    <section class="py-14 border-b border-[#ffffff10]">
+    <section class="py-14 border-b border-[var(--border-subtle)]">
       <div class="flex items-center justify-between mb-8">
         <div>
           <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
@@ -273,7 +276,7 @@ const homeSchema = getProfilePageSchema({
         {recentPosts.map((post) => (
           <a
             href={getBlogUrl(post)}
-            class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff25] shadow-sm transition-all duration-300 flex flex-col justify-between group"
+            class="p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] hover:border-neutral-300 dark:hover:border-[var(--border-strong)] shadow-sm transition-all duration-300 flex flex-col justify-between group"
           >
             <div>
               <time class="block text-xs font-mono text-[var(--sec)] mb-2">
@@ -299,7 +302,7 @@ const homeSchema = getProfilePageSchema({
 
   <!-- Contact Section / Call to Action -->
   <section class="py-14" id="contact">
-    <div class="p-8 sm:p-12 rounded-3xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] shadow-sm relative overflow-hidden">
+    <div class="p-8 sm:p-12 rounded-3xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] shadow-sm relative overflow-hidden">
       <div class="max-w-2xl">
         <h2 class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
           Get in Touch
@@ -324,7 +327,7 @@ const homeSchema = getProfilePageSchema({
           </a>
           <a
             href="/cv"
-            class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] text-sm font-medium text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition duration-300"
+            class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] text-sm font-medium text-[var(--white)] hover:bg-neutral-100 dark:hover:bg-[var(--white-icon-tr)] shadow-sm transition duration-300"
           >
             <span>View Full CV</span>
           </a>

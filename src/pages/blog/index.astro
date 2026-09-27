@@ -108,7 +108,7 @@ const blogSchema = getBlogIndexSchema({
 <Layout {...pageSeoData.blog} schema={blogSchema}>
   <div class="max-w-4xl mx-auto">
     <!-- Header -->
-    <header class="mb-10 pb-8 border-b border-[#ffffff10]">
+    <header class="mb-10 pb-8 border-b border-[var(--border-subtle)]">
       <p class="text-sm font-medium text-[var(--sec)] shiny-sec mb-1">
         Writing
       </p>
@@ -143,7 +143,7 @@ const blogSchema = getBlogIndexSchema({
             type="search"
             id="blog-search"
             placeholder="Search articles by title, topic, or #tag..."
-            class="w-full pl-10 pr-10 py-2.5 rounded-xl text-sm bg-white dark:bg-[#1414149c] text-[var(--white)] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 border border-neutral-200/80 dark:border-[var(--white-icon-tr)] focus:border-[var(--sec)] focus:ring-1 focus:ring-[var(--sec)] focus:outline-hidden shadow-sm transition-all"
+            class="w-full pl-10 pr-10 py-2.5 rounded-xl text-sm bg-white dark:bg-[var(--card-bg)] text-[var(--white)] placeholder:text-neutral-400 dark:placeholder:text-neutral-500 border border-neutral-200/80 dark:border-[var(--white-icon-tr)] focus:border-[var(--sec)] focus:ring-1 focus:ring-[var(--sec)] focus:outline-hidden shadow-sm transition-all"
             autocomplete="off"
             aria-label="Search articles"
           />
@@ -181,7 +181,7 @@ const blogSchema = getBlogIndexSchema({
             </span>
             <button
               type="button"
-              class="category-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[#ffffff10] bg-purple-50/60 dark:bg-[#ffffff08] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[#ffffff15] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
+              class="category-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[var(--border-subtle)] bg-purple-50/60 dark:bg-[var(--hover-bg-subtle)] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[var(--hover-bg)] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
               data-category="all"
               aria-pressed="true"
             >
@@ -190,7 +190,7 @@ const blogSchema = getBlogIndexSchema({
             {allCategories.map((category) => (
               <button
                 type="button"
-                class="category-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[#ffffff10] bg-purple-50/60 dark:bg-[#ffffff08] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[#ffffff15] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
+                class="category-filter-btn px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-200 cursor-pointer border border-purple-200/60 dark:border-[var(--border-subtle)] bg-purple-50/60 dark:bg-[var(--hover-bg-subtle)] text-[var(--sec)] hover:bg-purple-100 dark:hover:bg-[var(--hover-bg)] aria-pressed:bg-[var(--sec)] aria-pressed:text-white dark:aria-pressed:text-black aria-pressed:border-transparent aria-pressed:shadow-sm"
                 data-category={category}
                 aria-pressed="false"
               >
@@ -229,7 +229,7 @@ const blogSchema = getBlogIndexSchema({
             <h2 class="text-2xl font-semibold font-mono text-[var(--white)] tracking-tight">
               {year}
             </h2>
-            <div class="h-px flex-1 bg-gradient-to-r from-neutral-200 dark:from-[#ffffff20] to-transparent"></div>
+            <div class="h-px flex-1 bg-gradient-to-r from-neutral-200 dark:from-[var(--border-strong)] to-transparent"></div>
             <span class="text-xs font-mono text-neutral-400 dark:text-neutral-500 year-count">
               {totalPosts} {totalPosts === 1 ? "article" : "articles"}
             </span>
@@ -261,7 +261,7 @@ const blogSchema = getBlogIndexSchema({
 
                     return (
                       <article
-                        class="blog-post-card p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[#1414149c] hover:border-neutral-300 dark:hover:border-[#ffffff20] shadow-sm transition-all duration-300"
+                        class="blog-post-card p-6 rounded-2xl border border-neutral-200/80 dark:border-[var(--white-icon-tr)] bg-white dark:bg-[var(--card-bg)] hover:border-neutral-300 dark:hover:border-[var(--border-strong)] shadow-sm transition-all duration-300"
                         data-title={post.data.title.toLowerCase()}
                         data-description={post.data.description.toLowerCase()}
                         data-categories={JSON.stringify(
@@ -284,7 +284,7 @@ const blogSchema = getBlogIndexSchema({
                               {formattedDate}
                             </time>
                             {postCategories.length > 0 && (
-                              <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-purple-100 dark:bg-[#ffffff15] text-[var(--sec)]">
+                              <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-purple-100 dark:bg-[var(--hover-bg)] text-[var(--sec)]">
                                 {postCategories[0]}
                               </span>
                             )}
@@ -334,9 +334,9 @@ const blogSchema = getBlogIndexSchema({
     <!-- Empty State when 0 matches -->
     <div
       id="no-results-state"
-      class="hidden py-16 text-center rounded-2xl border border-dashed border-neutral-200 dark:border-[#ffffff15] bg-neutral-50/50 dark:bg-[#ffffff02]"
+      class="hidden py-16 text-center rounded-2xl border border-dashed border-neutral-200 dark:border-[var(--border-default)] bg-neutral-50/50 dark:bg-transparent"
     >
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-100 dark:bg-[#ffffff08] text-neutral-400 dark:text-neutral-500 mb-4">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-100 dark:bg-[var(--hover-bg-subtle)] text-neutral-400 dark:text-neutral-500 mb-4">
         <svg
           class="w-6 h-6"
           xmlns="http://www.w3.org/2000/svg"

@@ -30,7 +30,7 @@ const isActive = (href: string) => {
 <div class="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[95vw] no-print">
   <nav
     id="main-nav"
-    class="flex items-center gap-1 sm:gap-4 px-4 sm:px-6 py-2.5 rounded-full border border-neutral-200/80 dark:border-[#ffffff15] bg-white/85 dark:bg-[#141414]/85 backdrop-blur-xl shadow-xl transition-all duration-300"
+    class="flex items-center gap-1 sm:gap-4 px-4 sm:px-6 py-2.5 rounded-full border border-neutral-200/80 dark:border-[var(--border-default)] bg-white/85 dark:bg-[var(--component-bg)]/85 backdrop-blur-xl shadow-xl transition-all duration-300"
     aria-label="Primary navigation"
   >
     <!-- Brand / Name -->
@@ -42,7 +42,7 @@ const isActive = (href: string) => {
       <span class="font-semibold">os</span>
     </a>
 
-    <div class="w-px h-4 bg-neutral-200 dark:bg-[#ffffff15]"></div>
+    <div class="w-px h-4 bg-neutral-200 dark:bg-[var(--border-default)]"></div>
 
     <!-- Navigation links -->
     <div class="flex items-center gap-1 sm:gap-2">
@@ -55,14 +55,14 @@ const isActive = (href: string) => {
             class:list={[
               "relative flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm transition-all duration-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]",
               active
-                ? "text-neutral-900 dark:text-white font-medium bg-neutral-200/70 dark:bg-[#ffffff10]"
+                ? "text-neutral-900 dark:text-white font-medium bg-neutral-200/70 dark:bg-[var(--border-subtle)]"
                 : "text-[var(--white-icon)] hover:text-neutral-900 dark:hover:text-white",
             ]}
             aria-current={active ? "page" : undefined}
           >
             {active && (
               <span
-                class="nav-active-dot w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse"
+                class="nav-active-dot w-1.5 h-1.5 rounded-full bg-[var(--status-online)] animate-pulse"
                 aria-hidden="true"
               ></span>
             )}
@@ -72,7 +72,7 @@ const isActive = (href: string) => {
       })}
     </div>
 
-    <div class="w-px h-4 bg-neutral-200 dark:bg-[#ffffff15] ml-1"></div>
+    <div class="w-px h-4 bg-neutral-200 dark:bg-[var(--border-default)] ml-1"></div>
 
     <ThemeToggle />
   </nav>
@@ -84,7 +84,7 @@ const isActive = (href: string) => {
     "dark:text-white",
     "font-medium",
     "bg-neutral-200/70",
-    "dark:bg-[#ffffff10]",
+    "dark:bg-[var(--border-subtle)]",
   ];
   const INACTIVE_CLASSES = ["text-[var(--white-icon)]"];
 
@@ -108,7 +108,7 @@ const isActive = (href: string) => {
         if (!link.querySelector(".nav-active-dot")) {
           const dot = document.createElement("span");
           dot.className =
-            "nav-active-dot w-1.5 h-1.5 rounded-full bg-[#16a34a] dark:bg-[#A9FF5B] animate-pulse";
+            "nav-active-dot w-1.5 h-1.5 rounded-full bg-[var(--status-online)] animate-pulse";
           dot.setAttribute("aria-hidden", "true");
           link.prepend(dot);
         }

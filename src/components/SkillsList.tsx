@@ -165,7 +165,7 @@ const SkillsList = ({ pillars }: SkillsListProps) => {
           const btnId = `pillar-btn-${pillar.category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
           return (
             <li key={pillar.category} className="w-full">
-              <div className="w-full bg-white dark:bg-[#1414149c] rounded-2xl text-left transition-all border border-neutral-200/80 dark:border-[var(--white-icon-tr)] hover:border-neutral-300 dark:hover:border-[#ffffff20] overflow-hidden shadow-sm">
+              <div className="w-full bg-white dark:bg-[var(--card-bg)] rounded-2xl text-left transition-all border border-neutral-200/80 dark:border-[var(--white-icon-tr)] hover:border-neutral-300 dark:hover:border-[var(--border-strong)] overflow-hidden shadow-sm">
                 <button
                   type="button"
                   id={btnId}

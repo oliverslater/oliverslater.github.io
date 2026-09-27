@@ -126,14 +126,14 @@ const pageTitle = rawPageTitle.includes(profileData.name)
       </div>
 
       <!-- Article Header -->
-      <header class="mb-10 pb-8 border-b border-[#ffffff10]">
+      <header class="mb-10 pb-8 border-b border-[var(--border-subtle)]">
         <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-[var(--sec)] mb-3">
           {postCategories.length > 0 && (
             <>
               {postCategories.map((cat) => (
                 <a
                   href={`/blog?category=${encodeURIComponent(cat)}`}
-                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-purple-100 dark:bg-[#ffffff15] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10] hover:bg-purple-200 dark:hover:bg-[#ffffff25] transition-colors"
+                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-purple-100 dark:bg-[var(--hover-bg)] text-[var(--sec)] border border-purple-200/60 dark:border-[var(--border-subtle)] hover:bg-purple-200 dark:hover:bg-[var(--border-strong)] transition-colors"
                 >
                   {cat}
                 </a>
@@ -199,7 +199,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
             {postTags.map((tag) => (
               <a
                 href={`/blog?q=${encodeURIComponent(tag)}`}
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[#ffffff08] text-[var(--sec)] border border-purple-200/60 dark:border-[#ffffff10] hover:bg-purple-100 dark:hover:bg-[#ffffff15] transition-colors"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-purple-50 dark:bg-[var(--hover-bg-subtle)] text-[var(--sec)] border border-purple-200/60 dark:border-[var(--border-subtle)] hover:bg-purple-100 dark:hover:bg-[var(--hover-bg)] transition-colors"
                 title={`Search for #${tag}`}
               >
                 #{tag}
@@ -209,7 +209,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
         )}
 
         {hasExplicitHeroImage && (
-          <div class="mt-8 rounded-xl overflow-hidden border border-[#ffffff10]">
+          <div class="mt-8 rounded-xl overflow-hidden border border-[var(--border-subtle)]">
             <img
               src={rawHeroImage}
               alt={frontmatter.title}
@@ -225,7 +225,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
       <TableOfContents headings={headings} mode="mobile" />
 
       <!-- Post Body Content -->
-      <div class="prose dark:prose-invert max-w-none prose-headings:font-medium prose-headings:text-[var(--white)] prose-p:text-[var(--white-icon)] prose-p:leading-relaxed prose-strong:text-[var(--white)] prose-a:text-[var(--sec)] prose-a:underline-offset-4 prose-code:text-[var(--sec)] prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-neutral-900 dark:prose-pre:bg-[#141414] prose-pre:text-neutral-100 prose-pre:border prose-pre:border-neutral-800 dark:prose-pre:border-[#ffffff10] prose-li:text-[var(--white-icon)] prose-hr:border-neutral-200 dark:prose-hr:border-[#ffffff10]">
+      <div class="prose dark:prose-invert max-w-none prose-headings:font-medium prose-headings:text-[var(--white)] prose-p:text-[var(--white-icon)] prose-p:leading-relaxed prose-strong:text-[var(--white)] prose-a:text-[var(--sec)] prose-a:underline-offset-4 prose-code:text-[var(--sec)] prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:bg-neutral-900 dark:prose-pre:bg-[var(--component-bg)] prose-pre:text-neutral-100 prose-pre:border prose-pre:border-neutral-800 dark:prose-pre:border-[var(--border-subtle)] prose-li:text-[var(--white-icon)] prose-hr:border-neutral-200 dark:prose-hr:border-[var(--border-subtle)]">
         <slot />
       </div>
 
@@ -237,7 +237,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
       />
 
       <!-- Article Footer -->
-      <footer class="mt-14 pt-8 border-t border-[#ffffff10] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">
+      <footer class="mt-14 pt-8 border-t border-[var(--border-subtle)] flex items-center justify-between font-mono text-xs text-[var(--white-icon)]">
         <a href="/blog" class="hover:text-[var(--white)] transition-colors">
           &larr; Back to all posts
         </a>
@@ -254,19 +254,19 @@ const pageTitle = rawPageTitle.includes(profileData.name)
   <!-- Architecture Diagram Lightbox Modal -->
   <dialog
     id="diagram-lightbox"
-    class="diagram-lightbox m-auto p-0 rounded-2xl bg-neutral-950/95 dark:bg-[#101010]/95 text-[var(--white)] border border-neutral-800 dark:border-[#ffffff18] shadow-2xl backdrop:backdrop-blur-md backdrop:bg-black/75 max-w-[95vw] max-h-[92vh] w-[1100px] h-[780px] overflow-hidden flex flex-col focus:outline-none"
+    class="diagram-lightbox m-auto p-0 rounded-2xl bg-white dark:bg-[var(--background)]/95 text-neutral-900 dark:text-[var(--white)] border border-neutral-200 dark:border-[var(--border-default)] shadow-2xl backdrop:backdrop-blur-md backdrop:bg-black/75 max-w-[95vw] max-h-[92vh] w-[1100px] h-[780px] overflow-hidden flex flex-col focus:outline-none"
     closedby="any"
     aria-labelledby="lightbox-title"
   >
     <!-- Header bar -->
-    <div class="flex items-center justify-between px-5 py-3 border-b border-[#ffffff15] bg-neutral-900/60 select-none">
+    <div class="flex items-center justify-between px-5 py-3 border-b border-neutral-200 dark:border-[var(--border-default)] bg-neutral-50 dark:bg-neutral-900/60 select-none">
       <div class="flex items-center gap-2">
         <span class="text-xs font-mono font-medium text-[var(--sec)] uppercase tracking-wider">
           Architecture Diagram
         </span>
         <span
           id="lightbox-title"
-          class="text-xs text-[var(--white-icon)] font-mono"
+          class="text-xs text-neutral-500 dark:text-[var(--white-icon)] font-mono"
         >
           · Interactive Viewer
         </span>
@@ -275,7 +275,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
         <button
           type="button"
           id="lightbox-zoom-out"
-          class="p-1.5 px-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-[var(--white)] transition-colors"
+          class="p-1.5 px-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-800 dark:text-[var(--white)] transition-colors"
           title="Zoom out (-)"
           aria-label="Zoom out"
         >
@@ -283,14 +283,14 @@ const pageTitle = rawPageTitle.includes(profileData.name)
         </button>
         <span
           id="lightbox-zoom-level"
-          class="px-2 py-1 text-xs text-[var(--white-icon)] select-none"
+          class="px-2 py-1 text-xs text-neutral-600 dark:text-[var(--white-icon)] select-none"
         >
           100%
         </span>
         <button
           type="button"
           id="lightbox-zoom-in"
-          class="p-1.5 px-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-[var(--white)] transition-colors"
+          class="p-1.5 px-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-800 dark:text-[var(--white)] transition-colors"
           title="Zoom in (+)"
           aria-label="Zoom in"
         >
@@ -299,7 +299,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
         <button
           type="button"
           id="lightbox-reset"
-          class="px-2.5 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
+          class="px-2.5 py-1.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 hover:text-neutral-900 dark:text-[var(--white-icon)] dark:hover:text-[var(--white)] transition-colors"
           title="Reset zoom and position (0)"
         >
           Reset
@@ -307,7 +307,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
         <button
           type="button"
           id="lightbox-close"
-          class="ml-2 p-1.5 px-2.5 rounded-lg bg-neutral-800 hover:bg-rose-500/20 hover:text-rose-400 text-[var(--white)] transition-colors"
+          class="ml-2 p-1.5 px-2.5 rounded-lg bg-neutral-100 hover:bg-rose-500/20 hover:text-rose-600 dark:bg-neutral-800 dark:hover:bg-rose-500/20 dark:hover:text-rose-400 text-neutral-800 dark:text-[var(--white)] transition-colors"
           title="Close viewer (Esc)"
           aria-label="Close dialog"
         >
@@ -319,7 +319,7 @@ const pageTitle = rawPageTitle.includes(profileData.name)
     <!-- Interactive Canvas Stage -->
     <div
       id="lightbox-stage-container"
-      class="flex-1 w-full h-full overflow-hidden relative flex items-center justify-center p-4 cursor-grab active:cursor-grabbing select-none"
+      class="flex-1 w-full h-full overflow-hidden relative flex items-center justify-center p-4 cursor-grab active:cursor-grabbing select-none bg-white dark:bg-[var(--background)]"
     >
       <div
         id="lightbox-stage"
@@ -330,14 +330,22 @@ const pageTitle = rawPageTitle.includes(profileData.name)
     </div>
 
     <!-- Footer helper hint -->
-    <div class="px-5 py-2 border-t border-[#ffffff10] bg-neutral-900/40 text-[11px] font-mono text-[var(--white-icon)] flex items-center justify-between">
+    <div class="px-5 py-2 border-t border-neutral-200 dark:border-[var(--border-subtle)] bg-neutral-50 dark:bg-neutral-900/40 text-[11px] font-mono text-neutral-500 dark:text-[var(--white-icon)] flex items-center justify-between">
       <span>Drag to pan · Scroll to zoom</span>
       <span>
         Shortcuts:{" "}
-        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">+</kbd>{" "}
-        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">-</kbd>{" "}
-        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">0</kbd>{" "}
-        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">Esc</kbd>
+        <kbd class="px-1 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-[10px] text-neutral-700 dark:text-neutral-300">
+          +
+        </kbd>{" "}
+        <kbd class="px-1 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-[10px] text-neutral-700 dark:text-neutral-300">
+          -
+        </kbd>{" "}
+        <kbd class="px-1 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-[10px] text-neutral-700 dark:text-neutral-300">
+          0
+        </kbd>{" "}
+        <kbd class="px-1 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-[10px] text-neutral-700 dark:text-neutral-300">
+          Esc
+        </kbd>
       </span>
     </div>
   </dialog>
