@@ -220,28 +220,50 @@ const LetterGlitch = ({
     }
   };
 
-  const animate = () => {
-    const now = Date.now();
-    if (now - lastGlitchTime.current >= glitchSpeed) {
-      updateLetters();
-      drawLetters();
-      lastGlitchTime.current = now;
-    }
-
-    if (smooth) {
-      handleSmoothTransitions();
-    }
-
-    animationRef.current = requestAnimationFrame(animate);
-  };
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     context.current = canvas.getContext("2d");
     resizeCanvas();
-    animate();
+
+    let isVisible = false;
+
+    const animate = () => {
+      if (!isVisible) return;
+      const now = Date.now();
+      if (now - lastGlitchTime.current >= glitchSpeed) {
+        updateLetters();
+        drawLetters();
+        lastGlitchTime.current = now;
+      }
+
+      if (smooth) {
+        handleSmoothTransitions();
+      }
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !wasVisible) {
+          lastGlitchTime.current = Date.now();
+          if (animationRef.current) cancelAnimationFrame(animationRef.current);
+          animationRef.current = requestAnimationFrame(animate);
+        } else if (!isVisible && animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+          animationRef.current = null;
+        }
+      });
+      observer.observe(canvas);
+    } else {
+      isVisible = true;
+      animate();
+    }
 
     let resizeTimeout: ReturnType<typeof setTimeout>;
     const handleResize = () => {
@@ -249,13 +271,17 @@ const LetterGlitch = ({
       resizeTimeout = setTimeout(() => {
         if (animationRef.current) cancelAnimationFrame(animationRef.current);
         resizeCanvas();
-        animate();
+        if (isVisible) {
+          lastGlitchTime.current = Date.now();
+          animationRef.current = requestAnimationFrame(animate);
+        }
       }, 100);
     };
 
     window.addEventListener("resize", handleResize);
 
     return () => {
+      if (observer) observer.disconnect();
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       window.removeEventListener("resize", handleResize);
     };
