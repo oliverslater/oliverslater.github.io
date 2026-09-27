@@ -75,7 +75,8 @@
     "tabpanel",
     "autonumber",
     "REGEN",
-    "networkidle"
+    "networkidle",
+    "wght"
   ],
   "ignorePaths": [
     "node_modules/**",
