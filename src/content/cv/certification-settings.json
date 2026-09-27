@@ -81,23 +81,22 @@
     {
       "title": "AWS Certified Solutions Architect – Professional",
       "priority": 30,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/d7b381ae-a1ba-4a38-bce4-4926602b2303"
     },
     {
       "title": "AWS Certified DevOps Engineer – Professional",
       "priority": 29,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/12dc4490-a22a-4e7e-b301-ddc572463f8e"
     },
     {
       "title": "Azure Solutions Architect Expert",
-      "priority": 28,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "priority": 28
     },
     {
       "title": "HashiCorp Certified: Terraform Authoring and Operations Advanced",
       "issuer": "HashiCorp",
       "priority": 27,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/b5535d9d-f271-42fe-8fb3-94eec5e064e6"
     },
     {
       "title": "AWS Certification SME - Professional",
@@ -107,49 +106,49 @@
       "title": "Certified Partner Specialist Gemini Enterprise Agent Development",
       "issuer": "Google Cloud",
       "priority": 24,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/11517bd8-1b7a-4fb0-9476-36d3c0b4ca26"
     },
     {
       "title": "Certified Partner Specialist Gemini Enterprise Deployment",
       "issuer": "Google Cloud",
       "priority": 23,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/850e5726-8d09-4d5a-a2dc-9b5a578d5875"
     },
     {
       "title": "AWS Certified Security – Specialty",
       "priority": 22,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/c0eb4c0a-6da5-45c9-b3dd-66a322afe66b"
     },
     {
       "title": "AWS Certified Advanced Networking – Specialty",
       "priority": 21,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/ead2b496-37af-4ce2-ae4d-ab56d88b19a1"
     },
     {
       "title": "AWS Certified Machine Learning – Specialty",
       "priority": 20,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/dc4a4833-632f-465c-bfda-934b79e3a153"
     },
     {
       "title": "AWS Certified: SAP on AWS – Specialty",
       "priority": 19,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/75131d2b-ed9d-4bf2-b6a5-e9c466d84e3e"
     },
     {
       "title": "AWS Certified Data Analytics – Specialty",
       "priority": 18,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/ed95f2bf-b957-4aec-aab0-2ce92091b288"
     },
     {
       "title": "AWS Certified Database – Specialty",
       "priority": 18,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/75345e69-7212-4d31-93ad-911396b5eefe"
     },
     {
       "title": "Terraform: HashiCorp Implementation Partner",
       "issuer": "HashiCorp",
       "priority": 17,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/fdd0f5fe-a76f-4769-8b94-33a66e8a3d56"
     },
     {
       "title": "Microsoft Certified: Azure Administrator Associate",
@@ -158,53 +157,53 @@
     {
       "title": "AWS Certified Solutions Architect – Associate",
       "priority": 14,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/46cc6558-9bfd-4278-9a9c-cdccf3f780db"
     },
     {
       "title": "AWS Certified SysOps Administrator – Associate",
       "priority": 13,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/cd020c83-3511-4df4-8ead-a0f13502cbbb"
     },
     {
       "title": "AWS Certified Developer – Associate",
       "priority": 12,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/dab9e17e-f5fb-473c-9568-160c0d47eaac"
     },
     {
       "title": "AWS Certified Data Engineer – Associate",
       "priority": 11,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/47d6a4c3-6dca-4853-bf33-47c1f2b66ec6"
     },
     {
       "title": "AWS Certified Machine Learning Engineer - Associate Early Adopter",
       "priority": 10,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/cfe6d85d-3f79-44d3-9b54-01b12fc41984"
     },
     {
       "title": "AWS Certified Machine Learning Engineer – Associate",
       "priority": 10,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/4badbcc3-bc4b-49b3-9915-a62577519f7c"
     },
     {
       "title": "HashiCorp Certified: Terraform Associate",
       "issuer": "HashiCorp",
       "priority": 9,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/4c5df70c-b7fa-44bb-ac12-a73ebe3de514"
     },
     {
       "title": "AWS Certified AI Practitioner Early Adopter",
       "priority": 8,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/37efaec4-892a-457c-a4de-018af15dc3ea"
     },
     {
       "title": "AWS Certified AI Practitioner",
       "priority": 8,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/32e141db-b092-4d0b-912d-525748d67d68"
     },
     {
       "title": "AWS Certified Cloud Practitioner",
       "priority": 7,
-      "verifyUrl": "https://www.credly.com/users/oliver-slater/badges"
+      "verifyUrl": "https://www.credly.com/badges/e5efcd22-609a-42ce-b3f7-d5debd24464e"
     },
     {
       "title": "Microsoft Certified: Azure AI Fundamentals",
