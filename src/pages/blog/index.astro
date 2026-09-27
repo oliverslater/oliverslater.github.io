@@ -532,6 +532,13 @@ const blogSchema = getBlogIndexSchema({
       if (visibleTotal === 0) {
         if (noResultsEl) noResultsEl.classList.remove("hidden");
         if (postsContainer) postsContainer.classList.add("hidden");
+        // Echo the search query in the empty state message (U-1)
+        const emptyMsg = noResultsEl ? noResultsEl.querySelector("p") : null;
+        if (emptyMsg) {
+          emptyMsg.textContent = rawQ
+            ? `No articles matched "${rawQ}".`
+            : "No articles found.";
+        }
       } else {
         if (noResultsEl) noResultsEl.classList.add("hidden");
         if (postsContainer) postsContainer.classList.remove("hidden");
