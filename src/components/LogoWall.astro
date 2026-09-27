@@ -61,4 +61,9 @@ const technologies: TechnologyItem[] = technologiesData.technologies;
   .animate-scroll:hover {
     animation-play-state: paused;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-scroll {
+      animation: none !important;
+    }
+  }
 </style>
