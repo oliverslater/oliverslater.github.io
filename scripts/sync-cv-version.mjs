@@ -37,32 +37,15 @@ if (!profileData.name || typeof profileData.name !== "string") {
 
 const safeName = profileData.name.trim().replace(/\s+/g, "_");
 
-// 1. Determine version date
-let versionDate = new Date().toISOString().split("T")[0];
-try {
-  const uncommitted = execSync(
-    'git status --porcelain -- src/content/cv src/pages/cv.astro ":(exclude)src/content/cv/cv-version.json"',
-    {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "ignore"],
-    },
-  ).trim();
+// 1. Read existing CV version metadata if available
+let existingVersion = null;
+if (existsSync(cvVersionPath)) {
+  try {
+    existingVersion = JSON.parse(readFileSync(cvVersionPath, "utf8"));
+  } catch {}
+}
 
-  if (!uncommitted) {
-    const gitDate = execSync(
-      'git log -1 --format=%cs -- src/content/cv src/pages/cv.astro ":(exclude)src/content/cv/cv-version.json"',
-      {
-        encoding: "utf8",
-        stdio: ["ignore", "pipe", "ignore"],
-      },
-    ).trim();
-    if (gitDate && /^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
-      versionDate = gitDate;
-    }
-  }
-} catch {}
-
-// 2. Compute content hash across CV content and print template files
+// 2. Compute content hash across CV content, template files, and credential cache
 const hash = crypto.createHash("sha256");
 const cvFiles = readdirSync(cvDir)
   .filter((f) => f.endsWith(".json") && f !== "cv-version.json")
@@ -85,6 +68,7 @@ for (const rel of extraFiles) {
 }
 
 // Check local credentials cache (populated by src/utils/credly.ts and mslearn.ts)
+let newestCredentialDate = "";
 const credentialsCacheDir = resolve(rootDir, "node_modules/.cache/credentials");
 if (existsSync(credentialsCacheDir)) {
   try {
@@ -100,8 +84,8 @@ if (existsSync(credentialsCacheDir)) {
         for (const item of items) {
           const rawDate = item.rawDate ? String(item.rawDate).slice(0, 10) : "";
           if (rawDate && /^\d{4}-\d{2}-\d{2}$/.test(rawDate)) {
-            if (rawDate > versionDate) {
-              versionDate = rawDate;
+            if (rawDate > newestCredentialDate) {
+              newestCredentialDate = rawDate;
             }
           }
         }
@@ -111,6 +95,46 @@ if (existsSync(credentialsCacheDir)) {
 }
 
 const contentHash = hash.digest("hex").slice(0, 16);
+const today = new Date().toISOString().split("T")[0];
+
+// 3. Determine version date
+let versionDate = today;
+
+if (existingVersion && existingVersion.contentHash) {
+  if (
+    existingVersion.contentHash === contentHash &&
+    existingVersion.versionDate
+  ) {
+    // Content is completely unchanged; retain established version date
+    versionDate = existingVersion.versionDate;
+  } else {
+    // Content or credential data (including expiry/renewal) has changed today!
+    versionDate = today;
+  }
+} else {
+  // Initial run without existing metadata: check Git history
+  try {
+    const uncommitted = execSync(
+      'git status --porcelain -- src/content/cv src/pages/cv.astro ":(exclude)src/content/cv/cv-version.json"',
+      { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+    ).trim();
+
+    if (!uncommitted) {
+      const gitDate = execSync(
+        'git log -1 --format=%cs -- src/content/cv src/pages/cv.astro ":(exclude)src/content/cv/cv-version.json"',
+        { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+      ).trim();
+      if (gitDate && /^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
+        versionDate = gitDate;
+      }
+    }
+  } catch {}
+}
+
+if (newestCredentialDate && newestCredentialDate > versionDate) {
+  versionDate = newestCredentialDate;
+}
+
 const filename = `${safeName}_CV_${versionDate}.pdf`;
 
 const versionData = {
@@ -122,16 +146,12 @@ const versionData = {
 
 // Only write if changed to avoid unnecessary mtime churn
 let shouldWrite = true;
-if (existsSync(cvVersionPath)) {
-  try {
-    const existing = JSON.parse(readFileSync(cvVersionPath, "utf8"));
-    if (
-      existing.contentHash === contentHash &&
-      existing.filename === filename
-    ) {
-      shouldWrite = false;
-    }
-  } catch {}
+if (
+  existingVersion &&
+  existingVersion.contentHash === contentHash &&
+  existingVersion.filename === filename
+) {
+  shouldWrite = false;
 }
 
 if (shouldWrite) {
