@@ -4,6 +4,7 @@ import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import crypto from "node:crypto";
 import { execSync } from "node:child_process";
+import { getProfileData } from "./utils/profile.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -12,30 +13,7 @@ const cvDir = resolve(rootDir, "src/content/cv");
 const profilePath = resolve(cvDir, "profile.json");
 const cvVersionPath = resolve(cvDir, "cv-version.json");
 
-if (!existsSync(profilePath)) {
-  console.error(`✗ Missing required profile data file at: ${profilePath}`);
-  process.exit(1);
-}
-
-let profileData;
-try {
-  profileData = JSON.parse(readFileSync(profilePath, "utf8"));
-} catch (err) {
-  console.error(
-    `✗ Failed to parse profile data from ${profilePath}:`,
-    err.message,
-  );
-  process.exit(1);
-}
-
-if (!profileData.name || typeof profileData.name !== "string") {
-  console.error(
-    "✗ Missing or invalid 'name' field in src/content/cv/profile.json",
-  );
-  process.exit(1);
-}
-
-const safeName = profileData.name.trim().replace(/\s+/g, "_");
+const { safeName } = getProfileData(profilePath);
 
 // 1. Read existing CV version metadata if available
 let existingVersion = null;

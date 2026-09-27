@@ -73,7 +73,9 @@
     "lightbox",
     "tablist",
     "tabpanel",
-    "autonumber"
+    "autonumber",
+    "REGEN",
+    "networkidle"
   ],
   "ignorePaths": [
     "node_modules/**",
