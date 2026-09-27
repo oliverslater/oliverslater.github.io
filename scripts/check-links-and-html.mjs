@@ -252,9 +252,14 @@ for (const filePath of htmlFiles) {
       continue;
     }
 
-    // Separate pathname from search query and hash
-    const cleanUrl = url.split("?")[0].split("#")[0];
+    // Separate pathname from search query and hash, and decode URI percent-encoding
+    let cleanUrl = url.split("?")[0].split("#")[0];
     if (!cleanUrl) continue;
+    try {
+      cleanUrl = decodeURIComponent(cleanUrl);
+    } catch {
+      // Retain cleanUrl as-is if malformed encoding
+    }
 
     let targetFilePath;
     if (cleanUrl.startsWith("/")) {
