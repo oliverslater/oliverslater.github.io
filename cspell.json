@@ -69,7 +69,11 @@
     "MCITP",
     "futurenow",
     "Hybris",
-    "Hons"
+    "Hons",
+    "lightbox",
+    "tablist",
+    "tabpanel",
+    "autonumber"
   ],
   "ignorePaths": [
     "node_modules/**",

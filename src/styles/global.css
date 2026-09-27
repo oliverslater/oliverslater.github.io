@@ -546,6 +546,7 @@ h4:hover .heading-anchor,
 /* Mermaid Diagrams                                                           */
 /* -------------------------------------------------------------------------- */
 .mermaid-container {
+  position: relative;
   margin: 2rem 0;
   padding: 1.5rem;
   border-radius: 1rem;
@@ -577,4 +578,221 @@ html:not(.dark) .mermaid-container {
   color: var(--white-icon);
   font-family: var(--font-mono);
   font-size: 0.8125rem;
+}
+
+.expand-diagram-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--white-icon);
+  background-color: rgba(20, 20, 20, 0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  opacity: 0.75;
+  transition:
+    opacity 0.2s ease,
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+  z-index: 10;
+  user-select: none;
+}
+
+.mermaid-container:hover .expand-diagram-btn,
+.expand-diagram-btn:focus-visible {
+  opacity: 1;
+}
+
+.expand-diagram-btn:hover {
+  background-color: rgba(30, 30, 30, 0.95);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+html:not(.dark) .expand-diagram-btn {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #4b5563;
+  border-color: #e5e7eb;
+}
+
+html:not(.dark) .expand-diagram-btn:hover {
+  background-color: #ffffff;
+  color: #111827;
+  border-color: #d1d5db;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Architecture Diagram Lightbox & Interactive Viewer                         */
+/* -------------------------------------------------------------------------- */
+.diagram-lightbox {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    overlay 0.2s allow-discrete,
+    display 0.2s allow-discrete;
+}
+
+.diagram-lightbox[open] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@starting-style {
+  .diagram-lightbox[open] {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.diagram-lightbox::backdrop {
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  transition:
+    opacity 0.2s ease,
+    overlay 0.2s allow-discrete,
+    display 0.2s allow-discrete;
+}
+
+.diagram-lightbox[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .diagram-lightbox[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+html:not(.dark) .diagram-lightbox {
+  background-color: rgba(255, 255, 255, 0.98);
+  border-color: #e5e7eb;
+  color: #111827;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+html:not(.dark) .diagram-lightbox div:first-child {
+  background-color: rgba(243, 244, 246, 0.8);
+  border-bottom-color: #e5e7eb;
+}
+
+html:not(.dark) .diagram-lightbox #lightbox-stage-container {
+  background-color: #fbfbfb;
+}
+
+html:not(.dark) .diagram-lightbox div:last-child {
+  background-color: rgba(243, 244, 246, 0.8);
+  border-top-color: #e5e7eb;
+}
+
+html:not(.dark) .diagram-lightbox button {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+html:not(.dark) .diagram-lightbox button:hover {
+  background-color: #d1d5db;
+  color: #111827;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Tabbed Code Blocks                                                         */
+/* -------------------------------------------------------------------------- */
+.code-tabs-wrapper {
+  margin: 1.75rem 0;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #141414;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+html:not(.dark) .code-tabs-wrapper {
+  border-color: #e5e7eb;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.code-tabs-header {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0.6rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+html:not(.dark) .code-tabs-header {
+  background-color: #f9fafb;
+  border-bottom-color: #e5e7eb;
+}
+
+.code-tab-button {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.35rem 0.85rem;
+  border-radius: 0.5rem;
+  color: var(--white-icon);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.code-tab-button:hover {
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+html:not(.dark) .code-tab-button:hover {
+  color: #111827;
+  background-color: #f3f4f6;
+}
+
+.code-tab-button[aria-selected="true"] {
+  color: var(--sec);
+  background-color: rgba(164, 118, 255, 0.12);
+  border-color: rgba(164, 118, 255, 0.25);
+  font-weight: 600;
+}
+
+html:not(.dark) .code-tab-button[aria-selected="true"] {
+  color: #6b21a8;
+  background-color: #f3e8ff;
+  border-color: #d8b4fe;
+}
+
+.code-tab-button:focus-visible {
+  outline: 2px solid var(--sec);
+  outline-offset: 1px;
+}
+
+.code-tab-panel {
+  display: block;
+}
+
+.code-tab-panel[hidden] {
+  display: none !important;
+}
+
+.code-tab-panel .code-block-wrapper,
+.code-tab-panel pre {
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
 }

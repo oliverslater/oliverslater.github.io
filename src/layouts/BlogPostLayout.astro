@@ -251,5 +251,96 @@ const pageTitle = rawPageTitle.includes(profileData.name)
     <TableOfContents headings={headings} mode="desktop" />
   </div>
 
+  <!-- Architecture Diagram Lightbox Modal -->
+  <dialog
+    id="diagram-lightbox"
+    class="diagram-lightbox m-auto p-0 rounded-2xl bg-neutral-950/95 dark:bg-[#101010]/95 text-[var(--white)] border border-neutral-800 dark:border-[#ffffff18] shadow-2xl backdrop:backdrop-blur-md backdrop:bg-black/75 max-w-[95vw] max-h-[92vh] w-[1100px] h-[780px] overflow-hidden flex flex-col focus:outline-none"
+    closedby="any"
+    aria-labelledby="lightbox-title"
+  >
+    <!-- Header bar -->
+    <div class="flex items-center justify-between px-5 py-3 border-b border-[#ffffff15] bg-neutral-900/60 select-none">
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-mono font-medium text-[var(--sec)] uppercase tracking-wider">
+          Architecture Diagram
+        </span>
+        <span
+          id="lightbox-title"
+          class="text-xs text-[var(--white-icon)] font-mono"
+        >
+          · Interactive Viewer
+        </span>
+      </div>
+      <div class="flex items-center gap-1.5 font-mono text-xs">
+        <button
+          type="button"
+          id="lightbox-zoom-out"
+          class="p-1.5 px-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-[var(--white)] transition-colors"
+          title="Zoom out (-)"
+          aria-label="Zoom out"
+        >
+          &minus;
+        </button>
+        <span
+          id="lightbox-zoom-level"
+          class="px-2 py-1 text-xs text-[var(--white-icon)] select-none"
+        >
+          100%
+        </span>
+        <button
+          type="button"
+          id="lightbox-zoom-in"
+          class="p-1.5 px-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-[var(--white)] transition-colors"
+          title="Zoom in (+)"
+          aria-label="Zoom in"
+        >
+          &plus;
+        </button>
+        <button
+          type="button"
+          id="lightbox-reset"
+          class="px-2.5 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-[var(--white-icon)] hover:text-[var(--white)] transition-colors"
+          title="Reset zoom and position (0)"
+        >
+          Reset
+        </button>
+        <button
+          type="button"
+          id="lightbox-close"
+          class="ml-2 p-1.5 px-2.5 rounded-lg bg-neutral-800 hover:bg-rose-500/20 hover:text-rose-400 text-[var(--white)] transition-colors"
+          title="Close viewer (Esc)"
+          aria-label="Close dialog"
+        >
+          &times;
+        </button>
+      </div>
+    </div>
+
+    <!-- Interactive Canvas Stage -->
+    <div
+      id="lightbox-stage-container"
+      class="flex-1 w-full h-full overflow-hidden relative flex items-center justify-center p-4 cursor-grab active:cursor-grabbing select-none"
+    >
+      <div
+        id="lightbox-stage"
+        class="transition-transform duration-75 origin-center w-full h-full flex items-center justify-center"
+      >
+        <!-- Cloned SVG inserted here dynamically -->
+      </div>
+    </div>
+
+    <!-- Footer helper hint -->
+    <div class="px-5 py-2 border-t border-[#ffffff10] bg-neutral-900/40 text-[11px] font-mono text-[var(--white-icon)] flex items-center justify-between">
+      <span>Drag to pan · Scroll to zoom</span>
+      <span>
+        Shortcuts:{" "}
+        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">+</kbd>{" "}
+        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">-</kbd>{" "}
+        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">0</kbd>{" "}
+        <kbd class="px-1 py-0.5 rounded bg-neutral-800 text-[10px]">Esc</kbd>
+      </span>
+    </div>
+  </dialog>
+
   <script src="../scripts/blog-enhancements.ts"></script>
 </Layout>

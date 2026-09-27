@@ -2,10 +2,12 @@
  * blog-enhancements.ts
  *
  * Enterprise-grade client-side enhancements for Astro blog articles:
- * 1. Syntax highlighting code copy engine with visual feedback
- * 2. Asynchronous, lazy-loaded Mermaid.js diagram engine with site token parity and theme switching
- * 3. Table of Contents active heading tracking with IntersectionObserver & permalink anchor injection
- * 4. Reading progress indicator pinned to viewport top
+ * 1. Accessible WAI-ARIA tabbed code blocks
+ * 2. Syntax highlighting code copy engine with visual feedback
+ * 3. Asynchronous, lazy-loaded Mermaid.js diagram engine with site token parity and theme switching
+ * 4. Architecture Diagram Lightbox with full-screen, drag-to-pan, and wheel zoom controls
+ * 5. Table of Contents active heading tracking with IntersectionObserver & permalink anchor injection
+ * 6. Reading progress indicator pinned to viewport top
  */
 
 import { copyToClipboard } from "../utils/clipboard";
@@ -13,6 +15,7 @@ import { copyToClipboard } from "../utils/clipboard";
 // Icons as SVG strings
 const COPY_ICON = `<svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>`;
 const CHECK_ICON = `<svg class="w-3.5 h-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+const EXPAND_ICON = `<svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>`;
 
 /* -------------------------------------------------------------------------- */
 /* 1. Code Copy Engine                                                        */
@@ -163,6 +166,9 @@ async function renderMermaidDiagrams() {
       container.innerHTML = `<div class="text-xs font-mono text-rose-400 p-4 text-left border border-rose-500/20 rounded-lg">Mermaid render error: Diagram syntax could not be parsed.</div>`;
     }
   }
+
+  // Attach interactive pan-zoom lightbox triggers to rendered diagrams
+  attachDiagramLightboxTriggers();
 }
 
 export async function setupMermaidDiagrams() {
@@ -359,11 +365,471 @@ export function setupReadingProgress() {
 }
 
 /* -------------------------------------------------------------------------- */
+/* 5. Accessible WAI-ARIA Tabbed Code Blocks                                  */
+/* -------------------------------------------------------------------------- */
+const LANGUAGE_DISPLAY_NAMES: Record<string, string> = {
+  terraform: "Terraform",
+  tf: "Terraform",
+  typescript: "TypeScript",
+  ts: "TypeScript",
+  javascript: "JavaScript",
+  js: "JavaScript",
+  python: "Python",
+  py: "Python",
+  bash: "CLI",
+  sh: "CLI",
+  shell: "CLI",
+  zsh: "CLI",
+  yaml: "YAML",
+  yml: "YAML",
+  json: "JSON",
+  dockerfile: "Dockerfile",
+  docker: "Dockerfile",
+  go: "Go",
+  golang: "Go",
+  rust: "Rust",
+  rs: "Rust",
+  html: "HTML",
+  css: "CSS",
+  sql: "SQL",
+};
+
+function formatLanguageName(lang: string): string {
+  const normalised = lang.toLowerCase().trim();
+  if (LANGUAGE_DISPLAY_NAMES[normalised]) {
+    return LANGUAGE_DISPLAY_NAMES[normalised];
+  }
+  return normalised
+    ? normalised.charAt(0).toUpperCase() + normalised.slice(1)
+    : "Snippet";
+}
+
+function extractTabLabel(pre: HTMLElement): string {
+  const codeEl = pre.querySelector("code");
+  const fullText = (codeEl ? codeEl.innerText : pre.innerText).trimStart();
+  const firstLine = fullText.split("\n")[0]?.trim() || "";
+  const match = firstLine.match(
+    /^(?:\/\/|#|\/\*)\s*tab:\s*([^*]+?)(?:\*\/)?$/i,
+  );
+
+  if (match) {
+    const customTitle = match[1].trim();
+
+    // Strip the comment line from the DOM
+    if (codeEl) {
+      const firstLineSpan = codeEl.querySelector(".line");
+      if (firstLineSpan) {
+        firstLineSpan.remove();
+      } else {
+        const lines = codeEl.innerHTML.split("\n");
+        lines.shift();
+        codeEl.innerHTML = lines.join("\n");
+      }
+    }
+    return customTitle;
+  }
+
+  // Fallback to language data attribute or class
+  const lang =
+    pre.dataset.language || pre.className.match(/language-(\w+)/)?.[1] || "";
+  return formatLanguageName(lang);
+}
+
+function buildTabGroup(
+  container: HTMLElement,
+  codeBlocks: HTMLElement[],
+  groupId: string,
+) {
+  const tabsWrapper = document.createElement("div");
+  tabsWrapper.className = "code-tabs-wrapper";
+
+  const tabList = document.createElement("div");
+  tabList.className = "code-tabs-header";
+  tabList.setAttribute("role", "tablist");
+  tabList.setAttribute("aria-label", "Code implementations");
+
+  const buttons: HTMLButtonElement[] = [];
+  const panels: HTMLElement[] = [];
+
+  codeBlocks.forEach((pre, index) => {
+    const tabTitle = extractTabLabel(pre);
+    const tabId = `${groupId}-tab-${index}`;
+    const panelId = `${groupId}-panel-${index}`;
+
+    // Create accessible tab button
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.id = tabId;
+    btn.className = "code-tab-button";
+    btn.textContent = tabTitle;
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-controls", panelId);
+    btn.setAttribute("aria-selected", index === 0 ? "true" : "false");
+    btn.tabIndex = index === 0 ? 0 : -1;
+
+    // Create accessible tab panel
+    const panel = document.createElement("div");
+    panel.id = panelId;
+    panel.className = "code-tab-panel";
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("aria-labelledby", tabId);
+    panel.tabIndex = 0;
+    if (index !== 0) {
+      panel.hidden = true;
+    }
+
+    panel.appendChild(pre);
+
+    tabList.appendChild(btn);
+    tabsWrapper.appendChild(panel);
+
+    buttons.push(btn);
+    panels.push(panel);
+  });
+
+  const activateTab = (targetIndex: number) => {
+    buttons.forEach((btn, i) => {
+      const isSelected = i === targetIndex;
+      btn.setAttribute("aria-selected", isSelected ? "true" : "false");
+      btn.tabIndex = isSelected ? 0 : -1;
+      panels[i].hidden = !isSelected;
+    });
+    buttons[targetIndex].focus();
+  };
+
+  // Accessible keyboard navigation for tablist
+  buttons.forEach((btn, index) => {
+    btn.addEventListener("click", () => activateTab(index));
+
+    btn.addEventListener("keydown", (e) => {
+      let targetIndex = index;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        targetIndex = (index + 1) % buttons.length;
+        activateTab(targetIndex);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        targetIndex = (index - 1 + buttons.length) % buttons.length;
+        activateTab(targetIndex);
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        activateTab(0);
+      } else if (e.key === "End") {
+        e.preventDefault();
+        activateTab(buttons.length - 1);
+      }
+    });
+  });
+
+  tabsWrapper.insertBefore(tabList, tabsWrapper.firstChild);
+  container.parentNode?.replaceChild(tabsWrapper, container);
+}
+
+export function setupCodeTabs() {
+  const article = document.querySelector("article");
+  if (!article) return;
+
+  // Pattern 1: Explicit <div class="code-tabs"> containers
+  const tabContainers = article.querySelectorAll<HTMLElement>(".code-tabs");
+  let groupCounter = 0;
+
+  tabContainers.forEach((container) => {
+    if (container.dataset.tabsInitialized === "true") return;
+
+    const codeBlocks = Array.from(
+      container.querySelectorAll<HTMLElement>(
+        "pre:not(.mermaid), pre.astro-code",
+      ),
+    );
+
+    if (codeBlocks.length === 0) return;
+
+    buildTabGroup(container, codeBlocks, `tabs-explicit-${++groupCounter}`);
+    container.dataset.tabsInitialized = "true";
+  });
+
+  // Pattern 2: Consecutive code blocks with tab hints (e.g. // tab: Terraform)
+  const allPreElements = Array.from(
+    article.querySelectorAll<HTMLElement>("pre:not(.mermaid), pre.astro-code"),
+  );
+
+  const consecutiveGroups: HTMLElement[][] = [];
+  let currentGroup: HTMLElement[] = [];
+
+  for (let i = 0; i < allPreElements.length; i++) {
+    const pre = allPreElements[i];
+    // Skip if already inside a tab container or already initialised
+    if (pre.closest(".code-tabs") || pre.closest(".code-tabs-wrapper")) {
+      if (currentGroup.length > 1) {
+        consecutiveGroups.push([...currentGroup]);
+      }
+      currentGroup = [];
+      continue;
+    }
+
+    const codeText = pre.innerText.trimStart();
+    const firstLine = codeText.split("\n")[0]?.trim() || "";
+    const hasTabHint = /^(?:\/\/|#|\/\*)\s*tab:\s*[^*]+?(?:\*\/)?$/i.test(
+      firstLine,
+    );
+
+    if (hasTabHint) {
+      currentGroup.push(pre);
+    } else {
+      if (currentGroup.length > 1) {
+        consecutiveGroups.push([...currentGroup]);
+      }
+      currentGroup = [];
+    }
+  }
+
+  if (currentGroup.length > 1) {
+    consecutiveGroups.push(currentGroup);
+  }
+
+  consecutiveGroups.forEach((group) => {
+    const firstPre = group[0];
+    const wrapper = document.createElement("div");
+    wrapper.className = "code-tabs";
+    firstPre.parentNode?.insertBefore(wrapper, firstPre);
+    group.forEach((p) => wrapper.appendChild(p));
+    buildTabGroup(wrapper, group, `tabs-consecutive-${++groupCounter}`);
+    wrapper.dataset.tabsInitialized = "true";
+  });
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. Architecture Diagram Lightbox & Interactive Pan-Zoom Viewer             */
+/* -------------------------------------------------------------------------- */
+let lightboxListenersInitialized = false;
+let currentLightboxScale = 1.0;
+let currentLightboxPanX = 0;
+let currentLightboxPanY = 0;
+
+function updateLightboxTransform(
+  stage: HTMLElement,
+  zoomLevelEl: HTMLElement | null,
+) {
+  stage.style.transform = `translate(${currentLightboxPanX}px, ${currentLightboxPanY}px) scale(${currentLightboxScale})`;
+  if (zoomLevelEl) {
+    zoomLevelEl.textContent = `${Math.round(currentLightboxScale * 100)}%`;
+  }
+}
+
+function resetLightboxView(
+  stage: HTMLElement,
+  zoomLevelEl: HTMLElement | null,
+) {
+  currentLightboxScale = 1.0;
+  currentLightboxPanX = 0;
+  currentLightboxPanY = 0;
+  updateLightboxTransform(stage, zoomLevelEl);
+}
+
+function openDiagramLightbox(container: HTMLElement, svgElement: SVGElement) {
+  const dialog = document.getElementById(
+    "diagram-lightbox",
+  ) as HTMLDialogElement | null;
+  const stage = document.getElementById("lightbox-stage");
+  const zoomLevelEl = document.getElementById("lightbox-zoom-level");
+  const titleEl = document.getElementById("lightbox-title");
+
+  if (!dialog || !stage) return;
+
+  // Derive contextual heading title if available
+  const prevEl = container.previousElementSibling;
+  let diagramTitle = "Interactive Architecture Viewer";
+  if (prevEl && /^H[2-4]$/.test(prevEl.tagName)) {
+    diagramTitle = prevEl.textContent?.replace(/#$/, "").trim() || diagramTitle;
+  }
+  if (titleEl) {
+    titleEl.textContent = `· ${diagramTitle}`;
+  }
+
+  // Clone SVG into interactive stage
+  const clone = svgElement.cloneNode(true) as SVGElement;
+  clone.style.maxWidth = "100%";
+  clone.style.maxHeight = "100%";
+  clone.style.width = "auto";
+  clone.style.height = "auto";
+  clone.removeAttribute("id");
+
+  stage.innerHTML = "";
+  stage.appendChild(clone);
+  resetLightboxView(stage, zoomLevelEl);
+  dialog.showModal();
+}
+
+export function attachDiagramLightboxTriggers() {
+  const dialog = document.getElementById(
+    "diagram-lightbox",
+  ) as HTMLDialogElement | null;
+  if (!dialog) return;
+
+  const containers =
+    document.querySelectorAll<HTMLElement>(".mermaid-container");
+  containers.forEach((container) => {
+    if (container.dataset.lightboxAttached === "true") return;
+
+    const svg = container.querySelector("svg");
+    if (!svg) return;
+
+    const expandBtn = document.createElement("button");
+    expandBtn.type = "button";
+    expandBtn.className = "expand-diagram-btn";
+    expandBtn.setAttribute(
+      "aria-label",
+      "Expand diagram in interactive viewer",
+    );
+    expandBtn.title = "Inspect full-screen";
+    expandBtn.innerHTML = `${EXPAND_ICON}<span>Expand</span>`;
+
+    expandBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openDiagramLightbox(container, svg);
+    });
+
+    container.appendChild(expandBtn);
+    container.dataset.lightboxAttached = "true";
+  });
+}
+
+export function setupDiagramLightbox() {
+  const dialog = document.getElementById(
+    "diagram-lightbox",
+  ) as HTMLDialogElement | null;
+  if (!dialog) return;
+
+  attachDiagramLightboxTriggers();
+
+  if (lightboxListenersInitialized) return;
+
+  const stage = document.getElementById("lightbox-stage");
+  const stageContainer = document.getElementById("lightbox-stage-container");
+  const zoomInBtn = document.getElementById("lightbox-zoom-in");
+  const zoomOutBtn = document.getElementById("lightbox-zoom-out");
+  const resetBtn = document.getElementById("lightbox-reset");
+  const closeBtn = document.getElementById("lightbox-close");
+  const zoomLevelEl = document.getElementById("lightbox-zoom-level");
+
+  if (!stage || !stageContainer) return;
+
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+
+  // Light-dismiss fallback for browsers without native closedby support (Safari)
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+      const rect = dialog.getBoundingClientRect();
+      const isInDialog =
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width;
+      if (!isInDialog) {
+        dialog.close();
+      }
+    }
+  });
+
+  // Pan interaction via pointer events
+  stageContainer.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+    isDragging = true;
+    startX = e.clientX - currentLightboxPanX;
+    startY = e.clientY - currentLightboxPanY;
+    stageContainer.setPointerCapture(e.pointerId);
+  });
+
+  stageContainer.addEventListener("pointermove", (e) => {
+    if (!isDragging) return;
+    currentLightboxPanX = e.clientX - startX;
+    currentLightboxPanY = e.clientY - startY;
+    updateLightboxTransform(stage, zoomLevelEl);
+  });
+
+  const stopDragging = (e: PointerEvent) => {
+    if (isDragging) {
+      isDragging = false;
+      try {
+        stageContainer.releasePointerCapture(e.pointerId);
+      } catch {
+        // pointer capture already released
+      }
+    }
+  };
+
+  stageContainer.addEventListener("pointerup", stopDragging);
+  stageContainer.addEventListener("pointercancel", stopDragging);
+
+  // Smooth wheel zoom
+  stageContainer.addEventListener(
+    "wheel",
+    (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+      currentLightboxScale = Math.min(
+        5.0,
+        Math.max(0.4, currentLightboxScale * zoomFactor),
+      );
+      updateLightboxTransform(stage, zoomLevelEl);
+    },
+    { passive: false },
+  );
+
+  // Zoom control buttons
+  zoomInBtn?.addEventListener("click", () => {
+    currentLightboxScale = Math.min(5.0, currentLightboxScale + 0.25);
+    updateLightboxTransform(stage, zoomLevelEl);
+  });
+
+  zoomOutBtn?.addEventListener("click", () => {
+    currentLightboxScale = Math.max(0.4, currentLightboxScale - 0.25);
+    updateLightboxTransform(stage, zoomLevelEl);
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    resetLightboxView(stage, zoomLevelEl);
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    dialog.close();
+  });
+
+  // Keyboard navigation inside lightbox
+  dialog.addEventListener("keydown", (e) => {
+    if (e.key === "+" || e.key === "=") {
+      e.preventDefault();
+      currentLightboxScale = Math.min(5.0, currentLightboxScale + 0.25);
+      updateLightboxTransform(stage, zoomLevelEl);
+    } else if (e.key === "-" || e.key === "_") {
+      e.preventDefault();
+      currentLightboxScale = Math.max(0.4, currentLightboxScale - 0.25);
+      updateLightboxTransform(stage, zoomLevelEl);
+    } else if (e.key === "0") {
+      e.preventDefault();
+      resetLightboxView(stage, zoomLevelEl);
+    }
+  });
+
+  // Reset stage and clear memory on close
+  dialog.addEventListener("close", () => {
+    resetLightboxView(stage, zoomLevelEl);
+    stage.innerHTML = "";
+  });
+
+  lightboxListenersInitialized = true;
+}
+
+/* -------------------------------------------------------------------------- */
 /* Main Initializer                                                           */
 /* -------------------------------------------------------------------------- */
 export function initBlogArticleEnhancements() {
+  setupCodeTabs();
   setupCodeCopyButtons();
   setupMermaidDiagrams();
+  setupDiagramLightbox();
   setupTableOfContents();
   setupReadingProgress();
 }
