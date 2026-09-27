@@ -33,8 +33,13 @@
   "lint-staged": {
     "*.{yml,yaml}": "node scripts/validate-yaml.mjs",
     "*.json": "node scripts/validate-json.mjs",
-    "*.md": ["node scripts/validate-blog.mjs", "markdownlint"],
-    "*.{astro,ts,tsx,js,mjs,md,json}": ["cspell --no-must-find-files"],
+    "*.md": [
+      "node scripts/validate-blog.mjs",
+      "markdownlint"
+    ],
+    "*.{astro,ts,tsx,js,mjs,md,json}": [
+      "cspell --no-must-find-files"
+    ],
     "*": "node scripts/check-file-hygiene.mjs",
     "*.{astro,ts,tsx,js,mjs,md,css}": "prettier --write"
   },
@@ -58,6 +63,8 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
     "@cspell/dict-en-gb": "^5.0.34",
     "@types/node": "^26.5.1",
     "cspell": "^10.3.4",
