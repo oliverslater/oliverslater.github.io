@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
   findOverrideMatch,
   applyOverrideToBadge,
@@ -9,6 +9,16 @@ import type {
   CredentialItem,
   CertificationOverride,
 } from "../../src/utils/credentialTypes";
+
+vi.mock("../../src/utils/credly", () => ({
+  fetchCredlyBadges: vi.fn().mockResolvedValue([]),
+}));
+
+vi.mock("../../src/utils/mslearn", () => ({
+  fetchMicrosoftLearnBadges: vi.fn().mockResolvedValue([]),
+  getDefaultMicrosoftBadgeIcon: vi.fn().mockReturnValue("/icons/ms.png"),
+  MS_LEARN_PUBLIC_TRANSCRIPT_URL: "https://learn.microsoft.com/transcript",
+}));
 
 describe("certifications utils", () => {
   const sampleBadge: CredentialItem = {
@@ -89,6 +99,21 @@ describe("certifications utils", () => {
       expect(updated.expiresDate).toBeUndefined();
       expect(updated.rawExpiresDate).toBeUndefined();
     });
+
+    it("handles specific date expiry and includeInCount overrides", () => {
+      const override: CertificationOverride = {
+        expiresDate: "2028-12-31",
+        includeInCount: false,
+      };
+      const updated = applyOverrideToBadge(sampleBadge, override);
+      expect(updated.rawExpiresDate).toBe("2028-12-31");
+      expect(updated.includeInCount).toBe(false);
+    });
+
+    it("returns unchanged badge if match is undefined", () => {
+      const updated = applyOverrideToBadge(sampleBadge, undefined);
+      expect(updated).toEqual(sampleBadge);
+    });
   });
 
   describe("applyOverrides", () => {
@@ -138,6 +163,23 @@ describe("certifications utils", () => {
         rawDate: "2024-01-01",
       };
       expect(sortCredentials(badgeA, badgeB)).toBeLessThan(0);
+    });
+  });
+
+  describe("getAllCredentials", () => {
+    it("fetches, merges, deduplicates, and applies filters and sorting", async () => {
+      const { getAllCredentials } =
+        await import("../../src/utils/certifications");
+      const credentials = await getAllCredentials();
+      expect(Array.isArray(credentials)).toBe(true);
+      expect(credentials.length).toBeGreaterThan(0);
+
+      // Asserts sorting: each item priority should be >= next item priority, or date >= next date
+      for (let i = 0; i < credentials.length - 1; i++) {
+        expect(credentials[i].priority).toBeGreaterThanOrEqual(
+          credentials[i + 1].priority,
+        );
+      }
     });
   });
 });

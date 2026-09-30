@@ -33,4 +33,20 @@ describe("clipboard utils", () => {
     expect(result).toBe(true);
     expect(document.execCommand).toHaveBeenCalledWith("copy");
   });
+
+  it("handles exceptions gracefully and returns false", async () => {
+    Object.defineProperty(window, "isSecureContext", {
+      value: true,
+      configurable: true,
+    });
+    Object.defineProperty(navigator, "clipboard", {
+      value: {
+        writeText: vi.fn().mockRejectedValue(new Error("Permission denied")),
+      },
+      configurable: true,
+    });
+
+    const result = await copyToClipboard("will fail");
+    expect(result).toBe(false);
+  });
 });

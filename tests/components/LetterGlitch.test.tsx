@@ -21,4 +21,44 @@ describe("<LetterGlitch /> Component", () => {
     const canvas = container.querySelector("canvas");
     expect(canvas).toBeInTheDocument();
   });
+
+  it("handles smooth transitions and custom glitchSpeed prop", () => {
+    const { container } = render(
+      <LetterGlitch
+        glitchSpeed={20}
+        smooth={true}
+        glitchColors={["#ff0000", "#00ff00"]}
+      />,
+    );
+    const canvas = container.querySelector("canvas");
+    expect(canvas).toBeInTheDocument();
+  });
+
+  it("handles IntersectionObserver callbacks and window resize", () => {
+    let observerCallback: (entries: any[]) => void = () => {};
+    class MockIntersectionObserver {
+      constructor(cb: any) {
+        observerCallback = cb;
+      }
+      observe = vi.fn();
+      disconnect = vi.fn();
+      unobserve = vi.fn();
+    }
+    vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
+
+    const { container } = render(<LetterGlitch glitchSpeed={10} smooth />);
+    const canvas = container.querySelector("canvas");
+    expect(canvas).toBeInTheDocument();
+
+    // Trigger intersection visible
+    observerCallback([{ isIntersecting: true }]);
+
+    // Trigger window resize
+    window.dispatchEvent(new Event("resize"));
+
+    // Trigger intersection hidden
+    observerCallback([{ isIntersecting: false }]);
+
+    vi.unstubAllGlobals();
+  });
 });

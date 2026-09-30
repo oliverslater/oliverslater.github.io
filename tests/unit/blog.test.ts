@@ -27,7 +27,7 @@ describe("blog utils", () => {
         },
       };
 
-      expect(isPostPublished(draftPost, false)).toBe(false);
+      expect(isPostPublished(draftPost, { isDev: false })).toBe(false);
     });
 
     it("strictly hides future dated posts in production", () => {
@@ -39,7 +39,7 @@ describe("blog utils", () => {
         },
       };
 
-      expect(isPostPublished(futurePost, false)).toBe(false);
+      expect(isPostPublished(futurePost, { isDev: false })).toBe(false);
     });
 
     it("permits past non-draft posts in production", () => {
@@ -51,7 +51,44 @@ describe("blog utils", () => {
         },
       };
 
-      expect(isPostPublished(livePost, false)).toBe(true);
+      expect(isPostPublished(livePost, { isDev: false })).toBe(true);
+    });
+
+    it("respects allowInDev flags for draft and future posts", () => {
+      const futureDraftPost = {
+        id: "future-draft",
+        data: {
+          pubDate: new Date(Date.now() + 1000000),
+          draft: true,
+        },
+      };
+
+      // Disallow drafts in dev
+      expect(
+        isPostPublished(futureDraftPost, {
+          isDev: true,
+          allowDraftsInDev: false,
+          allowFutureInDev: true,
+        }),
+      ).toBe(false);
+
+      // Disallow future posts in dev
+      expect(
+        isPostPublished(futureDraftPost, {
+          isDev: true,
+          allowDraftsInDev: true,
+          allowFutureInDev: false,
+        }),
+      ).toBe(false);
+
+      // Allow both in dev
+      expect(
+        isPostPublished(futureDraftPost, {
+          isDev: true,
+          allowDraftsInDev: true,
+          allowFutureInDev: true,
+        }),
+      ).toBe(true);
     });
   });
 });

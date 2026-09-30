@@ -32,14 +32,12 @@ export default defineConfig({
         "src/utils/mslearn.ts", // External HTTP API network calls
         "src/utils/cache.ts", // Build-time filesystem caching
         "src/utils/feed.ts", // Astro build-time XML feed serialization
-        "src/utils/schema.ts", // Declarative Schema.org dictionary generator
-        "src/utils/credentialApi.ts",
       ],
       thresholds: {
-        lines: 65,
-        statements: 65,
-        functions: 60,
-        branches: 55,
+        lines: 80,
+        statements: 80,
+        functions: 75,
+        branches: 70,
       },
     },
   },

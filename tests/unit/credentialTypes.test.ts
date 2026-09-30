@@ -56,9 +56,13 @@ describe("credentialTypes utils", () => {
       expect(isCredentialExpired("2099-12-31")).toBe(false);
     });
 
-    it("handles month-year format with end-of-month grace", () => {
-      expect(isCredentialExpired("Jan 2020")).toBe(true);
-      expect(isCredentialExpired("Dec 2099")).toBe(false);
+    it("returns false for invalid date strings", () => {
+      expect(isCredentialExpired("invalid-expires-date")).toBe(false);
+    });
+
+    it("handles range format by checking the last date in the range", () => {
+      expect(isCredentialExpired("Jan 2018 – Jan 2020")).toBe(true);
+      expect(isCredentialExpired("Jan 2020 - Dec 2099")).toBe(false);
     });
   });
 
