@@ -1,0 +1,28 @@
+name: Feature Request or Improvement
+description: Suggest an idea, architectural refinement, or design enhancement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for proposing an enhancement or technical improvement.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Motivation
+      description: Is your feature request related to a specific problem or architectural trade-off?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution / Enhancement
+      description: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or trade-offs considered.
+    validations:
+      required: false

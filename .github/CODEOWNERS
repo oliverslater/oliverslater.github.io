@@ -1,0 +1,25 @@
+# Global repository ownership
+* @oliverslater
+
+# CI/CD Workflows, Automation & Dependency Policies
+/.github/ @oliverslater
+/.github/workflows/ @oliverslater
+/.github/dependabot.yml @oliverslater
+
+# Platform Architecture, Build Pipeline & Dependencies
+/astro.config.mjs @oliverslater
+/package.json @oliverslater
+/package-lock.json @oliverslater
+/tsconfig.json @oliverslater
+/scripts/ @oliverslater
+
+# Multi-Provider Credential & CV Verification Engines
+/src/content/cv/ @oliverslater
+/src/utils/certifications.ts @oliverslater
+/src/utils/mslearn.ts @oliverslater
+/src/utils/credly.ts @oliverslater
+/src/utils/credentialApi.ts @oliverslater
+
+# Blog Editorial Content & Headless CMS Config
+/src/content/blog/ @oliverslater
+/.pages.yml @oliverslater

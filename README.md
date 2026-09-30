@@ -1,5 +1,11 @@
 # Oliver Slater — Virtual CV & Engineering Blog
 
+[![Deploy Pipeline](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/deploy.yml)
+[![PR Verification](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/pr-verification.yml/badge.svg?branch=main)](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/pr-verification.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D24.20.0-339933?logo=node.js&logoColor=white)](package.json)
+[![Pages CMS](https://img.shields.io/badge/CMS-Pages%20CMS-blue)](https://pagescms.org/)
+
 A high-performance personal portfolio, scannable virtual CV, and technical engineering blog built with **Astro 7**, **Tailwind CSS v4**, and **Pages CMS**. Designed with the **DarkMinimal** aesthetic: strict monochrome hierarchy, zero layout shift, system-native dark/light mode with zero flash of unstyled content (Zero FOUC), dynamic multi-provider credential synchronisation, and static export for GitHub Pages.
 
 ---

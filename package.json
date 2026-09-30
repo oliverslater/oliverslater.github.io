@@ -35,7 +35,7 @@
   "lint-staged": {
     "*.{yml,yaml}": "node scripts/validate-yaml.mjs",
     "*.json": "node scripts/validate-json.mjs",
-    "*.md": [
+    "src/content/**/*.md": [
       "node scripts/validate-blog.mjs",
       "markdownlint"
     ],

@@ -1,3 +1,4 @@
+branch: develop
 media:
   input: public/assets
   output: /assets
