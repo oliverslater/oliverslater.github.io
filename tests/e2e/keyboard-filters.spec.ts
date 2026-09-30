@@ -6,9 +6,15 @@ test.describe("Search & Interactive Skills Filter Keyboard Accessibility", () =>
   }) => {
     await page.goto("/");
 
-    // Locate the first pillar button
+    // Locate the first pillar button and ensure it is scrolled into view for hydration
     const firstPillarBtn = page.locator('button[id^="pillar-btn-"]').first();
+    await firstPillarBtn.scrollIntoViewIfNeeded();
     await expect(firstPillarBtn).toBeVisible();
+
+    // Ensure the Astro island is fully hydrated before keyboard interaction
+    await page
+      .locator("astro-island:has(button[id^='pillar-btn-']):not([ssr])")
+      .waitFor();
 
     // Focus first button via keyboard or direct focus
     await firstPillarBtn.focus();
@@ -19,22 +25,16 @@ test.describe("Search & Interactive Skills Filter Keyboard Accessibility", () =>
     const secondPillarBtn = page.locator('button[id^="pillar-btn-"]').nth(1);
     await expect(secondPillarBtn).toBeFocused();
 
-    // Toggle expansion via keyboard Enter
-    const wasExpanded =
-      (await secondPillarBtn.getAttribute("aria-expanded")) === "true";
+    // Toggle expansion via keyboard Enter and wait for the DOM to update
+    await expect(secondPillarBtn).toHaveAttribute("aria-expanded", "false");
     await page.keyboard.press("Enter");
 
-    const isNowExpanded =
-      (await secondPillarBtn.getAttribute("aria-expanded")) === "true";
-    expect(isNowExpanded).not.toBe(wasExpanded);
+    await expect(secondPillarBtn).toHaveAttribute("aria-expanded", "true");
 
     // Verify associated panel exists and corresponds to aria-controls
     const controlsPanelId = await secondPillarBtn.getAttribute("aria-controls");
     expect(controlsPanelId).toBeTruthy();
-
-    if (isNowExpanded) {
-      await expect(page.locator(`#${controlsPanelId}`)).toBeVisible();
-    }
+    await expect(page.locator(`#${controlsPanelId}`)).toBeVisible();
   });
 
   test("allows keyboard navigation through blog search input", async ({

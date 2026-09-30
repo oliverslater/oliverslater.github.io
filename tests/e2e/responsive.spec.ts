@@ -18,10 +18,13 @@ test.describe("Responsive Viewport & Navigation Tests", () => {
       await expect(nav).toBeVisible();
 
       // Navigation links remain visible and accessible in the floating pill
-      const homeLink = nav.locator('a[href="/"]');
-      const cvLink = nav.locator('a[href="/cv"]');
-      const blogLink = nav.locator('a[href="/blog"]');
-      const contactLink = nav.locator('a[href="/contact"]');
+      const homeLink = nav.getByRole("link", { name: "Home", exact: true });
+      const cvLink = nav.getByRole("link", { name: "CV", exact: true });
+      const blogLink = nav.getByRole("link", { name: "Blog", exact: true });
+      const contactLink = nav.getByRole("link", {
+        name: "Contact",
+        exact: true,
+      });
 
       await expect(homeLink).toBeVisible();
       await expect(cvLink).toBeVisible();
