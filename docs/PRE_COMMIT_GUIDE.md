@@ -11,7 +11,7 @@ The active validation system uses **Husky + lint-staged + Node.js validation scr
 ### What Runs on `git commit` (Local):
 
 1. **`lint-staged` (Staged files only)**:
-   - **Trailing Whitespace & End of File**: Automatically fixed via `prettier --write` on all staged code, Markdown, and CSS files.
+   - **Trailing Whitespace & End of File**: Automatically fixed via `prettier --write` on all staged code, Markdown, CSS, JSON, and YAML files.
    - **YAML Syntax Validation**: Validates staged `.yml` and `.yaml` files via `node scripts/validate-yaml.mjs`.
    - **JSON Syntax Validation**: Validates staged `.json` files via `node scripts/validate-json.mjs`.
    - **Hygiene Guard**: Runs `node scripts/check-file-hygiene.mjs` to block accidental private key commits and oversized binaries (> 5MB).

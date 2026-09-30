@@ -40,14 +40,14 @@
     "*.{yml,yaml}": "node scripts/validate-yaml.mjs",
     "*.json": "node scripts/validate-json.mjs",
     "src/content/**/*.md": [
-      "node scripts/validate-blog.mjs",
-      "markdownlint-cli2"
+      "markdownlint-cli2 --fix",
+      "node scripts/validate-blog.mjs"
     ],
     "*.{astro,ts,tsx,js,mjs,md,json}": [
       "cspell --no-must-find-files"
     ],
     "*": "node scripts/check-file-hygiene.mjs",
-    "*.{astro,ts,tsx,js,mjs,md,css}": "prettier --write"
+    "*.{astro,ts,tsx,js,mjs,md,css,json,yml,yaml}": "prettier --write"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
