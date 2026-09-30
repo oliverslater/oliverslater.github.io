@@ -3,8 +3,11 @@ import {
   findOverrideMatch,
   applyOverrideToBadge,
   sortCredentials,
-} from "./certifications";
-import type { CredentialItem, CertificationOverride } from "./credentialTypes";
+} from "../../src/utils/certifications";
+import type {
+  CredentialItem,
+  CertificationOverride,
+} from "../../src/utils/credentialTypes";
 
 describe("certifications utils", () => {
   const sampleBadge: CredentialItem = {

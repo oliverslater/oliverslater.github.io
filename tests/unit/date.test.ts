@@ -3,7 +3,7 @@ import {
   formatDate,
   formatMonthYear,
   calculateTotalExperienceYears,
-} from "./date";
+} from "../../src/utils/date";
 
 describe("date utils", () => {
   describe("formatDate", () => {

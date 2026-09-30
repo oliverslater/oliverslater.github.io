@@ -142,9 +142,14 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 │       ├── mslearn.ts           # Dynamic Microsoft Learn public transcript API client
 │       ├── profile.ts           # Contact details and profile helpers
 │       └── schema.ts            # Schema.org JSON-LD structured data generators
+├── tests/                       # Central test suite
+│   ├── components/              # React Component island tests (React Testing Library + jsdom)
+│   ├── unit/                    # Vitest unit tests for utilities & data schemas
+│   └── setup.ts                 # Test environment setup and matchers
 ├── third-party-licenses/        # Harvested full-text third-party licenses
 ├── THIRD-PARTY-NOTICES.md       # Bundled open-source attribution report
 ├── astro.config.mjs             # Astro static configuration & @tailwindcss/vite
+├── vitest.config.ts             # Vitest unit & component test configuration with HTML/JUnit reporters
 ├── tsconfig.json                # TypeScript strict configuration
 └── package.json
 ```
@@ -178,6 +183,8 @@ npm run validate
 Individual checks, formatters, and auditors can be run independently:
 
 ```bash
+npm run test            # Runs Vitest unit & React component tests with HTML/JUnit reports
+npm run test:ui         # Opens interactive Vitest UI dashboard in browser
 npm run validate:yaml   # Validates .pages.yml and GitHub Actions workflows
 npm run validate:json   # Validates all JSON data files and configs
 npm run lint:md         # Validates Markdown syntax in engineering blog posts

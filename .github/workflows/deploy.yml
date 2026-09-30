@@ -44,6 +44,16 @@ jobs:
       - name: Validate Schemas, Markdown & Hygiene
         run: npm run validate
 
+      - name: Upload Test Report & Evidence
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 #v4.6.1
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results-deploy
+          path: |
+            test-results/
+            html/
+          retention-days: 30
+
       - name: Cache credentials API responses
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 #v6.1.0
         with:

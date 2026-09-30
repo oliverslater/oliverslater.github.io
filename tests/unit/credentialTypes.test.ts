@@ -4,7 +4,7 @@ import {
   parseTime,
   isCredentialExpired,
   resolvePriority,
-} from "./credentialTypes";
+} from "../../src/utils/credentialTypes";
 
 describe("credentialTypes utils", () => {
   describe("cleanIssuerName", () => {
