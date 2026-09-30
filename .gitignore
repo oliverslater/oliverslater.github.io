@@ -28,3 +28,8 @@ Thumbs.db
 
 # Local Agentic Customizations
 .agents/
+
+# Security scanning outputs
+results.sarif
+*.sarif
+.gitleaks/
