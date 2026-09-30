@@ -34,6 +34,19 @@ describe("clipboard utils", () => {
     expect(document.execCommand).toHaveBeenCalledWith("copy");
   });
 
+  it("returns false when execCommand fallback is denied by browser policy", async () => {
+    Object.defineProperty(window, "isSecureContext", {
+      value: false,
+      configurable: true,
+    });
+    // Browser policy returns false (clipboard access denied)
+    document.execCommand = vi.fn().mockReturnValue(false);
+
+    const result = await copyToClipboard("denied text");
+    expect(result).toBe(false);
+    expect(document.execCommand).toHaveBeenCalledWith("copy");
+  });
+
   it("handles exceptions gracefully and returns false", async () => {
     Object.defineProperty(window, "isSecureContext", {
       value: true,

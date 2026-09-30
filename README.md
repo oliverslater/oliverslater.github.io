@@ -43,10 +43,17 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 
 ```text
 ├── .github/
-│   ├── dependabot.yml           # Dependabot automated dependency scanning
+│   ├── CODEOWNERS                   # Repository ownership and required reviewers
+│   ├── SECURITY.md                  # Vulnerability disclosure and reporting policy
+│   ├── dependabot.yml               # Dependabot automated dependency scanning
+│   ├── pull_request_template.md     # Standardised PR quality checklist
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml           # Structured bug report form
+│   │   └── feature_request.yml     # Feature and enhancement request form
 │   └── workflows/
-│       ├── deploy.yml           # Daily cron + push automated Pages deployment
-│       └── dependabot-build.yml # Build verification on automated PRs
+│       ├── deploy.yml               # Daily cron + push automated Pages deployment
+│       ├── pr-verification.yml      # PR quality gates: formatting, tests, build, links
+│       └── dependabot-build.yml     # Build verification on automated dependency PRs
 ├── .husky/                      # Git hooks (pre-commit validation and formatting)
 ├── .pages.yml                   # Pages CMS schema for blog, CV, and settings
 ├── .env.example                 # Form endpoint environment template
@@ -146,13 +153,13 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 ├── tests/                       # Central test suite
 │   ├── components/              # React Component island tests (React Testing Library + jsdom)
 │   ├── unit/                    # Vitest unit tests for utilities & data schemas
-│   ├── e2e/                     # Playwright End-to-End & accessibility audit specifications
+│   ├── e2e/                     # Playwright End-to-End, WCAG accessibility, and RSS feed audit specifications
 │   └── setup.ts                 # Test environment setup and matchers
 ├── third-party-licenses/        # Harvested full-text third-party licenses
 ├── THIRD-PARTY-NOTICES.md       # Bundled open-source attribution report
 ├── astro.config.mjs             # Astro static configuration & @tailwindcss/vite
 ├── playwright.config.ts         # Playwright E2E configuration, web server & viewport matrix
-├── vitest.config.ts             # Vitest unit & component test configuration with coverage, HTML/JUnit reporters
+├── vitest.config.ts             # Vitest unit & component test configuration with vmThreads pool, coverage, HTML/JUnit reporters
 ├── tsconfig.json                # TypeScript strict configuration
 └── package.json
 ```
@@ -199,6 +206,8 @@ npm run check           # Astro TypeScript diagnostics and content collection sc
 npm run check:links     # Audits internal links, anchor tags, and asset targets across dist/
 npm run format:check    # Verifies Prettier code style compliance
 npm run format          # Automatically formats all project files with Prettier
+npm run check:sync      # Verifies llms.txt, sitemap.xml, and cv-version.json synchronisation
+npm run lint:spelling   # Spell-checks source files, blog posts, and documentation
 ```
 
 ### 4. Build Production Static Files
