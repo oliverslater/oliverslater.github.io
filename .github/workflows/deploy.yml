@@ -84,7 +84,7 @@ jobs:
             coverage/
             playwright-report/
           retention-days: 30
-          
+
       - name: Pre-compress Static Assets (Gzip & Brotli)
         run: npm run compress
 

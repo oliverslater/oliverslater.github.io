@@ -64,7 +64,7 @@ jobs:
 
       - name: Validate HTML & check broken links
         run: npm run check:links
-        
+
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
