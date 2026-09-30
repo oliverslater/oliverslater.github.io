@@ -15,6 +15,14 @@ describe("blog utils", () => {
         "/blog/2026/09/architecting-cloud-platform",
       );
     });
+
+    it("pads single-digit months with a leading zero", () => {
+      const post = {
+        id: "jan-post",
+        data: { pubDate: new Date("2026-01-05T00:00:00Z") },
+      };
+      expect(getBlogUrl(post)).toBe("/blog/2026/01/jan-post");
+    });
   });
 
   describe("isPostPublished", () => {

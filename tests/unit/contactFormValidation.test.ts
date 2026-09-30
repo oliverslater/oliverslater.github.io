@@ -56,7 +56,7 @@ describe("ContactForm client-side validation logic", () => {
   function attachValidationHandlers(
     formEl: HTMLFormElement,
     onRedirect: (url: string) => void = (url) => {
-      window.location.href = url;
+      window.location.assign(url);
     },
   ) {
     const requiredInputs = [nameInput, emailInput, messageInput];

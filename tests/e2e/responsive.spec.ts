@@ -4,6 +4,7 @@ test.describe("Responsive Viewport & Navigation Tests", () => {
   const viewports = [
     { name: "iPhone SE (375x667)", width: 375, height: 667 },
     { name: "iPhone XR / 11 (414x896)", width: 414, height: 896 },
+    { name: "iPad Mini (768x1024)", width: 768, height: 1024 },
   ];
 
   for (const vp of viewports) {

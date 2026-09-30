@@ -23,6 +23,19 @@ describe("credentialTypes utils", () => {
     it("preserves unmapped issuer names", () => {
       expect(cleanIssuerName("Coursera")).toBe("Coursera");
     });
+
+    it("applies custom mappings and overrides defaults when provided", () => {
+      // Custom mapping takes precedence over DEFAULT_ISSUER_MAPPINGS
+      expect(
+        cleanIssuerName("Amazon Web Services", {
+          "Amazon Web Services": "Amazon",
+        }),
+      ).toBe("Amazon");
+      // Custom mapping for a previously unmapped issuer
+      expect(cleanIssuerName("Coursera", { Coursera: "Coursera Inc." })).toBe(
+        "Coursera Inc.",
+      );
+    });
   });
 
   describe("parseTime", () => {

@@ -13,6 +13,10 @@ test.describe("Accessibility (A11y) Audits", () => {
       // Analyze page accessibility - focusing on structural, keyboard navigation, and ARIA landmarks
       const accessibilityScanResults = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+        // colour-contrast is disabled: axe-core cannot reliably resolve CSS custom-
+        // property colour values at runtime in a headless context, producing false
+        // positives on the site's Tailwind-based theming. Colour contrast is verified
+        // manually against the design system palette.
         .disableRules(["color-contrast"])
         .analyze();
 
