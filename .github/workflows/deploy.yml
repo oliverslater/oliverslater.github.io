@@ -62,7 +62,10 @@ jobs:
             playwright-report/
           retention-days: 30
 
-      - name: Cache credentials API responses
+      # Restore credential API response cache before the build so the Astro build
+      # can reuse cached responses from previous runs. The cache is saved after the
+      # build completes (GitHub Actions saves at job end when the key is new).
+      - name: Restore credentials API cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 #v6.1.0
         with:
           path: node_modules/.cache/credentials
@@ -109,7 +112,12 @@ jobs:
           CPANEL_WEBHOOK_URL: ${{ secrets.CPANEL_WEBHOOK_URL }}
         run: |
           echo "Triggering cPanel deployment webhook..."
-          curl -s -f -X GET "$CPANEL_WEBHOOK_URL" || echo "cPanel webhook trigger failed"
+          # Non-blocking: webhook failure logs a warning but does not fail the deploy job.
+          if curl -s --fail-with-body -X GET "$CPANEL_WEBHOOK_URL"; then
+            echo "cPanel webhook triggered successfully."
+          else
+            echo "::warning::cPanel webhook trigger failed — check CPANEL_WEBHOOK_URL secret and cPanel connectivity."
+          fi
 
   deploy:
     name: Deploy to GitHub Pages
