@@ -21,4 +21,28 @@ test.describe("Contact Form Interaction", () => {
     await expect(emailError).toBeVisible();
     await expect(messageError).toBeVisible();
   });
+
+  test("diverts bot submission to thank-you page when honeypot is checked", async ({
+    page,
+  }) => {
+    await page.goto("/contact");
+
+    // Fill in valid data
+    await page.fill("#contact-name", "Automated Bot");
+    await page.fill("#contact-email", "bot@automated-spam.com");
+    await page.fill("#contact-message", "Buy cheap generic medication online");
+
+    // Target honeypot input (checkbox named botcheck, visually hidden)
+    const honeypot = page.locator("#contact-botcheck");
+    await honeypot.evaluate((el: HTMLInputElement) => {
+      el.checked = true;
+    });
+
+    const submitBtn = page.locator('button[type="submit"]');
+    await submitBtn.click();
+
+    // Browser should be diverted directly to /thank-you
+    await expect(page).toHaveURL(/\/thank-you\/?/);
+    await expect(page.locator("main")).toBeVisible();
+  });
 });
