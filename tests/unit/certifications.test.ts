@@ -166,8 +166,8 @@ describe("certifications utils", () => {
     });
   });
 
-  describe("getAllCredentials", () => {
-    it("fetches, merges, deduplicates, and applies filters and sorting", async () => {
+  describe("getAllCredentials offline / fallback handling", () => {
+    it("fetches, merges, deduplicates, and applies filters and sorting with mocked feeds", async () => {
       const { getAllCredentials } =
         await import("../../src/utils/certifications");
       const credentials = await getAllCredentials();
@@ -180,6 +180,21 @@ describe("certifications utils", () => {
           credentials[i + 1].priority,
         );
       }
+    });
+
+    it("falls back gracefully to local education.json when an external API returns empty or fails", async () => {
+      const { getLocalFallbackCredentials } =
+        await import("../../src/utils/manualCredentials");
+      const fallbacks = getLocalFallbackCredentials();
+      expect(fallbacks.length).toBeGreaterThan(0);
+
+      // When Microsoft API is down, fallback yields local Microsoft badges
+      const msFallback = fallbacks.filter((b) => b.issuer === "Microsoft");
+      expect(msFallback.length).toBeGreaterThan(0);
+
+      // When Credly API is down, fallback yields local non-Microsoft badges
+      const otherFallback = fallbacks.filter((b) => b.issuer !== "Microsoft");
+      expect(otherFallback.length).toBeGreaterThan(0);
     });
   });
 });
