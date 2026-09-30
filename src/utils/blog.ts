@@ -19,6 +19,7 @@ export function getBlogUrl(post: BlogPostLike): string {
 export interface PostVisibilityOptions {
   allowFutureInDev?: boolean;
   allowDraftsInDev?: boolean;
+  isDev?: boolean;
 }
 
 /**
@@ -35,7 +36,10 @@ export function isPostPublished(
   post: BlogPostLike & { data: { draft?: boolean } },
   allowInDev: boolean | PostVisibilityOptions = import.meta.env?.DEV ?? false,
 ): boolean {
-  const isDev = Boolean(import.meta.env?.DEV);
+  const isDev =
+    typeof allowInDev === "object" && allowInDev.isDev !== undefined
+      ? allowInDev.isDev
+      : Boolean(import.meta.env?.DEV);
   const allowFuture =
     typeof allowInDev === "object"
       ? (allowInDev.allowFutureInDev ?? true)

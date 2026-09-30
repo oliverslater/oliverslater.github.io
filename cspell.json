@@ -77,7 +77,8 @@
     "REGEN",
     "networkidle",
     "wght",
-    "Devicon"
+    "Devicon",
+    "unstub"
   ],
   "ignorePaths": [
     "node_modules/**",

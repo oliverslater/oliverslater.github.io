@@ -11,22 +11,43 @@ The active validation system uses **Husky + lint-staged + Node.js validation scr
 ### What Runs on `git commit` (Local):
 
 1. **`lint-staged` (Staged files only)**:
-   - **Trailing Whitespace & End of File**: Automatically fixed via `prettier --write` on all staged code, Markdown, and CSS files.
+   - **Trailing Whitespace & End of File**: Automatically fixed via `prettier --write` on all staged code, Markdown, CSS, JSON, and YAML files.
    - **YAML Syntax Validation**: Validates staged `.yml` and `.yaml` files via `node scripts/validate-yaml.mjs`.
    - **JSON Syntax Validation**: Validates staged `.json` files via `node scripts/validate-json.mjs`.
    - **Hygiene Guard**: Runs `node scripts/check-file-hygiene.mjs` to block accidental private key commits and oversized binaries (> 5MB).
 2. **`npm run validate` (Entire Repository)**:
+   - Runs the full Vitest unit and component test suite with V8 coverage reporting.
    - Validates all YAML files in the repository (`.pages.yml`, GitHub Actions workflows).
    - Validates all JSON content files in `src/content/cv/`.
-   - Runs `check:hygiene` to ensure no private keys or runaway binary files exist.
+   - Validates blog post frontmatter (required fields, title case tags, date ordering).
+   - Lints all Markdown blog posts for syntax and formatting issues.
+   - Spell-checks source files, blog posts, and documentation (`cspell`).
+   - Verifies `llms.txt`, `sitemap.xml`, and `cv-version.json` are present and non-empty.
+   - Runs `check:hygiene` to ensure no private keys or oversized binary files exist.
+   - Checks that `THIRD-PARTY-NOTICES.md` is up-to-date with current production dependencies.
    - Runs `astro check` to validate Astro components and Content Collections Zod schemas.
 
 ### What Runs on GitHub Actions CI (Remote):
 
-In `.github/workflows/deploy.yml`, the workflow runs:
+Two workflows enforce quality gates on every change:
+
+**On push to `main` or daily cron** (`.github/workflows/deploy.yml`):
 
 ```bash
-npm run validate
+npm run validate   # Full validation suite including tests, linting, and type checking
+npm run build      # Static site compilation
+npm run check:links  # Internal link and HTML structure audit
+```
+
+**On every Pull Request** (`.github/workflows/pr-verification.yml`):
+
+```bash
+npm run format:check    # Prettier formatting compliance
+npm run validate        # Full validation suite
+npm audit --omit=dev    # Production dependency security audit (high-severity)
+npm run licenses:check  # Third-party licence notice verification
+npm run build           # Build integrity check
+npm run check:links     # Link and HTML validation
 ```
 
 If an external tool (such as Pages CMS) creates a commit directly on GitHub that violates YAML syntax, breaks JSON formatting, or misses required frontmatter fields, **the CI build fails immediately and blocks deployment**, keeping your live site safe.

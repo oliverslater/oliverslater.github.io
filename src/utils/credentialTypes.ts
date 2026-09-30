@@ -1,3 +1,6 @@
+import { formatMonthYear } from "./date";
+import { issuerMappings } from "../data/siteData";
+
 export interface CredentialItem {
   id: string;
   title: string;
@@ -38,9 +41,6 @@ export interface CertificationOverride {
   issued?: string;
   issuer?: string;
 }
-
-import { formatMonthYear } from "./date";
-import { issuerMappings } from "../data/siteData";
 
 export const DEFAULT_ISSUER_MAPPINGS: Record<string, string> = {
   "Amazon Web Services": "AWS",

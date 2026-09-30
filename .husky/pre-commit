@@ -1,2 +1,5 @@
 npx lint-staged
 npm run validate
+if git status --porcelain public/badges/coverage.svg | grep -q 'public/badges/coverage.svg'; then
+  git add public/badges/coverage.svg
+fi

@@ -4,7 +4,7 @@ import {
   parseTime,
   isCredentialExpired,
   resolvePriority,
-} from "./credentialTypes";
+} from "../../src/utils/credentialTypes";
 
 describe("credentialTypes utils", () => {
   describe("cleanIssuerName", () => {
@@ -22,6 +22,19 @@ describe("credentialTypes utils", () => {
 
     it("preserves unmapped issuer names", () => {
       expect(cleanIssuerName("Coursera")).toBe("Coursera");
+    });
+
+    it("applies custom mappings and overrides defaults when provided", () => {
+      // Custom mapping takes precedence over DEFAULT_ISSUER_MAPPINGS
+      expect(
+        cleanIssuerName("Amazon Web Services", {
+          "Amazon Web Services": "Amazon",
+        }),
+      ).toBe("Amazon");
+      // Custom mapping for a previously unmapped issuer
+      expect(cleanIssuerName("Coursera", { Coursera: "Coursera Inc." })).toBe(
+        "Coursera Inc.",
+      );
     });
   });
 
@@ -56,9 +69,19 @@ describe("credentialTypes utils", () => {
       expect(isCredentialExpired("2099-12-31")).toBe(false);
     });
 
-    it("handles month-year format with end-of-month grace", () => {
+    it("returns false for invalid date strings", () => {
+      expect(isCredentialExpired("invalid-expires-date")).toBe(false);
+    });
+
+    it("handles range format by checking the last date in the range", () => {
+      expect(isCredentialExpired("Jan 2018 – Jan 2020")).toBe(true);
+      expect(isCredentialExpired("Jan 2020 - Dec 2099")).toBe(false);
+    });
+
+    it("evaluates month-year formats with end-of-month grace period", () => {
       expect(isCredentialExpired("Jan 2020")).toBe(true);
       expect(isCredentialExpired("Dec 2099")).toBe(false);
+      expect(isCredentialExpired(undefined, "Jan 2019")).toBe(true);
     });
   });
 

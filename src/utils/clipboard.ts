@@ -24,14 +24,17 @@ export async function copyToClipboard(text: string): Promise<boolean> {
       textarea.focus();
       textarea.select();
 
+      let execCommandSucceeded = false;
       try {
-        (document as any).execCommand("copy");
+        // execCommand is deprecated but remains the only fallback in non-secure contexts.
+        // Capture the boolean return value — false means the command was denied.
+        execCommandSucceeded = document.execCommand("copy");
       } catch {
-        // Suppress if execCommand is disallowed
+        // Suppress if execCommand throws (e.g., security policy violation)
       }
 
       document.body.removeChild(textarea);
-      return true;
+      return execCommandSucceeded;
     }
 
     return false;
