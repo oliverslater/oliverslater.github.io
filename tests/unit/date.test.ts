@@ -3,7 +3,7 @@ import {
   formatDate,
   formatMonthYear,
   calculateTotalExperienceYears,
-} from "./date";
+} from "../../src/utils/date";
 
 describe("date utils", () => {
   describe("formatDate", () => {
@@ -23,8 +23,13 @@ describe("date utils", () => {
       expect(formatDate(d)).toMatch(/20 Nov 2023/);
     });
 
-    it("returns raw string if invalid date string", () => {
-      expect(formatDate("invalid-date")).toBe("invalid-date");
+    it("formats a timestamp number", () => {
+      const ts = Date.UTC(2023, 10, 20);
+      expect(formatDate(ts)).toMatch(/20 Nov 2023/);
+    });
+
+    it("returns empty string when numeric input is NaN", () => {
+      expect(formatDate(NaN)).toBe("");
     });
   });
 
@@ -36,8 +41,9 @@ describe("date utils", () => {
   });
 
   describe("calculateTotalExperienceYears", () => {
-    it("returns 0 for empty roles array", () => {
+    it("returns 0 for empty or undefined roles array", () => {
       expect(calculateTotalExperienceYears([])).toBe(0);
+      expect(calculateTotalExperienceYears(null as unknown as [])).toBe(0);
     });
 
     it("calculates experience across sequential non-overlapping roles", () => {
@@ -47,6 +53,15 @@ describe("date utils", () => {
       ];
       const years = calculateTotalExperienceYears(roles);
       expect(years).toBeGreaterThanOrEqual(4);
+    });
+
+    it("handles Present as endDate and arbitrary string dates", () => {
+      const roles = [
+        { startDate: "Jan 2020", endDate: "Present" },
+        { startDate: "2018-01-01", endDate: "2019-01-01" },
+      ];
+      const years = calculateTotalExperienceYears(roles);
+      expect(years).toBeGreaterThan(4);
     });
 
     it("correctly merges overlapping roles without double-counting", () => {

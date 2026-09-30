@@ -44,7 +44,10 @@ jobs:
       - name: Validate Schemas, Markdown & Hygiene
         run: npm run validate
 
-      - name: Cache credentials API responses
+      # Restore credential API response cache before the build so the Astro build
+      # can reuse cached responses from previous runs. The cache is saved after the
+      # build completes (GitHub Actions saves at job end when the key is new).
+      - name: Restore credentials API cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 #v6.1.0
         with:
           path: node_modules/.cache/credentials
@@ -63,6 +66,24 @@ jobs:
 
       - name: Validate HTML & Check Broken Links
         run: npm run check:links
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E Playwright Tests
+        run: npm run test:e2e
+
+      - name: Upload Test Report & Evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results-deploy
+          path: |
+            test-results/
+            html/
+            coverage/
+            playwright-report/
+          retention-days: 30
 
       - name: Pre-compress Static Assets (Gzip & Brotli)
         run: npm run compress
@@ -91,7 +112,12 @@ jobs:
           CPANEL_WEBHOOK_URL: ${{ secrets.CPANEL_WEBHOOK_URL }}
         run: |
           echo "Triggering cPanel deployment webhook..."
-          curl -s -f -X GET "$CPANEL_WEBHOOK_URL" || echo "cPanel webhook trigger failed"
+          # Non-blocking: webhook failure logs a warning but does not fail the deploy job.
+          if curl -s --fail-with-body -X GET "$CPANEL_WEBHOOK_URL"; then
+            echo "cPanel webhook triggered successfully."
+          else
+            echo "::warning::cPanel webhook trigger failed — check CPANEL_WEBHOOK_URL secret and cPanel connectivity."
+          fi
 
   deploy:
     name: Deploy to GitHub Pages

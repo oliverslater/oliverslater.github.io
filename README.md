@@ -2,6 +2,7 @@
 
 [![Deploy Pipeline](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/deploy.yml)
 [![PR Verification](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/pr-verification.yml/badge.svg?branch=main)](https://github.com/oliverslater/oliverslater.github.io/actions/workflows/pr-verification.yml)
+![Coverage](public/badges/coverage.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D24.20.0-339933?logo=node.js&logoColor=white)](package.json)
 [![Pages CMS](https://img.shields.io/badge/CMS-Pages%20CMS-blue)](https://pagescms.org/)
@@ -42,10 +43,17 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 
 ```text
 ├── .github/
-│   ├── dependabot.yml           # Dependabot automated dependency scanning
+│   ├── CODEOWNERS                   # Repository ownership and required reviewers
+│   ├── SECURITY.md                  # Vulnerability disclosure and reporting policy
+│   ├── dependabot.yml               # Dependabot automated dependency scanning
+│   ├── pull_request_template.md     # Standardised PR quality checklist
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml           # Structured bug report form
+│   │   └── feature_request.yml     # Feature and enhancement request form
 │   └── workflows/
-│       ├── deploy.yml           # Daily cron + push automated Pages deployment
-│       └── dependabot-build.yml # Build verification on automated PRs
+│       ├── deploy.yml               # Daily cron + push automated Pages deployment
+│       ├── pr-verification.yml      # PR quality gates: formatting, tests, build, links
+│       └── dependabot-build.yml     # Build verification on automated dependency PRs
 ├── .husky/                      # Git hooks (pre-commit validation and formatting)
 ├── .pages.yml                   # Pages CMS schema for blog, CV, and settings
 ├── .env.example                 # Form endpoint environment template
@@ -142,9 +150,16 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 │       ├── mslearn.ts           # Dynamic Microsoft Learn public transcript API client
 │       ├── profile.ts           # Contact details and profile helpers
 │       └── schema.ts            # Schema.org JSON-LD structured data generators
+├── tests/                       # Central test suite
+│   ├── components/              # React Component island tests (React Testing Library + jsdom)
+│   ├── unit/                    # Vitest unit tests for utilities & data schemas
+│   ├── e2e/                     # Playwright End-to-End, WCAG accessibility, and RSS feed audit specifications
+│   └── setup.ts                 # Test environment setup and matchers
 ├── third-party-licenses/        # Harvested full-text third-party licenses
 ├── THIRD-PARTY-NOTICES.md       # Bundled open-source attribution report
 ├── astro.config.mjs             # Astro static configuration & @tailwindcss/vite
+├── playwright.config.ts         # Playwright E2E configuration, web server & viewport matrix
+├── vitest.config.ts             # Vitest unit & component test configuration with vmThreads pool, coverage, HTML/JUnit reporters
 ├── tsconfig.json                # TypeScript strict configuration
 └── package.json
 ```
@@ -178,6 +193,11 @@ npm run validate
 Individual checks, formatters, and auditors can be run independently:
 
 ```bash
+npm run test            # Runs Vitest unit & React component tests with coverage
+npm run test:watch      # Runs Vitest in interactive watch mode
+npm run test:ui         # Opens interactive Vitest UI dashboard in browser
+npm run test:coverage   # Generates V8 test coverage reports and SVG badge
+npm run test:e2e        # Executes full browser Playwright E2E & WCAG a11y tests
 npm run validate:yaml   # Validates .pages.yml and GitHub Actions workflows
 npm run validate:json   # Validates all JSON data files and configs
 npm run lint:md         # Validates Markdown syntax in engineering blog posts
@@ -186,6 +206,8 @@ npm run check           # Astro TypeScript diagnostics and content collection sc
 npm run check:links     # Audits internal links, anchor tags, and asset targets across dist/
 npm run format:check    # Verifies Prettier code style compliance
 npm run format          # Automatically formats all project files with Prettier
+npm run check:sync      # Verifies llms.txt, sitemap.xml, and cv-version.json synchronisation
+npm run lint:spelling   # Spell-checks source files, blog posts, and documentation
 ```
 
 ### 4. Build Production Static Files
