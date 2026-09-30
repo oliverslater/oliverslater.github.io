@@ -9,6 +9,9 @@ content:
     type: collection
     path: src/content/blog
     format: yaml-frontmatter
+    media:
+      input: public/assets/blog
+      output: /assets/blog
     view:
       fields: [title, pubDate, lastUpdated, draft]
       primary: title
