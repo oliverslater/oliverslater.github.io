@@ -1,0 +1,27 @@
+# Dependencies and build outputs
+node_modules/
+dist/
+.astro/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Tooling and security analysis artifacts
+results.sarif
+*.sarif
+.gitleaks/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Package manager lock files (formatted by their own tools)
+package-lock.json
+
+# License copies
+third-party-licenses/
