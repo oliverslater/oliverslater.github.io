@@ -23,7 +23,7 @@
     "validate:blog": "node scripts/validate-blog.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "validate": "npm run test && npm run validate:yaml && npm run validate:json && npm run validate:blog && npm run lint:md && npm run lint:spelling && npm run check:sync && npm run check:hygiene && npm run check",
+    "validate": "npm run test && npm run validate:yaml && npm run validate:json && npm run validate:blog && npm run lint:md && npm run lint:spelling && npm run check:sync && npm run check:hygiene && npm run licenses:check && npm run check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "sitemap": "node scripts/generate-sitemap.mjs",

@@ -14,7 +14,7 @@ Run `npm run licenses` after changing dependencies and review the result before 
 
 ## License Summary
 
-- MIT: 2 packages
+- MIT: 3 packages
 - OFL-1.1: 1 package
 
 ## Package Inventory
@@ -22,6 +22,7 @@ Run `npm run licenses` after changing dependencies and review the result before 
 | Package                                                                                          | Version | License | Scope       | Full text                                                                            |
 | ------------------------------------------------------------------------------------------------ | ------- | ------- | ----------- | ------------------------------------------------------------------------------------ |
 | [@fontsource-variable/montserrat](https://www.npmjs.com/package/@fontsource-variable/montserrat) | 5.3.0   | OFL-1.1 | distributed | [full text](third-party-licenses/at-fontsource-variable-montserrat-f429f7393512.txt) |
+| [mermaid](https://www.npmjs.com/package/mermaid)                                                 | 12.0.0  | MIT     | distributed | [full text](third-party-licenses/mermaid-ec9fb67dcb25.txt)                           |
 | [react](https://www.npmjs.com/package/react)                                                     | 19.3.0  | MIT     | distributed | [full text](third-party-licenses/react-da6d3703ed11.txt)                             |
 | [react-dom](https://www.npmjs.com/package/react-dom)                                             | 19.3.0  | MIT     | distributed | [full text](third-party-licenses/react-da6d3703ed11.txt)                             |
 

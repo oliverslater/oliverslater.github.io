@@ -76,7 +76,8 @@
     "autonumber",
     "REGEN",
     "networkidle",
-    "wght"
+    "wght",
+    "Devicon"
   ],
   "ignorePaths": [
     "node_modules/**",

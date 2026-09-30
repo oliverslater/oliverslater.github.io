@@ -11,6 +11,7 @@ const licensesDirectory = resolve(rootDirectory, "third-party-licenses");
 const checkOnly = process.argv.includes("--check");
 const distributedPackageNames = new Set([
   "@fontsource-variable/montserrat",
+  "mermaid",
   "react",
   "react-dom",
 ]);
@@ -90,13 +91,26 @@ ${rows}
   { filepath: noticesPath },
 );
 
+const missingClientPackages = await findMissingClientPackages(
+  distributedPackageNames,
+);
+if (missingClientPackages.length > 0) {
+  console.error(
+    `❌ Untracked client packages detected in client scripts/components: ${missingClientPackages.join(", ")}`,
+  );
+  console.error(
+    `   Please add them to distributedPackageNames in scripts/generate-third-party-notices.mjs and run npm run licenses.`,
+  );
+  process.exitCode = 1;
+}
+
 if (checkOnly) {
   const currentContent = await readFile(noticesPath, "utf8").catch(() => null);
   if (currentContent !== content) {
-    console.error(`${noticesPath} is out of date. Run npm run licenses.`);
+    console.error(`❌ ${noticesPath} is out of date. Run npm run licenses.`);
     process.exitCode = 1;
-  } else {
-    console.log(`${noticesPath} is up to date.`);
+  } else if (!process.exitCode) {
+    console.log(`✓ ${noticesPath} is up to date.`);
   }
 } else {
   await writeFile(noticesPath, content);
@@ -196,4 +210,77 @@ function getLicense(metadata) {
   }
 
   return "UNKNOWN";
+}
+
+async function findMissingClientPackages(allowedPackages) {
+  const srcDirectory = resolve(rootDirectory, "src");
+  const allFiles = await scanDirectory(srcDirectory);
+  const astroFiles = allFiles.filter((file) => file.endsWith(".astro"));
+  const scriptFiles = allFiles.filter((file) => file.includes("/scripts/"));
+
+  const detectedPackages = new Set();
+
+  function extractPackageName(specifier) {
+    if (specifier.startsWith(".") || specifier.startsWith("/")) return null;
+    const parts = specifier.split("/");
+    if (specifier.startsWith("@")) {
+      return parts.length >= 2 ? parts.slice(0, 2).join("/") : specifier;
+    }
+    return parts[0];
+  }
+
+  function addImportsFromSource(content) {
+    const importMatches = content.matchAll(
+      /(?:import\s+(?:[\w*\s{},]*\s+from\s+)?|import\s*\(\s*)['"]([^'"]+)['"]/g,
+    );
+    for (const match of importMatches) {
+      const pkg = extractPackageName(match[1]);
+      if (pkg) detectedPackages.add(pkg);
+    }
+  }
+
+  for (const scriptFile of scriptFiles) {
+    const content = await readFile(scriptFile, "utf8");
+    addImportsFromSource(content);
+  }
+
+  for (const astroFile of astroFiles) {
+    const content = await readFile(astroFile, "utf8");
+    const hasClientDirective = /<[A-Z][a-zA-Z0-9]+[^>]*\sclient:[a-z]+/g.test(
+      content,
+    );
+    if (hasClientDirective) {
+      detectedPackages.add("react");
+      detectedPackages.add("react-dom");
+    }
+    const scriptTagMatches = content.matchAll(
+      /<script(?![^>]*\btype=['"]application\/ld\+json['"])[^>]*>([\s\S]*?)<\/script>/gi,
+    );
+    for (const sm of scriptTagMatches) {
+      addImportsFromSource(sm[1]);
+    }
+  }
+
+  const missing = [];
+  for (const pkg of detectedPackages) {
+    if (!allowedPackages.has(pkg)) {
+      missing.push(pkg);
+    }
+  }
+
+  return missing.sort();
+}
+
+async function scanDirectory(directory) {
+  const files = [];
+  const entries = await readdir(directory, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = resolve(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...(await scanDirectory(fullPath)));
+    } else {
+      files.push(fullPath);
+    }
+  }
+  return files;
 }
