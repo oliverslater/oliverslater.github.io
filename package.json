@@ -25,6 +25,7 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage && node scripts/generate-coverage-badge.mjs",
+    "test:e2e": "playwright test",
     "badge:coverage": "node scripts/generate-coverage-badge.mjs",
     "validate": "npm run test:coverage && npm run validate:yaml && npm run validate:json && npm run validate:blog && npm run lint:md && npm run lint:spelling && npm run check:sync && npm run check:hygiene && npm run licenses:check && npm run check",
     "format": "prettier --write .",
@@ -68,9 +69,11 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
     "@cspell/dict-en-gb": "^5.0.34",
+    "@playwright/test": "^1.63.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^26.6.2",

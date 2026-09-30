@@ -146,11 +146,13 @@ A high-performance personal portfolio, scannable virtual CV, and technical engin
 ├── tests/                       # Central test suite
 │   ├── components/              # React Component island tests (React Testing Library + jsdom)
 │   ├── unit/                    # Vitest unit tests for utilities & data schemas
+│   ├── e2e/                     # Playwright End-to-End & accessibility audit specifications
 │   └── setup.ts                 # Test environment setup and matchers
 ├── third-party-licenses/        # Harvested full-text third-party licenses
 ├── THIRD-PARTY-NOTICES.md       # Bundled open-source attribution report
 ├── astro.config.mjs             # Astro static configuration & @tailwindcss/vite
-├── vitest.config.ts             # Vitest unit & component test configuration with HTML/JUnit reporters
+├── playwright.config.ts         # Playwright E2E configuration, web server & viewport matrix
+├── vitest.config.ts             # Vitest unit & component test configuration with coverage, HTML/JUnit reporters
 ├── tsconfig.json                # TypeScript strict configuration
 └── package.json
 ```
@@ -184,8 +186,11 @@ npm run validate
 Individual checks, formatters, and auditors can be run independently:
 
 ```bash
-npm run test            # Runs Vitest unit & React component tests with HTML/JUnit reports
+npm run test            # Runs Vitest unit & React component tests with coverage
+npm run test:watch      # Runs Vitest in interactive watch mode
 npm run test:ui         # Opens interactive Vitest UI dashboard in browser
+npm run test:coverage   # Generates V8 test coverage reports and SVG badge
+npm run test:e2e        # Executes full browser Playwright E2E & WCAG a11y tests
 npm run validate:yaml   # Validates .pages.yml and GitHub Actions workflows
 npm run validate:json   # Validates all JSON data files and configs
 npm run lint:md         # Validates Markdown syntax in engineering blog posts
