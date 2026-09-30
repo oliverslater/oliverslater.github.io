@@ -52,6 +52,7 @@ jobs:
           path: |
             test-results/
             html/
+            coverage/
           retention-days: 30
 
       - name: Cache credentials API responses

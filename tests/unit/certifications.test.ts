@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   findOverrideMatch,
   applyOverrideToBadge,
+  applyOverrides,
   sortCredentials,
 } from "../../src/utils/certifications";
 import type {
@@ -65,6 +66,18 @@ describe("certifications utils", () => {
       expect(updated.priority).toBe(50);
     });
 
+    it("applies image, verification URL and date overrides", () => {
+      const override: CertificationOverride = {
+        imageUrl: "https://example.com/badge.png",
+        verifyUrl: "https://example.com/verify-override",
+        issueDate: "2024-02-01",
+      };
+      const updated = applyOverrideToBadge(sampleBadge, override);
+      expect(updated.imageUrl).toBe("https://example.com/badge.png");
+      expect(updated.verifyUrl).toBe("https://example.com/verify-override");
+      expect(updated.rawDate).toBe("2024-02-01");
+    });
+
     it("handles expiry override of 'Never'", () => {
       const override: CertificationOverride = {
         expiresDate: "Never",
@@ -75,6 +88,16 @@ describe("certifications utils", () => {
       );
       expect(updated.expiresDate).toBeUndefined();
       expect(updated.rawExpiresDate).toBeUndefined();
+    });
+  });
+
+  describe("applyOverrides", () => {
+    it("finds and applies matching overrides from list", () => {
+      const overrides: CertificationOverride[] = [
+        { id: "aws-csa-pro", displayTitle: "AWS SA Pro Via Helper" },
+      ];
+      const updated = applyOverrides(sampleBadge, overrides);
+      expect(updated.title).toBe("AWS SA Pro Via Helper");
     });
   });
 
