@@ -53,7 +53,12 @@ describe("ContactForm client-side validation logic", () => {
   });
 
   // Reusable inline validator logic matching ContactForm.astro
-  function attachValidationHandlers(formEl: HTMLFormElement) {
+  function attachValidationHandlers(
+    formEl: HTMLFormElement,
+    onRedirect: (url: string) => void = (url) => {
+      window.location.href = url;
+    },
+  ) {
     const requiredInputs = [nameInput, emailInput, messageInput];
 
     function validateField(
@@ -87,7 +92,7 @@ describe("ContactForm client-side validation logic", () => {
       ) as HTMLInputElement | null;
       if (botField && botField.checked) {
         formEl.reset();
-        window.location.href = "/thank-you";
+        onRedirect("/thank-you");
         return;
       }
 
@@ -136,20 +141,9 @@ describe("ContactForm client-side validation logic", () => {
 
   it("silently diverts submission to thank-you when honeypot botcheck is checked", () => {
     let redirectedUrl = "";
-    // Mock location assign/href redirection
-    const originalLocation = window.location;
-    delete (window as any).location;
-    window.location = {
-      ...originalLocation,
-      set href(val: string) {
-        redirectedUrl = val;
-      },
-      get href() {
-        return redirectedUrl;
-      },
-    } as any;
-
-    attachValidationHandlers(form);
+    attachValidationHandlers(form, (url) => {
+      redirectedUrl = url;
+    });
 
     // Bot fills out honeypot checkbox
     botCheck.checked = true;
@@ -164,12 +158,6 @@ describe("ContactForm client-side validation logic", () => {
 
     // Assert diversion
     expect(redirectedUrl).toBe("/thank-you");
-
-    Object.defineProperty(window, "location", {
-      value: originalLocation,
-      writable: true,
-      configurable: true,
-    });
   });
 
   it("sanitises input values and trims leading/trailing whitespace", () => {
