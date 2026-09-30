@@ -89,6 +89,10 @@ describe("blog utils", () => {
           allowFutureInDev: true,
         }),
       ).toBe(true);
+
+      // Boolean allowInDev usage
+      expect(isPostPublished(futureDraftPost, false)).toBe(false);
+      expect(isPostPublished(futureDraftPost, true)).toBe(true);
     });
   });
 });

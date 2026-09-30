@@ -47,6 +47,34 @@ describe("schema utils", () => {
       expect(schema.jobTitle).toBeDefined();
       expect(schema.sameAs).toBeDefined();
       expect(Array.isArray(schema.knowsAbout)).toBe(true);
+      expect(schema.worksFor).toBeDefined();
+    });
+
+    it("handles multiple active roles properly in worksFor array", async () => {
+      const { vi } = await import("vitest");
+      vi.resetModules();
+
+      vi.doMock("../../src/data/siteData", async (importOriginal) => {
+        const original: any = await importOriginal();
+        return {
+          ...original,
+          experienceData: {
+            roles: [
+              { company: "Company A", current: true },
+              { company: "Company B", endDate: "present" },
+            ],
+          },
+        };
+      });
+
+      const { getPersonSchema: getMockedPerson } =
+        await import("../../src/utils/schema");
+      const person = getMockedPerson("https://oliverslater.dev");
+      expect(Array.isArray(person.worksFor)).toBe(true);
+      expect(person.worksFor).toHaveLength(2);
+
+      vi.doUnmock("../../src/data/siteData");
+      vi.resetModules();
     });
   });
 
@@ -80,6 +108,23 @@ describe("schema utils", () => {
       );
       expect(breadcrumb).toBeUndefined();
     });
+
+    it("handles custom description and paths without leading/trailing slashes", () => {
+      const graph = getProfilePageSchema({
+        path: "about",
+        name: "About Oliver",
+        description: "Custom about description for SEO testing",
+        siteUrl: "https://oliverslater.dev",
+      });
+
+      const profilePage = graph["@graph"].find(
+        (node: any) => node["@type"] === "ProfilePage",
+      ) as any;
+      expect(profilePage?.url).toBe("https://oliverslater.dev/about/");
+      expect(profilePage?.isPartOf?.description).toBe(
+        "Custom about description for SEO testing",
+      );
+    });
   });
 
   describe("getTechArticleSchema", () => {
@@ -90,6 +135,9 @@ describe("schema utils", () => {
         url: "https://oliverslater.dev/blog/2026/09/vitest-testing",
         image: "https://oliverslater.dev/og.png",
         pubDate: "2026-09-15T10:00:00Z",
+        updatedDate: "2026-09-20T12:00:00Z",
+        wordCount: 1500,
+        timeRequired: "PT8M",
         categories: ["Testing", "TypeScript"],
         tags: ["vitest", "ci"],
         siteUrl: "https://oliverslater.dev",
@@ -105,6 +153,32 @@ describe("schema utils", () => {
       expect(article).toBeDefined();
       expect(article?.headline).toBe("Testing Architecture with Vitest");
       expect(article?.author["@id"]).toBe("https://oliverslater.dev/#person");
+      expect(article?.wordCount).toBe(1500);
+      expect(article?.timeRequired).toBe("PT8M");
+      expect(article?.dateModified).toContain("2026-09-20");
+    });
+
+    it("generates TechArticle with default modified date and without optional metadata", () => {
+      const graph = getTechArticleSchema({
+        title: "Minimal Article",
+        description: "Minimal desc",
+        url: "https://oliverslater.dev/blog/2026/09/minimal/",
+        image: "https://oliverslater.dev/minimal.png",
+        pubDate: "2026-09-01T10:00:00Z",
+        siteUrl: "https://oliverslater.dev",
+      });
+
+      const article: any = graph["@graph"].find(
+        (node: any) =>
+          node["@type"] === "TechArticle" ||
+          (Array.isArray(node["@type"]) &&
+            node["@type"].includes("TechArticle")),
+      );
+      expect(article).toBeDefined();
+      expect(article?.wordCount).toBeUndefined();
+      expect(article?.timeRequired).toBeUndefined();
+      expect(article?.articleSection).toBeUndefined();
+      expect(article?.dateModified).toContain("2026-09-01");
     });
   });
 
@@ -129,6 +203,11 @@ describe("schema utils", () => {
       expect(Array.isArray(blog?.blogPost)).toBe(true);
       expect(blog?.blogPost.length).toBe(1);
     });
+
+    it("handles default options without posts", () => {
+      const graph = getBlogIndexSchema();
+      expect(graph["@graph"]).toBeDefined();
+    });
   });
 
   describe("getContactPageSchema", () => {
@@ -142,6 +221,11 @@ describe("schema utils", () => {
       );
       expect(contact).toBeDefined();
       expect(contact?.url).toBe("https://oliverslater.dev/contact/");
+    });
+
+    it("handles default options without parameter", () => {
+      const graph = getContactPageSchema();
+      expect(graph["@graph"]).toBeDefined();
     });
   });
 });

@@ -64,6 +64,12 @@ describe("credentialTypes utils", () => {
       expect(isCredentialExpired("Jan 2018 – Jan 2020")).toBe(true);
       expect(isCredentialExpired("Jan 2020 - Dec 2099")).toBe(false);
     });
+
+    it("evaluates month-year formats with end-of-month grace period", () => {
+      expect(isCredentialExpired("Jan 2020")).toBe(true);
+      expect(isCredentialExpired("Dec 2099")).toBe(false);
+      expect(isCredentialExpired(undefined, "Jan 2019")).toBe(true);
+    });
   });
 
   describe("resolvePriority", () => {

@@ -110,6 +110,15 @@ describe("certifications utils", () => {
       expect(updated.includeInCount).toBe(false);
     });
 
+    it("applies title override when matching by ID without displayTitle", () => {
+      const override: CertificationOverride = {
+        id: "aws-csa-pro",
+        title: "Exact Matching Title",
+      };
+      const updated = applyOverrideToBadge(sampleBadge, override);
+      expect(updated.title).toBe("Exact Matching Title");
+    });
+
     it("returns unchanged badge if match is undefined", () => {
       const updated = applyOverrideToBadge(sampleBadge, undefined);
       expect(updated).toEqual(sampleBadge);

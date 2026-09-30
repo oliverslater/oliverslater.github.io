@@ -31,6 +31,61 @@ describe("manualCredentials utils", () => {
     expect(resolvePriority(sampleItem.priority, undefined, 0)).toBe(10);
   });
 
+  it("normalizes manual certifications when populated with custom and default Microsoft icons", async () => {
+    const { vi } = await import("vitest");
+    vi.resetModules();
+
+    vi.doMock("../../src/data/siteData", async (importOriginal) => {
+      const original: any = await importOriginal();
+      return {
+        ...original,
+        manualCertificationsData: {
+          certifications: [
+            {
+              id: "manual-ms-1",
+              title: "Azure Solutions Architect",
+              issuer: "Microsoft",
+              issueDate: "2023-01-01",
+              expiresDate: "2025-01-01",
+              verifyUrl: "https://learn.microsoft.com",
+            },
+            {
+              id: "manual-other-2",
+              title: "Kubernetes Certified",
+              issuer: "CNCF",
+              issueDate: "2023-05-01",
+              imageUrl: "https://example.com/badge.png",
+              displayed: false,
+              includeInCount: false,
+              order: 2,
+            },
+          ],
+        },
+      };
+    });
+
+    const { getManualCredentials: getMockedManual } =
+      await import("../../src/utils/manualCredentials");
+    const results = getMockedManual();
+    expect(results).toHaveLength(2);
+
+    expect(results[0].id).toBe("manual-ms-1");
+    expect(results[0].issuer).toBe("Microsoft");
+    expect(results[0].imageUrl).toBeDefined();
+    expect(results[0].displayed).toBe(true);
+    expect(results[0].includeInCount).toBe(true);
+    expect(results[0].priority).toBe(0);
+
+    expect(results[1].id).toBe("manual-other-2");
+    expect(results[1].imageUrl).toBe("https://example.com/badge.png");
+    expect(results[1].displayed).toBe(false);
+    expect(results[1].includeInCount).toBe(false);
+    expect(results[1].priority).toBe(998); // 1000 - 2
+
+    vi.doUnmock("../../src/data/siteData");
+    vi.resetModules();
+  });
+
   it("loads and normalizes local fallback qualifications", () => {
     const fallbacks = getLocalFallbackCredentials();
     expect(Array.isArray(fallbacks)).toBe(true);
