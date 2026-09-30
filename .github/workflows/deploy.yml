@@ -44,24 +44,6 @@ jobs:
       - name: Validate Schemas, Markdown & Hygiene
         run: npm run validate
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: Run E2E Playwright Tests
-        run: npm run test:e2e
-
-      - name: Upload Test Report & Evidence
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 #v4.6.1
-        if: ${{ !cancelled() }}
-        with:
-          name: test-results-deploy
-          path: |
-            test-results/
-            html/
-            coverage/
-            playwright-report/
-          retention-days: 30
-
       # Restore credential API response cache before the build so the Astro build
       # can reuse cached responses from previous runs. The cache is saved after the
       # build completes (GitHub Actions saves at job end when the key is new).
@@ -85,6 +67,24 @@ jobs:
       - name: Validate HTML & Check Broken Links
         run: npm run check:links
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E Playwright Tests
+        run: npm run test:e2e
+
+      - name: Upload Test Report & Evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results-deploy
+          path: |
+            test-results/
+            html/
+            coverage/
+            playwright-report/
+          retention-days: 30
+          
       - name: Pre-compress Static Assets (Gzip & Brotli)
         run: npm run compress
 
