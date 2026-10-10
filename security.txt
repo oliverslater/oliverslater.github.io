@@ -1,0 +1,6 @@
+Contact: https://www.oliver-slater.co.uk/contact
+Expires: 2027-09-15T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://www.oliver-slater.co.uk/.well-known/security.txt
+Policy: https://www.oliver-slater.co.uk/contact
+Acknowledgments: https://github.com/oliverslater/oliverslater.github.io
