@@ -78,7 +78,8 @@
     "networkidle",
     "wght",
     "Devicon",
-    "unstub"
+    "unstub",
+    "smol"
   ],
   "ignorePaths": [
     "node_modules/**",
