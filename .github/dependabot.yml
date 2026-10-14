@@ -2,6 +2,7 @@ version: 2
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
+    target-branch: "develop"
     schedule:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
@@ -9,6 +10,7 @@ updates:
       default-days: 7
   - package-ecosystem: "npm"
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: "weekly"
     groups:
