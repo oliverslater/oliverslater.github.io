@@ -67,7 +67,6 @@ With advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, 
 - **Deploy an Agent with Agent Development Kit (ADK)** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
 - **Deploy Gemini Enterprise with Workspace Data Sources and Model Armor** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
 - **Evaluate and Improve Agent Development Kit Agents** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
-- **Govern Agent Access with Gemini Enterprise Agent Platform** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/users/oliver-slater/badges)
 - **AWS Knowledge: Networking Core - Training Badge** (AWS) — Issued: Oct 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/9ca055a3-f8e1-4f08-8fd1-3251212dea2b)
 - **AWS Knowledge: Storage Core** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/a4b87412-d2ec-4e3f-bc3a-bdb3f21cbef2)
 - **AWS Knowledge: Storage Technologist** (AWS) — Issued: Feb 2023 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/e2a569dc-914e-4329-8f19-7b4ebe37bf73)
@@ -86,6 +85,7 @@ With advanced proficiency in Infrastructure as Code (Terraform, CloudFormation, 
 - **AWS Partner: Cloud Economics Essentials - Training Badge** (AWS) — Issued: May 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/5b925f94-de4a-413b-8d61-6e2e5c2636d9)
 - **AWS Partner: SAP on AWS (Technical)** (AWS) — Issued: May 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/fdda074d-7933-4556-ae4d-6bf2f75416b2)
 - **AWS Partner: Technical Accredited - Training Badge** (AWS) — Issued: Jan 2022 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/84c7919a-1ea4-4636-906d-c90559429f19)
+- **Build with Gemini** (Google Cloud) — Issued: Sept 2026 · Active (No Expiry) | [Verify Credential](https://www.credly.com/badges/3289210a-2abf-4de8-be40-420ceace4d33)
 
 ---
 
