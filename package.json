@@ -9,7 +9,7 @@
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "postbuild": "node scripts/generate-pdf.mjs",
     "build:fresh": "FORCE_REFRESH_CERTS=true ASTRO_TELEMETRY_DISABLED=1 astro build",
-    "preview": "astro preview",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "astro": "astro",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "check:hygiene": "node scripts/check-file-hygiene.mjs",

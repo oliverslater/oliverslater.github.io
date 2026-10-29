@@ -39,7 +39,9 @@ const isActive = (href: string) => {
       class="group flex items-center gap-1.5 font-medium text-xs sm:text-sm tracking-tight text-[var(--white)] hover:text-neutral-900 dark:hover:text-white transition-colors mr-1 sm:mr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] rounded-full px-1.5 py-0.5"
       aria-label={`${profileData.name} Home`}
     >
-      <span class="font-semibold">os</span>
+      <span class="font-semibold" aria-hidden="true">
+        os
+      </span>
     </a>
 
     <div class="w-px h-4 bg-neutral-200 dark:bg-[var(--border-default)]"></div>
