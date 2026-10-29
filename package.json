@@ -28,6 +28,7 @@
     "test:e2e": "playwright test",
     "badge:coverage": "node scripts/generate-coverage-badge.mjs",
     "validate": "npm run test:coverage && npm run validate:yaml && npm run validate:json && npm run validate:blog && npm run lint:md && npm run lint:spelling && npm run check:sync && npm run check:hygiene && npm run licenses:check && npm run check",
+    "verify": "npm run format:check && npm run validate && npm run build && npm run check:links && npm run test:e2e",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "sitemap": "node scripts/generate-sitemap.mjs",
