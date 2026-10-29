@@ -34,6 +34,9 @@ This repository uses **Node.js 24**, **Husky**, and **lint-staged** to ensure ze
 ### Key Validation Commands:
 
 ```bash
+# Run comprehensive CI-parity verification (formatting, validate, build, links, e2e)
+npm run verify
+
 # Run unit tests
 npm test
 

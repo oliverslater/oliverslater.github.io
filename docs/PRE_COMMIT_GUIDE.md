@@ -55,7 +55,10 @@ If an external tool (such as Pages CMS) creates a commit directly on GitHub that
 ### Manual Commands:
 
 ```bash
-# Validate everything (YAML, JSON, Astro/TypeScript)
+# Run comprehensive CI-parity verification before pushing or opening a PR
+npm run verify
+
+# Validate everything (YAML, JSON, Astro/TypeScript, unit tests, licenses)
 npm run validate
 
 # Validate only YAML files (.pages.yml, workflows)

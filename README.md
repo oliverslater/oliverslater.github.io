@@ -187,12 +187,17 @@ Visit `http://localhost:4321` in your browser.
 Validate YAML files, JSON files, repository file hygiene (<5MB limit, no accidental private key commitments), markdown formatting, and Astro/TypeScript types:
 
 ```bash
+# Run comprehensive quality gate (formatting, validation, build, links, and e2e)
+npm run verify
+
+# Or run the standard validation suite (unit tests, linters, schemas, types, licenses)
 npm run validate
 ```
 
 Individual checks, formatters, and auditors can be run independently:
 
 ```bash
+npm run verify          # Executes entire CI-parity pipeline (format, validate, build, links, e2e)
 npm run test            # Runs Vitest unit & React component tests with coverage
 npm run test:watch      # Runs Vitest in interactive watch mode
 npm run test:ui         # Opens interactive Vitest UI dashboard in browser
