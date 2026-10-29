@@ -15,24 +15,35 @@ export async function fetchCredlyBadges(): Promise<CredentialItem[]> {
     return cached;
   }
 
-  const credlyEndpoint = new URL(
+  const baseEndpoint = new URL(
     "badges.json",
     `${credentialProviderConfig.credlyProfileUrl}/`,
   ).toString();
 
   try {
-    const payload = await fetchCredentialJson<{ data?: unknown[] }>(
-      credlyEndpoint,
-      6000,
-      "Credly",
-    );
-    const badges = payload.data || [];
+    const allBadges: any[] = [];
+    let page = 1;
+    let totalPages = 1;
 
-    if (!Array.isArray(badges) || badges.length === 0) {
+    do {
+      const pageEndpoint = `${baseEndpoint}?page=${page}`;
+      const payload = await fetchCredentialJson<{
+        data?: unknown[];
+        metadata?: { total_pages?: number; next_page_url?: string | null };
+      }>(pageEndpoint, 6000, "Credly");
+
+      const badges = payload.data || [];
+      allBadges.push(...badges);
+
+      totalPages = payload.metadata?.total_pages || 1;
+      page += 1;
+    } while (page <= totalPages);
+
+    if (allBadges.length === 0) {
       throw new Error("No badges returned from Credly API");
     }
 
-    const result: CredentialItem[] = badges.map((badge: any) => {
+    const result: CredentialItem[] = allBadges.map((badge: any) => {
       const issuerName =
         badge.issuer?.entities?.[0]?.entity?.name ||
         badge.badge_template?.issuer?.entities?.[0]?.entity?.name ||
