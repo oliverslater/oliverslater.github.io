@@ -1,0 +1,21 @@
+{
+  "name": "Oliver Slater | Cloud Architect",
+  "short_name": "Oliver Slater",
+  "description": "Oliver Slater: AWS Golden Jacket (11x Certified), Azure Solutions Architect Expert, and Terraform Professional specialising in enterprise cloud architecture.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#101010",
+  "theme_color": "#a476ff",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
